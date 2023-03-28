@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+
+    <script type="text/javascript">
+      AFRAME.registerComponent('drag-rotate-component', {
+        schema: {
+          speed: {
+            default: 4
+          }
+        },
+        init: function() {
+          this.ifMouseDown = false;
+          this.x_cord = 0;
+          this.y_cord = 0;
+          document.addEventListener('mousedown', this.OnDocumentMouseDown.bind(this));
+          document.addEventListener('mouseup', this.OnDocumentMouseUp.bind(this));
+          document.addEventListener('mousemove', this.OnDocumentMouseMove.bind(this));
+        },
+        OnDocumentMouseDown: function(event) {
+          this.ifMouseDown = true;
+          this.x_cord = event.clientX;
+          this.y_cord = event.clientY;
+        },
+        OnDocumentMouseUp: function() {
+          this.ifMouseDown = false;
+        },
+        OnDocumentMouseMove: function(event) {
+          if (this.ifMouseDown) {
+            var temp_x = event.clientX - this.x_cord;
+            var temp_y = event.clientY - this.y_cord;
+            if (Math.abs(temp_y) < Math.abs(temp_x)) {
+              this.el.object3D.rotateY(temp_x * this.data.speed / 1000);
+            } else {
+              this.el.object3D.rotateX(temp_y * this.data.speed / 1000);
+            }
+            this.x_cord = event.clientX;
+            this.y_cord = event.clientY;
+          }
+        }
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('thumbstick-logging', {
+        init: function() {
+          this.el.addEventListener('thumbstickmoved', this.logThumbstick);
+        },
+        logThumbstick: function(evt) {
+          if (evt.detail.y > 0.95) {
+            console.log("DOWN");
+          }
+          if (evt.detail.y < -0.95) {
+            console.log("UP");
+          }
+          if (evt.detail.x < -0.95) {
+            console.log("LEFT");
+          }
+          if (evt.detail.x > 0.95) {
+            console.log("RIGHT");
+          }
+        }
+      });
+
+    </script>
+
+    <!-- For buttons of left hand controller -->
+    <script>
+      AFRAME.registerComponent('x-button-listener', {
+        init: function() {
+          var el = this.el;
+          el.addEventListener('xbuttondown', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+          el.addEventListener('xbuttonup', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+          el.addEventListener('xbuttontouchstart', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+          el.addEventListener('xbuttontouchend', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+        }
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('y-button-listener', {
+        init: function() {
+          var el = this.el;
+          el.addEventListener('ybuttonup', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+          el.addEventListener('ybuttondown', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+          el.addEventListener('ybuttontouchstart', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+          el.addEventListener('ybuttontouchend', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+        }
+      });
+
+    </script>
+
+    <!-- For buttons of right hand controller -->
+    <script>
+      AFRAME.registerComponent('a-button-listener', {
+        init: function() {
+          var el = this.el;
+          el.addEventListener('abuttondown', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+          el.addEventListener('abuttonup', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+          el.addEventListener('abuttontouchstart', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+          el.addEventListener('abuttontouchend', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+        }
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('b-button-listener', {
+        init: function() {
+          var el = this.el;
+          el.addEventListener('bbuttonup', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+          el.addEventListener('bbuttondown', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+          el.addEventListener('bbuttondown', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+          el.addEventListener('bbuttontouchstart', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+          el.addEventListener('bbuttontouchend', function(evt) {
+            el.setAttribute('visible', !el.getAttribute('visible'));
+          });
+        }
+      });
+
+    </script>
+  </head>
+
+  <body>
+    <a-scene>
+
+      <a-assets>
+
+        <a-asset-item id="panda" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Panda/panda.glb"></a-asset-item>
+
+        <a-asset-item id="shelf" src="https://raw.githubusercontent.com/addy1997/3D-models/main/shelf/meshes/shelf_big_movai.glb"></a-asset-item>
+
+        <a-asset-item id="Table1" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Cafe%20table/meshes/cafe_table.glb"></a-asset-item>
+
+        <a-asset-item id="Human-worker" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Worker/farmer_worksuit_free_3d_model.glb"></a-asset-item>
+
+      </a-assets>
+
+      <a-gltf-model src="#panda" rotation="0 45 0" scale="2.5 2.5 2.5" position="-3 1.35 1.75"></a-gltf-model>
+
+      <a-entity position="1 -1 6.5" rotation="0 0 0">
+        <a-camera look-controls="enabled:true" zoom="1"></a-camera>
+      </a-entity>
+
+      <a-entity gltf-model="#shelf" rotation="90 180 0" scale="1 1 1" position="1 0 -1" b-button-listener a-button-listener></a-entity>
+
+      <a-entity gltf-model="#Table1" rotation="90 180 0" scale="0.045 0.045 0.045" position="-3 0 1.75" b-button-listener a-button-listener></a-entity>
+
+      <a-entity gltf-model="#Human-worker" rotation="0 0 0" scale="0.225 0.225 0.225" position="1.25 0 1.75" b-button-listener a-button-listener></a-entity>
+
+      <a-sky color="white"></a-sky>
+
+    </a-scene>
+
+  </body>
+
+</html>
