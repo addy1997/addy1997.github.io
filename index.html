@@ -13,11 +13,11 @@
       <a-entity camera look-controls></a-entity>
 
       <!-- Left hand -->
-      <a-entity id="leftController" static-body="shape: sphere; sphereRadius: 0.02;" oculus-touch-controls="hand: left" sphere-collider="objects: .cube" grab>
+      <a-entity id="leftController" static-body="shape: sphere; sphereRadius: 0.02;" oculus-touch-controls="hand: left" sphere-collider="objects: .throwable" grab>
       </a-entity>
 
       <!-- Right hand -->
-      <a-entity id="rightController" static-body="shape: sphere; sphereRadius: 0.02;" oculus-touch-controls="hand: right" sphere-collider="objects: .cube" grab>
+      <a-entity id="rightController" static-body="shape: sphere; sphereRadius: 0.02;" oculus-touch-controls="hand: right" sphere-collider="objects: .throwable" grab>
       </a-entity>
 
       <a-box id="anchor1" width="0.01" height="0.01" depth="0.01" static-body animation="property: position; from: 0 0.5 -0.5; to: 0 2 -0.5; easing: easeInOutCubic; dur: 4000; dir: alternate; loop: true">
@@ -30,9 +30,14 @@
       <a-sphere id="sphere2" position="-0.5 0.5 0.5" radius="0.10" color="#FFC65D" dynamic-body="shape: sphere" constraint="type: distance; target: #anchor2; distance: 0.00001; collideConnected: false" visible="false">
       </a-sphere>
 
-      <a-box class="cube" dynamic-body position="0 0.25 -1" width="0.5" height="0.5" depth="0.5" color="violet"></a-box>
-      <a-box class="cube" dynamic-body position="-1 0.25 -1" width="0.5" height="0.5" depth="0.5" color="green"></a-box>
-      <a-box class="cube" dynamic-body position="1 0.25 -1" width="0.5" height="0.5" depth="0.5" color="yellow"></a-box>
+      <a-sphere id="sphere3" position="0 0.5 -0.5" radius="0.10" color="#4CC3D9" dynamic-body="shape: sphere" constraint="type: distance; target: #cube3; distance: 0.001; collideConnected: false">
+      </a-sphere>
+
+      <a-box id="cube1" dynamic-body position="0 0.25 -1" width="0.5" height="0.5" depth="0.5" color="violet" animation="property: position; from: 0 0.5 -0.5; to: 0 2 -3.25; easing: easeInOutCubic; dur: 4000; dir: alternate; loop: true"></a-box>
+
+      <a-box id="cube2" dynamic-body position="-1 0.25 -1" width="0.5" height="0.5" depth="0.5" color="green" animation="property: position; from: 0 0.5 -0.5; to: 0 2 -1.25; easing: easeInOutCubic; dur: 4000; dir: alternate; loop: true"></a-box>
+
+      <a-box id="cube3" dynamic-body position="1 0.25 -1" width="0.5" height="0.5" depth="0.5" color="yellow" animation="property: position; from: 0 0.5 -0.5; to: 0 2 -2.25; easing: easeInOutCubic; dur: 4000; dir: alternate; loop: true"></a-box>
 
       <!-- Terrain -->
       <a-grid static-body></a-grid>
@@ -67,17 +72,28 @@
 
         document.querySelector('#sphere1').addEventListener('collide', (e) => {
           if (e.detail.body.el.id === 'leftController' || e.detail.body.el.id === 'rightController') {
-            e.detail.target.el.setAttribute('visible', 'false');
-            document.querySelector('#anchor1').setAttribute('visible', 'false');
+            e.detail.target.el.setAttribute('visible', 'true');
+            document.querySelector('#anchor1').setAttribute('visible', 'true');
             document.querySelector('#anchor2').setAttribute('visible', 'true');
             document.querySelector('#sphere2').setAttribute('visible', 'true');
+
+          }
+        });
+        
+        document.querySelector('#sphere3').addEventListener('collide', (e) => {
+          if (e.detail.body.el.id === 'leftController' || e.detail.body.el.id === 'rightController') {
+            e.detail.target.el.setAttribute('visible', 'true');
+            document.querySelector('#anchor2').setAttribute('visible', 'true');
+            document.querySelector('#cube3').setAttribute('visible', 'true');
+            document.querySelector('#sphere2').setAttribute('visible', 'true');
+            document.querySelector('#sphere1').setAttribute('visible', 'true');
           }
         });
 
         document.querySelector('#sphere2').addEventListener('collide', (e) => {
           if (e.detail.body.el.id === 'leftController' || e.detail.body.el.id === 'rightController') {
-            e.detail.target.el.setAttribute('visible', 'false');
-            document.querySelector('#anchor2').setAttribute('visible', 'false');
+            e.detail.target.el.setAttribute('visible', 'true');
+            document.querySelector('#anchor2').setAttribute('visible', 'true');
 
             scene.systems.physics.driver.world.gravity.set(0, -9.81, 0);
             giftAvalanche();
