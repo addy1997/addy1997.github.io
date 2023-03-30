@@ -11,12 +11,18 @@
     <a-scene physics="debug: true">
       <!-- Player -->
       <a-entity camera look-controls></a-entity>
-      <a-entity static-body="shape: sphere; sphereRadius: 0.02;" oculus-touch-controls="hand: left" sphere-collider="objects: .cube;" grab></a-entity>
-      <a-entity static-body="shape: sphere; sphereRadius: 0.02;" oculus-touch-controls="hand: right" sphere-collider="objects: .cube;" grab></a-entity>
 
-      <a-box id="cube1" class="cube" dynamic-body position="0 0.25 -1" width="0.5" height="0.5" depth="0.5" color="red"></a-box>
+      <!-- Left hand -->
+      <a-entity id="leftController" static-body="shape: sphere; sphereRadius: 0.02;" oculus-touch-controls="hand: left" sphere-collider="objects: .cube" grab>
+      </a-entity>
+
+      <!-- Right hand -->
+      <a-entity id="rightController" static-body="shape: sphere; sphereRadius: 0.02;" oculus-touch-controls="hand: right" sphere-collider="objects: .cube" grab>
+      </a-entity>
+
+      <a-box id="cube1" class="cube" dynamic-body position="0 0.25 -1" width="0.5" height="0.5" depth="0.5" color="violet"></a-box>
       <a-box id="cube2" class="cube" dynamic-body position="-1 0.25 -1" width="0.5" height="0.5" depth="0.5" color="green"></a-box>
-      <a-box id="cube3" class="cube" dynamic-body position="1 0.25 -1" width="0.5" height="0.5" depth="0.5" color="blue"></a-box>
+      <a-box id="cube3" class="cube" dynamic-body position="1 0.25 -1" width="0.5" height="0.5" depth="0.5" color="yellow"></a-box>
 
       <!-- Terrain -->
       <a-grid static-body></a-grid>
@@ -37,14 +43,7 @@
             document.querySelector('#cube3').setAttribute('visible', 'true');
           }
         });
-
-        document.querySelector('#cube2').addEventListener('collide', (e) => {
-          if (e.detail.body.el.id === 'leftController' || e.detail.body.el.id === 'rightController') {
-            e.detail.target.el.setAttribute('visible', false);
-            document.querySelector('#cube1').setAttribute('visible', 'true');
-            document.querySelector('#cube3').setAttribute('visible', 'true');
-          }
-        });
+        scene.systems.physics.driver.world.gravity.set(0, -9.81, 0);
       });
 
     </script>
