@@ -15,7 +15,7 @@
   <body>
     <a-scene physics="gravity: -1" renderer="antialias: true">
       <a-assets>
-        <a-asset-item id="table" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Cafe%20table/meshes/cafe_table.glb" hoverable grabbable stretchable draggable></a-asset-item>
+        <a-asset-item id="table" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Cafe%20table/meshes/cafe_table.glb"></a-asset-item>
 
         <a-asset-item id="panda" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Panda/panda.glb" hoverable grabbable stretchable draggable></a-asset-item>
 
@@ -32,7 +32,7 @@
 
       <a-camera positon="1 -1 6.5"></a-camera>
 
-      <a-entity gltf-model="#panda" rotation="0 45 0" scale="4.5 4.5 4.5" position="-0.25 -0.00025 2.75"></a-entity>
+      <a-entity gltf-model="#panda" rotation="0 45 0" scale="4.5 4.5 4.5" position="-0.25 -0.00025 2.75" hoverable grabbable stretchable draggable event-set__hoveron="_event: hover-start; material.opacity: 0.7; transparent: true" event-set__hoveroff="_event: hover-end; material.opacity: 1; transparent: false" dynamic-body shadow></a-entity>
 
       <a-entity gltf-model="#table" rotation="90 180 0" scale="0.075 0.075 0.075" position="1 -2.27 2.75"></a-entity>
 
