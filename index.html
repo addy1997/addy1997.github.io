@@ -13,33 +13,30 @@
   </head>
 
   <body>
-    <a-scene>
+    <a-scene physics="gravity: -1" renderer="antialias: true">
       <a-assets>
-        <a-asset-item id="table" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Cafe%20table/meshes/cafe_table.glb"></a-asset-item>
+        <a-asset-item id="table" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Cafe%20table/meshes/cafe_table.glb" hoverable grabbable stretchable draggable></a-asset-item>
 
-        <a-asset-item id="panda" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Panda/panda.glb"></a-asset-item>
+        <a-asset-item id="panda" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Panda/panda.glb" hoverable grabbable stretchable draggable></a-asset-item>
 
-        <a-asset-item id="teddy" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/teddy/teddy_bears.glb"></a-asset-item>
-
-        <a-mixin id="controllers-right" vive-controls="hand: right" oculus-touch-controls="hand: right" windows-motion-controls="hand: right" gearvr-controls daydream-controls oculus-go-controls>
-        </a-mixin>
-
-        <a-mixin id="controllers-left" vive-controls="hand: left" oculus-touch-controls="hand: left" windows-motion-controls="hand: left">
-        </a-mixin>
+        <a-asset-item id="teddy" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/teddy/teddy_bears.glb" hoverable grabbable stretchable draggable></a-asset-item>
 
 
       </a-assets>
 
+      <a-entity id="leftController" static-body="shape: sphere; sphereRadius: 0.02;" oculus-touch-controls="hand: left" sphere-collider="objects: .throwable" grab>
+      </a-entity>
+
+      <a-entity id="rightController" static-body="shape: sphere; sphereRadius: 0.02;" oculus-touch-controls="hand: right" sphere-collider="objects: .throwable" grab>
+      </a-entity>
+
       <a-camera positon="1 -1 6.5"></a-camera>
 
-      <a-entity id="rhand" mixin="controllers-right point"></a-entity>
-      <a-entity id="lhand" mixin="controllers-left point"></a-entity>
+      <a-entity gltf-model="#panda" rotation="0 45 0" scale="4.5 4.5 4.5" position="-0.25 -0.00025 2.75"></a-entity>
 
-      <a-entity gltf-model="#panda" rotation="0 45 0" scale="4.5 4.5 4.5" position="-0.25 -0.00025 2.75" hoverable grabbable stretchable draggable></a-entity>
+      <a-entity gltf-model="#table" rotation="90 180 0" scale="0.075 0.075 0.075" position="1 -2.27 2.75"></a-entity>
 
-      <a-entity gltf-model="#table" rotation="90 180 0" scale="0.075 0.075 0.075" position="1 -2.27 2.75" hoverable grabbable stretchable draggable></a-entity>
-
-      <a-entity gltf-model="#teddy" scale="0.25 0.25 0.25" position="-0.35 -0.005 2.75" hoverable grabbable stretchable draggable></a-entity>
+      <a-entity gltf-model="#teddy" scale="0.25 0.25 0.25" position="-0.35 -0.005 2.75"></a-entity>
 
     </a-scene>
     <a href="https://github.com/addy1997/addy1997.github.io/tree/jsfiddle-panda-pick-and-place-test" class="github-corner">
