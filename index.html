@@ -1,25 +1,58 @@
 <html>
-<head>
-  <title>Most Basic Super-Hands Example</title>
-  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.misc.min.js"></script>
-  <script src="https://unpkg.com/super-hands/dist/super-hands.min.js"></script>
-</head>
-
-<body>
-  <a-scene>
-    <a-assets>
-      <a-asset-item id="panda" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Panda/panda.glb"></a-asset-item>
-    </a-assets>
-    <a-entity>
-      <a-camera></a-camera>
-      <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: left"></a-entity>
-      <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: right"></a-entity>
-    </a-entity>
-     <a-gltf-model src="#panda" rotation="0 45 0" scale="2.5 2.5 2.5" position="0 0 -1" hoverable grabbable stretchable draggable dropppable></a-gltf-model>
-    <!-- hover & drag-drop won't have any obvious effect without some additional event handlers or components. See the examples page for more -->
-    <a-box hoverable grabbable stretchable draggable dropppable color="blue" position="-3 0 -1"></a-box>
-    
-  </a-scene>
-</body>
+  <head>
+   <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.misc.min.js"></script>
+    <style>
+a-scene {
+  width: 512px;
+  height: 512px;
+}
+    </style>
+    <script>
+AFRAME.registerComponent("dnd-gltf", {
+  init: function () {
+    this.el.addEventListener("dragover", ev => {
+      if (ev.dataTransfer) ev.preventDefault();
+    }, false);
+    this.el.addEventListener("drop", ev => {
+      if (!ev.dataTransfer) return;
+      ev.preventDefault();
+      //console.log("canvas drop", ev.dataTransfer);
+      for (const item of ev.dataTransfer.items) {
+        if (item.kind !== "file") continue;
+        const file = item.getAsFile();
+        if (!file.name.endsWith(".gltf") && !file.name.endsWith(".glb")) continue;
+        const reader = new FileReader();
+        reader.addEventListener("load", ev => {
+          //console.log(reader.result);
+          const item = document.createElement("a-asset-item");
+          item.id = file.name;
+          item.setAttribute("src", reader.result);
+          this.el.querySelector("a-assets").append(item);
+          const entity = document.createElement("a-entity");
+          entity.setAttribute("gltf-model", `#${file.name}`);
+          entity.setAttribute("animation-mixer", "");
+          this.el.append(entity);
+        });
+        reader.readAsDataURL(file);
+      }
+    }, false);
+    //console.log("canvas file dnd");
+  },
+});
+    </script>
+  </head>
+  <body>
+    <h1>A-Frame GLTF viewer with animation</h1>
+    <p>Drop your gltf/glb file</p>
+    <div>
+      <a-scene embedded dnd-gltf>
+        <a-assets></a-assets>
+        <a-plane position="0 -0.1 0" rotation="-90 0 0" width="4" height="4"
+                 color="#7BC8A4"></a-plane>
+        <a-sky color="#ECECEC"></a-sky>
+        <a-camera position="0 1 4"></a-camera>
+      </a-scene>
+    </div>
+  </body>
 </html>
