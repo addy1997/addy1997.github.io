@@ -3,8 +3,72 @@
 
   <head>
     <script src="https://aframe.io/releases/1.4.1/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.misc.min.js"></script>
-    <script src="https://gftruj.github.io/unnecessary.components/dist/unnecessary-components.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.misc.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.loaders.min.js"></script>
+    <script>
+      AFRAME.registerComponent('animation-list', {
+        schema: {
+          feedbackTxt: {
+            type: 'selector',
+            default: '#feedback'
+          },
+          roboarm: {
+            type: 'selector',
+            default: '#Roboarm1'
+          }
+        },
+        init: function() {
+          let counter = 0;
+          const el = this.el;
+          const data = this.data;
+          this.el.addEventListener('model-loaded', () => {
+            const obj = el.getObject3D('mesh');
+            
+            obj.traverse(function(node) {
+              if (node.animations.length > 0) {
+                node.animations.forEach(function(animation) {
+                  if (animation.tracks.length > 5) {
+                    console.log("Available Animations:", animation.name);
+                  }
+                });
+              }
+            });
+          });
+          this.el.addEventListener('animation-finished', () => {
+            console.log("Animation is finished!");
+            if (counter === 0) {
+              document.getElementById("feedback").innerHTML = "Animation 1 is done!";
+              this.data.roboarm.setAttribute('animation-mixer', 'clip', 'ArmatureAction');
+              this.data.roboarm.setAttribute('animation-mixer', 'loop', 'once');
+              counter++;
+            } else {
+              document.getElementById("feedback").innerHTML = "All Animations are completed!!!";
+            }
+          });
+          this.el.addEventListener('animation-loop', () => {
+            console.log("A loop is done!");
+            document.getElementById("feedback").innerHTML = "A Loop has completed";
+          });
+        },
+
+        startExperience: function() {
+          document.getElementById("feedback").innerHTML = "Playing Animations";
+          this.data.roboarm.setAttribute('animation-mixer', 'timeScale', 1);
+          /* this.data.roboarm.setAttribute('animation-mixer', 'clampWhenFinished', true) */;
+          console.log("Start experience");
+        },
+
+        resetAnimations: function() {
+          document.getElementById("feedback").innerHTML = "Animations have been Reset!";
+          this.data.roboarm.setAttribute('animation-mixer', 'clip', 'ArmatureAction.002');
+          this.data.roboarm.setAttribute('animation-mixer', 'loop', 'once');
+          this.data.roboarm.setAttribute('animation-mixer', 'timeScale', 0);
+          this.init(counter=0);
+          console.log("Reset Animations");
+        }
+      })
+
+    </script>
 
     <script>
       AFRAME.registerComponent('bbox', {
@@ -64,8 +128,8 @@
           //const max_b2 = this.box2.max;
           //console.log("The lower dimension of Box2 is:",min_b2, "The upper dimension of Box2 is:", max_b2);         
 
-          if (!this.mixer) return; // if the mixer exists
-          this.mixer.update(dt / 1000) // update it with the delta time
+//          if (!this.mixer) return; // if the mixer exists
+//          this.mixer.update(dt / 1000) // update it with the delta time
 
           // obtain the min and max values of the box1
           /*const min_a = this.box1.min;
@@ -156,7 +220,7 @@
 
     </script>
     <script>
-      AFRAME.registerComponent('gltf-modifier', {
+      /*AFRAME.registerComponent('gltf-modifier', {
         schema: {
           color: {
             type: 'string',
@@ -164,7 +228,7 @@
           },
           transparent: {
             type: 'string',
-            default: false
+            default: true
           },
           opacity: {
             type: 'float',
@@ -179,8 +243,8 @@
             default: "#FFFFFF"
           },
           //shading: {
-            //type: 'string',
-            //default: "flat"
+          //type: 'string',
+          //default: "flat"
           //}
         },
         init: function() {
@@ -228,7 +292,7 @@
             });
           });
         }
-      })
+      })*/
 
     </script>
     <script>
@@ -265,7 +329,7 @@
         init: function() {
           const el = this.el;
           el.addEventListener('raycaster-intersection', evt => {
-            console.log("Collider ray hits the panda robot!!!");
+            /* console.log("Collider ray hits the panda robot!!!") */;
 
             var raycaster_data = document.querySelector('a-entity[raycaster]').components.raycaster.data;
             //console.log(raycaster_data);
@@ -275,19 +339,36 @@
             if (intersection == 'null') {
               return;
             }
-            console.warn("It is recommeded not to change the auroRefresh variable's value in the raycaster entity to 'true'")
+            console.warn("It is recommeded not to change the auroRefresh variable's value in the raycaster entity to 'true'");
           });
         },
       })
 
     </script>
+
   </head>
 
   <body>
+    <!-- Play animation button for robot1 -->
+    <div style="position:absolute; z-index: 100; width:100%; visibility:visible;">
+      <div id="startButton" style="position:absolute; z-index: 101; width:100%; text-align:center; top:5px; left:255px;">
+        <a href="#" id="clickEvent" onclick="document.querySelector('#Roboarm1').components['animation-list'].startExperience()">
+          <button id="click"> Play Animation </button>
+        </a>
+      </div>
+    </div>
+
+    <!-- Reset animation button -->
+    <div id="resetButton" style="position:absolute; z-index: 101; width:100%; text-align:center; top:50px; left:255px;">
+      <a href="#" id="clickEvent" onclick="document.querySelector('#Roboarm1').components['animation-list'].resetAnimations()">
+        <button id="click2"> Reset Animation </button>
+      </a>
+    </div>
+     <div id="feedback" style="width:100%; margin: 20px 0 0 0; color:white; font-size: 2em; text-align:center;">And the feedback is ...</div>
     <a-scene>
 
       <a-assets>
-        <a-asset-item id="Panda-robot" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Panda/panda_arm_motion_2.glb">
+        <a-asset-item id="Panda-robot1" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Panda/panda_arm_motion_2.glb">
         </a-asset-item>
 
         <a-asset-item id="Panda-robot2" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Panda/panda_arm_motion_3.glb">
@@ -296,9 +377,13 @@
         <a-asset-item id="Table" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Table/wooden_table.glb"></a-asset-item>
       </a-assets>
 
-      <a-entity class="collidable" gltf-model="#Panda-robot" position="-2.35 3.45 -3" scale="0.5 0.5 0.5" rotation="0 -45 0" bbox load-robot-rig mesh-shadows ray-for-collisioN></a-entity>
+<!--       <a-entity animation-mixer="clip: ArmatureAction; timeScale:0.1; loop:once; clampWhenFinished:true;" id="Roboarm1" class="collidable" gltf-model="#Panda-robot1" position="-2.35 3.45 -3" scale="0.5 0.5 0.5" rotation="0 -45 0" bbox load-robot-rig mesh-shadows ray-for-collision animation-list></a-entity> -->
 
-      <a-gltf-model src="#Panda-robot2" position="0.65 3.45 -2" scale="0.5 0.5 0.5" rotation="0 -225 0" bbox mesh-shadows ray-for-collision ></a-gltf-model>
+<!--       <a-gltf-model animation-mixer="clip: ArmatureAction; timeScale:0.1; loop:once; clampWhenFinished:true;" id="Roboarm2" gltf-model="#Panda-robot2" position="0.65 3.45 -2" scale="0.5 0.5 0.5" rotation="0 -225 0" bbox mesh-shadows ray-for-collision animation-list></a-gltf-model> -->
+
+      <a-entity animation-mixer="clip: ArmatureAction.002; timeScale:0; loop:once; clampWhenFinished:true;" id="Roboarm1" class="collidable" gltf-model="#Panda-robot1" position="-2.35 3.45 -3" scale="0.5 0.5 0.5" rotation="0 -45 0" bbox load-robot-rig mesh-shadows ray-for-collision animation-list></a-entity>
+      
+      <a-gltf-model animation-mixer="clip: ArmatureAction.002; timeScale:0; loop:once; clampWhenFinished:true;" id="Roboarm2" gltf-model="#Panda-robot2" position="0.65 3.45 -2" scale="0.5 0.5 0.5" rotation="0 -225 0" mesh-shadows animation-list></a-gltf-model>
 
       <a-gltf-model src="#Table" rotation="0 90 0" scale="0.015 0.015 0.015" position="-0.85 0 -3" mesh-shadows></a-gltf-model>
 
@@ -332,3 +417,4 @@
   </body>
 
 </html>
+          
