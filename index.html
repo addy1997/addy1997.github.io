@@ -93,7 +93,8 @@
   </head>
 
   <body>
-    <a-scene>
+    <a-scene
+      physics="debug: true; gravity: 0;">
       <a-assets>
 
         <!-- Room asset -->
@@ -137,13 +138,13 @@
       </a-assets>
       
       <!-- Superhand component's left hand entity -->
-      <a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: left"></a-entity>
+      <a-entity sphere-collider="objects: a-gltf-model" dy-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: left"></a-entity>
       
       <!-- Superhand component's right hand entity -->
       <a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: right"></a-entity>
       
       <!-- Denture glTF -->
-      <a-gltf-model gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-1.45 0.870 -2.15" hoverable grabbable stretchable draggable droppable mesh-shadows></a-gltf-model>
+      <a-gltf-model gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-1.45 0.870 -2.15" hoverable grabbable stretchable draggable droppable dynamic-body mesh-shadows></a-gltf-model>
 
       <!-- Room glTF -->
       <a-gltf-model gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5"></a-gltf-model>
@@ -164,7 +165,7 @@
       <a-gltf-model gltf-model="#Patient" rotation="-90 90 0" scale="0.75 0.75 0.75" position="-0.85 0.785 -2" mesh-shadows></a-gltf-model>
 
       <!-- Table glTF -->
-      <a-gltf-model gltf-model="#Table" rotation="0 -90 0" scale="0.195 0.195 0.195" position="1.485 0 -2" mesh-shadows></a-gltf-model>
+      <a-gltf-model gltf-model="#Table" rotation="0 -90 0" scale="0.235 0.235 0.235" position="1.285 0 -2" mesh-shadows></a-gltf-model>
 
       <!-- Scalpel glTF -->
       <a-gltf-model gltf-model="#Scalpels" rotation="0 30 0" scale="0.45 0.45 0.45" position="-1.45 0.90 -2.15" mesh-shadows></a-gltf-model>
@@ -177,15 +178,15 @@
       <a-entity gltf-model="#Filler" rotation="0 30 0" scale="0.045 0.045 0.045" position="-1.35 0.90 -2.15" mesh-shadows></a-entity>
       
       <!-- Chair glTF-->
-      <a-gltf-model gltf-model="#Office-Chair" rotation="0 30 0" scale="0.045 0.045 0.045" position="1.285 0.15 -2" mesh-shadows></a-gltf-model>
+      <a-gltf-model gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="1.085 0.15 -1.85" mesh-shadows></a-gltf-model>
       
       <!-- Laptop glTF-->
-      <a-gltf-model gltf-model="#laptop" rotation="0 90 0" scale="0.4 0.4 0.4" position="1.45 0.68 -1.25"  mesh-shadows></a-gltf-model>
+      <a-gltf-model gltf-model="#laptop" rotation="0 90 0" scale="0.4 0.4 0.4" position="1.45 0.835 -1.25" mesh-shadows></a-gltf-model>
       
       <!-- Camera -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
 
-        <a-entity id="camera" camera position="-0.74 1.25 -0.76" look-controls="pointerLockEnabled:true;"></a-entity>
+        <a-entity id="camera" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
       </a-entity>
 
       <!-- Lighting -->
