@@ -137,10 +137,10 @@
       </a-assets>
       
       <!-- Superhand component's left hand entity -->
-      <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: left"></a-entity>
+      <a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: left"></a-entity>
       
       <!-- Superhand component's right hand entity -->
-      <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: right"></a-entity>
+      <a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: right"></a-entity>
       
       <!-- Denture glTF -->
       <a-gltf-model gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-1.45 0.870 -2.15" hoverable grabbable stretchable draggable droppable mesh-shadows></a-gltf-model>
@@ -149,7 +149,7 @@
       <a-gltf-model gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5"></a-gltf-model>
 
       <!-- Dentist glTF -->
-      <a-gltf-model gltf-model="#Dentist" rotation="0 30 0" scale="0.45 0.45 0.45" position="-0.45 1.435 -1.5" move mesh-shadows></a-gltf-model>
+      <a-gltf-model gltf-model="#Dentist" rotation="0 30 0" scale="0.45 0.45 0.45" position="-0.45 1.485 -1.5" move mesh-shadows></a-gltf-model>
 
       <!-- Floor glTF -->
       <a-gltf-model gltf-model="#Floor" rotation="0 90 0" scale="0.065 0.065 0.065" position="-0.85 0 -3"></a-gltf-model>
