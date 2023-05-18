@@ -65,8 +65,8 @@
       })
 
     </script>
-    
-     <script>
+
+    <script>
       AFRAME.registerComponent('mesh-shadows', {
         init: function() {
           this.el.addEventListener('model-loaded', () => {
@@ -90,11 +90,29 @@
 
     </script>
 
+    <script>
+      AFRAME.registerComponent('phase-shift', {
+        init: function() {
+          var el = this.el
+          el.addEventListener('gripdown', function() {
+            el.setAttribute('collision-filter', {
+              collisionForces: true
+            })
+          })
+          el.addEventListener('gripup', function() {
+            el.setAttribute('collision-filter', {
+              collisionForces: false
+            })
+          })
+        }
+      });
+
+    </script>
+
   </head>
 
   <body>
-    <a-scene
-      physics="debug: true; gravity: 0;">
+    <a-scene physics="debug: true; gravity: 0;">
       <a-assets>
 
         <!-- Room asset -->
@@ -128,23 +146,23 @@
 
         <!-- Filler asset -->
         <a-asset-item id="Filler" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/filler/Final_filler_derived.glb"></a-asset-item>
-        
+
         <!-- Chair asset-->
         <a-asset-item id="Office-Chair" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/office_chair.glb"></a-asset-item>
-        
+
         <!-- Chair asset-->
         <a-asset-item id="laptop" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/laptop.glb"></a-asset-item>
-       
+
       </a-assets>
-      
+
       <!-- Superhand component's left hand entity -->
       <a-entity sphere-collider="objects: a-gltf-model" dy-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: left"></a-entity>
-      
+
       <!-- Superhand component's right hand entity -->
       <a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: right"></a-entity>
-      
+
       <!-- Denture glTF -->
-      <a-gltf-model gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-1.45 0.870 -2.15" hoverable grabbable stretchable draggable droppable dynamic-body mesh-shadows></a-gltf-model>
+      <a-gltf-model gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-1.45 0.870 -2.15" hoverable grabbable stretchable draggable droppable dynamic-body mesh-shadows phase-shift></a-gltf-model>
 
       <!-- Room glTF -->
       <a-gltf-model gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5"></a-gltf-model>
@@ -171,18 +189,18 @@
       <a-gltf-model gltf-model="#Scalpels" rotation="0 30 0" scale="0.45 0.45 0.45" position="-1.45 0.90 -2.15" mesh-shadows></a-gltf-model>
 
       <!-- Drill Fbx -->
-      <a-entity  fbx-model-loader="src: #Drill;" position="-1.25 0.90 -2.15" scale="0.001 0.001 0.001" rotation="0 -180 0" mesh-shadows>
+      <a-entity fbx-model-loader="src: #Drill;" position="-1.25 0.90 -2.15" scale="0.001 0.001 0.001" rotation="0 -180 0" mesh-shadows>
       </a-entity>
 
       <!-- Filler glTF -->
       <a-entity gltf-model="#Filler" rotation="0 30 0" scale="0.045 0.045 0.045" position="-1.35 0.90 -2.15" mesh-shadows></a-entity>
-      
+
       <!-- Chair glTF-->
       <a-gltf-model gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="1.085 0.15 -1.85" mesh-shadows></a-gltf-model>
-      
+
       <!-- Laptop glTF-->
       <a-gltf-model gltf-model="#laptop" rotation="0 90 0" scale="0.4 0.4 0.4" position="1.45 0.835 -1.25" mesh-shadows></a-gltf-model>
-      
+
       <!-- Camera -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
 
