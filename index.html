@@ -129,6 +129,7 @@
                               colliderEndEventProperty: clearedEls;"></a-mixin>
 
         <a-mixin id="all-interactions" hoverable grabbable droppable stretchable draggable event-set__hoveron="_event:hover-start; material.opacity: 0.7; transparent: true" event-set__hoveroff="_event:hover-end; material.opacity: 1; transparent: false" dynamic-body></a-mixin>
+        
         <a-mixin id="grab-move" hoverable grabbable draggable event-set__hoveron="_event: hover-start; material.opacity: 0.7; transparent: true" event-set__hoveroff="_event: hover-end; material.opacity: 1; transparent: false" dynamic-body></a-mixin>
 
         <a-mixin id="physics-hands" physics-collider phase-shift collision-filter="collisionForces: false" static-body="shape: sphere; sphereRadius: 0.02" super-hands="colliderEvent: collisions;
@@ -183,7 +184,7 @@
       <!--<a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: right"></a-entity>-->
 
       <!-- Denture glTF -->
-      <a-gltf-model gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-1.45 0.870 -2.15" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
+      <a-gltf-model gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-1.45 0.870 -2.15" mixin="grab-move" mesh-shadows phase-shift></a-gltf-model>
 
       <!-- Room glTF -->
       <a-gltf-model gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5" static-body></a-gltf-model>
