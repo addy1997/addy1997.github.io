@@ -8,7 +8,7 @@
     <script src="https://cdn.jsdelivr.net/gh/gftruj/webzamples@master/aframe/fbx/dist/fbx-model.js"></script>
     <script src="https://unpkg.com/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://unpkg.com/super-hands/dist/super-hands.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.1.2/dist/aframe-physics-system.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
 
     <!-- Camera logger component -->
     <script>
@@ -114,7 +114,7 @@
   </head>
 
   <body>
-    <a-scene physics="debug:true">
+    <a-scene physics="debug:true; gravity:0">
       <a-assets>
 
         <a-mixin id="controllers-right" oculus-touch-controls="hand: right">
@@ -175,7 +175,7 @@
       <!--<a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: right"></a-entity>-->
 
       <!-- Denture glTF -->
-      <a-gltf-model gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-1.45 0.870 -2.15" hoverable grabbable stretchable draggable droppable dynamic-body mesh-shadows phase-shift></a-gltf-model>
+      <a-gltf-model gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-1.45 0.870 -2.15" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
 
       <!-- Room glTF -->
       <a-gltf-model gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5"></a-gltf-model>
@@ -212,7 +212,7 @@
       <a-gltf-model gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="1.085 0.15 -1.85" mesh-shadows></a-gltf-model>
 
       <!-- Laptop glTF-->
-      <a-gltf-model gltf-model="#laptop" rotation="0 90 0" scale="0.4 0.4 0.4" position="1.45 0.805 -1.25" mesh-shadows></a-gltf-model>
+      <a-gltf-model gltf-model="#laptop" rotation="0 90 0" scale="0.4 0.4 0.4" position="1.45 0.81 -1.25" mesh-shadows></a-gltf-model>
 
       <!-- Camera -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
