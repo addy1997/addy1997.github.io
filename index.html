@@ -123,7 +123,7 @@
         <a-mixin id="controllers-left" oculus-touch-controls="hand: left">
         </a-mixin>
 
-        <a-mixin id="point" raycaster="showLine: true; objects: .cube" collision-filter="collisionForces: false" static-body="shape: sphere; sphereRadius: 0.001" super-hands="colliderEvent: raycaster-intersection;
+        <a-mixin id="point" raycaster="showLine: true; objects:a-gltf-model" collision-filter="collisionForces: false" static-body="shape: sphere; sphereRadius: 0.001" super-hands="colliderEvent: raycaster-intersection;
                               colliderEventProperty: els;
                               colliderEndEvent:raycaster-intersection-cleared;
                               colliderEndEventProperty: clearedEls;"></a-mixin>
@@ -168,15 +168,11 @@
 
       </a-assets>
 
-      <a-entity id="rhand" mixin="controllers-right point"></a-entity>
-
-      <a-entity id="lhand" mixin="controllers-left point"></a-entity>
-
       <!-- Superhand component's left hand entity -->
-      <a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: left"></a-entity>
+      <!--<a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: left"></a-entity>-->
 
       <!-- Superhand component's right hand entity -->
-      <a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: right"></a-entity>
+      <!--<a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: right"></a-entity>-->
 
       <!-- Denture glTF -->
       <a-gltf-model gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-1.45 0.870 -2.15" hoverable grabbable stretchable draggable droppable dynamic-body mesh-shadows phase-shift></a-gltf-model>
@@ -222,6 +218,10 @@
       <a-entity id="camera-control" movement-controls="speed:0.2;">
 
         <a-entity id="camera" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
+
+        <a-entity id="rhand" mixin="controllers-right point"></a-entity>
+
+        <a-entity id="lhand" mixin="controllers-left point"></a-entity>
       </a-entity>
 
       <!-- Lighting -->
