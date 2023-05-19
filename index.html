@@ -1,168 +1,249 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8" />
-    <title>Xmas</title>
-    <meta name="description" content="Spring is coming!" />
-    <!-- A-Frame JavaScript library -->
-    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
-    <!-- A-Frame physics system -->
-    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
-    <!-- A-Frame extras -->
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
-</head>
+  <head>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.3.2/dist/aframe-environment-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@67d1130/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/gftruj/webzamples@master/aframe/fbx/dist/fbx-model.js"></script>
+    <script src="https://unpkg.com/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
+    <script src="https://unpkg.com/super-hands/dist/super-hands.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@4.0.2/dist/aframe-physics-system.js"></script>
 
-<body>
-    <a-scene physics="gravity: -1" renderer="antialias: true">
-        <a-assets>
-            <img id="hardwood" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/hardwood-floor.jpg">
-            <img id="wallpaper" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/stripe-wallpaper.jpeg">
-            <img id="angry" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/angry.jpg">
-            <img id="rude" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/rude.png">
-            <img id="check" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/check.png">
-            <img id="busy" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/macbook.png">
-            <a-asset-item id="tree" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/models/tree/scene.gltf"></a-asset-item>
-            <a-asset-item id="fireplace" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/models/fireplace/scene.gltf"></a-asset-item>
-        </a-assets>
+    <!-- Camera logger component -->
+    <script>
+      AFRAME.registerComponent('camera-logger', {
+        schema: {
+          timestamp: {
+            type: 'int'
+          },
+          seconds: {
+            type: 'int'
+          }
+        },
+        init: function() {
+          var cameraEl = this.el.sceneEl.camera.el;
+          var rotation = cameraEl.getAttribute('rotation');
+          var worldPos = new THREE.Vector3();
+          worldPos.setFromMatrixPosition(cameraEl.object3D.matrixWorld);
+          console.log("Time: " + this.data.seconds +
+            "; Camera Position: (" + worldPos.x.toFixed(2) + ", " + worldPos.y.toFixed(2) + ", " + worldPos.z.toFixed(2) +
+            "); Camera Rotation: (" + rotation.x.toFixed(2) + ", " + rotation.y.toFixed(2) + ", " + rotation.z.toFixed(2) + ")");
+        },
 
-        <!-- Left hand -->
-        <!--
-        <a-entity
-            id="leftController" hand-controls="hand: left; handModelStyle: highPoly; color: #ffffff"
-            static-body="shape: sphere; sphereRadius: 0.02;" sphere-collider="objects: .throwable" grab>
-        </a-entity>
-        -->
-        <a-entity id="leftController" static-body="shape: sphere; sphereRadius: 0.02;"
-            oculus-touch-controls="hand: left" sphere-collider="objects: .throwable" grab>
-        </a-entity>
-        
-        <!-- Right hand -->
-        <!--
-        <a-entity
-            id="rightController" hand-controls="hand: right; handModelStyle: highPoly; color: #ffffff"
-            static-body="shape: sphere; sphereRadius: 0.02;" sphere-collider="objects: .throwable" grab>
-        </a-entity>
-        -->
-        <a-entity id="rightController" static-body="shape: sphere; sphereRadius: 0.02;"
-            oculus-touch-controls="hand: right" sphere-collider="objects: .throwable" grab>
-        </a-entity>
+        play: function() {
+          this.data.timestamp = Date.now();
+          this.init();
+        },
 
-        <a-sphere id="sphere1" class="throwable" dynamic-body position="-0.5 0.11 -0.5" radius="0.10" color="#4CC3D9">
-        </a-sphere>
-        <a-sphere id="sphere2" class="throwable" dynamic-body position="0.5 0.11 -0.5" radius="0.10" color="#FFC65D">
-        </a-sphere>
+        tick: function() {
+          if (Date.now() - this.data.timestamp > 1000) {
+            this.data.timestamp += 1000;
+            this.data.seconds += 1;
+            this.init();
+          }
+        },
+      });
 
-        <a-box id="box1" static-body position="0.8 0 1" height="0.3" color="#4CC3D9"></a-box>
-        <a-box id="box2" static-body position="-0.8 0 1" height="0.3" color="#FFC65D"></a-box>
-
-        <!-- Ground -->
-        <a-plane static-body rotation="-90 0 0" width="8" height="8" src="#hardwood" repeat="4 4" roughness="0.7"
-            metalness="0.3">
-        </a-plane>
-
-        <!-- Walls -->
-        <a-plane static-body position="0 1.5 -4" width="8" height="3" src="#wallpaper" repeat="8 3" roughness="1"
-            metalness="0">
-        </a-plane>
-        <a-box position="0 0.06 -4" width="8" height="0.12" depth="0.02" color="white" roughness="1" metalness="0">
-        </a-box>
-
-        <a-plane static-body position="0 1.5 4" rotation="0 180 0" width="8" height="3" src="#wallpaper" repeat="8 3"
-            roughness="1" metalness="0">
-        </a-plane>
-        <a-box position="0 0.06 4" width="8" height="0.12" depth="0.02" color="white" roughness="1" metalness="0">
-        </a-box>
-
-        <a-plane static-body position="-4 1.5 0" rotation="0 90 0" width="8" height="3" src="#wallpaper" repeat="8 3"
-            roughness="1" metalness="0">
-        </a-plane>
-        <a-box position="-4 0.06 0" width="0.02" height="0.12" depth="8" color="white" roughness="1" metalness="0">
-        </a-box>
-
-        <a-plane static-body position="4 1.5 0" rotation="0 -90 0" width="8" height="3" src="#wallpaper" repeat="8 3"
-            roughness="1" metalness="0">
-        </a-plane>
-        <a-box position="4 0.06 0" width="0.02" height="0.12" depth="8" color="white" roughness="1" metalness="0">
-        </a-box>
-
-        <!-- Ceiling -->
-        <a-plane static-body position="0 3 0" rotation="90 0 0" width="8" height="8" color="white" roughness="1"
-            metalness="0"></a-plane>
-
-        <!-- Christmas tree -->
-        <a-gltf-model static-body="shape: box" src="#tree" position="-2.644 0 -2.777" rotation="0 -152 0"
-            scale="0.8 0.8 0.8"></a-gltf-model>
-        <a-gltf-model static-body="shape: box" src="#fireplace" position="2.638 0 -3.382" rotation="0 -9.512 0"
-            scale="0.03 0.03 0.03">
-        </a-gltf-model>
-
-        <a-circle src="#rude" radius="0.5" position="1.82715 1.89076 3.98" rotation="0 180 0"></a-circle>
-        <a-ring radius-inner="0.48" radius-outer="0.52" position="1.82715 1.89076 3.97" rotation="0 180 0"
-            color="#ebc356" metalness="0.75" roughness="0.5"></a-ring>
-        <a-circle src="#check" radius="0.5" position="0.72226 1.52811 3.98" rotation="0 180 0"></a-circle>
-        <a-ring radius-inner="0.48" radius-outer="0.52" position="0.72226 1.52811 3.97" rotation="0 180 0"
-            color="#ebc356" metalness="0.75" roughness="0.5"></a-ring>
-        <a-circle src="#angry" radius="0.5" position="-0.41231 1.98922 3.98" rotation="0 180 0"></a-circle>
-        <a-ring radius-inner="0.48" radius-outer="0.52" position="-0.41231 1.98922 3.97" rotation="0 180 0"
-            color="#ebc356" metalness="0.75" roughness="0.5"></a-ring>
-        <a-circle src="#busy" radius="0.5" position="-1.44021 1.42999 3.98" rotation="0 180 0"></a-circle>
-        <a-ring radius-inner="0.48" radius-outer="0.52" position="-1.44021 1.42999 3.97" rotation="0 180 0"
-            color="#ebc356" metalness="0.75" roughness="0.5"></a-ring>
-
-        <!-- Lights -->
-        <a-entity light="type: ambient; color: white; intensity: 0.5"></a-entity>
-        <a-entity light="type: point; color: white; intensity: 0.3" position="0 1.5 0"></a-entity>
-        <a-entity light="type: point; color: yellow; intensity: 1; distance: 1.5" position="-2.644 0.5 -2.777">
-        </a-entity>
-        <a-entity light="type: point; color: pink; intensity: 1; distance: 1.5" position="-2.644 1.7 -2.777"></a-entity>
-
-        <a-camera position="0 1.7 0">
-        </a-camera>
-    </a-scene>
+    </script>
 
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            let scene = document.querySelector('a-scene');
-            let score = 0;
+      AFRAME.registerComponent('move', {
+        init: function() {
+          // wait until the model is loaded
+          this.el.addEventListener("model-loaded", evt => {
+            const mixer = new THREE.AnimationMixer(this.el.components['gltf-model'].model);
+            const clips = this.el.components['gltf-model'].model.animations[0];
+            mixer.clipAction(clips).play();
+            // "expose" the animation mixer
+            this.mixer = mixer;
+          })
+        },
+        // on each render loop (actually before each render loop)
+        tick: function(t, dt) {
+          if (!this.mixer) return; // if the mixer exists
+          this.mixer.update(dt / 1000) // update it with the delta time
+        }
+      })
 
-            let giftCount = 0;
-            function giftAvalanche() {
-                let gift = document.createElement('a-box');
-
-                let size = Math.random() * 0.40 + 0.1;
-                gift.setAttribute('width', size);
-                gift.setAttribute('height', size);
-                gift.setAttribute('depth', size);
-                gift.setAttribute('color', 'hsl(' + Math.random() * 360 + ', 90%, 70%)');
-                gift.setAttribute('position', (Math.random() * 2 - 1) + ' 2.6 ' + (Math.random() * 2 - 1));
-                gift.setAttribute('dynamic-body', 'shape: box; mass: 0.1;');
-                gift.classList.add('throwable');
-
-                scene.appendChild(gift);
-
-                if (++giftCount < 50) window.setTimeout(giftAvalanche, 150);
-            }
-
-            document.querySelector('#box1').addEventListener('collide', (e) => {
-                if (e.detail.body.el.id === 'sphere1') {
-                    e.detail.target.el.setAttribute('visible', 'false');
-                    e.detail.body.el.setAttribute('visible', 'false');
-
-                    if (++score === 2) giftAvalanche();
-                }
-            });
-
-            document.querySelector('#box2').addEventListener('collide', (e) => {
-                if (e.detail.body.el.id === 'sphere2') {
-                    e.detail.target.el.setAttribute('visible', 'false');
-                    e.detail.body.el.setAttribute('visible', 'false');
-
-                    if (++score === 2) giftAvalanche();
-                }
-            });
-        });
     </script>
-</body>
+
+    <script>
+      AFRAME.registerComponent('mesh-shadows', {
+        init: function() {
+          this.el.addEventListener('model-loaded', () => {
+            const el = this.el;
+            const obj = el.getObject3D('mesh');
+            obj.traverse(function(node) {
+              if (node.isMesh) {
+                node.castShadow = true;
+                node.receiveShadow = true;
+                node.material.shadowSide = 1;
+                node.material.roughness = 0.60;
+
+                if (node.material.map) {
+                  node.material.map.encoding = THREE.LinearEncoding;
+                }
+              }
+            });
+          });
+        },
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('phase-shift', {
+        init: function() {
+          var el = this.el
+          el.addEventListener('gripdown', function() {
+            el.setAttribute('collision-filter', {
+              collisionForces: true
+            })
+          })
+          el.addEventListener('gripup', function() {
+            el.setAttribute('collision-filter', {
+              collisionForces: false
+            })
+          })
+        }
+      });
+
+    </script>
+
+  </head>
+
+  <body>
+    <a-scene physics="debug:true; gravity:0">
+      <a-assets>
+
+        <!--<a-mixin id="controllers-right" oculus-touch-controls="hand: right">
+        </a-mixin>-->
+
+        <!--<a-mixin id="controllers-left" oculus-touch-controls="hand: left">
+        </a-mixin>-->
+
+        <a-mixin id="point" raycaster="showLine: true; objects:a-gltf-model" collision-filter="collisionForces: false" static-body="shape: sphere; sphereRadius: 0.001" super-hands="colliderEvent: raycaster-intersection;
+                              colliderEventProperty: els;
+                              colliderEndEvent:raycaster-intersection-cleared;
+                              colliderEndEventProperty: clearedEls;"></a-mixin>
+
+        <a-mixin id="all-interactions" hoverable grabbable droppable stretchable draggable event-set__hoveron="_event:hover-start; material.opacity: 0.7; transparent: true" event-set__hoveroff="_event:hover-end; material.opacity: 1; transparent: false" dynamic-body></a-mixin>
+        <a-mixin id="grab-move" hoverable grabbable draggable event-set__hoveron="_event: hover-start; material.opacity: 0.7; transparent: true" event-set__hoveroff="_event: hover-end; material.opacity: 1; transparent: false" dynamic-body></a-mixin>
+
+        <a-mixin id="physics-hands" physics-collider phase-shift collision-filter="collisionForces: false" static-body="shape: sphere; sphereRadius: 0.02" super-hands="colliderEvent: collisions;
+                              colliderEventProperty: els;
+                              colliderEndEvent: collisions;
+                              colliderEndEventProperty: clearedEls;"></a-mixin>
+
+        <!-- Room asset -->
+        <a-asset-item id="Room" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Room/basic_room_shell.glb"></a-asset-item>
+
+        <!-- Floor asset -->
+        <a-asset-item id="Floor" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Floor/factory_concrete_floor.glb"></a-asset-item>
+
+        <!-- Image asset -->
+        <img id="Cloth" src="https://cdn.jsdelivr.net/gh/pmndrs/cannon-es@master/examples/images/sunflower.jpg">
+        <!-- chair asset -->
+        <a-asset-item id="Dentist-Chair" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dentist chair/model/Dental chair Granum TS6830 Sonata N251210.glb"></a-asset-item>
+
+        <!-- Dentist asset -->
+        <a-asset-item id="Dentist" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dentist/model/Dentist.glb"></a-asset-item>
+
+        <!-- Patient asset -->
+        <a-asset-item id="Patient" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/patient/Nathan.glb"></a-asset-item>
+
+        <!-- Table asset -->
+        <a-asset-item id="Table" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Table/table_derived.glb"></a-asset-item>
+
+        <!-- Scalpel asset -->
+        <a-asset-item id="Scalpels" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/scalpels/models/pair_of_scalpels.glb"></a-asset-item>
+
+        <!-- Drill asset -->
+        <a-asset-item id="Drill" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/drill/drill.FBX"></a-asset-item>
+
+        <!-- Denture asset -->
+        <a-asset-item id="Denture" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Teeth/3d_denture.glb"></a-asset-item>
+
+        <!-- Filler asset -->
+        <a-asset-item id="Filler" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/filler/Final_filler_derived.glb"></a-asset-item>
+
+        <!-- Chair asset-->
+        <a-asset-item id="Office-Chair" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/office_chair.glb"></a-asset-item>
+
+        <!-- Chair asset-->
+        <a-asset-item id="laptop" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/laptop.glb"></a-asset-item>
+
+      </a-assets>
+
+      <!-- Superhand component's left hand entity -->
+      <!--<a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: left"></a-entity>-->
+
+      <!-- Superhand component's right hand entity -->
+      <!--<a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: right"></a-entity>-->
+
+      <!-- Denture glTF -->
+      <a-gltf-model gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-1.45 0.870 -2.15" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
+
+      <!-- Room glTF -->
+      <a-gltf-model gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5" static-body></a-gltf-model>
+
+      <!-- Dentist glTF -->
+      <a-gltf-model gltf-model="#Dentist" rotation="0 30 0" scale="0.45 0.45 0.45" position="-0.45 1.485 -1.5" move mesh-shadows></a-gltf-model>
+
+      <!-- Floor glTF -->
+      <a-gltf-model gltf-model="#Floor" rotation="0 90 0" scale="0.065 0.065 0.065" position="-0.85 0 -3" static-body></a-gltf-model>
+
+      <!-- Chair glTF -->
+      <a-gltf-model gltf-model="#Dentist-Chair" rotation="0 -45 0" scale="2.75 2.75 2.75" position="-1.25 0.175 -2" mesh-shadows></a-gltf-model>
+
+      <!-- Text -->
+      <a-text color="Red" value="A Dummy, not a Human!" position="-1.35 1.25 -1" scale="0.5 0.5 0.5" rotation="0 45 0" width="2.0"></a-text>
+
+      <!-- Patient glTF -->
+      <a-gltf-model gltf-model="#Patient" rotation="-90 90 0" scale="0.75 0.75 0.75" position="-0.85 0.785 -2" mesh-shadows></a-gltf-model>
+
+      <!-- Table glTF -->
+      <a-gltf-model gltf-model="#Table" rotation="0 -90 0" scale="0.235 0.235 0.235" position="1.285 0 -2" mesh-shadows static-body></a-gltf-model>
+
+      <!-- Scalpel glTF -->
+      <a-gltf-model gltf-model="#Scalpels" rotation="0 30 0" scale="0.45 0.45 0.45" position="-1.45 0.90 -2.15" mesh-shadows></a-gltf-model>
+
+      <!-- Drill Fbx -->
+      <a-entity fbx-model-loader="src: #Drill;" position="-1.25 0.90 -2.15" scale="0.001 0.001 0.001" rotation="0 -180 0" mesh-shadows>
+      </a-entity>
+
+      <!-- Filler glTF -->
+      <a-entity gltf-model="#Filler" rotation="0 30 0" scale="0.045 0.045 0.045" position="-1.35 0.90 -2.15" mesh-shadows></a-entity>
+
+      <!-- Chair glTF-->
+      <a-gltf-model gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="1.085 0.15 -1.85" mesh-shadows></a-gltf-model>
+
+      <!-- Laptop glTF-->
+      <a-gltf-model gltf-model="#laptop" rotation="0 90 0" scale="0.4 0.4 0.4" position="1.45 0.81 -1.25" mesh-shadows></a-gltf-model>
+
+      <!-- Camera -->
+      <a-entity id="camera-control" movement-controls="speed:0.2;">
+
+        <a-entity id="camera" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
+
+        <!--<a-entity id="rhand" mixin="controllers-right point"></a-entity>-->
+
+        <a-entity id="rhand" mixin="physics-hands" oculus-touch-controls="hand:right"></a-entity>
+
+        <a-entity id="lhand" mixin="physics-hands" oculus-touch-controls="hand:left"></a-entity>
+
+        <!--<a-entity id="lhand" mixin="controllers-left point"></a-entity>-->
+      </a-entity>
+
+      <!-- Lighting -->
+      <a-entity light="type: point; color: #f4f4f4; intensity: 0.4; distance: 0" position="8 10 18"></a-entity>
+      <a-entity light="type: point; color: #f4f4f4; intensity: 0.4; distance: 0" position="-0.45 1.1 -1.5"></a-entity>
+      <a-entity light="type: point; color: #f4f4f4; intensity: 0.4; distance: 0" position="1.45 1.68 -2"></a-entity>
+
+      <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.6;" position="-8 10 -18"></a-entity>
+
+    </a-scene>
+  </body>
 
 </html>
