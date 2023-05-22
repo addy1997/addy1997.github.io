@@ -136,6 +136,7 @@
 
         <!-- Image asset -->
         <img id="Cloth" src="https://cdn.jsdelivr.net/gh/pmndrs/cannon-es@master/examples/images/sunflower.jpg">
+
         <!-- chair asset -->
         <a-asset-item id="Dentist-Chair" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dentist chair/model/Dental chair Granum TS6830 Sonata N251210.glb"></a-asset-item>
 
@@ -152,18 +153,21 @@
         <a-asset-item id="Scalpels" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/scalpels/models/pair_of_scalpels.glb"></a-asset-item>
 
         <!-- Drill asset -->
-        <a-asset-item id="Drill" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/drill/drill.FBX"></a-asset-item>
+        <!--<a-asset-item id="Drill" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/drill/drill.FBX"></a-asset-item>-->
 
         <!-- Denture asset -->
         <a-asset-item id="Denture" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Teeth/3d_denture.glb"></a-asset-item>
 
         <!-- Filler asset -->
-        <a-asset-item id="Filler" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/filler/Final_filler_derived.glb"></a-asset-item>
+        <!--<a-asset-item id="Filler" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/filler/Final_filler_derived.glb"></a-asset-item>-->
+
+        <!-- Sickle Pro asset -->
+        <a-asset-item id="Sickle" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sickle/sickle_pro.glb"></a-asset-item>
 
         <!-- Chair asset-->
         <a-asset-item id="Office-Chair" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/office_chair.glb"></a-asset-item>
 
-        <!-- Chair asset-->
+        <!-- Laptop asset-->
         <a-asset-item id="laptop" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/laptop.glb"></a-asset-item>
 
       </a-assets>
@@ -185,6 +189,7 @@
 
       <!-- Floor glTF -->
       <a-gltf-model gltf-model="#Floor" rotation="0 90 0" scale="0.065 0.065 0.065" position="-0.85 0 -3"></a-gltf-model>
+
       <!-- Chair glTF -->
       <a-gltf-model gltf-model="#Dentist-Chair" rotation="0 -45 0" scale="2.75 2.75 2.75" position="-1.25 0.175 -2" mesh-shadows></a-gltf-model>
 
@@ -198,14 +203,17 @@
       <a-gltf-model gltf-model="#Table" rotation="0 -90 0" scale="0.235 0.235 0.235" position="1.285 0 -2" mesh-shadows></a-gltf-model>
 
       <!-- Scalpel glTF -->
-      <a-gltf-model gltf-model="#Scalpels" rotation="0 30 0" scale="0.45 0.45 0.45" position="-1.45 0.90 -2.15" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
+      <a-gltf-model gltf-model="#Scalpels" rotation="0 30 0" scale="0.45 0.45 0.45" position="-1.25 0.90 -2.15" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
 
       <!-- Drill Fbx -->
-      <a-entity fbx-model-loader="src: #Drill;" position="-1.25 0.965 -2.15" scale="0.001 0.001 0.001" rotation="0 -180 0" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift>
-      </a-entity>
+      <!--<a-entity fbx-model-loader="src: #Drill;" position="-1.25 0.965 -2.15" scale="0.001 0.001 0.001" rotation="0 -180 0" hoverable grabbable stretchable draggable droppable phase-shift>
+      </a-entity>-->
 
       <!-- Filler glTF -->
-      <a-entity gltf-model="#Filler" rotation="0 30 0" scale="0.045 0.045 0.045" position="-1.35 0.965 -2.15" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-entity>
+      <!--<a-entity gltf-model="#Filler" rotation="0 30 0" scale="0.045 0.045 0.045" position="-1.35 0.965 -2.15" hoverable grabbable stretchable draggable droppable phase-shift></a-entity>-->
+
+      <!-- Sickle Pro glTF -->
+      <a-entity gltf-model="#Sickle" rotation="0 30 0" scale="0.85 0.85 0.85" position="-1.55 1 -2.15" hoverable grabbable stretchable draggable droppable phase-shift></a-entity>
 
       <!-- Chair glTF-->
       <a-gltf-model gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="1.085 0.15 -1.85" mesh-shadows></a-gltf-model>
