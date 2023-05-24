@@ -123,7 +123,7 @@
         <a-mixin id="controllers-left" oculus-touch-controls="hand: left">
         </a-mixin>
 
-        <a-mixin id="collision-events" raycaster="showLine: true; objects:a-gltf-model" collision-filter="collisionForces: false" static-body="shape: sphere; sphereRadius: 0.001" super-hands="colliderEvent: raycaster-intersection;
+        <a-mixin id="point" raycaster="showLine: true; objects:a-gltf-model" collision-filter="collisionForces: false" static-body="shape: sphere; sphereRadius: 0.001" super-hands="colliderEvent: raycaster-intersection;
                               colliderEventProperty: els;
                               colliderEndEvent:raycaster-intersection-cleared;
                               colliderEndEventProperty: clearedEls;"></a-mixin>
@@ -213,7 +213,7 @@
       <!--<a-entity gltf-model="#Filler" rotation="0 30 0" scale="0.045 0.045 0.045" position="-1.35 0.965 -2.15" hoverable grabbable stretchable draggable droppable phase-shift></a-entity>-->
 
       <!-- Sickle Pro glTF -->
-      <a-entity gltf-model="#Sickle" body="type: dynamic; mass: 0; shape: none;" rotation="0 30 0" scale="0.85 0.85 0.85" position="-1.55 1 -2.15" hoverable grabbable stretchable draggable droppable phase-shift></a-entity>
+      <a-entity gltf-model="#Sickle" rotation="0 30 0" scale="0.85 0.85 0.85" position="-1.55 1 -2.15" hoverable grabbable stretchable draggable droppable phase-shift></a-entity>
 
       <!-- Chair glTF-->
       <a-gltf-model gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="1.085 0.15 -1.85" mesh-shadows></a-gltf-model>
@@ -226,15 +226,15 @@
 
         <a-entity id="camera" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
 
-        <!--<a-entity id="rhand" mixin="controllers-right collision-events"></a-entity>
+        <!--<a-entity id="rhand" mixin="controllers-right point"></a-entity>
 
-        <a-entity id="lhand" mixin="controllers-left collision-events"></a-entity>-->
-        <a-entity sphere-collider="objects: a-gltf-model" mixin="collision-events" super-hands hand-controls="hand: left"></a-entity>
-      
-      <a-entity sphere-collider="objects: a-gltf-model" mixin="collision-events" super-hands hand-controls="hand: right"></a-entity>
-      
+        <a-entity id="lhand" mixin="controllers-left point"></a-entity>-->
+        <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: left"></a-entity>
+
+        <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: right"></a-entity>
+
       </a-entity>
-      
+
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.4; distance: 0" position="8 10 18"></a-entity>
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.4; distance: 0" position="-0.45 1.1 -1.5"></a-entity>
