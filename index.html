@@ -122,6 +122,11 @@
                               colliderEventProperty: els;
                               colliderEndEvent:raycaster-intersection-cleared;
                               colliderEndEventProperty: clearedEls;"></a-mixin>
+                              
+        <a-mixin id="collision-events-entity-object" raycaster="showLine: true; objects:a-entity" collision-filter="collisionForces: false" static-body="shape: sphere; sphereRadius: 0.001" super-hands="colliderEvent: raycaster-intersection;
+                              colliderEventProperty: els;
+                              colliderEndEvent:raycaster-intersection-cleared;
+                              colliderEndEventProperty: clearedEls;"></a-mixin>
 
         <!-- Room asset -->
         <a-asset-item id="Room" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Room/basic_room_shell.glb"></a-asset-item>
@@ -217,18 +222,18 @@
       <!-- Filler glTF -->
       <!--<a-entity id="filler" gltf-model="#Filler" rotation="0 30 0" scale="0.045 0.045 0.045" position="-1.35 0.965 -2.15" hoverable grabbable stretchable draggable droppable phase-shift></a-entity>-->
 
-      <!-- Camera -->
+      <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
 
         <a-entity id="camera" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
 
-        <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: left"></a-entity>
+        <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: left" mixin="collision-events"></a-entity>
 
-        <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: right"></a-entity>
+        <a-entity sphere-collider="objects: a-entity" super-hands hand-controls="hand: right" mixin="collision-events-entity-object"></a-entity>
 
         <!-- Uncomment to add the hand controllers to the scene -->
-        <!--<a-entity id="rhand" mixin="controllers-right point"></a-entity>
-        <a-entity id="lhand" mixin="controllers-left point"></a-entity>-->
+        <!--<a-entity id="rhand" mixin="controllers-right collision-events"></a-entity>
+        <a-entity id="lhand" mixin="controllers-left collision-events"></a-entity>-->
 
       </a-entity>
 
