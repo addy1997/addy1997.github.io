@@ -9,11 +9,11 @@
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
 
     <!-- This script is commented to avoid the error -->
-    <!--<script src="https://cdn.jsdelivr.net/npm/super-hands/dist/super-hands.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/super-hands/dist/super-hands.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
 
     <!-- This script uses superhands as well so the script above, i.e., super-hand.min.js is commented-->
-    <script src="https://cdn.jsdelivr.net/npm/web2vr@1.1.1/dist/web2vr.min.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/web2vr@1.1.1/dist/web2vr.min.js"></script>-->
 
     <!-- Custom components -->
     <script>
@@ -175,32 +175,9 @@
       });
 
     </script>
-    <style>
-      #html-container {
-        position: absolute;
-        width: 200px;
-        background-color: transparent;
-        text-align: center;
-      }
-
-    </style>
   </head>
 
   <body>
-
-    <div id="html-container">
-      Welcome to the Navident Scene!
-      <button id="btn">Click me</button>
-      <div id="info"></div>
-    </div>
-    <script>
-      document.getElementById("btn").onclick = () => {
-        document.getElementById("info").innerText = "Button Clicked!";
-      };
-      const web2vr = new Web2VR("#html-container");
-      web2vr.start();
-
-    </script>
     <a-scene physics="debug:true; gravity:0">
       <a-assets>
 
