@@ -7,8 +7,13 @@
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@67d1130/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/gftruj/webzamples@master/aframe/fbx/dist/fbx-model.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/super-hands/dist/super-hands.min.js"></script>
+
+    <!-- This script is commented to avoid the error -->
+    <!--<script src="https://cdn.jsdelivr.net/npm/super-hands/dist/super-hands.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
+
+    <!-- This script uses superhands as well so the script above, i.e., super-hand.min.js is commented-->
+    <script src="https://cdn.jsdelivr.net/npm/web2vr@1.1.1/dist/web2vr.min.js"></script>
 
     <!-- Custom components -->
     <script>
@@ -114,13 +119,17 @@
     <script>
       AFRAME.registerComponent('grab-sickle', {
         init: function() {
+          var el = this.el;
+          this.el.addEventListener('model-loaded', () => {
           var sceneEl = document.querySelector('a-scene');
-          var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-          var sickleGLTF = glTFModels[0];
-          var sickleComponents = glTFModels[0].components;
+          var glTFModels = document.querySelectorAll('a-gltf-model');
+          //console.log(glTFModels);
+          //var sickleGLTF = glTFModels[0];
+          //var sickleComponents = glTFModels[].components;
           //var glTFModels = sceneEl.querySelector('a-gltf-model');
-          //console.log(glTFModels[0]);
-          console.log(sickleComponents['grabbable'].initialized);
+          console.log(glTFModels[0].id);
+          //console.log(sickleComponents['grabbable'].initialized);
+          });
         }
       });
 
@@ -166,9 +175,32 @@
       });
 
     </script>
+    <style>
+      #html-container {
+        position: absolute;
+        width: 200px;
+        background-color: transparent;
+        text-align: center;
+      }
+
+    </style>
   </head>
 
   <body>
+
+    <div id="html-container">
+      Welcome to the Navident Scene!
+      <button id="btn">Click me</button>
+      <div id="info"></div>
+    </div>
+    <script>
+      document.getElementById("btn").onclick = () => {
+        document.getElementById("info").innerText = "Button Clicked!";
+      };
+      const web2vr = new Web2VR("#html-container");
+      web2vr.start();
+
+    </script>
     <a-scene physics="debug:true; gravity:0">
       <a-assets>
 
@@ -279,9 +311,10 @@
 
         <a-entity id="camera" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
 
+        <!-- Superhand component -->
         <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: left" mixin="collision-events" collision-objects></a-entity>
 
-        <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: right" mixin="collision-events"></a-entity>
+        <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: right" mixin="collision-events" collision-objects></a-entity>
 
         <!-- Uncomment to add the hand controllers to the scene -->
         <!--<a-entity id="rhand" mixin="controllers-right collision-events"></a-entity>
@@ -296,6 +329,7 @@
       <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.6;" position="-8 10 -18"></a-entity>
 
     </a-scene>
+
   </body>
 
 </html>
