@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html>
-
   <head>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-    <script src="https://unpkg.com/aframe-environment-component@1.3.2/dist/aframe-environment-component.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@67d1130/dist/aframe-extras.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/gftruj/webzamples@master/aframe/fbx/dist/fbx-model.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/super-hands/dist/super-hands.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/super-hands/dist/super-hands.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/gftruj/webzamples@master/aframe/fbx/dist/fbx-model.js"></script>
     <!-- Custom components -->
     <script>
       AFRAME.registerComponent('camera-logger', {
@@ -113,9 +111,9 @@
           var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
 
           // Sickle prob glTF entity
-          var sickleGLTF = glTFModels[0];
+          //var sickleGLTF = glTFModels[0];
           //console.log(sickleGLTF);
-          var sickleComponents = glTFModels[0].components;
+          //var sickleComponents = glTFModels[0].components;
           //var glTFModels = sceneEl.querySelector('a-gltf-model');
           //console.log(glTFModels[0]);
           //console.log(sickleComponents['grabbable'].initialized);
@@ -136,7 +134,14 @@
           var laptopGLTF = glTFModels[10];
           console.log(laptopGLTF);
           var laptopComponents = glTFModels[10].components;
-          console.log(laptopComponents['grabbable'].initialized);*/
+          console.log(laptopComponents['grabbable'].initialized);
+          
+          // Scalpels glTF entity
+          var mmips1p1GLTF = glTFModels[11];
+          console.log(mmips1p1GLTF);
+          var mmips1p1Components = glTFModels[11].components;
+          console.log(mmips1p1Components['grabbable'].initialized);*/
+           
         }
       });
 
@@ -182,7 +187,7 @@
 
     </script>
     <script>
-      AFRAME.registerComponent('rotate-sickle', {
+      /*AFRAME.registerComponent('rotate-sickle', {
         schema: {
           x_val: {
             type: 'number',
@@ -213,11 +218,11 @@
           console.log("Curent rotation of the sickle entity is: ", sickleObjectRot);
 
         },
-      });
+      });*/
 
     </script>
     <script>
-      AFRAME.registerComponent('rotate-scalpels', {
+      /*AFRAME.registerComponent('rotate-scalpels', {
         scehema: {
           x_val: {
             type: 'number',
@@ -248,11 +253,10 @@
           console.log("Curent rotation of the scalpel entity is: ", scalpelObjectRot);
 
         },
-      });
-
+      });*/
     </script>
     <script>
-      AFRAME.registerComponent('rotate-denture', {
+      /*AFRAME.registerComponent('rotate-denture', {
         scehema: {
           x_val: {
             type: 'number',
@@ -283,8 +287,7 @@
           console.log("Curent rotation of the denture entity is: ", dentureObjectRot);
 
         },
-      });
-
+      });*/
     </script>
   </head>
 
@@ -318,6 +321,18 @@
         <a-asset-item id="Office-Chair" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/office_chair.glb"></a-asset-item>
         <!-- Laptop asset-->
         <a-asset-item id="Laptop" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/laptop.glb"></a-asset-item>
+        
+         <!-- 3D models by University of Dundee -->         
+         <!--<a-asset-item id="MMIP1S1" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Models%20by%20University%20of%20Dundee/mandibular%20molar%20infection/pathway1/mmip1s1.glb" timeout="10000"></a-asset-item>
+         
+         <a-asset-item id="MMIP1S2" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Models%20by%20University%20of%20Dundee/mandibular%20molar%20infection/pathway1/mmip1s2.glb" timeout="10000"></a-asset-item>
+         
+         <a-asset-item id="MMIP1S3" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Models%20by%20University%20of%20Dundee/mandibular%20molar%20infection/pathway1/mmip1s3.glb" timeout="10000"></a-asset-item>
+         
+         <a-asset-item id="MMIP1S4" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Models%20by%20University%20of%20Dundee/mandibular%20molar%20infection/pathway1/mmip1s4.glb" timeout="10000"></a-asset-item>
+         
+         <a-asset-item id="MMIP1S5" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Models%20by%20University%20of%20Dundee/mandibular%20molar%20infection/pathway1/mmip1s5.glb" timeout="10000"></a-asset-item>-->
+         
         <!-- Drill asset -->
         <!--<a-asset-item id="Drill" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/drill/drill.FBX"></a-asset-item>-->
         <!-- Filler asset -->
@@ -337,7 +352,8 @@
         
         <img crossorigin="anonymous" id="Advert2" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/bbc8cf3ac1e50fff29f35e9a68ba54d4.jpg">
         
-        <img crossorigin="anonymous" id="Advert3" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/cb0bf0bb2cbe1cc30862ff3048081a1e.jpg">
+        <img crossorigin="anonymous" id="Oral-cavity" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/oral-cavity.jpg">
+        
       </a-assets>
       <!-- Superhand component's left hand entity -->
       <!--<a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: left"></a-entity>-->
@@ -355,8 +371,6 @@
       <a-gltf-model id="floor" gltf-model="#Floor" rotation="0 90 0" scale="0.065 0.065 0.065" position="-0.85 0 -3"></a-gltf-model>
       <!-- Chair glTF -->
       <a-gltf-model id="chair" gltf-model="#Dentist-Chair" rotation="0 -45 0" scale="2.75 2.75 2.75" position="-1.25 0.175 -2" mesh-shadows></a-gltf-model>
-      <!-- Label -->
-      <a-text color="Red" value="A Dummy, not a Human!" position="-1.35 1.25 -1" scale="0.35 0.35 0.35" rotation="0 45 0" width="2.0"></a-text>
       <!-- Patient glTF -->
       <a-gltf-model id="patient" gltf-model="#Patient" rotation="-90 90 0" scale="0.75 0.75 0.75" position="-0.85 0.785 -2" mesh-shadows></a-gltf-model>
       <!-- Table glTF -->
@@ -366,19 +380,32 @@
       <!-- Chair glTF-->
       <a-gltf-model id="office-chair" gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="1.085 0.15 -1.85" mesh-shadows></a-gltf-model>
       <!-- Laptop glTF-->
-      <a-gltf-model id="laptop" gltf-model="#Laptop" rotation="0 90 0" scale="0.4 0.4 0.4" position="1.45 0.81 -1.25" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
+      <a-gltf-model id="laptop" gltf-model="#Laptop" rotation="0 90 0" scale="0.4 0.4 0.4" position="1.35 0.81 -1.25" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
+      
+      <!-- 3D models by University of Dundee -->
+      <!--<a-gltf-model id="mmip1s1" gltf-model="#MMIP1S1" rotation="0 0 0" scale="10.5 10.5 10.5" position="0.255 1.25 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf></a-gltf-model>-->
+      
+      <!--<a-gltf-model id="mmip1s2" gltf-model="#MMIP1S2" rotation="0 0 0" scale="10.5 10.5 10.5" position="0.55 1.25 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf></a-gltf-model>
+      
+      <a-gltf-model id="mmip1s3" gltf-model="#MMIP1S3" rotation="0 0 0" scale="10.5 10.5 10.5" position="0.85 1.25 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf></a-gltf-model>
+      
+      <a-gltf-model id="mmip1s4" gltf-model="#MMIP1S4" rotation="0 0 0" scale="10.5 10.5 10.5" position="1 1.25 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf></a-gltf-model>
+      
+      <a-gltf-model id="mmip1s5" gltf-model="#MMIP1S5" rotation="0 0 0" scale="10.5 10.5 10.5" position="1.25 1.25 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf></a-gltf-model>-->
+     
       <!-- Drill Fbx -->
       <!--<a-entity id="drill" fbx-model-loader="src: #Drill;" position="-1.25 0.965 -2.15" scale="0.001 0.001 0.001" rotation="0 -180 0" hoverable grabbable stretchable draggable droppable phase-shift>
         </a-entity>-->
       <!-- Filler glTF -->
       <!--<a-entity id="filler" gltf-model="#Filler" rotation="0 30 0" scale="0.045 0.045 0.045" position="-1.35 0.965 -2.15" hoverable grabbable stretchable draggable droppable phase-shift></a-entity>-->
 
-      <a-image src="#Tooth-anatomy" position="1.985 1.25 -2.75" rotation="0 -90 0" scale="1.25 1.25 1.25"></a-image>
-      <a-image src="#Implant-structure" position="1.985 1.5 0.25" rotation="0 -90 0" scale="1.25 1.25 1.25"></a-image>
+      <a-image src="#Tooth-anatomy" position="1.985 1.25 -3.25" rotation="0 -90 0" scale="1.25 1.25 1.25"></a-image>
+      <a-image src="#Implant-structure" position="1.985 1.25 0.25" rotation="0 -90 0" scale="1.25 1.25 1.25"></a-image>
       <a-image src="#Patient-dentist" position="-2.86 1.25 0.25" rotation="0 90 0" scale="1.25 1.25 1.25"></a-image>
       <a-image src="#Advert1" position="-2.86 1.25 -1.25" rotation="0 90 0" scale="1.25 1.25 1.25"></a-image>
       <a-image src="#Advert2" position="-2.86 1.25 -2.85" rotation="0 90 0" scale="1.25 1.25 1.25"></a-image>
-      <a-image src="#Advert3" position="-1.5 1.25 -3.935" rotation="0 180 0" scale="1.05 1.05 1.05"></a-image>
+      <a-image src="#Oral-cavity" position="-1.5 1.25 -3.935" rotation="0 -360 0" scale="1.05 1.05 1.05"></a-image>
+      
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
         <a-entity id="camera" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
