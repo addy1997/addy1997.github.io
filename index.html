@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@67d1130/dist/aframe-extras.min.js"></script>
@@ -7,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/super-hands/dist/super-hands.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/gftruj/webzamples@master/aframe/fbx/dist/fbx-model.js"></script>
+    <script src="https://unpkg.com/aframe-gltf-part-component/dist/aframe-gltf-part-component.min.js"></script>
     <!-- Custom components -->
     <script>
       AFRAME.registerComponent('camera-logger', {
@@ -141,7 +143,7 @@
           console.log(mmips1p1GLTF);
           var mmips1p1Components = glTFModels[11].components;
           console.log(mmips1p1Components['grabbable'].initialized);*/
-           
+
         }
       });
 
@@ -254,6 +256,7 @@
 
         },
       });*/
+
     </script>
     <script>
       /*AFRAME.registerComponent('rotate-denture', {
@@ -288,6 +291,57 @@
 
         },
       });*/
+
+    </script>
+    <script>
+      AFRAME.registerComponent('rotate-patient-legs', {
+        schema: {
+          /*x_val: {
+            type: 'number',
+            default: 0
+          },
+          y_val: {
+            type: 'number',
+            default: 0
+          },*/
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+
+        init: function() {
+
+          const el = this.el;
+          el.addEventListener('model-loaded', () => {
+            var sceneEl = document.querySelector('a-scene');
+            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
+            var entityPatient = glTFModels[6]
+
+            var patientObj = entityPatient.getObject3D('mesh');
+            console.log("The patient mesh hierarchy is", patientObj.children[0].children[0].children[0].children[0].children[0].children[1].name, patientObj.children[0].children[0].children[0].children[0].children[0].children[2].name);
+
+            //const entityPatientLeftLeg = patientObj.children[0].children[0].children[0].children[0].children[0].children[1];
+            //const entityPatientRightLeg = patientObj.children[0].children[0].children[0].children[0].children[0].children[2];
+
+            const entityPatientLeftLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperleg_l');
+            const entityPatientRightLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperleg_r');
+            const leftLegRotation = entityPatientLeftLeg.rotation;
+            const rightLegRotation = entityPatientRightLeg.rotation;
+            
+            console.log("llr is: ", leftLegRotation);
+            console.log("rlr is: ", rightLegRotation);
+            
+            //var Pitch = parseInt(this.data.x_val);
+            var Roll = parseInt(this.data.z_val);
+            //var Roll = parseInt(this.data.z_val);
+            
+            entityPatientLeftLeg.rotateZ(THREE.MathUtils.radToDeg(Roll));
+            entityPatientRightLeg.rotateZ(THREE.MathUtils.radToDeg(Roll));
+          });
+        }
+      });
+
     </script>
   </head>
 
@@ -304,7 +358,7 @@
         <!-- Floor asset -->
         <a-asset-item id="Floor" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Floor/factory_concrete_floor.glb"></a-asset-item>
         <!-- Chair asset -->
-        <a-asset-item id="Dentist-Chair" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dentist chair/model/Dental chair Granum TS6830 Sonata N251210.glb"></a-asset-item>
+        <a-asset-item id="Dentist-Chair" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dentist chair/model/Dentist_chair.glb"></a-asset-item>
         <!-- Table asset -->
         <a-asset-item id="Table" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Table/table_derived.glb"></a-asset-item>
         <!-- Dentist asset -->
@@ -321,18 +375,18 @@
         <a-asset-item id="Office-Chair" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/office_chair.glb"></a-asset-item>
         <!-- Laptop asset-->
         <a-asset-item id="Laptop" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/laptop.glb"></a-asset-item>
-        
-         <!-- 3D models by University of Dundee -->         
-         <!--<a-asset-item id="MMIP1S1" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Models%20by%20University%20of%20Dundee/mandibular%20molar%20infection/pathway1/mmip1s1.glb" timeout="10000"></a-asset-item>
-         
-         <a-asset-item id="MMIP1S2" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Models%20by%20University%20of%20Dundee/mandibular%20molar%20infection/pathway1/mmip1s2.glb" timeout="10000"></a-asset-item>
-         
-         <a-asset-item id="MMIP1S3" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Models%20by%20University%20of%20Dundee/mandibular%20molar%20infection/pathway1/mmip1s3.glb" timeout="10000"></a-asset-item>
-         
-         <a-asset-item id="MMIP1S4" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Models%20by%20University%20of%20Dundee/mandibular%20molar%20infection/pathway1/mmip1s4.glb" timeout="10000"></a-asset-item>
-         
-         <a-asset-item id="MMIP1S5" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Models%20by%20University%20of%20Dundee/mandibular%20molar%20infection/pathway1/mmip1s5.glb" timeout="10000"></a-asset-item>-->
-         
+
+        <!-- 3D models by University of Dundee -->
+        <!--<a-asset-item id="MMIP1S1" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Models%20by%20University%20of%20Dundee/mandibular%20molar%20infection/pathway1/mmip1s1_compressed.glb"></a-asset-item>
+
+        <a-asset-item id="MMIP2S1" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Models%20by%20University%20of%20Dundee/mandibular%20molar%20infection/pathway1/mmip2s1_compressed.glb"></a-asset-item>
+
+        <a-asset-item id="MMIP3S1" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Models%20by%20University%20of%20Dundee/mandibular%20molar%20infection/pathway1/mmip3s1_compressed.glb"></a-asset-item>
+
+        <a-asset-item id="MMIP4S1" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Models%20by%20University%20of%20Dundee/mandibular%20molar%20infection/pathway1/mmip4s1_compressed.glb"></a-asset-item>
+
+        <a-asset-item id="MMIP5S1" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Models%20by%20University%20of%20Dundee/mandibular%20molar%20infection/pathway1/mmip5s1_compressed.glb"></a-asset-item>-->
+
         <!-- Drill asset -->
         <!--<a-asset-item id="Drill" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/drill/drill.FBX"></a-asset-item>-->
         <!-- Filler asset -->
@@ -343,26 +397,26 @@
           <a-mixin id="controllers-left" oculus-touch-controls="hand: left">
           </a-mixin>-->
         <img crossorigin="anonymous" id="Tooth-anatomy" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Tooth_Anatomy_1110x700.jpg">
-        
+
         <img crossorigin="anonymous" id="Implant-structure" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/istockphoto-1166198070-612x612.jpg">
-        
+
         <img crossorigin="anonymous" id="Patient-dentist" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Dentist.png">
-      
+
         <img crossorigin="anonymous" id="Advert1" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/retro1.jpg">
-        
+
         <img crossorigin="anonymous" id="Advert2" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/bbc8cf3ac1e50fff29f35e9a68ba54d4.jpg">
-        
+
         <img crossorigin="anonymous" id="Oral-cavity" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/oral-cavity.jpg">
-        
+
       </a-assets>
       <!-- Superhand component's left hand entity -->
       <!--<a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: left"></a-entity>-->
       <!-- Superhand component's right hand entity -->
       <!--<a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: right"></a-entity>-->
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="0 30 0" scale="0.85 0.85 0.85" position="-1.55 1.05 -2.15" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf class="grabbable" rotate-sickle="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="0 30 0" scale="0.85 0.85 0.85" position="1.35 0.825 -1.55" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf class="grabbable" rotate-sickle="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
       <!-- Denture glTF -->
-      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-1.45 0.870 -2.15" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift rotate-denture="x_val: 0; y_val: 30; z_val: 60"></a-gltf-model>
+      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="1.35 0.825 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift rotate-denture="x_val: 0; y_val: 30; z_val: 60"></a-gltf-model>
       <!-- Room glTF -->
       <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5"></a-gltf-model>
       <!-- Dentist glTF -->
@@ -370,29 +424,29 @@
       <!-- Floor glTF -->
       <a-gltf-model id="floor" gltf-model="#Floor" rotation="0 90 0" scale="0.065 0.065 0.065" position="-0.85 0 -3"></a-gltf-model>
       <!-- Chair glTF -->
-      <a-gltf-model id="chair" gltf-model="#Dentist-Chair" rotation="0 -45 0" scale="2.75 2.75 2.75" position="-1.25 0.175 -2" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="chair" gltf-model="#Dentist-Chair" rotation="-90 90 0" scale="0.45 0.45 0.45" position="-1.85 0.25 -5.5" mesh-shadows></a-gltf-model>
       <!-- Patient glTF -->
-      <a-gltf-model id="patient" gltf-model="#Patient" rotation="-90 90 0" scale="0.75 0.75 0.75" position="-0.85 0.785 -2" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="patient" gltf-model="#Patient" rotation="-55.5 90 0" scale="0.75 0.75 0.75" position="-1.035 0.59 -2.1" mesh-shadows rotate-patient-legs="z_val: 43.5"></a-gltf-model>
       <!-- Table glTF -->
       <a-gltf-model id="table" gltf-model="#Table" rotation="0 -90 0" scale="0.235 0.235 0.235" position="1.285 0 -2" mesh-shadows></a-gltf-model>
       <!-- Scalpel glTF -->
-      <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 30 0" scale="0.45 0.45 0.45" position="-1.25 0.935 -2.15" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift rotate-scalpels="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
+      <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 30 0" scale="0.45 0.45 0.45" position="1.35 0.825 -1.55" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift rotate-scalpels="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
       <!-- Chair glTF-->
       <a-gltf-model id="office-chair" gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="1.085 0.15 -1.85" mesh-shadows></a-gltf-model>
       <!-- Laptop glTF-->
       <a-gltf-model id="laptop" gltf-model="#Laptop" rotation="0 90 0" scale="0.4 0.4 0.4" position="1.35 0.81 -1.25" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
-      
+
       <!-- 3D models by University of Dundee -->
-      <!--<a-gltf-model id="mmip1s1" gltf-model="#MMIP1S1" rotation="0 0 0" scale="10.5 10.5 10.5" position="0.255 1.25 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf></a-gltf-model>-->
-      
-      <!--<a-gltf-model id="mmip1s2" gltf-model="#MMIP1S2" rotation="0 0 0" scale="10.5 10.5 10.5" position="0.55 1.25 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf></a-gltf-model>
-      
-      <a-gltf-model id="mmip1s3" gltf-model="#MMIP1S3" rotation="0 0 0" scale="10.5 10.5 10.5" position="0.85 1.25 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf></a-gltf-model>
-      
-      <a-gltf-model id="mmip1s4" gltf-model="#MMIP1S4" rotation="0 0 0" scale="10.5 10.5 10.5" position="1 1.25 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf></a-gltf-model>
-      
-      <a-gltf-model id="mmip1s5" gltf-model="#MMIP1S5" rotation="0 0 0" scale="10.5 10.5 10.5" position="1.25 1.25 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf></a-gltf-model>-->
-     
+      <!--<a-gltf-model id="mmip1s1" gltf-model="#MMIP1S1" rotation="0 0 0" scale="10.5 10.5 10.5" position="0.255 1.25 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf></a-gltf-model>
+
+      <a-gltf-model id="mmip2s1" gltf-model="#MMIP2S1" rotation="0 0 0" scale="10.5 10.5 10.5" position="0.55 1.25 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf></a-gltf-model>
+
+      <a-gltf-model id="mmip3s1" gltf-model="#MMIP3S1" rotation="0 0 0" scale="10.5 10.5 10.5" position="0.85 1.25 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf></a-gltf-model>
+
+      <a-gltf-model id="mmip4s1" gltf-model="#MMIP4S1" rotation="0 0 0" scale="10.5 10.5 10.5" position="1 1.25 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf></a-gltf-model>
+
+      <a-gltf-model id="mmip5s1" gltf-model="#MMIP5S1" rotation="0 0 0" scale="10.5 10.5 10.5" position="1.25 1.25 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf></a-gltf-model>-->
+
       <!-- Drill Fbx -->
       <!--<a-entity id="drill" fbx-model-loader="src: #Drill;" position="-1.25 0.965 -2.15" scale="0.001 0.001 0.001" rotation="0 -180 0" hoverable grabbable stretchable draggable droppable phase-shift>
         </a-entity>-->
@@ -405,7 +459,7 @@
       <a-image src="#Advert1" position="-2.86 1.25 -1.25" rotation="0 90 0" scale="1.25 1.25 1.25"></a-image>
       <a-image src="#Advert2" position="-2.86 1.25 -2.85" rotation="0 90 0" scale="1.25 1.25 1.25"></a-image>
       <a-image src="#Oral-cavity" position="-1.5 1.25 -3.935" rotation="0 -360 0" scale="1.05 1.05 1.05"></a-image>
-      
+
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
         <a-entity id="camera" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
