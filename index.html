@@ -500,7 +500,7 @@
     <a-scene physics="debug: true">
       <a-assets>
         <!-- To trigger collision events -->
-        <a-mixin id="collision-events" raycaster="showLine: false; objects:a-gltf-model" collision-filter="collisionForces: fals" static-body="shape: sphere; sphereRadius: 0.001" super-hands="colliderEvent: raycaster-intersection;
+        <a-mixin id="collision-events" raycaster="showLine: true; objects:a-gltf-model" collision-filter="collisionForces: fals" static-body="shape: sphere; sphereRadius: 0.001" super-hands="colliderEvent: raycaster-intersection;
           colliderEventProperty: els;
           colliderEndEvent:raycaster-intersection-cleared;
           colliderEndEventProperty: clearedEls;"></a-mixin>
@@ -557,7 +557,7 @@
       <!-- Superhand component's right hand entity -->
       <!--<a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: right"></a-entity>-->
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="0 30 0" scale="0.85 0.85 0.85" position="1.35 0.95 -1.55" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf class="grabbable" rotate-sickle="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="0 30 0" scale="0.85 0.85 0.85" position="1.35 1 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf class="grabbable" rotate-sickle="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
       <!-- Denture glTF -->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="1.35 0.825 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift rotate-denture="x_val: 0; y_val: 30; z_val: 60"></a-gltf-model>
       <!-- Room glTF -->
@@ -579,7 +579,7 @@
       <!-- Laptop glTF-->
       <a-gltf-model id="laptop" gltf-model="#Laptop" rotation="0 90 0" scale="0.4 0.4 0.4" position="1.35 0.81 -1.25" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
       <!-- Laptop glTF-->
-      <a-gltf-model id="plant" gltf-model="#Plant" rotation="0 90 0" scale="0.0075 0.0075 0.0075" position="1.35 0.835 -1.25" mesh-shadows phase-shift></a-gltf-model>
+      <a-gltf-model id="plant" gltf-model="#Plant" rotation="0 90 0" scale="0.0075 0.0075 0.0075" position="1.65 0.81 -1.15" mesh-shadows phase-shift></a-gltf-model>
 
       <!-- Drill Fbx -->
       <!--<a-entity id="drill" fbx-model-loader="src: #Drill;" position="-1.25 0.965 -2.15" scale="0.001 0.001 0.001" rotation="0 -180 0" hoverable grabbable stretchable draggable droppable phase-shift>
