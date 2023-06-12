@@ -328,15 +328,22 @@
             const entityPatientLeftLowerLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_lowerleg_l');
             const entityPatientRightLowerLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_lowerleg_r');
 
+            const entityPatientLeftUpperLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperleg_l');
+
+            const entityPatientRightUpperLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperleg_r');
+
             //var Pitch = parseInt(this.data.x_val);
-            var Roll = parseInt(this.data.z_val);
             //var Yaw = parseInt(this.data.y_val);
+            var Roll = parseInt(this.data.z_val);
 
             entityPatientLeftLeg.rotateZ(Roll + 0.261799);
             entityPatientRightLeg.rotateZ(Roll + 0.261799);
 
-            //entityPatientLeftLowerLeg.rotateZ(Roll);
-            //entityPatientRightLowerLeg.rotateZ(Roll);
+            entityPatientLeftUpperLeg.rotateZ(Roll + 0.174533);
+            entityPatientRightUpperLeg.rotateZ(Roll + 0.174533);
+
+            entityPatientLeftLowerLeg.rotateZ(Roll - 0.174533);
+            entityPatientRightLowerLeg.rotateZ(Roll - 0.174533);
 
           });
         }
@@ -400,6 +407,93 @@
       });
 
     </script>
+
+    <script>
+      AFRAME.registerComponent('rotate-spine', {
+        schema: {
+          /*x_val: {
+            type: 'number',
+            default: 0
+          },
+          y_val: {
+            type: 'number',
+            default: 0
+          },*/
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+
+        init: function() {
+
+          const el = this.el;
+          el.addEventListener('model-loaded', () => {
+            var sceneEl = document.querySelector('a-scene');
+            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
+            var entityPatient = glTFModels[6]
+
+            var patientObj = entityPatient.getObject3D('mesh');
+
+            const entityPatientSpine_01 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_01');
+            const entityPatientSpine_02 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_02');
+            const entityPatientSpine_03 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_03');
+
+
+            var Roll = parseInt(this.data.z_val);
+
+            entityPatientSpine_01.rotateZ(Roll - 0.436332);
+            entityPatientSpine_02.rotateZ(Roll + 0.174533);
+            //entityPatientSpine_03.rotateZ(Roll - 0.349066);
+
+          });
+        }
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('rotate-neck', {
+        schema: {
+          /*x_val: {
+            type: 'number',
+            default: 0
+          },
+          y_val: {
+            type: 'number',
+            default: 0
+          },*/
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+
+        init: function() {
+
+          const el = this.el;
+          el.addEventListener('model-loaded', () => {
+            var sceneEl = document.querySelector('a-scene');
+            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
+            var entityPatient = glTFModels[6]
+
+            var patientObj = entityPatient.getObject3D('mesh');
+
+            const entityPatientNeck = patientObj.getObjectByName('rp_nathan_animated_003_walking_neck');
+
+            const entityPatientHead = patientObj.getObjectByName('rp_nathan_animated_003_walking_head');
+
+            const entityPatientHeadEnd = patientObj.getObjectByName('rp_nathan_animated_003_walking_head_end');
+
+            var Roll = parseInt(this.data.z_val);
+
+            entityPatientNeck.rotateZ(Roll + 0.139626);
+            entityPatientHead.rotateZ(Roll + 0.349066);
+          });
+        }
+      });
+
+    </script>
   </head>
 
   <body>
@@ -432,6 +526,9 @@
         <a-asset-item id="Office-Chair" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/office_chair.glb"></a-asset-item>
         <!-- Laptop asset-->
         <a-asset-item id="Laptop" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/laptop.glb"></a-asset-item>
+        <!-- Plant asset-->
+        <a-asset-item id="Plant" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Plant/Plant.glb">
+        </a-asset-item>
 
         <!-- Drill asset -->
         <!--<a-asset-item id="Drill" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/drill/drill.FBX"></a-asset-item>-->
@@ -460,7 +557,7 @@
       <!-- Superhand component's right hand entity -->
       <!--<a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: right"></a-entity>-->
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="0 30 0" scale="0.85 0.85 0.85" position="1.35 0.825 -1.55" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf class="grabbable" rotate-sickle="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="0 30 0" scale="0.85 0.85 0.85" position="1.35 0.95 -1.55" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf class="grabbable" rotate-sickle="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
       <!-- Denture glTF -->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="1.35 0.825 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift rotate-denture="x_val: 0; y_val: 30; z_val: 60"></a-gltf-model>
       <!-- Room glTF -->
@@ -472,7 +569,7 @@
       <!-- Chair glTF -->
       <a-gltf-model id="chair" gltf-model="#Dentist-Chair" rotation="-90 90 0" scale="0.45 0.45 0.45" position="-1.85 0.25 -5.5" mesh-shadows></a-gltf-model>
       <!-- Patient glTF -->
-      <a-gltf-model id="patient" gltf-model="#Patient" rotation="-60.5 90 0" scale="0.75 0.75 0.75" position="-1.135 0.70 -2.1" mesh-shadows rotate-patient-legs="z_val: 0.785398" rotate-patient-hands="x_val: 0; y_val: 2.00713"></a-gltf-model>
+      <a-gltf-model id="patient" gltf-model="#Patient" rotation="-60.5 90 0" scale="0.75 0.75 0.75" position="-1.215 0.65 -2.1" mesh-shadows rotate-patient-legs="z_val: 0.785398" rotate-patient-hands="x_val: 0; y_val: 2.00713" rotate-spine="z_val:0.785398" rotate-neck="z_val:0.785398"></a-gltf-model>
       <!-- Table glTF -->
       <a-gltf-model id="table" gltf-model="#Table" rotation="0 -90 0" scale="0.235 0.235 0.235" position="1.285 0 -2" mesh-shadows></a-gltf-model>
       <!-- Scalpel glTF -->
@@ -481,6 +578,8 @@
       <a-gltf-model id="office-chair" gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="1.085 0.15 -1.85" mesh-shadows></a-gltf-model>
       <!-- Laptop glTF-->
       <a-gltf-model id="laptop" gltf-model="#Laptop" rotation="0 90 0" scale="0.4 0.4 0.4" position="1.35 0.81 -1.25" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
+      <!-- Laptop glTF-->
+      <a-gltf-model id="plant" gltf-model="#Plant" rotation="0 90 0" scale="0.0075 0.0075 0.0075" position="1.35 0.835 -1.25" mesh-shadows phase-shift></a-gltf-model>
 
       <!-- Drill Fbx -->
       <!--<a-entity id="drill" fbx-model-loader="src: #Drill;" position="-1.25 0.965 -2.15" scale="0.001 0.001 0.001" rotation="0 -180 0" hoverable grabbable stretchable draggable droppable phase-shift>
