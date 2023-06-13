@@ -533,15 +533,14 @@
         <a-asset-item id="Syringe" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/syringe/dental_syringe.glb">
         </a-asset-item>
 
-        <!-- Drill asset -->
-        <!--<a-asset-item id="Drill" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/drill/drill.FBX"></a-asset-item>-->
-        <!-- Filler asset -->
-        <!--<a-asset-item id="Filler" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/filler/Final_filler_derived.glb"></a-asset-item>-->
-        <!--<a-mixin id="controllers-right" oculus-touch-controls="hand: right">
-          </a-mixin>
-          
-          <a-mixin id="controllers-left" oculus-touch-controls="hand: left">
-          </a-mixin>-->
+        <!-- Dental Mirror asset -->
+        <a-asset-item id="Mirror" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental-mirror/dental_mirror.glb">
+        </a-asset-item>
+
+        <!-- Compactor asset -->
+        <a-asset-item id="Compactor" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/compactor/compactor.glb">
+        </a-asset-item>
+
         <img crossorigin="anonymous" id="Tooth-anatomy" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Tooth_Anatomy_1110x700.jpg">
 
         <img crossorigin="anonymous" id="Implant-structure" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/istockphoto-1166198070-612x612.jpg">
@@ -555,42 +554,51 @@
         <img crossorigin="anonymous" id="Oral-cavity" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/oral-cavity.jpg">
 
       </a-assets>
-      <!-- Superhand component's left hand entity -->
-      <!--<a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: left"></a-entity>-->
-      <!-- Superhand component's right hand entity -->
-      <!--<a-entity sphere-collider="objects: a-gltf-model" static-body="shape: sphere; sphereRadius: 0.02" super-hands hand-controls="hand: right"></a-entity>-->
+
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="0 30 0" scale="0.85 0.85 0.85" position="1.35 1 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf class="grabbable" rotate-sickle="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 90 0" scale="1 1 1" position="1.45 0.85 -2.15" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf class="grabbable" rotate-sickle="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
+
       <!-- Denture glTF -->
-      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="1.35 0.825 -1.75" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift rotate-denture="x_val: 0; y_val: 30; z_val: 60"></a-gltf-model>
+      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 90 0" scale="0.0065 0.0065 0.0065" position="1.65 0.79 -2.05" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift rotate-denture="x_val: 0; y_val: 30; z_val: 60"></a-gltf-model>
+
       <!-- Room glTF -->
       <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5"></a-gltf-model>
+      
       <!-- Dentist glTF -->
       <a-gltf-model id="dentist" gltf-model="#Dentist" rotation="0 30 0" scale="0.45 0.45 0.45" position="-0.45 1.485 -1.5" animate mesh-shadows></a-gltf-model>
+
       <!-- Floor glTF -->
       <a-gltf-model id="floor" gltf-model="#Floor" rotation="0 90 0" scale="0.065 0.065 0.065" position="-0.85 0 -3"></a-gltf-model>
+
       <!-- Chair glTF -->
       <a-gltf-model id="chair" gltf-model="#Dentist-Chair" rotation="-90 90 0" scale="0.45 0.45 0.45" position="-1.85 0.25 -5.5" mesh-shadows></a-gltf-model>
+
       <!-- Patient glTF -->
       <a-gltf-model id="patient" gltf-model="#Patient" rotation="-60.5 90 0" scale="0.75 0.75 0.75" position="-1.215 0.65 -2.1" mesh-shadows rotate-patient-legs="z_val: 0.785398" rotate-patient-hands="x_val: 0; y_val: 2.00713" rotate-spine="z_val:0.785398" rotate-neck="z_val:0.785398"></a-gltf-model>
+
       <!-- Table glTF -->
       <a-gltf-model id="table" gltf-model="#Table" rotation="0 -90 0" scale="0.235 0.235 0.235" position="1.285 0 -2" mesh-shadows></a-gltf-model>
+
       <!-- Scalpel glTF -->
-      <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 30 0" scale="0.45 0.45 0.45" position="1.35 0.825 -1.55" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift rotate-scalpels="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
+      <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 90 0" scale="0.45 0.45 0.45" position="1.55 0.825 -2" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift rotate-scalpels="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
+
       <!-- Chair glTF-->
       <a-gltf-model id="office-chair" gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="1.085 0.15 -1.85" mesh-shadows></a-gltf-model>
+
       <!-- Laptop glTF-->
       <a-gltf-model id="laptop" gltf-model="#Laptop" rotation="0 90 0" scale="0.4 0.4 0.4" position="1.35 0.81 -1.25" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
-      <!-- Laptop glTF-->
-      <a-gltf-model id="plant" gltf-model="#Plant" rotation="0 90 0" scale="0.0075 0.0075 0.0075" position="1.65 0.81 -1.15" mesh-shadows phase-shift></a-gltf-model>
-      <!-- Syringe glTF-->
-      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 0 0" scale="0.002 0.002 0.002" position="1.45 0.88 -1.85" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift rotate-denture="x_val: 0; y_val: 30; z_val: 60"></a-gltf-model>
 
-      <!-- Drill Fbx -->
-      <!--<a-entity id="drill" fbx-model-loader="src: #Drill;" position="-1.25 0.965 -2.15" scale="0.001 0.001 0.001" rotation="0 -180 0" hoverable grabbable stretchable draggable droppable phase-shift>
-        </a-entity>-->
-      <!-- Filler glTF -->
-      <!--<a-entity id="filler" gltf-model="#Filler" rotation="0 30 0" scale="0.045 0.045 0.045" position="-1.35 0.965 -2.15" hoverable grabbable stretchable draggable droppable phase-shift></a-entity>-->
+      <!-- Plant glTF-->
+      <a-gltf-model id="plant" gltf-model="#Plant" rotation="0 90 0" scale="0.0075 0.0075 0.0075" position="1.65 0.81 -1.15" mesh-shadows phase-shift></a-gltf-model>
+
+      <!-- Syringe glTF-->
+      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 90 0" scale="0.0025 0.0025 0.0025" position="1.45 0.83 -1.95" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
+
+      <!-- Mirror glTF-->
+      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 270 0" scale="1.5 1.5 1.5" position="1.45 0.83 -1.90" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
+
+      <!-- Compactor glTF-->
+      <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 90 0" scale="0.5 0.5 0.5" position="1.45 0.80 -1.80" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
 
       <a-image src="#Tooth-anatomy" position="1.985 1.25 -3.25" rotation="0 -90 0" scale="1.25 1.25 1.25"></a-image>
       <a-image src="#Implant-structure" position="1.985 1.25 0.25" rotation="0 -90 0" scale="1.25 1.25 1.25"></a-image>
@@ -604,9 +612,6 @@
         <a-entity id="camera" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
         <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: left" mixin="collision-events" collision-objects></a-entity>
         <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: right" mixin="collision-events"></a-entity>
-        <!-- Uncomment to add the hand controllers to the scene -->
-        <!--<a-entity id="rhand" mixin="controllers-right collision-events"></a-entity>
-          <a-entity id="lhand" mixin="controllers-left collision-events"></a-entity>-->
       </a-entity>
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.4; distance: 0" position="8 10 18"></a-entity>
