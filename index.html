@@ -9,7 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/super-hands/dist/super-hands.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/gftruj/webzamples@master/aframe/fbx/dist/fbx-model.js"></script>
     <script src="https://unpkg.com/aframe-gltf-part-component/dist/aframe-gltf-part-component.min.js"></script>
-    <!-- Custom components -->
+    <!-- Custom component for camera logging -->
     <script>
       AFRAME.registerComponent('camera-logger', {
         schema: {
@@ -45,6 +45,8 @@
       });
 
     </script>
+
+    <!-- component to animate the meshes -->
     <script>
       AFRAME.registerComponent('animate', {
         init: function() {
@@ -65,6 +67,8 @@
       })
 
     </script>
+
+    <!-- component for mesh shadows -->
     <script>
       AFRAME.registerComponent('mesh-shadows', {
         init: function() {
@@ -88,6 +92,8 @@
       });
 
     </script>
+
+    <!-- component for superhands to hold the entities -->
     <script>
       AFRAME.registerComponent('phase-shift', {
         init: function() {
@@ -106,6 +112,8 @@
       });
 
     </script>
+
+    <!-- component to grab the glTF -->
     <script>
       AFRAME.registerComponent('grab-gltf', {
         init: function() {
@@ -148,6 +156,8 @@
       });
 
     </script>
+
+    <!-- component to obtain list of the colliding objects with superhands -->
     <script>
       AFRAME.registerComponent('collision-objects', {
         init: function() {
@@ -188,6 +198,8 @@
       });
 
     </script>
+
+    <!-- component to rotate sickle probe -->
     <script>
       AFRAME.registerComponent('rotate-sickle', {
         schema: {
@@ -224,6 +236,7 @@
 
     </script>
 
+    <!-- component to rotate scalpels -->
     <script>
       AFRAME.registerComponent('rotate-scalpels', {
         scehema: {
@@ -259,6 +272,8 @@
       });
 
     </script>
+
+    <!-- component to rotate denture -->
     <script>
       AFRAME.registerComponent('rotate-denture', {
         scehema: {
@@ -294,6 +309,8 @@
       });
 
     </script>
+
+    <!-- component to rotate the legs of the patient -->
     <script>
       AFRAME.registerComponent('rotate-patient-legs', {
         schema: {
@@ -355,6 +372,7 @@
 
     </script>
 
+    <!-- component to rotate the hands of the patient -->
     <script>
       AFRAME.registerComponent('rotate-patient-hands', {
         schema: {
@@ -412,6 +430,8 @@
 
     </script>
 
+
+    <!-- component to rotate the neck and spine of the patient -->
     <script>
       AFRAME.registerComponent('rotate-spine', {
         schema: {
@@ -456,6 +476,8 @@
 
     </script>
 
+
+    <!-- component for frustum culling of the patient entity -->
     <script>
       AFRAME.registerComponent('rotate-neck', {
         schema: {
@@ -499,6 +521,7 @@
 
     </script>
 
+    <!-- component for frustum culling of the dentist entity -->
     <script>
       AFRAME.registerComponent('frustum-culling-disabled', {
         init: function() {
@@ -548,10 +571,23 @@
       });
 
     </script>
+
+    <!-- component to appear on click -->
+    <script>
+      AFRAME.registerComponent('implant-structure', {
+        init: function() {
+          this.el.addEventListener("click", (e) => {
+            let appear = document.querySelector("#Implant");
+            appear.setAttribute("visible", !appear.getAttribute("visible"));
+          });
+        },
+      });
+
+    </script>
   </head>
 
   <body>
-    <a-scene physics="debug: true">
+    <a-scene physics="debug: true" cursor="rayOrigin: mouse">
       <a-assets timeout="30000">
 
         <!-- To trigger collision events -->
@@ -597,6 +633,9 @@
         <!-- Sickle Pro asset -->
         <a-asset-item id="Sickle" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sickle/sickle_prob.glb"></a-asset-item>
 
+        <!-- Implant asset -->
+        <a-asset-item id="Implant" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Implant/implant.glb"></a-asset-item>
+
         <!-- Syringe asset -->
         <a-asset-item id="Syringe" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/syringe/dental_syringe.glb"></a-asset-item>
 
@@ -607,17 +646,17 @@
         <a-asset-item id="Compactor" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/compactor/compactor.glb"></a-asset-item>
 
         <!-- Image assets -->
-        <img crossorigin="anonymous" id="Tooth-anatomy" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Tooth_Anatomy_1110x700.jpg">
+        <img crossorigin="anonymous" id="tooth-anatomy" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Tooth_Anatomy_1110x700.jpg">
 
-        <img crossorigin="anonymous" id="Implant-structure" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/istockphoto-1166198070-612x612.jpg">
+        <img crossorigin="anonymous" id="implant-structure" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/istockphoto-1166198070-612x612.jpg">
 
-        <img crossorigin="anonymous" id="Patient-dentist" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Dentist.png">
+        <img crossorigin="anonymous" id="patient-dentist" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Dentist.png">
 
-        <img crossorigin="anonymous" id="Advert1" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/retro1.jpg">
+        <img crossorigin="anonymous" id="advert1" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/retro1.jpg">
 
-        <img crossorigin="anonymous" id="Advert2" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/bbc8cf3ac1e50fff29f35e9a68ba54d4.jpg">
+        <img crossorigin="anonymous" id="advert2" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/bbc8cf3ac1e50fff29f35e9a68ba54d4.jpg">
 
-        <img crossorigin="anonymous" id="Oral-cavity" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/oral-cavity.jpg">
+        <img crossorigin="anonymous" id="oral-cavity" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/oral-cavity.jpg">
 
       </a-assets>
 
@@ -666,13 +705,16 @@
       <!-- Plant glTF-->
       <a-gltf-model id="plant" gltf-model="#Plant" rotation="0 90 0" scale="0.0075 0.0075 0.0075" position="1.65 0.81 -1.15" mesh-shadows phase-shift></a-gltf-model>
 
+      <!-- Implant glTF-->
+      <a-gltf-model id="implant" gltf-model="#Implant" rotation="0 90 0" scale="0.5 0.5 0.5" position="1.985 1.25 0.25" mesh-shadows phase-shift visible="false"></a-gltf-model>
+
       <!-- Image -->
-      <a-image src="#Tooth-anatomy" position="1.985 1.25 -3.25" rotation="0 -90 0" scale="1.25 1.25 1.25"></a-image>
-      <a-image src="#Implant-structure" position="1.985 1.25 0.25" rotation="0 -90 0" scale="1.25 1.25 1.25"></a-image>
-      <a-image src="#Patient-dentist" position="-2.86 1.25 0.25" rotation="0 90 0" scale="1.25 1.25 1.25"></a-image>
-      <a-image src="#Advert1" position="-2.86 1.25 -1.25" rotation="0 90 0" scale="1.25 1.25 1.25"></a-image>
-      <a-image src="#Advert2" position="-2.86 1.25 -2.85" rotation="0 90 0" scale="1.25 1.25 1.25"></a-image>
-      <a-image src="#Oral-cavity" position="-1.5 1.25 -3.935" rotation="0 -360 0" scale="1.05 1.05 1.05"></a-image>
+      <a-image src="#tooth-anatomy" position="1.985 1.25 -3.25" rotation="0 -90 0" scale="1.25 1.25 1.25"></a-image>
+      <a-image src="#implant-structure" implant-structure position="1.985 1.25 0.25" rotation="0 -90 0" scale="1.25 1.25 1.25"></a-image>
+      <a-image src="#patient-dentist" position="-2.86 1.25 0.25" rotation="0 90 0" scale="1.25 1.25 1.25"></a-image>
+      <a-image src="#advert1" position="-2.86 1.25 -1.25" rotation="0 90 0" scale="1.25 1.25 1.25"></a-image>
+      <a-image src="#advert2" position="-2.86 1.25 -2.85" rotation="0 90 0" scale="1.25 1.25 1.25"></a-image>
+      <a-image src="#oral-cavity" position="-1.5 1.25 -3.935" rotation="0 -360 0" scale="1.05 1.05 1.05"></a-image>
 
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
