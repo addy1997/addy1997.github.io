@@ -903,8 +903,8 @@
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
         <a-entity id="camera" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
-        <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: left" mixin="collision-events" collision-objects></a-entity>
-        <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: right" mixin="collision-events"></a-entity>
+        <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-tracking-controls="hand: left" mixin="collision-events" collision-objects></a-entity>
+        <a-entity sphere-collider="objects: a-gltf-model" super-hands hand-tracking-controls="hand: right" mixin="collision-events"></a-entity>
       </a-entity>
 
       <!-- Lighting -->
