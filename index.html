@@ -360,18 +360,18 @@
             entityPatientLeftLeg.rotateZ(Roll + 0.261799);
             entityPatientRightLeg.rotateZ(Roll + 0.261799);
 
-						//Default setting
-            
+            //Default setting
+
             //entityPatientLeftUpperLeg.rotateZ(Roll + 0.174533);
             //entityPatientRightUpperLeg.rotateZ(Roll + 0.174533);
-            
+
             //entityPatientLeftLowerLeg.rotateZ(Roll - 0.174533);
             //entityPatientRightLowerLeg.rotateZ(Roll - 0.174533);
-            
+
             //Updated setting
             entityPatientLeftLowerLeg.rotateZ(Roll - 0.01658063);
             entityPatientRightLowerLeg.rotateZ(Roll - 0.01658063);
-            
+
             entityPatientLeftUpperLeg.rotateZ(Roll + 0.20944);
             entityPatientRightUpperLeg.rotateZ(Roll + 0.20944);
 
@@ -434,15 +434,15 @@
             //Default setting
             //entityPatientLeftUpperArm.rotateY(Yaw - 0.436332);
             //entityPatientRightUpperArm.rotateY(Yaw - 0.436332);
-            
+
             //Updated setting
             entityPatientLeftUpperArm.rotateY(Yaw - 0.523599);
             entityPatientRightUpperArm.rotateY(Yaw - 0.523599);
-            
+
             entityPatientLeftUpperArm.rotateZ(Pitch - 0.261799);
             entityPatientRightUpperArm.rotateZ(Pitch - 0.261799);
-            
-            
+
+
           });
         }
       });
@@ -489,7 +489,7 @@
             //entityPatientSpine_01.rotateZ(Roll - 0.436332);
             //entityPatientSpine_02.rotateZ(Roll + 0.174533);
             //entityPatientSpine_03.rotateZ(Roll - 0.349066);
-            
+
             //Updated setting
             entityPatientSpine_01.rotateZ(Roll - 0.820305);
             entityPatientSpine_02.rotateZ(Roll + 0.0872665);
@@ -540,7 +540,7 @@
             //Default setting
             //entityPatientNeck.rotateZ(Roll + 0.139626);
             //entityPatientHead.rotateZ(Roll + 0.349066);
-            
+
             //Updated setting
             entityPatientNeck.rotateZ(Roll + 0.226893);
             entityPatientHead.rotateZ(Roll + 0.436332);
@@ -600,6 +600,64 @@
       });
 
     </script>
+
+    <script>
+      AFRAME.registerComponent('rotatable', {
+        dependencies: ['grabbable', 'stretchable', 'draggable'],
+        init: function() {
+          this.el.addEventListener('grab-start', (e) => this.start(e));
+          this.el.addEventListener('grab-end', (e) => this.end(e));
+          this.grabOffsetMatrix = new THREE.Matrix4();
+          this.parentOffsetMatrix = new THREE.Matrix4();
+        },
+        tick: (function() {
+          const grabeeMatrix = new window.THREE.Matrix4()
+          const ignoreScale = new window.THREE.Vector3()
+          return function() {
+            if (this.grabbed) {
+              grabeeMatrix.multiplyMatrices(
+                this.grabber.object3D.matrixWorld,
+                this.grabOffsetMatrix
+              )
+              grabeeMatrix.multiplyMatrices(this.parentOffsetMatrix, grabeeMatrix)
+              // using decomp over direct Object3D.matrix manipulation
+              // keeps in sync with other A-Frame components
+              grabeeMatrix.decompose(
+                this.el.object3D.position,
+                this.el.object3D.quaternion,
+                // let stretchable manage scale
+                ignoreScale
+              )
+            }
+          }
+        })(),
+
+        resetGrabber: function() {
+          if (!this.grabber) {
+            return false
+          }
+          this.grabber.object3D.updateMatrixWorld()
+          this.el.object3D.parent.updateMatrixWorld()
+          // save difference between grabber world matrix and grabee world matrix
+          this.grabOffsetMatrix.copy(this.grabber.object3D.matrixWorld);
+          this.grabOffsetMatrix.invert();
+          this.grabOffsetMatrix.multiply(this.el.object3D.matrixWorld);
+          // save difference between grabee world and local matrices
+          this.parentOffsetMatrix.copy(this.el.object3D.parent.matrixWorld);
+          this.parentOffsetMatrix.invert();
+          return true;
+        },
+        start: function(e) {
+          this.grabbed = true;
+          this.grabber = e.detail.hand;
+          this.resetGrabber();
+        },
+        end: function(e) {
+          this.grabbed = false;
+        }
+      });
+
+    </script>
   </head>
 
   <body>
@@ -654,31 +712,41 @@
 
         <!-- Compactor asset -->
         <a-asset-item id="Compactor" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/compactor/compactor.glb"></a-asset-item>
-        
+
         <!-- Trolley asset -->
         <a-asset-item id="Trolley" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/medical%20cart/medical_cart.glb"></a-asset-item>
-        
+
         <!-- Cabinet asset -->
         <a-asset-item id="Cabinet" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_cabinet/cabinet.glb"></a-asset-item>
+
+        <!-- Partition asset -->
+        <a-asset-item id="Partition" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/partitions/blue_partition.glb"></a-asset-item>
+
+        <!-- Fire extinguisher asset -->
+        <a-asset-item id="Fire-extinguisher" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/fire_extinguisher/fire_extinguisher.glb"></a-asset-item>
+
+        <!-- Dustbin asset -->
+        <a-asset-item id="Dustbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dustbin/dustbin.glb"></a-asset-item>
+
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.75 -1.68" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift grab-gltf class="grabbable" rotate-sickle="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.75 -1.68" hoverable grabbable stretchable draggable droppable rotatable mesh-shadows phase-shift grab-gltf class="grabbable" rotate-sickle="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
 
       <!-- Denture glTF -->
-      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift rotate-denture="x_val: 0; y_val: 30; z_val: 60"></a-gltf-model>
+      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" hoverable grabbable stretchable draggable droppable rotatable mesh-shadows phase-shift rotate-denture="x_val: 0; y_val: 30; z_val: 60"></a-gltf-model>
 
       <!-- Scalpel glTF -->
-      <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="-1 0.72 -1.65" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift rotate-scalpels="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
+      <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="-1 0.72 -1.65" hoverable grabbable stretchable draggable droppable rotatable mesh-shadows phase-shift rotate-scalpels="x_val: 30; y_val: 60; z_val: 30"></a-gltf-model>
 
       <!-- Syringe glTF-->
-      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="-0.82 0.72 -1.59" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
+      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="-0.82 0.72 -1.59" hoverable grabbable stretchable draggable droppable rotatable mesh-shadows phase-shift></a-gltf-model>
 
       <!-- Mirror glTF-->
-      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.72 -1.65" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
+      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.72 -1.65" hoverable grabbable stretchable draggable droppable rotatable mesh-shadows phase-shift></a-gltf-model>
 
       <!-- Compactor glTF-->
-      <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="-0.75 0.72 -1.65" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
+      <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="-0.75 0.72 -1.65" hoverable grabbable stretchable draggable droppable rotatable mesh-shadows phase-shift></a-gltf-model>
 
       <!-- Room glTF -->
       <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5"></a-gltf-model>
@@ -694,24 +762,36 @@
 
       <!-- Patient glTF -->
       <a-gltf-model id="patient" gltf-model="#Patient" rotation="-60.5 90 0" scale="0.75 0.75 0.75" position="-1.1 0.35 -3" mesh-shadows rotate-patient-legs="z_val: 0.785398" rotate-patient-hands="x_val: 0; y_val: 2.00713" rotate-spine="z_val:0.785398" rotate-neck="z_val:0.785398"></a-gltf-model>
-      
+
       <!-- Table glTF -->
       <a-gltf-model id="table" gltf-model="#Table" rotation="0 90 0" scale="0.235 0.235 0.235" position="1.35 0 -1.45" mesh-shadows></a-gltf-model>
 
       <!-- Office Chair glTF-->
       <a-gltf-model id="office-chair" gltf-model="#Office-Chair" rotation="0 -90 0" scale="0.055 0.055 0.055" position="1.7 0.15 -1.45" mesh-shadows></a-gltf-model>
-      
+
       <!-- Office Chair2 glTF-->
       <a-gltf-model id="office-chair2" gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="0.25 0.15 -1.65" mesh-shadows></a-gltf-model>
 
       <!-- Laptop glTF-->
-      <a-gltf-model id="laptop" gltf-model="#Laptop" position="1.35 0.81 -1.65" rotation="0 -90 0" scale="0.4 0.4 0.4" hoverable grabbable stretchable draggable droppable mesh-shadows phase-shift></a-gltf-model>
-      
+      <a-gltf-model id="laptop" gltf-model="#Laptop" position="1.35 0.81 -1.65" rotation="0 -90 0" scale="0.4 0.4 0.4" hoverable grabbable stretchable draggable droppable rotatable mesh-shadows phase-shift></a-gltf-model>
+
       <!-- Trolley glTF-->
       <a-gltf-model id="trolley" gltf-model="#Trolley" rotation="0 180 0" scale="0.0075 0.0075 0.0075" position="-0.85 0.12 -1.70" mesh-shadows phase-shift></a-gltf-model>
-      
+
       <!-- Cabinet glTF-->
       <a-gltf-model id="cabinet" gltf-model="#Cabinet" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.12 -4" mesh-shadows phase-shift></a-gltf-model>
+
+      <!-- Fire extinguisher glTF-->
+      <a-gltf-model id="fire-extinguisher" gltf-model="#Fire-extinguisher" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.9 -3.75" mesh-shadows phase-shift></a-gltf-model>
+
+      <!-- Dustbin glTF-->
+      <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.10 -1.15" mesh-shadows phase-shift></a-gltf-model>
+
+      <!-- Partition glTF-->
+      <a-gltf-model id="partition" gltf-model="#Partition" rotation="0 -45 0" scale="0.825 0.825 0.825" position="5.5 0.30 1.75" mesh-shadows phase-shift></a-gltf-model>
+
+      <!-- Partition 2 glTF-->
+      <a-gltf-model id="partition2" gltf-model="#Partition" rotation="0 -135 0" scale="0.825 0.825 0.825" position="-5.5 0.30 7.5" mesh-shadows phase-shift visible="false"></a-gltf-model>
 
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
@@ -729,3 +809,4 @@
   </body>
 
 </html>
+
