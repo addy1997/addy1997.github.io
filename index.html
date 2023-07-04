@@ -660,64 +660,34 @@
     </script>
 
     <script>
-      AFRAME.registerComponent("pinchable", {
+      AFRAME.registerComponent('pinchable', {
         schema: {
           pinchDistance: {
             default: 0.1
-          },
+          }
         },
-        dependencies: ['grabbable', 'stretchable', 'draggable'],
+
         init: function() {
-          this.el.addEventListener('pinch-start', this.onPinchStart);
-          this.el.addEventListener('pinch-moved', this.onPinchMoved);
-          this.el.addEventListener('pinch-end', this.onPinchEnd);
-          this.pinched = false;
-          this.isGrabbed = false;
+          var sceneEl = this.el.sceneEl;
           this.worldPosition = new THREE.Vector3();
-          this.pinchOffsetMatrix = new THREE.Matrix4();
+          this.bindMethods();
+          this.pinched = false;
+          sceneEl.addEventListener('pinchstarted', this.onPinchStarted);
+          sceneEl.addEventListener('pinchended', this.onPinchEnded);
+          sceneEl.addEventListener('pinchmoved', this.onPinchMoved);
         },
 
-        tick: function(evt) {
-          const ignoreScale = new window.THREE.Vector3();
-          const pincheMatrix = new window.THREE.Matrix4();
-          const grabber = this.el.hand;
-          if (this.isGrabbed && this.pinched && evt.detail.gestureName == "Grip") {
-            pincheMatrix.multiplyMatrices(this.grabber.object3D.matrixWorld, this.pitchOffsetMatrix);
-
-            pincheMatrix.decompose(
-              this.el.object3D.position,
-              this.el.object3D.quaternion,
-              // let stretchable manage scale
-              ignoreScale
-            );
-          }
+        bindMethods: function() {
+          this.onPinchStarted = this.onPinchStarted.bind(this);
+          this.onPinchEnded = this.onPinchEnded.bind(this);
+          this.onPinchMoved = this.onPinchMoved.bind(this);
         },
 
-        onPinchStart: function(evt) {
+        onPinchStarted: function(evt) {
           var pinchDistance = this.calculatePinchDistance(evt.detail.position);
           if (pinchDistance < this.data.pinchDistance) {
-            this.el.emit("pinch-start");
-          }
-        },
-
-        onPinchEnd: function(evt) {
-          if (this.pinched) {
-            this.pinched = false;
-            this.el.emit("pinch-end");
-          }
-        },
-
-        onPinchMoved: function(evt) {
-          var el = this.el;
-          var pinchDistance = this.calculatePinchDistance(evt.detail.position);
-          if (!this.pinched) {
-            return;
-          }
-          if (pinchDistance < this.data.pinchDistance) {
-            el.emit("pinch-moved", evt.detail);
-          } else {
-            this.pinched = false;
-            el.emit("pinch-end");
+            this.el.emit('pinchedstarted');
+            this.pinched = true;
           }
         },
 
@@ -735,7 +705,27 @@
           return pinchDistance;
         },
 
-      })
+        onPinchEnded: function(evt) {
+          if (this.pinched) {
+            this.pinched = false;
+            this.el.emit('pinchedended');
+          }
+        },
+
+        onPinchMoved: function(evt) {
+          var el = this.el;
+          var pinchDistance = this.calculatePinchDistance(evt.detail.position);
+          if (!this.pinched) {
+            return;
+          }
+          if (pinchDistance < this.data.pinchDistance) {
+            el.emit('pinchedmoved', evt.detail);
+          } else {
+            this.pinched = false;
+            el.emit('pinchedended');
+          }
+        }
+      });
 
     </script>
   </head>
@@ -892,4 +882,3 @@
   </body>
 
 </html>
-
