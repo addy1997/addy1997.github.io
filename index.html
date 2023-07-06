@@ -666,7 +666,7 @@
 
         <!-- To trigger collision events -->
 
-        <a-mixin id="collision-events" raycaster="showLine: false; objects:a-gltf-model" collision-filter="collisionForces: fals" static-body="shape: sphere; sphereRadius: 0.001" super-hands="colliderEvent: raycaster-intersection;
+        <a-mixin id="collision-events" raycaster="showLine: true; objects:a-gltf-model" collision-filter="collisionForces: fals" static-body="shape: sphere; sphereRadius: 0.01" super-hands="colliderEvent: raycaster-intersection;
           colliderEventProperty: els;
           colliderEndEvent:raycaster-intersection-cleared;
           colliderEndEventProperty: clearedEls;"></a-mixin>
