@@ -6,7 +6,7 @@
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@67d1130/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
-    
+
     <!-- Custom component for camera logging -->
     <script>
       AFRAME.registerComponent('camera-logger', {
@@ -499,6 +499,30 @@
 
     </script>
 
+    <script>
+      AFRAME.registerComponent('thumbstick-logging', {
+        init: function() {
+          this.el.addEventListener('thumbstickmoved', this.logThumbstick);
+        },
+        logThumbstick: function(evt) {
+          if (evt.detail.y > 0.95) {
+            console.log("DOWN");
+          }
+          if (evt.detail.y < -0.95) {
+            console.log("UP");
+          }
+          if (evt.detail.x < -0.95) {
+            console.log("LEFT");
+          }
+          if (evt.detail.x > 0.95) {
+            console.log("RIGHT");
+          }
+        }
+      });
+
+    </script>
+
+
   </head>
 
   <body>
@@ -580,7 +604,7 @@
       <!-- Cabinet glTF-->
       <a-gltf-model id="cabinet" gltf-model="#Cabinet" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.12 -4" mesh-shadows></a-gltf-model>
       <!-- Fire extinguisher glTF-->
-      <a-gltf-model id="fire-extinguisher" gltf-model="#Fire-extinguisher" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.9 -3.75" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="fire-extinguisher" gltf-model="#Fire-extinguisher" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.9 -3.81" mesh-shadows></a-gltf-model>
       <!-- Dustbin glTF-->
       <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.089 -1.15" mesh-shadows></a-gltf-model>
       <!-- Partition glTF-->
@@ -590,8 +614,8 @@
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
         <a-entity id="camera" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
-        <a-entity id="leftController" sphere-collider="objects: a-gltf-model" oculus-touch-controls="hand: left; model: true;" visible="true"></a-entity>
-        <a-entity id="rightController" sphere-collider="objects: a-gltf-model" oculus-touch-controls="hand: right; model: true;" visible="true"></a-entity>
+        <a-entity id="leftController" oculus-touch-controls="hand: left; model: true;" visible="true" thumbstick-logging></a-entity>
+        <a-entity id="rightController" oculus-touch-controls="hand: right; model: true;" visible="true" thumbstick-logging></a-entity>
       </a-entity>
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.4; distance: 0" position="8 10 18"></a-entity>
