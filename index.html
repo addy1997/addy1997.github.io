@@ -609,11 +609,11 @@
       </a-entity>-->
 
       <a-entity id="cameraRig" movement-controls="speed: 1.0">
-        <a-entity camera position="-0.74 1.25 -0.26" wasd-controls look-controls="pointerLockEnabled:true;"></a-entity>
+        <a-entity id="cameraHead" camera position="-0.74 1.25 -0.26" wasd-controls look-controls="pointerLockEnabled:true;"></a-entity>
         <!-- hand controls -->
-        <a-entity id="leftController" teleport-controls="collisionEntities: #floorgeometry; cameraRig: #cameraRig; startEvents: teleportstart; endEvents: teleportend; button: grip; curveShootingSpeed: 18; landingMaxAngle: 60" oculus-touch-controls="hand: left">
+        <a-entity id="leftController" teleport-controls="collisionEntities: #Room; teleportOrigin: #cameraHead; cameraRig: #cameraRig; startEvents: teleportstart; endEvents: teleportend; button: grip; curveShootingSpeed: 18; landingMaxAngle: 60" oculus-touch-controls="hand: left">
         </a-entity>
-        <a-entity id="rightController" teleport-controls="collisionEntities: #floorgeometry; cameraRig: #cameraRig; startEvents: teleportstart; endEvents: teleportend; button: grip; curveShootingSpeed: 18; landingMaxAngle: 60" oculus-touch-controls="hand: right">
+        <a-entity id="rightController" teleport-controls="collisionEntities: #Room; teleportOrigin: #cameraHead; cameraRig: #cameraRig; startEvents: teleportstart; endEvents: teleportend; button: grip; curveShootingSpeed: 18; landingMaxAngle: 60" oculus-touch-controls="hand: right">
         </a-entity>
       </a-entity>
       <!-- Lighting -->
