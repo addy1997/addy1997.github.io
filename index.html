@@ -7,6 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
     <script src="https://unpkg.com/aframe-input-mapping-component/dist/aframe-input-mapping-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/powersimple/aframe-teleport-controls@master/dist/aframe-teleport-controls.min.js"></script>
 
     <!-- Custom component for camera logging -->
     <script>
@@ -610,9 +611,9 @@
       <a-entity id="cameraRig" movement-controls="speed: 1.0">
         <a-entity camera position="-0.74 1.25 -0.26" wasd-controls look-controls="pointerLockEnabled:true;"></a-entity>
         <!-- hand controls -->
-        <a-entity id="left-hand" teleport-controls="collisionEntities: #floorgeometry; cameraRig: #cameraRig; startEvents: teleportstart; endEvents: teleportend; button: grip; curveShootingSpeed: 18; landingMaxAngle: 60" oculus-touch-controls="hand: left">
+        <a-entity id="leftController" teleport-controls="collisionEntities: #floorgeometry; cameraRig: #cameraRig; startEvents: teleportstart; endEvents: teleportend; button: grip; curveShootingSpeed: 18; landingMaxAngle: 60" oculus-touch-controls="hand: left">
         </a-entity>
-        <a-entity id="right-hand" teleport-controls="collisionEntities: #floorgeometry; cameraRig: #cameraRig; startEvents: teleportstart; endEvents: teleportend" oculus-touch-controls="hand: right">
+        <a-entity id="rightController" teleport-controls="collisionEntities: #floorgeometry; cameraRig: #cameraRig; startEvents: teleportstart; endEvents: teleportend; button: grip; curveShootingSpeed: 18; landingMaxAngle: 60" oculus-touch-controls="hand: right">
         </a-entity>
       </a-entity>
       <!-- Lighting -->
@@ -626,3 +627,4 @@
   </body>
 
 </html>
+
