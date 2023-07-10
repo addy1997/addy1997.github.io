@@ -6,6 +6,7 @@
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@67d1130/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
+    <script src="https://unpkg.com/aframe-input-mapping-component/dist/aframe-input-mapping-component.min.js"></script>
 
     <!-- Custom component for camera logging -->
     <script>
@@ -500,28 +501,16 @@
     </script>
 
     <script>
-      AFRAME.registerComponent('thumbstick-logging', {
+      AFRAME.registerComponent('info', {
         init: function() {
-          this.el.addEventListener('thumbstickmoved', this.logThumbstick);
-        },
-        logThumbstick: function(evt) {
-          if (evt.detail.y > 0.95) {
-            console.log("DOWN");
-          }
-          if (evt.detail.y < -0.95) {
-            console.log("UP");
-          }
-          if (evt.detail.x < -0.95) {
-            console.log("LEFT");
-          }
-          if (evt.detail.x > 0.95) {
-            console.log("RIGHT");
-          }
+          var sceneEl = document.querySelector('a-scene');
+          var entityList = sceneEl.querySelectorAll('a-entity');
+          var oHCLeft = entityList[2];
+          var oHCRight = entityList[3];
         }
       });
 
     </script>
-
 
   </head>
 
@@ -612,10 +601,19 @@
       <!-- Partition 2 glTF-->
       <a-gltf-model id="partition2" gltf-model="#Partition" rotation="0 -135 0" scale="0.825 0.825 0.825" position="-5.5 0.30 7.5" mesh-shadows visible="false"></a-gltf-model>
       <!-- Camera system -->
-      <a-entity id="camera-control" movement-controls="speed:0.2;">
+      <!--<a-entity id="camera-control" movement-controls="speed:0.2;">
         <a-entity id="camera" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
-        <a-entity id="leftController" oculus-touch-controls="hand: left; model: true;" visible="true" thumbstick-logging></a-entity>
-        <a-entity id="rightController" oculus-touch-controls="hand: right; model: true;" visible="true" thumbstick-logging></a-entity>
+        <a-entity id="leftController" oculus-touch-controls="hand: left; model: true;" visible="true" info></a-entity>
+        <a-entity id="rightController" oculus-touch-controls="hand: right; model: true;" visible="true"></a-entity>
+      </a-entity>-->
+
+      <a-entity id="cameraRig" movement-controls="speed: 1.0">
+        <a-entity camera position="-0.74 1.25 -0.26" wasd-controls look-controls="pointerLockEnabled:true;"></a-entity>
+        <!-- hand controls -->
+        <a-entity id="left-hand" teleport-controls="collisionEntities: #floorgeometry; cameraRig: #cameraRig; startEvents: teleportstart; endEvents: teleportend; button: grip; curveShootingSpeed: 18; landingMaxAngle: 60" oculus-touch-controls="hand: left">
+        </a-entity>
+        <a-entity id="right-hand" teleport-controls="collisionEntities: #floorgeometry; cameraRig: #cameraRig; startEvents: teleportstart; endEvents: teleportend" oculus-touch-controls="hand: right">
+        </a-entity>
       </a-entity>
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.4; distance: 0" position="8 10 18"></a-entity>
