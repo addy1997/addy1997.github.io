@@ -6,7 +6,7 @@
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@67d1130/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/super-hands/dist/super-hands.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
 
     <!-- Custom component for camera logging -->
     <script>
@@ -686,16 +686,13 @@
 
       <!-- Partition 2 glTF-->
       <a-gltf-model id="partition2" gltf-model="#Partition" rotation="0 -135 0" scale="0.825 0.825 0.825" position="-5.5 0.30 7.5" mesh-shadows visible="false"></a-gltf-model>
-
-      <!-- Camera system -->
-      <a-entity id="cameraRig" movement-controls="speed:0.2; constrainToNavMesh: true;" navigator="cameraRig: #cameraRig; cameraHead: #cameraHead; collisionEntities: .collision;">
-
-        <a-entity id="cameraHead" camera="active: true" position="-0.74 1.25 -0.26" rotation="0 0 0" look-controls="pointerLockEnabled:true; reverseMouseDrag: true"></a-entity>
-
-        <a-entity id="leftHand" sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: left; handModelStyle: highPoly; color:#add8e6;" mixin="collision-events" collision-objects teleport-controls="cameraRig: #cameraRig; teleportOrigin: #cameraHead; button: trigger; curveShootingSpeed: 18; landMaxAngle: 60" visible="true"></a-entity>
-
-        <a-entity id="rightHand" sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: right; handModelStyle: highPoly; color:#add8e6;" mixin="collision-events"></a-entity>
-
+        
+        <!-- Camera system -->
+      <a-entity id="camera-control" movement-controls="speed:0.2;">
+        <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
+        <a-entity id="leftHand" sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: left; handModelStyle: highPoly; color:#add8e6;" mixin="collision-events" collision-objects></a-entity>
+        <a-entity id="rightHand" sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: right; handModelStyle: highPoly; color:#add8e6;" mixin="collision-events" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; button: grip; collisionEntities: #Room; hitEntity: #Sickle; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;"></a-entity>
+        
       </a-entity>
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.4; distance: 0" position="8 10 18"></a-entity>
@@ -709,6 +706,8 @@
       <a-sky color="#e0ffff"></a-sky>
     </a-scene>
   </body>
+
+</html>
 
 </html>
 
