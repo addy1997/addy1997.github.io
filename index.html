@@ -507,6 +507,11 @@
     <a-scene physics="debug: true">
 
       <a-assets>
+      
+        <a-mixin id="collision-events" raycaster="showLine: true; objects:a-gltf-model" collision-filter="collisionForces: false" static-body="shape: sphere; sphereRadius: 0.01" super-hands="colliderEvent: raycaster-intersection;
+          colliderEventProperty: els;
+          colliderEndEvent:raycaster-intersection-cleared;
+          colliderEndEventProperty: clearedEls;"></a-mixin>
 
         <!-- Human hand asset-->
         <a-asset-item id="Hand" src="https://raw.githubusercontent.com/addy1997/3D-models/main/male_hand.glb"></a-asset-item>
@@ -627,7 +632,7 @@
       <!-- Dustbin glTF-->
       <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.089 -1.15" mesh-shadows></a-gltf-model>
 
-      <a-text id="partitionText" value="Partition2" align="center" color="#FFF" geometry="primitive: plane; width: 1.75" material="color: #333"></a-text>
+      <a-text id="partitionText" value="Partition2" align="center" color="#FFF" geometry="primitive: plane; width: 0.25" material="color: #333"></a-text>
       <!-- Partition glTF-->
       <a-gltf-model id="partition" gltf-model="#Partition" rotation="0 -45 0" scale="0.825 0.825 0.825" position="5.5 0.30 1.75" mesh-shadows event-set__enter="_event: mouseenter; _target: #PartitionText; visible: true" event-set__leave="_event: mouseleave; _target: #PartitionText; visible: false"></a-gltf-model>
 
@@ -639,11 +644,9 @@
 
         <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
 
-        <a-entity id="leftController" oculus-touch-controls="hand: left; model: true;"></a-entity>
+        <a-entity id="leftController" oculus-touch-controls="hand: left; model: true;" mixin="collision-events"></a-entity>
 
-        <a-entity id="rightController" oculus-touch-controls="hand: right; model: true;" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; button: grip; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;"></a-entity>
-
-        <a-cursor></a-cursor>
+        <a-entity id="rightController" oculus-touch-controls="hand: right; model: true;" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; button: grip; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" mixin="collision-events"></a-entity>
 
       </a-entity>
 
