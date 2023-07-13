@@ -501,6 +501,31 @@
 
     </script>
 
+    <script>
+      // the component has to be defined before the <a-scene>
+      AFRAME.registerComponent("show-text", {
+        // a schema, so we can provide different <a-text>s
+        schema: {
+          txt: {
+            type: "selector"
+          }
+        },
+        // called upon initialisation
+        init: function() {
+          // on each click - toggle the visibility
+          this.el.addEventListener("click", evt => {
+            // if the text is invalid - lets get outta here
+            if (!this.data.txt) return;
+            // get the current visibility
+            const visible = this.data.txt.getAttribute("visible")
+            // set the visibility to its opposite
+            this.data.txt.setAttribute("visible", !visible)
+          })
+        }
+      })
+
+    </script>
+
   </head>
 
   <body>
@@ -509,7 +534,7 @@
       <a-assets>
 
         <!-- mixin for raycaster events -->
-        <a-mixin id="colliding-ray" raycaster="showLine: true; objects: a-gltf-model ;far: 100; near: 0; lineColor: red; lineOpacity: 1; autoRefresh: true;"></a-mixin>
+        <a-mixin id="colliding-ray" raycaster="showLine: true; objects: a-gltf-model; far: 100; near: 0; lineColor: red; lineOpacity: 1;"></a-mixin>
 
         <!-- Room asset -->
         <a-asset-item id="Room" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Room/basic_room_shell.glb"></a-asset-item>
@@ -628,9 +653,12 @@
       <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.089 -1.15" mesh-shadows></a-gltf-model>
 
       <!-- Partition glTF-->
-      <a-gltf-model id="partition" gltf-model="#Partition" rotation="0 -45 0" scale="0.825 0.825 0.825" position="5.5 0.30 1.75" mesh-shadows event-set__enter="_event: mouseenter; _target: #partitionText; visible: true" event-set__leave="_event: mouseleave; _target: #partitionText; visible: false">
+      <a-gltf-model id="partition" gltf-model="#Partition" rotation="0 -45 0" scale="0.825 0.825 0.825" position="5.5 0.30 1.75" mesh-shadows event-set__mouseenter="scale: 1.2 1.2 1" 
+            event-set__mouseleave="scale: 1 1 1" 
+            show-text="txt: #partitionText">
 
-        <a-text id="partitionText" value="This is a partition" align="center" color="#FFF" visible="false" position="5.5 0.30 1.75" geometry="primitive: plane; width: 1.75" material="color: #333"></a-text>
+        <a-text id="partitionText" value="This is a partition" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: switch" color="yellow">
+        </a-text>
 
       </a-gltf-model>
 
