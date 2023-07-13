@@ -633,7 +633,7 @@
       <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.089 -1.15" mesh-shadows></a-gltf-model>
 
       <!-- Partition glTF-->
-      <a-gltf-model id="partition" gltf-model="#Partition" rotation="0 -45 0" scale="0.825 0.825 0.825" position="5.5 0.30 1.75" mesh-shadows event-set__enter="_event: mouseenter; _target: #PartitionText; visible: true" event-set__leave="_event: mouseleave; _target: #PartitionText; visible: false">
+      <a-gltf-model id="partition" gltf-model="#Partition" rotation="0 -45 0" scale="0.825 0.825 0.825" position="5.5 0.30 1.75" mesh-shadows event-set__enter="_event: raycaster-intersection; _target: #PartitionText; visible: true" event-set__leave="_event: raycaster-intersection-cleared; _target: #PartitionText; visible: false">
       
       <a-text id="partitionText" value="Partition2" align="center" color="#FFF" geometry="primitive: plane; width: 0.25" material="color: #333"></a-text>
         
@@ -669,5 +669,6 @@
   </body>
 
 </html>
+
 
 
