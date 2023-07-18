@@ -9,8 +9,8 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/AdaRoseCannon/aframe-xr-boilerplate@glitch/simple-navmesh-constraint.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/simple-navmesh-constraint.js"></script>
+    
     <!-- Custom component for camera logging -->
     <script>
       AFRAME.registerComponent('camera-logger', {
@@ -537,9 +537,6 @@
 
         <!-- mixin for raycaster events -->
         <a-mixin id="colliding-ray" raycaster="showLine: true; objects: a-gltf-model; far: 1000; near: 0; lineColor: red; lineOpacity: 1;"></a-mixin>
-        
-        <!-- Navmesh asset -->
-        <a-asset-item id="navmesh" src="https://cdn.glitch.global/ec8608a4-ade6-4325-9589-578def835a9a/navmesh.glb?v=1679836266625"></a-asset-item>
 
         <!-- Room asset -->
         <a-asset-item id="Room" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Room/basic_room_shell.glb"></a-asset-item>
@@ -599,7 +596,7 @@
         <a-asset-item id="Dustbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dustbin/dustbin.glb"></a-asset-item>
 
       </a-assets>
-
+      
       <!-- Sickle Pro glTF -->
       <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.75 -1.68" mesh-shadows phase-shift event-set__show="_event: mouseenter; _target: #sickleLabel; visible: true" event-set__hide="_event: mouseleave; _target: #sickleLabel; visible: false" show-text="txt: #sickleLabel">
         
@@ -642,14 +639,11 @@
       </a-gltf-model>
 
       <!-- Room glTF -->
-      <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5" event-set__show="_event: mouseenter; _target: #roomLabel; visible: true" event-set__hide="_event: mouseleave; _target: #roomLabel; visible: false" show-text="txt: #roomLabel">
+      <a-gltf-model id="room" class="nav-hole" gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5" event-set__show="_event: mouseenter; _target: #roomLabel; visible: true" event-set__hide="_event: mouseleave; _target: #roomLabel; visible: false" show-text="txt: #roomLabel">
         
         <a-text id="roomLabel" value="Room" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: switch" color="blue"></a-text>
         
       </a-gltf-model>
-      
-      <!-- Navmesh glTF -->
-      <a-gltf-model id="Navmesh" class="nav-mesh" gltf-model="#navmesh" position="0 0 0" visible="false" ></a-gltf-model>
 
       <!-- Dentist glTF -->
       <a-gltf-model id="dentist" gltf-model="#Dentist" rotation="0 30 0" scale="0.375 0.375 0.375" position="-0.15 1.25 -1.55" animate mesh-shadows frustum-culling-disabled event-set__show="_event: mouseenter; _target: #dentistLabel; visible: true" event-set__hide="_event: mouseleave; _target: #dentistLabel; visible: false" show-text="txt: #dentistLabel">
@@ -659,42 +653,42 @@
       </a-gltf-model>
 
       <!-- Floor glTF -->
-      <a-gltf-model id="floor" gltf-model="#Floor" rotation="0 90 0" scale="0.065 0.065 0.065" position="-0.85 0.13 -3" event-set__show="_event: mouseenter; _target: #floorLabel; visible: true" event-set__hide="_event: mouseleave; _target: #floorLabel; visible: false" show-text="txt: #floorLabel">
+      <a-gltf-model id="floor" class="navmesh" gltf-model="#Floor" rotation="0 90 0" scale="0.065 0.065 0.065" position="-0.85 0.13 -3" event-set__show="_event: mouseenter; _target: #floorLabel; visible: true" event-set__hide="_event: mouseleave; _target: #floorLabel; visible: false" show-text="txt: #floorLabel">
         
         <a-text id="floorLabel" value="Floor" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: switch" color="blue"></a-text>
         
       </a-gltf-model>
 
       <!-- Dentist Chair glTF -->
-      <a-gltf-model id="chair" gltf-model="#Dentist-Chair" rotation="0 -90 0" scale="0.75 0.75 0.75" position="-1.85 0.15 -3.25" mesh-shadows event-set__show="_event: mouseenter; _target: #dentistChairLabel; visible: true" event-set__hide="_event: mouseleave; _target: #dentistChairLabel; visible: false" show-text="txt: #dentistChairLabel">
+      <a-gltf-model id="chair" class="nav-hole" gltf-model="#Dentist-Chair" rotation="0 -90 0" scale="0.75 0.75 0.75" position="-1.85 0.15 -3.25" mesh-shadows event-set__show="_event: mouseenter; _target: #dentistChairLabel; visible: true" event-set__hide="_event: mouseleave; _target: #dentistChairLabel; visible: false" show-text="txt: #dentistChairLabel">
         
         <a-text id="dentistChairLabel" value="Dentist chair" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: switch" color="blue"></a-text>
         
       </a-gltf-model>
 
       <!-- Patient glTF -->
-      <a-gltf-model id="patient" gltf-model="#Patient" rotation="-60.5 90 0" scale="0.75 0.75 0.75" position="-1.1 0.35 -3" mesh-shadows rotate-patient-legs="z_val: 0.785398" rotate-patient-hands="x_val: 0; y_val: 2.00713" rotate-spine="z_val:0.785398" rotate-neck="z_val:0.785398" event-set__show="_event: mouseenter; _target: #patientLabel; visible: true" event-set__hide="_event: mouseleave; _target: #patientLabel; visible: false" show-text="txt: #patientLabel">
+      <a-gltf-model id="patient" class="nav-hole" gltf-model="#Patient" rotation="-60.5 90 0" scale="0.75 0.75 0.75" position="-1.1 0.35 -3" mesh-shadows rotate-patient-legs="z_val: 0.785398" rotate-patient-hands="x_val: 0; y_val: 2.00713" rotate-spine="z_val:0.785398" rotate-neck="z_val:0.785398" event-set__show="_event: mouseenter; _target: #patientLabel; visible: true" event-set__hide="_event: mouseleave; _target: #patientLabel; visible: false" show-text="txt: #patientLabel">
         
         <a-text id="patientLabel" value="Patient" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: switch" color="blue"></a-text>
         
       </a-gltf-model>
 
       <!-- Table glTF -->
-      <a-gltf-model id="table" gltf-model="#Table" rotation="0 90 0" scale="0.235 0.235 0.235" position="1.35 0 -1.45" mesh-shadows event-set__show="_event: mouseenter; _target: #tableLabel; visible: true" event-set__hide="_event: mouseleave; _target: #tableLabel; visible: false" show-text="txt: #tableLabel">
+      <a-gltf-model id="table" class="nav-hole" gltf-model="#Table" rotation="0 90 0" scale="0.235 0.235 0.235" position="1.35 0 -1.45" mesh-shadows event-set__show="_event: mouseenter; _target: #tableLabel; visible: true" event-set__hide="_event: mouseleave; _target: #tableLabel; visible: false" show-text="txt: #tableLabel">
         
         <a-text id="tableLabel" value="Table" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: switch" color="blue"></a-text>
         
       </a-gltf-model>
 
       <!-- Office Chair glTF-->
-      <a-gltf-model id="office-chair" gltf-model="#Office-Chair" rotation="0 -90 0" scale="0.055 0.055 0.055" position="1.7 0.15 -1.45" mesh-shadows event-set__show="_event: mouseenter; _target: #officeChairLabel; visible: true" event-set__hide="_event: mouseleave; _target: #officeChairLabel; visible: false" show-text="txt: #officeChairLabel">
+      <a-gltf-model id="office-chair" class="nav-hole" gltf-model="#Office-Chair" rotation="0 -90 0" scale="0.055 0.055 0.055" position="1.7 0.15 -1.45" mesh-shadows event-set__show="_event: mouseenter; _target: #officeChairLabel; visible: true" event-set__hide="_event: mouseleave; _target: #officeChairLabel; visible: false" show-text="txt: #officeChairLabel">
         
         <a-text id="officeChairLabel" value="Office chair" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: switch" color="blue"></a-text>
         
       </a-gltf-model>
 
       <!-- Office Chair2 glTF-->
-      <a-gltf-model id="office-chair2" gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="0.25 0.15 -1.65" mesh-shadows event-set__show="_event: mouseenter; _target: #chair2Label; visible: true" event-set__hide="_event: mouseleave; _target: #chair2Label; visible: false" show-text="txt: #chair2Label">
+      <a-gltf-model id="office-chair2" class="nav-hole" gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="0.25 0.15 -1.65" mesh-shadows event-set__show="_event: mouseenter; _target: #chair2Label; visible: true" event-set__hide="_event: mouseleave; _target: #chair2Label; visible: false" show-text="txt: #chair2Label">
         
         <a-text id="chair2Label" value="Chair" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: switch" color="blue"></a-text>
         
@@ -708,7 +702,7 @@
       </a-gltf-model>
 
       <!-- Trolley glTF-->
-      <a-gltf-model id="trolley" gltf-model="#Trolley" rotation="0 180 0" scale="0.0075 0.0075 0.0075" position="-0.85 0.125 -1.70" mesh-shadows event-set__show="_event: mouseenter; _target: #trolleyLabel; visible: true" event-set__hide="_event: mouseleave; _target: #trolleyLabel; visible: false" show-text="txt: #trolleyLabel">
+      <a-gltf-model id="trolley" class="nav-hole" gltf-model="#Trolley" rotation="0 180 0" scale="0.0075 0.0075 0.0075" position="-0.85 0.125 -1.70" mesh-shadows event-set__show="_event: mouseenter; _target: #trolleyLabel; visible: true" event-set__hide="_event: mouseleave; _target: #trolleyLabel; visible: false" show-text="txt: #trolleyLabel">
         
         <a-text id="trolleyLabel" value="Trolley" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: switch" color="blue"></a-text>
         
@@ -725,14 +719,14 @@
       </a-gltf-model>
 
       <!-- Dustbin glTF-->
-      <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.089 -1.15" mesh-shadows event-set__show="_event: mouseenter; _target: #dustbinLabel; visible: true" event-set__hide="_event: mouseleave; _target: #dustbinLabel; visible: false" show-text="txt: #dustbinLabel">
+      <a-gltf-model id="dustbin" class="nav-hole" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.089 -1.15" mesh-shadows event-set__show="_event: mouseenter; _target: #dustbinLabel; visible: true" event-set__hide="_event: mouseleave; _target: #dustbinLabel; visible: false" show-text="txt: #dustbinLabel">
         
       <a-text id="dustbinLabel" value="Dustbin" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: switch" color="blue"></a-text>
         
       </a-gltf-model>
 
       <!-- Partition glTF-->
-      <a-gltf-model id="partition" gltf-model="#Partition" rotation="0 -45 0" scale="0.825 0.825 0.825" position="5.5 0.30 1.75" mesh-shadows event-set__show="_event: mouseenter; _target: #partitionLabel; visible: true" event-set__hide="_event: mouseleave; _target: #partitionLabel; visible: false" show-text="txt: #partitionLabel">
+      <a-gltf-model id="partition" class="nav-hole" gltf-model="#Partition" rotation="0 -45 0" scale="0.825 0.825 0.825" position="5.5 0.30 1.75" mesh-shadows event-set__show="_event: mouseenter; _target: #partitionLabel; visible: true" event-set__hide="_event: mouseleave; _target: #partitionLabel; visible: false" show-text="txt: #partitionLabel">
 
         <a-text id="partitionLabel" value="Partition" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: switch" color="blue">
         </a-text>
@@ -743,11 +737,11 @@
       <a-gltf-model id="partition2" gltf-model="#Partition" rotation="0 -135 0" scale="0.825 0.825 0.825" position="-5.5 0.30 7.5" mesh-shadows visible="false"></a-gltf-model>
 
       <!-- Camera system -->
-      <a-entity id="camera-control" movement-controls="speed:0.2;">
+      <a-entity id="camera-control" movement-controls="enabled: true; speed:0.2;">
 
-        <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
+        <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;" simple-navmesh-constraint="navmesh: .nav-mesh; height:1.65; exclude: .navhole;"></a-entity>
 
-        <a-entity id="leftController" oculus-touch-controls="hand: left; model: true;" mixin="colliding-ray" cursor simple-navmesh-constraint="navmesh: .nav-mesh; height:1.65; exclude: .navhole;"></a-entity>
+        <a-entity id="leftController" oculus-touch-controls="hand: left; model: true;" mixin="colliding-ray" cursor></a-entity>
 
         <a-entity id="rightController" oculus-touch-controls="hand: right; model: true;" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; button: grip; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" mixin="colliding-ray" cursor></a-entity>
 
