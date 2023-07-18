@@ -9,6 +9,8 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
     <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/AdaRoseCannon/aframe-xr-boilerplate@glitch/simple-navmesh-constraint.js"></script>
+    
     <!-- Custom component for camera logging -->
     <script>
       AFRAME.registerComponent('camera-logger', {
@@ -525,6 +527,12 @@
       })
 
     </script>
+    
+    <script>
+    
+    
+    
+    </script>
 
   </head>
 
@@ -534,7 +542,7 @@
       <a-assets>
 
         <!-- mixin for raycaster events -->
-        <a-mixin id="colliding-ray" raycaster="showLine: true; objects: a-gltf-model; far: 1000; near: 0; lineColor: red; lineOpacity: 1;"></a-mixin>
+        <a-mixin id="colliding-ray" raycaster="showLine: true; objects: a-gltf-model; far: 100; near: 0; lineColor: red; lineOpacity: 1;"></a-mixin>
 
         <!-- Room asset -->
         <a-asset-item id="Room" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Room/basic_room_shell.glb"></a-asset-item>
@@ -592,6 +600,10 @@
 
         <!-- Dustbin asset -->
         <a-asset-item id="Dustbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dustbin/dustbin.glb"></a-asset-item>
+        
+        <!-- Navmesh asset -->
+        <a-asset-item id="navmesh-glb" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/navmesh.glb?v=1644329586500"></a-asset-item>
+
 
       </a-assets>
 
@@ -733,11 +745,15 @@
 
       <!-- Partition 2 glTF-->
       <a-gltf-model id="partition2" gltf-model="#Partition" rotation="0 -135 0" scale="0.825 0.825 0.825" position="-5.5 0.30 7.5" mesh-shadows visible="false"></a-gltf-model>
+      
+      <!-- Navmesh constraint -->
+      <a-gltf-model class="navmesh" src="#navmesh-glb" visible="false"></a-gltf-model>
+
 
       <!-- Camera system -->
-      <a-entity id="camera-control" movement-controls="speed:0.2;">
+      <a-entity simple-navmesh-constraint="navmesh:.navmesh;fall:0.5;height:0;exclude:.navmesh-hole;" id="camera-control" movement-controls="speed:0.2;">
 
-        <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
+        <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:false;"></a-entity>
 
         <a-entity id="leftController" oculus-touch-controls="hand: left; model: true;" mixin="colliding-ray" cursor></a-entity>
 
