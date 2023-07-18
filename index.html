@@ -653,7 +653,7 @@
       </a-gltf-model>
 
       <!-- Floor glTF -->
-      <a-gltf-model id="floor" class="navmesh" gltf-model="#Floor" rotation="0 90 0" scale="0.065 0.065 0.065" position="-0.85 0.13 -3" event-set__show="_event: mouseenter; _target: #floorLabel; visible: true" event-set__hide="_event: mouseleave; _target: #floorLabel; visible: false" show-text="txt: #floorLabel">
+      <a-gltf-model id="floor" gltf-model="#Floor" rotation="0 90 0" scale="0.065 0.065 0.065" position="-0.85 0.13 -3" event-set__show="_event: mouseenter; _target: #floorLabel; visible: true" event-set__hide="_event: mouseleave; _target: #floorLabel; visible: false" show-text="txt: #floorLabel">
         
         <a-text id="floorLabel" value="Floor" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: switch" color="blue"></a-text>
         
@@ -739,7 +739,7 @@
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="enabled: true; speed:0.2;">
 
-        <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;" simple-navmesh-constraint="navmesh: .nav-mesh; height:1.65; exclude: .navhole;"></a-entity>
+        <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;" simple-navmesh-constraint="navmesh: .navmesh; height:1.65; exclude: .nav-hole;"></a-entity>
 
         <a-entity id="leftController" oculus-touch-controls="hand: left; model: true;" mixin="colliding-ray" cursor></a-entity>
 
