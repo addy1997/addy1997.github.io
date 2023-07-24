@@ -22,7 +22,7 @@
         },
         init: function() {
           var cameraEl = this.el.sceneEl.camera.el;
-          var rotation = cameraEl.getAttribute('rotati0on');
+          var rotation = cameraEl.getAttribute('rotation');
           var worldPos = new THREE.Vector3();
           worldPos.setFromMatrixPosition(cameraEl.object3D.matrixWorld);
           console.log("Time: " + this.data.seconds + "; Camera Position: (" + worldPos.x.toFixed(2) + ", " + worldPos.y.toFixed(2) + ", " + worldPos.z.toFixed(2) + "); Camera Rotation: (" + rotation.x.toFixed(2) + ", " + rotation.y.toFixed(2) + ", " + rotation.z.toFixed(2) + ")");
@@ -500,6 +500,7 @@
       });
 
     </script>
+
     <script>
       AFRAME.registerComponent('rotatable', {
         dependencies: ['grabbable', 'stretchable', 'draggable'],
@@ -551,6 +552,128 @@
 
     </script>
 
+    <script>
+      AFRAME.registerComponent("lh-position-logger", {
+        init: function() {
+          var sceneEl = this.el.sceneEl;
+          this.leftHandEl = document.getElementById("leftHand");
+          this.worldPos = new THREE.Vector3();
+        },
+
+        tick: function() {
+          this.worldPos.setFromMatrixPosition(this.leftHandEl.object3D.matrixWorld);
+          //console.log("left hand's position: ", this.worldPos.x.toFixed(2), this.worldPos.y.toFixed(2), this.worldPos.z.toFixed(2));
+
+        }
+      });
+
+      AFRAME.registerComponent("rh-position-logger", {
+        init: function() {
+          var sceneEl = this.el.sceneEl;
+          this.rightHandEl = document.getElementById("rightHand");
+          this.worldPos = new THREE.Vector3();
+        },
+
+        tick: function() {
+          this.worldPos.setFromMatrixPosition(this.rightHandEl.object3D.matrixWorld);
+          //console.log("left hand's position: ", this.worldPos.x.toFixed(2), this.worldPos.y.toFixed(2), this.worldPos.z.toFixed(2));
+
+        }
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent("haptic", {
+        schema: {
+          actuatorIndex: {
+            default: 0
+          },
+          pulseDuration: {
+            default: 100
+          },
+          enabled: {
+            default: true
+          },
+          events: {
+            type: 'array'
+          },
+          eventsFrom: {
+            type: 'string'
+          },
+          pulseIntensity: {
+            default: 1
+          }
+        },
+
+        multiple: true,
+
+        init: function() {
+          var data = this.data;
+          var i;
+          var self = this;
+          var pulse = this.sendPulse.bind(this);
+
+          var doInit = function() {
+            self.gamepad = self.el.components['tracked-controls'].controller;
+            if (self.gamepad.gamepad && "xr" in window.navigator) {
+              self.gamepad = self.gamepad.gamepad;
+            }
+            if (!self.gamepad || !self.gamepad.hapticActuators || !self.gamepad.hapticActuators.length) {
+              return;
+            }
+          };
+
+          // If the tracked-controller already exists during the initialization of this component
+          if (this.el.components['tracked-controls'] && this.el.components['tracked-controls'].controller) {
+            doInit();
+          } else {
+            this.el.addEventListener('controllerconnected', function init() {
+              doInit();
+            });
+          }
+        },
+
+        remove: function() {
+          this.removeEventListeners();
+        },
+
+        sendPulse: function(pulseIntensity, pulseDuration) {
+          var actuator;
+          var data = this.data;
+
+          if (!data.enabled || !this.gamepad || !this.gamepad.hapticActuators) {
+            return;
+          }
+          actuator = this.gamepad.hapticActuators[data.actuatorIndex];
+          actuator.pulse(pulseIntensity || data.pulseIntensity, pulseDuration || data.pulseDuration);
+        },
+
+        addEventListeners: function() {
+          var data = this.data;
+          var i;
+          var listenTarget;
+
+          listenTarget = data.eventsFrom ? document.querySelector(data.eventsFrom) : this.el;
+          for (i = 0; i < data.events.length; i++) {
+            listenTarget.addEventListener(data.events[i], this.sendPulse);
+          }
+        },
+
+        removeEventListeners: function() {
+          var data = this.data;
+          var i;
+          var listenTarget;
+
+          listenTarget = data.eventsFrom ? document.querySelector(data.eventsFrom) : this.el;
+          for (i = 0; i < data.events.length; i++) {
+            listenTarget.removeEventListener(data.events[i], this.sendPulse);
+          }
+        },
+      });
+
+    </script>
+
   </head>
 
   <body>
@@ -559,13 +682,10 @@
       <a-assets>
 
         <!-- To trigger collision events -->
-        <a-mixin id="collision-events" raycaster="showLine: true; objects:a-gltf-model" collision-filter="collisionForces: fals" static-body="shape: sphere; sphereRadius: 0.01" super-hands="colliderEvent: raycaster-intersection;
+        <!--<a-mixin id="collision-events" raycaster="showLine: true; objects:a-gltf-model" collision-filter="collisionForces: false" static-body="shape: sphere; sphereRadius: 0.01" super-hands="colliderEvent: raycaster-intersection;
           colliderEventProperty: els;
           colliderEndEvent:raycaster-intersection-cleared;
-          colliderEndEventProperty: clearedEls;"></a-mixin>
-
-        <!-- Human hand asset-->
-        <a-asset-item id="Hand" src="https://raw.githubusercontent.com/addy1997/3D-models/main/male_hand.glb"></a-asset-item>
+          colliderEndEventProperty: clearedEls;"></a-mixin>-->
 
         <!-- Room asset -->
         <a-asset-item id="Room" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Room/basic_room_shell.glb"></a-asset-item>
@@ -687,14 +807,19 @@
 
       <!-- Partition 2 glTF-->
       <a-gltf-model id="partition2" gltf-model="#Partition" rotation="0 -135 0" scale="0.825 0.825 0.825" position="-5.5 0.30 7.5" mesh-shadows visible="false"></a-gltf-model>
-        
-        <!-- Camera system -->
+
+      <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
+
         <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
-        <a-entity id="leftHand" sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: left; handModelStyle: highPoly; color:#add8e6;"></a-entity>
-        <a-entity id="rightHand" sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: right; handModelStyle: highPoly; color:#add8e6;" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; button: thumbstick; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;"></a-entity>
-        
+
+        <a-entity id="leftHand" sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: left; handModelStyle: highPoly; color:#add8e6;" lh-position-logger haptic></a-entity>
+
+        <a-entity id="rightHand" sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: right; handModelStyle: highPoly; color:#add8e6;" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; button: thumbstick; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" rh-position-logger haptic></a-entity>
+
       </a-entity>
+
+
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.4; distance: 0" position="8 10 18"></a-entity>
 
@@ -707,8 +832,6 @@
       <a-sky color="#e0ffff"></a-sky>
     </a-scene>
   </body>
-
-</html>
 
 </html>
 
