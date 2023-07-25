@@ -559,93 +559,83 @@
     </script>
 
     <script>
-      AFRAME.registerComponent("haptic", {
-        schema: {
-          actuatorIndex: {
-            default: 0
-          },
-          pulseDuration: {
-            default: 100
-          },
-          enabled: {
-            default: true
-          },
-          events: {
-            type: 'array'
-          },
-          eventsFrom: {
-            type: 'string'
-          },
-          pulseIntensity: {
-            default: 1
-          }
-        },
 
-        multiple: true,
+      AFRAME.registerComponent('haptics', {
+	  schema: {
+	    actuatorIndex: {default: 0},
+	    pulseDuration: {default: 100},
+	    enabled: {default: true},
+	    events: {type: 'array'},
+	    eventsFrom: {type: 'string'},
+	    pulseIntensity: {default: 1}
+	  },
 
-        init: function() {
-          var data = this.data;
-          var i;
-          var self = this;
+	  multiple: true,
 
-          var doInit = function() {
-            self.gamepad = self.el.components['tracked-controls'].controller;
-            if (self.gamepad.gamepad) {
-              self.gamepad = self.gamepad.gamepad;
-            }
-            if (!self.gamepad || !self.gamepad.hapticActuators || !self.gamepad.hapticActuators.length) {
-              return;
-            }
-          };
+	  init: function () {
+	    var data = this.data;
+	    var i;
+	    var self = this;
 
-          // If the tracked-controller already exists during the initialization of this component
-          if (this.el.components['tracked-controls'] && this.el.components['tracked-controls'].controller) {
-            doInit();
-          } else {
-            this.el.addEventListener('controllerconnected', function init() {
-              doInit();
-            });
-          }
-        },
+	    this.callPulse = function () { self.pulse(); };
 
-        remove: function() {
-          this.removeEventListeners();
-        },
+	    var doInit = function () {
+	      self.gamepad = self.el.components['tracked-controls'].controller;
+	      if (self.gamepad.gamepad) {
+	        // WebXR.
+	         self.gamepad = self.gamepad.gamepad;
+	       }
+	       if (!self.gamepad || !self.gamepad.hapticActuators ||
+	       !self.gamepad.hapticActuators.length) { return; }
+	       self.addEventListeners();
+	    };
 
-        sendPulse: function(pulseIntensity, pulseDuration) {
-          var actuator;
-          var data = this.data;
+	    // There may exist a tracked-controls when this component is initialized
+	    if (this.el.components['tracked-controls'] && this.el.components['tracked-controls'].controller) {
+	      doInit();
+	    } else {
+	      this.el.addEventListener('controllerconnected', function init () {
+	        doInit();
+	      });
+	    }
+	  },
 
-          if (!this.data.enabled || !this.gamepad || !this.gamepad.hapticActuators) {
-            return;
-          }
-          actuator = this.gamepad.hapticActuators[this.data.actuatorIndex];
-          actuator.pulse(pulseIntensity || this.data.pulseIntensity, pulseDuration || this.data.pulseDuration);
-        },
+	  remove: function () {
+	    this.removeEventListeners();
+	  },
 
-        addEventListeners: function() {
-          var data = this.data;
-          var i;
-          var listenTarget;
+	  pulse: function (force, dur) {
+	    var actuator;
+	    var data = this.data;
+	    if (!data.enabled || !this.gamepad || !this.gamepad.hapticActuators) { return; }
+	    actuator = this.gamepad.hapticActuators[data.actuatorIndex];
+	    actuator.pulse(force || data.pulseIntensity, dur || data.pulseDuration);
+	  },
 
-          listenTarget = this.data.eventsFrom ? document.querySelector(this.data.eventsFrom) : this.el;
-          for (i = 0; i < this.data.events.length; i++) {
-            listenTarget.addEventListener(this.data.events[i], this.sendPulse());
-          }
-        },
+	  addEventListeners: function () {
+	    var data = this.data;
+	    var i;
+	    var listenTarget;
 
-        removeEventListeners: function() {
-          var data = this.data;
-          var i;
-          var listenTarget;
+	    listenTarget = data.eventsFrom ? document.querySelector(data.eventsFrom) : this.el;
+	    for (i = 0; i < data.events.length; i++) {
+	      listenTarget.addEventListener(data.events[i], this.callPulse);
+	    }
+	  },
 
-          listenTarget = this.data.eventsFrom ? document.querySelector(this.data.eventsFrom) : this.el;
-          for (i = 0; i < this.data.events.length; i++) {
-            listenTarget.removeEventListener(this.data.events[i], this.sendPulse());
-          }
-        },
-      });
+	  removeEventListeners: function () {
+	    var data = this.data;
+	    var i;
+	    var listenTarget;
 
+	    listenTarget = data.eventsFrom ? document.querySelector(data.eventsFrom) : this.el;
+	    for (i = 0; i < data.events.length; i++) {
+	      listenTarget.removeEventListener(data.events[i], this.callPulse);
+	    }
+	  }
+	});
+
+      
     </script>
 
 
@@ -867,9 +857,9 @@
 
         <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
 
-        <a-entity id="leftController" oculus-touch-controls="hand: left; model: true;" mixin="colliding-ray" cursor lhc-pos-logging haptic="events: triggerdown; pulseDuration: 1000; pulseIntensity: 0.5"></a-entity>
+        <a-entity id="leftController" oculus-touch-controls="hand: left; model: true;" mixin="colliding-ray" cursor lhc-pos-logging haptics="events: triggerdown; pulseDuration: 1000; pulseIntensity: 0.5"></a-entity>
 
-        <a-entity id="rightController" oculus-touch-controls="hand: right; model: true;" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; button: grip; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" mixin="colliding-ray" cursor rhc-pos-logging haptic="events: triggerdown; pulseDuration: 1000; pulseIntensity: 0.5"></a-entity>
+        <a-entity id="rightController" oculus-touch-controls="hand: right; model: true;" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; button: grip; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" mixin="colliding-ray" cursor rhc-pos-logging haptics="events: triggerdown; pulseDuration: 1000; pulseIntensity: 0.5"></a-entity>
 
       </a-entity>
 
