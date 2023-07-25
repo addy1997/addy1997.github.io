@@ -579,7 +579,7 @@
 
 	    //this.callPulse = function () { self.pulse(); };
 
-            this.pulse = function () { this.sendPulse.bind(this); };
+            this.pulse = this.sendPulse.bind(this);
 
 	    var doInit = function () {
 	      self.gamepad = self.el.components['tracked-controls'].controller;
@@ -606,12 +606,12 @@
 	    this.removeEventListeners();
 	  },
 
-	  sendPulse: function (force, dur) {
+	  sendPulse: function () {
 	    var actuator;
 	    var data = this.data;
 	    if (!data.enabled || !this.gamepad || !this.gamepad.hapticActuators) { return; }
 	    actuator = this.gamepad.hapticActuators[data.actuatorIndex];
-	    actuator.pulse(force || data.pulseIntensity, dur || data.pulseDuration);
+	    actuator.pulse(data.pulseIntensity, data.pulseDuration);
 	  },
 
 	  addEventListeners: function () {
