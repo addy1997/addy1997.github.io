@@ -591,19 +591,8 @@
           /*this.callPulse = function() {
             self.pulse();
           };*/
-
-          //this.bindMethods();
-
-          var pulse = function(force, dur) {
-            var actuator;
-            var data = this.data;
-            if (!data.enabled || !this.gamepad || !this.gamepad.hapticActuators) {
-              return;
-            }
-            actuator = this.gamepad.hapticActuators[data.actuatorIndex];
-            actuator.pulse(force || data.pulseIntensity, dur || data.pulseDuration);
-
-          }
+          
+          this.bindMethods();
 
           var doInit = function() {
             self.gamepad = self.el.components['tracked-controls'].controller;
@@ -627,16 +616,16 @@
             });
           }
         },
-
-        /*bindMethods: function() {
+        
+        bindMethods: function() {
           this.sendPulse = this.sendPulse.bind(this);
-        },*/
+        },
 
         remove: function() {
           this.removeEventListeners();
         },
 
-        /*sendPulse: function(force, dur) {
+        sendPulse: function(force, dur) {
           var actuator;
           var data = this.data;
           if (!data.enabled || !this.gamepad || !this.gamepad.hapticActuators) {
@@ -644,7 +633,7 @@
           }
           actuator = this.gamepad.hapticActuators[data.actuatorIndex];
           actuator.pulse(force || data.pulseIntensity, dur || data.pulseDuration);
-        },*/
+        },
 
         addEventListeners: function() {
           var data = this.data;
@@ -653,7 +642,7 @@
 
           listenTarget = data.eventsFrom ? document.querySelector(data.eventsFrom) : this.el;
           for (i = 0; i < data.events.length; i++) {
-            listenTarget.addEventListener(data.events[i], /*this.callPulse*/ self.pulse());
+            listenTarget.addEventListener(data.events[i], /*this.callPulse*/ this.bindMethods());
           }
         },
 
@@ -664,7 +653,7 @@
 
           listenTarget = data.eventsFrom ? document.querySelector(data.eventsFrom) : this.el;
           for (i = 0; i < data.events.length; i++) {
-            listenTarget.removeEventListener(data.events[i], /*this.callPulse*/self.pulse());
+            listenTarget.removeEventListener(data.events[i], /*this.callPulse*/ this.bindMethods());
           }
         }
       });
