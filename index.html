@@ -617,11 +617,11 @@
           var actuator;
           var data = this.data;
 
-          if (!data.enabled || !this.gamepad || !this.gamepad.hapticActuators) {
+          if (!this.data.enabled || !this.gamepad || !this.gamepad.hapticActuators) {
             return;
           }
-          actuator = this.gamepad.hapticActuators[data.actuatorIndex];
-          actuator.pulse(pulseIntensity || data.pulseIntensity, pulseDuration || data.pulseDuration);
+          actuator = this.gamepad.hapticActuators[this.data.actuatorIndex];
+          actuator.pulse(pulseIntensity || this.data.pulseIntensity, pulseDuration || this.data.pulseDuration);
         },
 
         addEventListeners: function() {
@@ -629,9 +629,9 @@
           var i;
           var listenTarget;
 
-          listenTarget = data.eventsFrom ? document.querySelector(data.eventsFrom) : this.el;
-          for (i = 0; i < data.events.length; i++) {
-            listenTarget.addEventListener(data.events[i], this.sendPulse);
+          listenTarget = this.data.eventsFrom ? document.querySelector(this.data.eventsFrom) : this.el;
+          for (i = 0; i < this.data.events.length; i++) {
+            listenTarget.addEventListener(this.data.events[i], this.sendPulse);
           }
         },
 
@@ -640,9 +640,9 @@
           var i;
           var listenTarget;
 
-          listenTarget = data.eventsFrom ? document.querySelector(data.eventsFrom) : this.el;
-          for (i = 0; i < data.events.length; i++) {
-            listenTarget.removeEventListener(data.events[i], this.sendPulse);
+          listenTarget = this.data.eventsFrom ? document.querySelector(this.data.eventsFrom) : this.el;
+          for (i = 0; i < this.data.events.length; i++) {
+            listenTarget.removeEventListener(this.data.events[i], this.sendPulse);
           }
         },
       });
