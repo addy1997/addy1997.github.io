@@ -587,7 +587,6 @@
           var data = this.data;
           var i;
           var self = this;
-          this.pulse = this.sendPulse.bind(this);
 
           var doInit = function() {
             self.gamepad = self.el.components['tracked-controls'].controller;
@@ -631,7 +630,7 @@
 
           listenTarget = this.data.eventsFrom ? document.querySelector(this.data.eventsFrom) : this.el;
           for (i = 0; i < this.data.events.length; i++) {
-            listenTarget.addEventListener(this.data.events[i], this.pulse);
+            listenTarget.addEventListener(this.data.events[i], this.sendPulse.bind(this));
           }
         },
 
@@ -642,7 +641,7 @@
 
           listenTarget = this.data.eventsFrom ? document.querySelector(this.data.eventsFrom) : this.el;
           for (i = 0; i < this.data.events.length; i++) {
-            listenTarget.removeEventListener(this.data.events[i], this.pulse);
+            listenTarget.removeEventListener(this.data.events[i], this.sendPulse.bind(this));
           }
         },
       });
