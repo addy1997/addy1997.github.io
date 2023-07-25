@@ -592,7 +592,7 @@
             self.pulse();
           };*/
           
-          var pulse = this.sendPulse.bind(this);
+          var pulse = self.sendPulse.bind(self);
 
           var doInit = function() {
             self.gamepad = self.el.components['tracked-controls'].controller;
