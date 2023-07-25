@@ -631,7 +631,7 @@
 
           listenTarget = this.data.eventsFrom ? document.querySelector(this.data.eventsFrom) : this.el;
           for (i = 0; i < this.data.events.length; i++) {
-            listenTarget.addEventListener(this.data.events[i], this.sendPulse);
+            listenTarget.addEventListener(this.data.events[i], this.pulse);
           }
         },
 
@@ -642,7 +642,7 @@
 
           listenTarget = this.data.eventsFrom ? document.querySelector(this.data.eventsFrom) : this.el;
           for (i = 0; i < this.data.events.length; i++) {
-            listenTarget.removeEventListener(this.data.events[i], this.sendPulse);
+            listenTarget.removeEventListener(this.data.events[i], this.pulse);
           }
         },
       });
