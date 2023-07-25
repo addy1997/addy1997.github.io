@@ -612,7 +612,7 @@
           this.removeEventListeners();
         },
 
-        pulse: function(pulseIntensity, pulseDuration) {
+        sendPulse: function(pulseIntensity, pulseDuration) {
           var actuator;
           var data = this.data;
 
@@ -630,7 +630,7 @@
 
           listenTarget = this.data.eventsFrom ? document.querySelector(this.data.eventsFrom) : this.el;
           for (i = 0; i < this.data.events.length; i++) {
-            listenTarget.addEventListener(this.data.events[i], this.sendPulse.bind(this));
+            listenTarget.addEventListener(this.data.events[i], this.sendPulse.bind(this, 1000, 0.5));
           }
         },
 
@@ -641,7 +641,7 @@
 
           listenTarget = this.data.eventsFrom ? document.querySelector(this.data.eventsFrom) : this.el;
           for (i = 0; i < this.data.events.length; i++) {
-            listenTarget.removeEventListener(this.data.events[i], this.sendPulse.bind(this));
+            listenTarget.removeEventListener(this.data.events[i], this.sendPulse.bind(this, 1000, 0.5));
           }
         },
       });
