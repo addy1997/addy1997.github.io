@@ -583,7 +583,7 @@
 
 	    var doInit = function () {
 	      self.gamepad = self.el.components['tracked-controls'].controller;
-	      if (self.gamepad.gamepad) {
+	      if (self.gamepad.gamepad || "xr" in window.navigator) {
 	        // WebXR.
 	         self.gamepad = self.gamepad.gamepad;
 	       }
