@@ -531,112 +531,201 @@
     <script>
       AFRAME.registerComponent("lhc-pos-logging", {
         init: function() {
-          const sceneEl = this.el.sceneEl;
           this.leftHandControllerEl = document.getElementById("leftController");
           this.worldPos = new THREE.Vector3();
+          var dt;
+
+          var movementVector = this.getMovementVector(dt);
+
+          this.leftHandControllerEl.object3D.translateX(movementVector.x);
+          this.leftHandControllerEl.object3D.translateY(movementVector.y);
+          this.leftHandControllerEl.object3D.translateZ(movementVector.z);
         },
 
         tick: function() {
-
           this.worldPos.setFromMatrixPosition(this.leftHandControllerEl.object3D.matrixWorld);
           //console.log(this.worldPos.x.toFixed(2),this.worldPos.y.toFixed(2),this.worldPos.z.toFixed(2));
         },
+
+        getMovementVector: function(dt) {
+          if (this._getMovementVector) {
+            return this.getMovementVector(dt);
+          }
+
+          var euler = new THREE.Euler(0, 0, 0, 'YXZ');
+          var rotation = new THREE.Vector3();
+          var direction = new THREE.Vector3(0, 0, 0);
+          var velocity = new THREE.Vector3(0, 0, 0);
+
+          var el = this.el;
+          //var leftHandControllerEl = document.getElementById("leftController").components["oculus-touch-controls"];
+          //console.log(leftHandControllerEl);
+          this._getMovementVector = function(dt) {
+            
+            rotation.copy(this.leftHandControllerEl.object3D.rotation);
+            direction.copy(velocity);
+            direction.multiplyScalar(this.dt / 1000);
+            if(!rotation) {
+              return direction;
+            }
+            euler.set(THREE.MathUtils.degToRad(rotation.x), THREE.MathUtils.degToRad(rotation.y), 0);
+            direction.applyEuler(euler);
+
+            return direction;
+          };
+
+          return this._getMovementVector(dt);
+        },
       });
 
+    </script>
+    
+    <script>
       AFRAME.registerComponent("rhc-pos-logging", {
         init: function() {
-          const sceneEl = this.el.sceneEl;
           this.rightHandControllerEl = document.getElementById("rightController");
           this.worldPos = new THREE.Vector3();
+          var dt;
+
+          var movementVector = this.getMovementVector(dt);
+
+          this.rightHandControllerEl.object3D.translateX(movementVector.x);
+          this.rightHandControllerEl.object3D.translateY(movementVector.y);
+          this.rightHandControllerEl.object3D.translateZ(movementVector.z);
         },
 
         tick: function() {
           this.worldPos.setFromMatrixPosition(this.rightHandControllerEl.object3D.matrixWorld);
-          //console.log("lefthis.worldPos.x.toFixed(2),this.worldPos.y.toFixed(2),this.worldPos.z.toFixed(2)");        
+          //console.log(this.worldPos.x.toFixed(2),this.worldPos.y.toFixed(2),this.worldPos.z.toFixed(2));
+        },
+
+        getMovementVector: function(dt) {
+          if (this._getMovementVector) {
+            return this.getMovementVector(dt);
+          }
+
+          var euler = new THREE.Euler(0, 0, 0, 'YXZ');
+          var rotation = new THREE.Vector3();
+          var direction = new THREE.Vector3(0, 0, 0);
+          var velocity = new THREE.Vector3(0, 0, 0);
+
+          var el = this.el;
+          //var rightHandControllerEl = document.getElementById("rightController").components["oculus-touch-controls"];
+          //console.log(rightHandControllerEl);
+          this._getMovementVector = function(dt) {
+            
+            rotation.copy(this.rightHandControllerEl.object3D.rotation);
+            direction.copy(velocity);
+            direction.multiplyScalar(this.dt / 1000);
+            if(!rotation) {
+              return direction;
+            }
+            euler.set(THREE.MathUtils.degToRad(rotation.x), THREE.MathUtils.degToRad(rotation.y), 0);
+            direction.applyEuler(euler);
+
+            return direction;
+          };
+
+          return this._getMovementVector(dt);
         },
       });
 
     </script>
 
     <script>
-
       AFRAME.registerComponent('haptics', {
-	  schema: {
-	    actuatorIndex: {default: 0},
-	    pulseDuration: {default: 100},
-	    enabled: {default: true},
-	    events: {type: 'array'},
-	    eventsFrom: {type: 'string'},
-	    pulseIntensity: {default: 1}
-	  },
+        schema: {
+          actuatorIndex: {
+            default: 0
+          },
+          pulseDuration: {
+            default: 100
+          },
+          enabled: {
+            default: true
+          },
+          events: {
+            type: 'array'
+          },
+          eventsFrom: {
+            type: 'string'
+          },
+          pulseIntensity: {
+            default: 1
+          }
+        },
 
-	  multiple: true,
+        multiple: true,
 
-	  init: function () {
-	    var data = this.data;
-	    var i;
-	    var self = this;
+        init: function() {
+          var data = this.data;
+          var i;
+          var self = this;
 
-	    //this.callPulse = function () { self.pulse(); };
+          //this.callPulse = function () { self.pulse(); };
 
-            this.pulse = this.sendPulse.bind(this);
+          this.pulse = this.sendPulse.bind(this);
 
-	    var doInit = function () {
-	      self.gamepad = self.el.components['tracked-controls'].controller;
-	      if (self.gamepad.gamepad || "xr" in window.navigator) {
-	        // WebXR.
-	         self.gamepad = self.gamepad.gamepad;
-	       }
-	       if (!self.gamepad || !self.gamepad.hapticActuators ||
-	       !self.gamepad.hapticActuators.length) { return; }
-	       self.addEventListeners();
-	    };
+          var doInit = function() {
+            self.gamepad = self.el.components['tracked-controls'].controller;
+            if (self.gamepad.gamepad || "xr" in window.navigator) {
+              // WebXR.
+              self.gamepad = self.gamepad.gamepad;
+            }
+            if (!self.gamepad || !self.gamepad.hapticActuators ||
+              !self.gamepad.hapticActuators.length) {
+              return;
+            }
+            self.addEventListeners();
+          };
 
-	    // There may exist a tracked-controls when this component is initialized
-	    if (this.el.components['tracked-controls'] && this.el.components['tracked-controls'].controller) {
-	      doInit();
-	    } else {
-	      this.el.addEventListener('controllerconnected', function init () {
-	        doInit();
-	      });
-	    }
-	  },
+          // There may exist a tracked-controls when this component is initialized
+          if (this.el.components['tracked-controls'] && this.el.components['tracked-controls'].controller) {
+            doInit();
+          } else {
+            this.el.addEventListener('controllerconnected', function init() {
+              doInit();
+            });
+          }
+        },
 
-	  remove: function () {
-	    this.removeEventListeners();
-	  },
+        remove: function() {
+          this.removeEventListeners();
+        },
 
-	  sendPulse: function () {
-	    var actuator;
-	    var data = this.data;
-	    if (!data.enabled || !this.gamepad || !this.gamepad.hapticActuators) { return; }
-	    actuator = this.gamepad.hapticActuators[data.actuatorIndex];
-	    actuator.pulse(data.pulseIntensity, data.pulseDuration);
-	  },
+        sendPulse: function() {
+          var actuator;
+          var data = this.data;
+          if (!data.enabled || !this.gamepad || !this.gamepad.hapticActuators) {
+            return;
+          }
+          actuator = this.gamepad.hapticActuators[data.actuatorIndex];
+          actuator.pulse(data.pulseIntensity, data.pulseDuration);
+        },
 
-	  addEventListeners: function () {
-	    var data = this.data;
-	    var i;
-	    var listenTarget;
+        addEventListeners: function() {
+          var data = this.data;
+          var i;
+          var listenTarget;
 
-	    listenTarget = data.eventsFrom ? document.querySelector(data.eventsFrom) : this.el;
-	    for (i = 0; i < data.events.length; i++) {
-	      listenTarget.addEventListener(data.events[i], this.pulse);
-	    }
-	  },
+          listenTarget = data.eventsFrom ? document.querySelector(data.eventsFrom) : this.el;
+          for (i = 0; i < data.events.length; i++) {
+            listenTarget.addEventListener(data.events[i], this.pulse);
+          }
+        },
 
-	  removeEventListeners: function () {
-	    var data = this.data;
-	    var i;
-	    var listenTarget;
+        removeEventListeners: function() {
+          var data = this.data;
+          var i;
+          var listenTarget;
 
-	    listenTarget = data.eventsFrom ? document.querySelector(data.eventsFrom) : this.el;
-	    for (i = 0; i < data.events.length; i++) {
-	      listenTarget.removeEventListener(data.events[i], this.pulse);
-	    }
-	  }
-	});
-      
+          listenTarget = data.eventsFrom ? document.querySelector(data.eventsFrom) : this.el;
+          for (i = 0; i < data.events.length; i++) {
+            listenTarget.removeEventListener(data.events[i], this.pulse);
+          }
+        }
+      });
+
     </script>
 
   </head>
@@ -859,7 +948,7 @@
 
         <a-entity id="leftController" oculus-touch-controls="hand: left; model: true;" mixin="colliding-ray" cursor lhc-pos-logging haptics="events: triggerdown; pulseDuration: 1000; pulseIntensity: 0.5"></a-entity>
 
-        <a-entity id="rightController" oculus-touch-controls="hand: right; model: true;" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; button: grip; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" mixin="colliding-ray" cursor rhc-pos-logging haptics="events: triggerdown; pulseDuration: 1000; pulseIntensity: 0.5"></a-entity>
+        <a-entity id="rightController" oculus-touch-controls="hand: right; model: true;" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; button: grip; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" mixin="colliding-ray" cursor rhc-pos-logging haptics="events: triggerdown; pulseDuration: 1000; pulseIntensity: 0.5" gamepad-info></a-entity>
 
       </a-entity>
 
