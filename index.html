@@ -451,7 +451,7 @@
     <script>
       AFRAME.registerComponent('frustum-culling-disabled', {
         init: function() {
-          const el = this.el;
+          var el = this.el;
           el.addEventListener('model-loaded', () => {
             var sceneEl = document.querySelector('a-scene');
             var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
@@ -546,100 +546,26 @@
     </script>
 
     <script>
-      AFRAME.registerComponent("button", {
-        schema: {
-          label: {
-            default: 'label'
-          },
-          width: {
-            default: '0.08'
-          },
-          toggleable: {
-            default: false
-          }
-        },
-
+      AFRAME.registerComponent('hand-info', {
         init: function() {
-          var el = this.el;
-          var labelEl = this.labelEl = document.createElement('a-entity');
 
-          this.color = '#FFFFFF';
-          el.setAttribute('geometry', {
-            primitive: 'box',
-            width: this.data.width,
-            height: 0.05,
-            depth: 0.04
-          });
+          var sceneEl = document.querySelector('a-scene');
+          var handEls = sceneEl.querySelectorAll('a-entity[hand-tracking-controls]');
 
-          el.setAttribute('material', {
-            color: this.color
-          });
-          el.setAttribute('clickable', '');
+          var leftHandEl = handEls[0];
+          var rightHandEl = handEls[1];
 
-          labelEl.setAttribute('position', '0 0 0.02');
-          labelEl.setAttrubute('text', {
-            value: this.data.label,
-            color: 'white',
-            align: 'center'
-          });
+          var leftHandElComponents = leftHandEl.components;
+          var rightHandElComponents = rightHandEl.components;
 
-          labelEl.setAttribute('scale', '0.75 0.75 0.75');
+          var l_indexTipPos = leftHandElComponents['hand-tracking-controls']['indexTipPosition'];
+          var r_indexTipPos = rightHandElComponents['hand-tracking-controls']['indexTipPosition'];
 
-          labelEl.setAttribute('rotation', '0 0 0');
+          //console.log("The index tip positions are: ", l_indexTipPos, r_indexTipPos);
 
-          this.el.appendChild(labelEl);
+          //console.log("The components are: ", leftHandEl.components['hand-tracking-controls']['el'].object3D);
 
-          this.bindMethods();
-          this.el.addEventListener('state-changed', this.stateChanged);
-          this.el.addEventListener('current-state', this.currentState);
-          this.el.addEventListener('state-removed', this.stateRemoved);
-          this.el.addEventListener('click-started', this.onClickStarted);
-          this.el.addEventListener('click-ended', this.onUnClickEnded);
-        },
-
-        bindMethods: function() {
-          this.stateChanged = this.stateChanged.bind(this);
-          this.currentState = this.currentState.bind(this);
-          this.stateRemoved = this.stateRemoved.bind(this);
-          this.onClickStarted = this.onClickStarted.bind(this);
-          this.onClickEnded = this.onClickEnded.bind(this);
-        },
-
-        update: function(oldData) {
-          if (oldData.label !== this.data.label) {
-            this.labelEl.setAttribute('text', 'value', this.data.label);
-          }
-        },
-
-        stateChanged: function() {
-          var color = this.el.is('pressed') ? 'green' : this.color;
-          this.el.setAttribute('material', {
-            color: color
-          });
-        },
-
-        onClickStarted: function() {
-          var el = this.el;
-          el.setAttribute('material', {
-            color: 'yellow'
-          });
-          el.emit('click');
-          if (this.data.toggleable) {
-            if (el.is('clicked')) {
-              el.removeState('clicked');
-            } else {
-              el.addState('clicked');
-            }
-          }
-        },
-
-        onClickEnded: function() {
-          if (this.el.is('pressed')) {
-            return;
-          }
-          this.el.setAttribute('material', {
-            color: this.color
-          });
+          //console.log("The components are: ", rightHandEl.components['hand-tracking-controls']['el'].object3D);
         },
       });
 
@@ -650,143 +576,141 @@
   <body>
     <a-scene physics="debug: true">
       <a-assets>
-      
+
         <!-- To trigger collision events -->
         <!-- Room asset -->
         <a-asset-item id="Room" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Room/basic_room_shell.glb"></a-asset-item>
-        
+
         <!-- Floor asset -->
         <a-asset-item id="Floor" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Floor/factory_concrete_floor.glb"></a-asset-item>
-        
+
         <!-- Office Chair asset -->
         <a-asset-item id="Dentist-Chair" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dentist chair/model/dentist_chair.glb"></a-asset-item>
-        
+
         <!-- Table asset -->
         <a-asset-item id="Table" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Table/table_derived.glb"></a-asset-item>
-        
+
         <!-- Dentist asset -->
         <a-asset-item id="Dentist" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dentist/model/Dentist.glb"></a-asset-item>
-        
+
         <!-- Patient asset -->
         <a-asset-item id="Patient" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/patient/Nathan.glb"></a-asset-item>
-        
+
         <!-- Office Chair asset -->
         <a-asset-item id="Office-Chair" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/office_chair.glb"></a-asset-item>
-        
+
         <!-- Laptop asset -->
         <a-asset-item id="Laptop" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/laptop.glb"></a-asset-item>
-        
+
         <!-- Scalpel asset -->
         <a-asset-item id="Scalpels" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/scalpels/models/pair_of_scalpels.glb"></a-asset-item>
-        
+
         <!-- Denture asset -->
         <a-asset-item id="Denture" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Teeth/3d_denture.glb"></a-asset-item>
-        
+
         <!-- Sickle Pro asset -->
         <a-asset-item id="Sickle" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sickle/sickle_prob.glb"></a-asset-item>
-        
+
         <!-- Syringe asset -->
         <a-asset-item id="Syringe" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/syringe/dental_syringe.glb"></a-asset-item>
-        
+
         <!-- Dental Mirror asset -->
         <a-asset-item id="Mirror" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental-mirror/dental_mirror.glb"></a-asset-item>
-        
+
         <!-- Compactor asset -->
         <a-asset-item id="Compactor" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/compactor/compactor.glb"></a-asset-item>
-        
+
         <!-- Trolley asset -->
         <a-asset-item id="Trolley" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/medical%20cart/medical_cart.glb"></a-asset-item>
-        
+
         <!-- Cabinet asset -->
         <a-asset-item id="Cabinet" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_cabinet/cabinet.glb"></a-asset-item>
-        
+
         <!-- Partition asset -->
         <a-asset-item id="Partition" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/partitions/blue_partition.glb"></a-asset-item>
-        
+
         <!-- Fire extinguisher asset -->
         <a-asset-item id="Fire-extinguisher" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/fire_extinguisher/fire_extinguisher.glb"></a-asset-item>
-        
+
         <!-- Dustbin asset -->
         <a-asset-item id="Dustbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dustbin/dustbin.glb"></a-asset-item>
       </a-assets>
-      
+
       <!-- Sickle Pro glTF -->
       <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.75 -1.68" pinchable="pinchDistance: 2.5" mesh-shadows grab-gltf></a-gltf-model>
-      
+
       <!-- Denture glTF -->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" pinchable="pinchDistance: 2.5" mesh-shadows></a-gltf-model>
-      
+
       <!-- Scalpel glTF -->
       <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="-1 0.72 -1.65" pinchable="pinchDistance: 2.5" mesh-shadows></a-gltf-model>
-      
+
       <!-- Syringe glTF-->
       <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="-0.82 0.72 -1.59" pinchable="pinchDistance: 2.5" mesh-shadows></a-gltf-model>
-      
+
       <!-- Mirror glTF-->
       <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.72 -1.65" pinchable="pinchDistance: 2.5" mesh-shadows></a-gltf-model>
-      
+
       <!-- Compactor glTF-->
       <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="-0.75 0.72 -1.65" pinchable="pinchDistance: 2.5" mesh-shadows></a-gltf-model>
-      
+
       <!-- Room glTF -->
       <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5"></a-gltf-model>
-      
+
       <!-- Dentist glTF -->
       <a-gltf-model id="dentist" gltf-model="#Dentist" rotation="0 30 0" scale="0.375 0.375 0.375" position="-0.15 1.25 -1.55" animate mesh-shadows frustum-culling-disabled></a-gltf-model>
-      
+
       <!-- Floor glTF -->
       <a-gltf-model id="floor" gltf-model="#Floor" rotation="0 90 0" scale="0.065 0.065 0.065" position="-0.85 0 -3"></a-gltf-model>
-      
+
       <!-- Dentist Chair glTF -->
       <a-gltf-model id="chair" gltf-model="#Dentist-Chair" rotation="0 -90 0" scale="0.75 0.75 0.75" position="-1.85 0.15 -3.25" mesh-shadows></a-gltf-model>
-      
+
       <!-- Patient glTF -->
       <a-gltf-model id="patient" gltf-model="#Patient" rotation="-60.5 90 0" scale="0.75 0.75 0.75" position="-1.1 0.35 -3" mesh-shadows rotate-patient-legs="z_val: 0.785398" rotate-patient-hands="x_val: 0; y_val: 2.00713" rotate-spine="z_val:0.785398" rotate-neck="z_val:0.785398"></a-gltf-model>
-      
+
       <!-- Table glTF -->
       <a-gltf-model id="table" gltf-model="#Table" rotation="0 90 0" scale="0.235 0.235 0.235" position="1.35 0 -1.45" mesh-shadows></a-gltf-model>
       <!-- Office Chair glTF-->
       <a-gltf-model id="office-chair" gltf-model="#Office-Chair" rotation="0 -90 0" scale="0.055 0.055 0.055" position="1.7 0.15 -1.45" mesh-shadows></a-gltf-model>
-      
+
       <!-- Office Chair2 glTF-->
       <a-gltf-model id="office-chair2" gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="0.25 0.15 -1.65" mesh-shadows></a-gltf-model>
-      
+
       <!-- Laptop glTF-->
       <a-gltf-model id="laptop" gltf-model="#Laptop" position="1.35 0.81 -1.65" rotation="0 -90 0" scale="0.4 0.4 0.4" pinchable="pinchDistance: 0.3" mesh-shadows></a-gltf-model>
-      
+
       <!-- Trolley glTF-->
       <a-gltf-model id="trolley" gltf-model="#Trolley" rotation="0 180 0" scale="0.0075 0.0075 0.0075" position="-0.85 0.125 -1.70" mesh-shadows></a-gltf-model>
-      
+
       <!-- Cabinet glTF-->
       <a-gltf-model id="cabinet" gltf-model="#Cabinet" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.12 -4" mesh-shadows></a-gltf-model>
-      
+
       <!-- Fire extinguisher glTF-->
       <a-gltf-model id="fire-extinguisher" gltf-model="#Fire-extinguisher" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.9 -3.81" mesh-shadows></a-gltf-model>
-      
+
       <!-- Dustbin glTF-->
       <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.089 -1.15" mesh-shadows></a-gltf-model>
-      
+
       <!-- Partition glTF-->
       <a-gltf-model id="partition" gltf-model="#Partition" rotation="0 -45 0" scale="0.825 0.825 0.825" position="5.5 0.30 1.75" mesh-shadows></a-gltf-model>
-      
+
       <!-- Partition 2 glTF-->
       <a-gltf-model id="partition2" gltf-model="#Partition" rotation="0 -135 0" scale="0.825 0.825 0.825" position="-5.5 0.30 7.5" mesh-shadows visible="false"></a-gltf-model>
-      
+
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
+
         <a-entity id="camera" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6"></a-entity>
-        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6"></a-entity>
+
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh"></a-entity>
+
+        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-info></a-entity>
+
       </a-entity>
 
-      <!-- Button -->
-      <a-entity id="w_btn" button="label: W; width: 0.25; toggleable: true" position="0.25 1 0" visible="true"></a-entity>
-      <a-entity id="a_btn" button="label: A; width: 0.25; toggleable: true" position="0.55 1 0" visible="true"></a-entity>
-      <a-entity id="s_btn" button="label: S; width: 0.25; toggleable: true" position="0.85 1 0" visible="true"></a-entity>
-      <a-entity id="d_btn" button="label: D; width: 0.25; toggleable: true" position="1.15 1 0" visible="true"></a-entity>
-
       <!-- Lighting -->
-      <a-entity light="type: point; color: #f4f4f4; intensity: 0.4; distance: 0" position="8 10 18"></a-entity>
+      <a-entity light="type: point; color: #f4f4f4; intensity: 0.4" position="8 10 18"></a-entity>
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.4; distance: 0" position="-0.45 1.1 -1.5"></a-entity>
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.4; distance: 0" position="1.45 1.68 -2"></a-entity>
       <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.6;" position="-8 10 -18"></a-entity>
