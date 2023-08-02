@@ -6,6 +6,8 @@
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@67d1130/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls@0.4.3/dist/aframe-blink-controls.min.js"></script>
+
     <!-- Custom component for camera logging -->
     <script>
       AFRAME.registerComponent('camera-logger', {
@@ -500,11 +502,13 @@
           sceneEl.addEventListener('pinchended', this.onPinchEnded);
           sceneEl.addEventListener('pinchmoved', this.onPinchMoved);
         },
+        
         bindMethods: function() {
           this.onPinchStarted = this.onPinchStarted.bind(this);
           this.onPinchEnded = this.onPinchEnded.bind(this);
           this.onPinchMoved = this.onPinchMoved.bind(this);
         },
+        
         onPinchStarted: function(evt) {
           var pinchDistance = this.calculatePinchDistance(evt.detail.position);
           if (pinchDistance < this.data.pinchDistance) {
@@ -512,6 +516,7 @@
             this.pinched = true;
           }
         },
+        
         calculatePinchDistance: function(pinchWorldPosition) {
           var el = this.el;
           var worldPosition = this.worldPosition;
@@ -522,12 +527,14 @@
           pinchDistance = worldPosition.distanceTo(pinchWorldPosition);
           return pinchDistance;
         },
+        
         onPinchEnded: function(evt) {
           if (this.pinched) {
             this.pinched = false;
             this.el.emit('pinchedended');
           }
         },
+        
         onPinchMoved: function(evt) {
           var el = this.el;
           var pinchDistance = this.calculatePinchDistance(evt.detail.position);
@@ -576,6 +583,9 @@
   <body>
     <a-scene physics="debug: true">
       <a-assets>
+      
+       <!-- mixin for raycaster events -->
+        <a-mixin id="blink" blink-controls="rotateOnTeleport:false;cameraRig: #camera-control; teleportOrigin: #camera-head;teleportOrigin: #camera-head;"></a-mixin>
 
         <!-- To trigger collision events -->
         <!-- Room asset -->
@@ -701,11 +711,11 @@
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
 
-        <a-entity id="camera" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
+        <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
 
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh"></a-entity>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" mixin="blink" blink-controls="snapTurn:false;startEvents:pinchstarted;endEvents:pinchended;cancelEvents:pinchmoved;"></a-entity>
 
-        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-info></a-entity>
+        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" mixin="blink" blink-controls="snapTurn:false;startEvents:pinchstarted;endEvents:pinchended;cancelEvents:pinchmoved;" hand-info></a-entity>
 
       </a-entity>
 
