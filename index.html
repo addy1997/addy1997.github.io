@@ -564,6 +564,8 @@
 
           var leftHandElComponents = leftHandEl.components;
           var rightHandElComponents = rightHandEl.components;
+          
+          console.log(leftHandElComponents['blink-controls'])
 
           var l_indexTipPos = leftHandElComponents['hand-tracking-controls']['indexTipPosition'];
           var r_indexTipPos = rightHandElComponents['hand-tracking-controls']['indexTipPosition'];
@@ -711,9 +713,9 @@
 
         <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
 
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" blink-controls="snapTurn:false; startEvents:pinchstarted; endEvents:pinchended; cameraRig: #camera-control; teleportOrigin: #camera-head; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 25; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;"></a-entity>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" blink-controls="snapTurn:false; startEvents:pinchstarted; endEvents:pinchended; cancelEvents: pinchstarted; cameraRig: #camera-control; teleportOrigin: #camera-head; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 25; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;"></a-entity>
 
-        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" blink-controls="snapTurn:false; startEvents:pinchstarted; endEvents:pinchended; cameraRig: #camera-control; teleportOrigin: #camera-head; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 25; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" hand-info></a-entity>
+        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" blink-controls="snapTurn:false; startEvents:pinchstarted; endEvents:pinchended; cancelEvents: pinchstarted; teleportOrigin: #camera-head; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 25; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" hand-info></a-entity>
 
       </a-entity>
 
