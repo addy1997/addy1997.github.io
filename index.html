@@ -585,7 +585,7 @@
       <a-assets>
       
        <!-- mixin for raycaster events -->
-        <a-mixin id="blink" blink-controls="rotateOnTeleport:false; cameraRig: #camera-control; teleportOrigin: #camera-head; collision-entities: a-gltf-model"></a-mixin>
+        <a-mixin id="blink" blink-controls="snapTurn:false; startEvents:pinchstarted; endEvents:pinchended; rotateOnTeleport:false; cameraRig: #camera-control; teleportOrigin: #camera-head; collision-entities: a-gltf-model"></a-mixin>
 
         <!-- To trigger collision events -->
         <!-- Room asset -->
@@ -713,9 +713,9 @@
 
         <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
 
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" mixin="blink" blink-controls="snapTurn:false; startEvents:pinchstarted; endEvents:pinchended;"></a-entity>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" mixin="blink"></a-entity>
 
-        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" mixin="blink" blink-controls="snapTurn:false; startEvents:pinchstarted; endEvents:pinchended;" hand-info></a-entity>
+        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" mixin="blink" hand-info></a-entity>
 
       </a-entity>
 
