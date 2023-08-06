@@ -657,22 +657,21 @@
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" class="clickable" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.75 -1.68" pinchable="pinchDistance: 2.5" mesh-shadows grab-gltf></a-gltf-model>
+      <a-gltf-model id="sickle" class="clickable" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.75 -1.68" mesh-shadows grab-gltf></a-gltf-model>
 
       <!-- Denture glTF -->
-      <a-gltf-model id="denture" class="clickable" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" pinchable="pinchDistance: 2.5" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="denture" class="clickable" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" mesh-shadows></a-gltf-model>
 
       <!-- Scalpel glTF -->
-      <a-gltf-model id="scalpels" class="clickable" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="-1 0.72 -1.65" pinchable="pinchDistance: 2.5" mesh-shadows></a-gltf-model>
 
       <!-- Syringe glTF-->
-      <a-gltf-model id="syringe" class="clickable" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="-0.82 0.72 -1.59" pinchable="pinchDistance: 2.5" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="syringe" class="clickable" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="-0.82 0.72 -1.59" mesh-shadows></a-gltf-model>
 
       <!-- Mirror glTF-->
-      <a-gltf-model id="mirror" class="clickable" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.72 -1.65" pinchable="pinchDistance: 2.5" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="mirror" class="clickable" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.72 -1.65" mesh-shadows></a-gltf-model>
 
       <!-- Compactor glTF-->
-      <a-gltf-model id="compactor" class="clickable" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="-0.75 0.72 -1.65" pinchable="pinchDistance: 2.5" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="compactor" class="clickable" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="-0.75 0.72 -1.65" mesh-shadows></a-gltf-model>
 
       <!-- Room glTF -->
       <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5"></a-gltf-model>
@@ -698,7 +697,7 @@
       <a-gltf-model id="office-chair2" gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="0.25 0.15 -1.65" mesh-shadows></a-gltf-model>
 
       <!-- Laptop glTF-->
-      <a-gltf-model id="laptop" class="clickable" gltf-model="#Laptop" position="1.35 0.81 -1.65" rotation="0 -90 0" scale="0.4 0.4 0.4" pinchable="pinchDistance: 0.3" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="laptop" class="clickable" gltf-model="#Laptop" position="1.35 0.81 -1.65" rotation="0 -90 0" scale="0.4 0.4 0.4" mesh-shadows></a-gltf-model>
 
       <!-- Trolley glTF-->
       <a-gltf-model id="trolley" class="clickable" gltf-model="#Trolley" rotation="0 180 0" scale="0.0075 0.0075 0.0075" position="-0.85 0.125 -1.70" mesh-shadows></a-gltf-model>
@@ -728,9 +727,9 @@
           </a-cursor><!-- Cursor End -->
         </a-entity>
 
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" blink-controls="snapTurn:false; startEvents:pinchstarted; endEvents:pinchended; cameraRig: #camera-control; teleportOrigin: #camera-head; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;"></a-entity>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; snapTurn:false; hitCylinderColor:#fcc600; curveHitColor: #fcc600; snapTurn:true; startEvents:pinchstarted; endEvents:pinchended; "></a-entity>
 
-        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" blink-controls="snapTurn:false; startEvents:pinchstarted; endEvents:pinchended;cameraRig: #camera-control; teleportOrigin: #camera-head; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;"></a-entity>
+        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; snapTurn:false; hitCylinderColor:#fcc600; curveHitColor: #fcc600; snapTurn:true; startEvents:pinchstarted; endEvents:pinchended; "></a-entity>
 
       </a-entity>
 
