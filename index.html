@@ -815,7 +815,9 @@
 
         <a-entity id="leftHand" sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: left; handModelStyle: highPoly; color:#add8e6;" lh-position-logger haptic="events: triggerdown; pulseDuration: 1000; pulseIntensity: 1.5"></a-entity>
 
-        <a-entity id="rightHand" sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: right; handModelStyle: highPoly; color:#add8e6;" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; button: thumbstick; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" rh-position-logger haptic="events: triggerdown; pulseDuration: 1000; pulseIntensity: 0.5"></a-entity>
+        <!--<a-entity id="rightHand" sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: right; handModelStyle: highPoly; color:#add8e6;" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; button: thumbstick; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" rh-position-logger haptic="events: triggerdown; pulseDuration: 1000; pulseIntensity: 0.5"></a-entity> -->
+
+        <a-entity id="rightHand" sphere-collider="objects: a-gltf-model" super-hands hand-controls="hand: right; handModelStyle: highPoly; color:#add8e6;" rh-position-logger haptic="events: triggerdown; pulseDuration: 1000; pulseIntensity: 0.5"></a-entity>
 
       </a-entity>
 
