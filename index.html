@@ -683,10 +683,10 @@
       <a-gltf-model id="office-chair" gltf-model="#Office-Chair" rotation="0 -90 0" scale="0.055 0.055 0.055" position="1.7 0.15 -1.45" mesh-shadows></a-gltf-model>
 
       <!-- Office Chair2 glTF-->
-      <a-gltf-model class="collision" id="office-chair2" gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="0.25 0.15 -1.65" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="office-chair2" gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="0.25 0.15 -1.65" mesh-shadows></a-gltf-model>
 
       <!-- Laptop glTF-->
-      <a-gltf-model class="collision" id="laptop" gltf-model="#Laptop" position="1.35 0.81 -1.65" rotation="0 -90 0" scale="0.4 0.4 0.4" pinchable="pinchDistance: 0.3" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="laptop" gltf-model="#Laptop" position="1.35 0.81 -1.65" rotation="0 -90 0" scale="0.4 0.4 0.4" pinchable="pinchDistance: 0.3" mesh-shadows></a-gltf-model>
 
       <!-- Trolley glTF-->
       <a-gltf-model id="trolley" gltf-model="#Trolley" rotation="0 180 0" scale="0.0075 0.0075 0.0075" position="-0.85 0.125 -1.70" mesh-shadows></a-gltf-model>
@@ -711,7 +711,7 @@
 
         <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
 
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" blink-controls="snapTurn:false; startEvents:pinchstarted; endEvents:pinchended; rotateOnTeleport:false; cameraRig: #camera-control; teleportOrigin: #camera-head; curveHitColor: #4d93fd; curveMissColor: #ff0000; curveNumberPoints: 150; curveLineWidth: 0.025; curveShootingSpeed: 5; landingMaxAngle: 125; defaultPlaneSize: 100; drawIncrementally: true; collisionEntities: #Partition2"></a-entity>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" blink-controls="snapTurn:false; startEvents:pinchstarted; endEvents:pinchended; rotateOnTeleport:false; cameraRig: #camera-control; teleportOrigin: #camera-head; curveHitColor: #4d93fd; curveMissColor: #ff0000; curveNumberPoints: 150; curveLineWidth: 0.025; curveShootingSpeed: 5; landingMaxAngle: 125; defaultPlaneSize: 100; drawIncrementally: true;"></a-entity>
 
         <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" blink-controls="snapTurn:false; startEvents:pinchstarted, pinchmoved; endEvents:pinchended; rotateOnTeleport:false; cameraRig: #camera-control; teleportOrigin: #camera-head; curveHitColor: #4d93fd; curveMissColor: #ff0000; curveNumberPoints: 150; curveLineWidth: 0.025; curveShootingSpeed: 5; landingMaxAngle: 125; defaultPlaneSize: 100; drawIncrementally: true;"></a-entity>
 
