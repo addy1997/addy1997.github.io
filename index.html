@@ -569,7 +569,7 @@
           var l_indexTipPos = leftHandElComponents['hand-tracking-controls']['indexTipPosition'];
           var r_indexTipPos = rightHandElComponents['hand-tracking-controls']['indexTipPosition'];
           
-          console.log("The events fired by the hand-tracking-controls are: ", leftHandElComponents['hand-tracking-controls']);
+          console.log("The events fired by the hand-tracking-controls are: ", leftHandElComponents['hand-teleport']);
           
 
           //console.log("The index tip positions are: ", l_indexTipPos, r_indexTipPos);
@@ -721,10 +721,10 @@
         
         <!-- Hand tracking extras component by gftruj -->
         <!-- LeftHand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-head; speed: 5"></a-entity>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5"></a-entity>
         
         <!-- RightHand controller -->
-        <a-entity id="RightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-head; speed: 5"></a-entity>
+        <a-entity id="RightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5"></a-entity>
 
       </a-entity>
 
