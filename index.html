@@ -503,13 +503,13 @@
           sceneEl.addEventListener('pinchended', this.onPinchEnded);
           sceneEl.addEventListener('pinchmoved', this.onPinchMoved);
         },
-        
+
         bindMethods: function() {
           this.onPinchStarted = this.onPinchStarted.bind(this);
           this.onPinchEnded = this.onPinchEnded.bind(this);
           this.onPinchMoved = this.onPinchMoved.bind(this);
         },
-        
+
         onPinchStarted: function(evt) {
           var pinchDistance = this.calculatePinchDistance(evt.detail.position);
           if (pinchDistance < this.data.pinchDistance) {
@@ -517,7 +517,7 @@
             this.pinched = true;
           }
         },
-        
+
         calculatePinchDistance: function(pinchWorldPosition) {
           var el = this.el;
           var worldPosition = this.worldPosition;
@@ -528,14 +528,14 @@
           pinchDistance = worldPosition.distanceTo(pinchWorldPosition);
           return pinchDistance;
         },
-        
+
         onPinchEnded: function(evt) {
           if (this.pinched) {
             this.pinched = false;
             this.el.emit('pinchedended');
           }
         },
-        
+
         onPinchMoved: function(evt) {
           var el = this.el;
           var pinchDistance = this.calculatePinchDistance(evt.detail.position);
@@ -568,9 +568,9 @@
 
           var l_indexTipPos = leftHandElComponents['hand-tracking-controls']['indexTipPosition'];
           var r_indexTipPos = rightHandElComponents['hand-tracking-controls']['indexTipPosition'];
-          
-          console.log("The events fired by the hand-tracking-controls are: ", leftHandElComponents['hand-teleport']);
-          
+
+          //console.log("The events fired by the hand-tracking-controls are: ", leftHandElComponents['hand-teleport']);
+
 
           //console.log("The index tip positions are: ", l_indexTipPos, r_indexTipPos);
 
@@ -581,14 +581,13 @@
       });
 
     </script>
-    
 
   </head>
 
   <body>
     <a-scene physics="debug: true">
       <a-assets>
-      
+
         <!-- To trigger collision events -->
         <!-- Room asset -->
         <a-asset-item id="Room" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Room/basic_room_shell.glb"></a-asset-item>
@@ -646,6 +645,10 @@
 
         <!-- Dustbin asset -->
         <a-asset-item id="Dustbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dustbin/dustbin.glb"></a-asset-item>
+        
+        <!-- Trash bin asset -->
+        <a-asset-item id="Trashbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/trash%20bin/public_trash_bin_2.glb"></a-asset-item>
+
       </a-assets>
 
       <!-- Sickle Pro glTF -->
@@ -683,7 +686,7 @@
 
       <!-- Table glTF -->
       <a-gltf-model id="table" gltf-model="#Table" rotation="0 90 0" scale="0.235 0.235 0.235" position="1.35 0 -1.45" mesh-shadows></a-gltf-model>
-      
+
       <!-- Office Chair glTF-->
       <a-gltf-model id="office-chair" gltf-model="#Office-Chair" rotation="0 -90 0" scale="0.055 0.055 0.055" position="1.7 0.15 -1.45" mesh-shadows></a-gltf-model>
 
@@ -704,6 +707,8 @@
 
       <!-- Dustbin glTF-->
       <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.089 -1.15" mesh-shadows></a-gltf-model>
+      <!-- Trashbin glTF-->
+      <a-gltf-model id="trashbin" gltf-model="#Trashbin" rotation="0 -180 0" scale="0.75 0.75 0.75" position="1.7 0.15 -0.5" mesh-shadows></a-gltf-model>
 
       <!-- Partition glTF-->
       <a-gltf-model id="partition" gltf-model="#Partition" rotation="0 -45 0" scale="0.825 0.825 0.825" position="5.5 0.30 1.75" mesh-shadows></a-gltf-model>
@@ -719,13 +724,13 @@
         <!--<a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; startEvents: pinchstarted; endEvents: pinchended; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;"></a-entity>
 
         <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; startEvents: pinchstarted; endEvents: pinchended; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" hand-info></a-entity>-->
-        
+
         <!-- Hand tracking extras component by gftruj -->
         <!-- LeftHand controller -->
         <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5"></a-entity>
-        
+
         <!-- RightHand controller -->
-        <a-entity id="RightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; startEvents: pinchStarted; endEvents: pinchEnded; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;"></a-entity>
+        <a-entity id="RightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; startEvents: pinchStarted; endEvents: pinchEnded; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" drag-rotate="rig: #camera-control"></a-entity>
 
       </a-entity>
 
