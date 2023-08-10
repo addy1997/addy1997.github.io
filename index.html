@@ -721,10 +721,10 @@
         
         <!-- Hand tracking extras component by gftruj -->
         <!-- LeftHand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5"></a-entity>
+        <a-entity id="leftHand" sphere-collider="objects: a-gltf-model" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5"></a-entity>
         
         <!-- RightHand controller -->
-        <a-entity id="RightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; startEvents: pinchstarted; endEvents: pinchended; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" hand-info></a-entity>
+        <a-entity id="RightHand" sphere-collider="objects: a-gltf-model" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; startEvents: pinchstarted; endEvents: pinchended; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" hand-info></a-entity>
 
       </a-entity>
 
