@@ -421,7 +421,7 @@
       });
 
     </script>
-    
+
     <!-- component for frustum culling of the dentist entity -->
     <script>
       /*AFRAME.registerComponent('frustum-culling-disabled', {
@@ -574,6 +574,36 @@
 
     </script>
 
+    <script>
+      AFRAME.registerComponent('text-display', {
+        init: function() {
+          var sceneEl = this.el.sceneEl;
+          this.text = "";
+
+          this.el.sceneEl.addEventListener('pinchstarted', () => {
+            var entityList = sceneEl.querySelectorAll('a-entity');
+            var leftHandEl = entityList[2];
+            //console.log(leftHandEl.components['hand-tracking-controls']);
+            this.text = "Pinching event activated!!!";
+            
+            this.el.setAttribute("text", "value", this.text);
+            //console.log(leftHandEl.components['hand-tracking-controls']);
+          });
+        },
+
+        tick: function() {
+          /*var sceneEl = this.el.sceneEl;
+          this.el.sceneEl.addEventListener('model-loaded', () => {
+            var entityList = sceneEl.querySelectorAll('a-entity');
+            var leftHandEl = entityList[2];
+            //console.log(leftHandEl.components['hand-tracking-controls']);
+          });
+        }*/
+        }
+      });
+
+    </script>
+
   </head>
 
   <body>
@@ -713,7 +743,14 @@
 
         <!-- Hand tracking extras component by gftruj -->
         <!-- LeftHand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" joint-info></a-entity>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" joint-info>
+        
+        </a-entity>
+        
+        <!-- Text display entity -->
+        <a-entity id="textArea" position="0 1.5 -1.9" geometry="primitive: plane;  width: 3; height: auto" material="color: #444444; transparent: true; opacity: 0.80;" text="anchor: center; baseline: center; wrapCount: 40;
+				transparent: true; opacity: 0.90; color: #8888FF;
+        value:" text-display></a-entity>
 
         <!-- RightHand controller -->
         <!-- Blink controls removed -->
