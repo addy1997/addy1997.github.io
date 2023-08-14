@@ -624,11 +624,11 @@
 
         tick: function() {
 
-          var sceneEl = this.el.sceneEl;
+          //var sceneEl = this.el.sceneEl;
           //var entityList = sceneEl.querySelectorAll("a-entity");
           //var leftHandEl = entityList[2];
 
-          sceneEl.addEventListener("pinchstarted", evt => {
+          this.el.addEventListener("pinchstarted", evt => {
 
             if (!this.data.text) return;
 
