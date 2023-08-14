@@ -781,7 +781,7 @@
 
         <!-- Hand tracking extras component by gftruj -->
         <!-- LeftHand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" drag-rotate="rig: #camera-control" joint-info event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" show-text="text: #textArea">
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" show-text="text: #textArea">
 
           <a-text id="textArea" value="Pinch event started!!!" align="center" visible="true" animation__click="property: visible; dur: 0; to: true; startEvents: switch" color="blue"></a-text>
         </a-entity>
