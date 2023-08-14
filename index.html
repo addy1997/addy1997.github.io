@@ -625,10 +625,10 @@
         tick: function() {
 
           var sceneEl = this.el.sceneEl;
-          //var entityList = sceneEl.querySelectorAll("a-entity");
-          //var leftHandEl = entityList[2];
+          var entityList = sceneEl.querySelectorAll("a-entity");
+          var leftHandEl = entityList[2];
 
-          sceneEl.addEventListener("pinchstarted", evt => {
+          leftHandEl.addEventListener("pinchstarted", evt => {
 
             if (!this.data.text) return;
 
@@ -783,7 +783,7 @@
         <!-- LeftHand controller -->
         <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" drag-rotate="rig: #camera-control" joint-info event-set__show="_event: mouseenter; _target: #textArea; visible: true" event-set__hide="_event: mouseleave; _target: #textArea; visible: false" show-text="text: #textArea">
 
-          <a-text id="textArea" value="Pinch event started!!!" position="1 1 1" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: pinchstarted" color="blue"></a-text>
+          <a-text id="textArea" value="Pinch event started!!!" position="1 1 1" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: switch" color="blue"></a-text>
         </a-entity>
 
         <!-- RightHand controller -->
@@ -792,7 +792,7 @@
 
         <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" event-set__show="_event: mouseenter; _target: #textArea2; visible: true" event-set__hide="_event: mouseleave; _target: #textArea2; visible: false" show-text="text: #textArea2">
 
-          <a-text id="textArea2" value="Pinch event started!!!" position="1 1 1" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: pinchstarted" color="blue"></a-text>
+          <a-text id="textArea2" value="Pinch event started!!!" position="1 1 1" align="center" visible="false" animation__click="property: visible; dur: 0; to: true; startEvents: switch" color="blue"></a-text>
         </a-entity>
 
       </a-entity>
