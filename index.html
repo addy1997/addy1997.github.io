@@ -717,8 +717,8 @@
         <!-- RightHand controller -->
         <!-- Blink controls removed -->
         <!--<a-entity id="RightHand" sphere-collider="objects: a-gltf-model" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; startEvents: pinchstarted; endEvents: pinchended; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" hand-info></a-entity>-->
-        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" show-text="text: #textArea2" test-events></a-entity>
-        <a-text id="textArea2" value="Pinch event started!!!" align="center" visible="true" animation__pinchstarted="property: visible; dur: 0; to: true; startEvents: pinchstarted" color="red"></a-text>
+        <!--<a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" show-text="text: #textArea2" test-events></a-entity>
+        <a-text id="textArea2" value="Pinch event started!!!" align="center" visible="true" animation__pinchstarted="property: visible; dur: 0; to: true; startEvents: pinchstarted" color="red"></a-text>-->
       </a-entity>
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="8 10 18"></a-entity>
