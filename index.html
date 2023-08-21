@@ -423,9 +423,9 @@
   <body>
     <a-scene physix="autoLoad: true; delay: 1000; wasmUrl: https://cdn.jsdelivr.net/gh/c-frame/physx@v0.1.0/wasm/physx.release.wasm; useDaefaultScene: false; stats: console;" gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.5.6/;">
       <a-assets>
-        
+
         <!-- Mixin for blink controls -->
-        <a-mixin id="blink" blink-controls="rotateOnTeleport:false; cameraRig: #camera-control; teleportOrigin: #camera-head;"></a-mixin>
+        <a-mixin id="blink" blink-controls="rotateOnTeleport:false;cameraRig: #camera-control; teleportOrigin: #camera-head;"></a-mixin>
 
         <!-- Room asset -->
         <a-asset-item id="Room" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Room/basic_room_shell.glb"></a-asset-item>
@@ -486,29 +486,29 @@
 
         <!-- Wrist watch asset -->
         <a-asset-item id="Watch" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/watch.glb?v=1645016979219"></a-asset-item>
-        
+
         <!-- Ada Rose Cannon's hand controller module asset -->
         <a-asset-item id="Right-hand" src="https://vazxmixjsiawhamofees.supabase.co/storage/v1/object/public/models/skeleton-right-hand-webxr/model.gltf"></a-asset-item>
 
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.75 -1.68" mesh-shadows grab-gltf></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.75 -1.68" mesh-shadows data-pick-up class="magnet-left magnet-right" data-magnet-range="0.2,0.1,360,180"></a-gltf-model>
 
       <!-- Denture glTF -->
-      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" mesh-shadows data-pick-up class="magnet-left magnet-right" data-magnet-range="0.2,0.1,360,180"></a-gltf-model>
 
       <!-- Scalpel glTF -->
-      <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="-1 0.72 -1.65" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="-1 0.72 -1.65" mesh-shadows data-pick-up class="magnet-left magnet-right" data-magnet-range="0.2,0.1,360,180"></a-gltf-model>
 
       <!-- Syringe glTF-->
-      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="-0.82 0.72 -1.59" pinchable="pinchDistance: 2.5" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="-0.82 0.72 -1.59" mesh-shadows data-pick-up class="magnet-left magnet-right" data-magnet-range="0.2,0.1,360,180"></a-gltf-model>
 
       <!-- Mirror glTF-->
-      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.72 -1.65" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.72 -1.65" mesh-shadows data-pick-up class="magnet-left magnet-right" data-magnet-range="0.2,0.1,360,180"></a-gltf-model>
 
       <!-- Compactor glTF-->
-      <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="-0.75 0.72 -1.65" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="-0.75 0.72 -1.65" mesh-shadows data-pick-up class="magnet-left magnet-right" data-magnet-range="0.2,0.1,360,180"></a-gltf-model>
 
       <!-- Room glTF -->
       <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5"></a-gltf-model>
