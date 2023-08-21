@@ -418,6 +418,64 @@
 
     </script>
 
+    <script>
+      /* Ada Rose Cannon's components from XR boilerplate file */
+      /* https://github.com/AdaRoseCannon/aframe-xr-boilerplate/tree/glitch */
+      /* Change teleport gesture from 'point' to 'horns' */
+
+      /* Attach to objects that will follow or appear attached to Player */
+      AFRAME.registerComponent("xr-follow", {
+        schema: {},
+        init() {},
+        tick() {
+          const scene = this.el.sceneEl;
+          const camera = scene.camera;
+          const object3D = this.el.object3D;
+          camera.getWorldPosition(object3D.position);
+          object3D.parent.worldToLocal(object3D.position);
+        }
+      });
+
+      /* Turn physics off and on when object is grabbed then released */
+      AFRAME.registerComponent("toggle-physics", {
+        events: {
+          pickup: function() {
+            this.el.addState('grabbed');
+          },
+          putdown: function(e) {
+            this.el.removeState('grabbed');
+            if (e.detail.frame && e.detail.inputSource) {
+              const referenceSpace = this.el.sceneEl.renderer.xr.getReferenceSpace();
+              const pose = e.detail.frame.getPose(e.detail.inputSource.gripSpace, referenceSpace);
+              if (pose && pose.angularVelocity) {
+                this.el.components['physx-body'].rigidBody.setAngularVelocity(pose.angularVelocity);
+              }
+              if (pose && pose.linearVelocity) {
+                this.el.components['physx-body'].rigidBody.setLinearVelocity(pose.linearVelocity);
+              }
+            }
+          }
+        }
+      });
+
+      /* Add labels to hands to show pose detection */
+      window.addEventListener("DOMContentLoaded", function() {
+        const sceneEl = document.querySelector("a-scene"); // do we need this?
+        const cameraRig = document.getElementById("cameraRig"); // do we need this?
+
+        const labels = Array.from(document.querySelectorAll('.pose-label'));
+        for (const el of labels) {
+          el.parentNode.addEventListener('pose', function(event) {
+            el.setAttribute('text', 'value', event.detail.pose);
+          });
+          el.parentNode.addEventListener('gamepad', function(event) {
+            el.setAttribute('text', 'value', event.detail.event);
+          });
+        }
+      });
+
+    </script>
+
   </head>
 
   <body>
@@ -493,22 +551,22 @@
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.75 -1.68" mesh-shadows data-pick-up class="magnet-left magnet-right" data-magnet-range="0.2,0.1,360,180"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.75 -1.68" mesh-shadows data-pick-up class="magnet-left magnet-right"></a-gltf-model>
 
       <!-- Denture glTF -->
-      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" mesh-shadows data-pick-up class="magnet-left magnet-right" data-magnet-range="0.2,0.1,360,180"></a-gltf-model>
+      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" mesh-shadows data-pick-up class="magnet-left magnet-right"></a-gltf-model>
 
       <!-- Scalpel glTF -->
-      <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="-1 0.72 -1.65" mesh-shadows data-pick-up class="magnet-left magnet-right" data-magnet-range="0.2,0.1,360,180"></a-gltf-model>
+      <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="-1 0.72 -1.65" mesh-shadows data-pick-up class="magnet-left magnet-right"></a-gltf-model>
 
       <!-- Syringe glTF-->
-      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="-0.82 0.72 -1.59" mesh-shadows data-pick-up class="magnet-left magnet-right" data-magnet-range="0.2,0.1,360,180"></a-gltf-model>
+      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="-0.82 0.72 -1.59" mesh-shadows data-pick-up class="magnet-left magnet-right"></a-gltf-model>
 
       <!-- Mirror glTF-->
-      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.72 -1.65" mesh-shadows data-pick-up class="magnet-left magnet-right" data-magnet-range="0.2,0.1,360,180"></a-gltf-model>
+      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.72 -1.65" mesh-shadows data-pick-up class="magnet-left magnet-right"></a-gltf-model>
 
       <!-- Compactor glTF-->
-      <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="-0.75 0.72 -1.65" mesh-shadows data-pick-up class="magnet-left magnet-right" data-magnet-range="0.2,0.1,360,180"></a-gltf-model>
+      <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="-0.75 0.72 -1.65" mesh-shadows data-pick-up class="magnet-left magnet-right"></a-gltf-model>
 
       <!-- Room glTF -->
       <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5"></a-gltf-model>
