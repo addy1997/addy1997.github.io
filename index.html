@@ -423,6 +423,9 @@
   <body>
     <a-scene physix="autoLoad: true; delay: 1000; wasmUrl: https://cdn.jsdelivr.net/gh/c-frame/physx@v0.1.0/wasm/physx.release.wasm; useDaefaultScene: false; stats: console;" gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.5.6/;">
       <a-assets>
+        
+        <!-- Mixin for blink controls -->
+        <a-mixin id="blink" blink-controls="rotateOnTeleport:false;cameraRig: #cameraRig; teleportOrigin: #head; collisionEntities:.navmesh;"></a-mixin>
 
         <!-- Room asset -->
         <a-asset-item id="Room" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Room/basic_room_shell.glb"></a-asset-item>
