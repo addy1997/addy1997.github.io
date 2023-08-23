@@ -2,15 +2,13 @@
 <html>
 
   <head>
-    <!--<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.min.js"></script>-->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@67d1130/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
-    <!--<script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls@0.4.3/dist/aframe-blink-controls.min.js"></script>-->
-    <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>
+    <script type="text" src="https://cdn.jsdelivr.net/npm/handy-work@1.4.0/build/esm/handy-work.standalone.js"></script>
 
     <!-- Custom component for camera logging -->
     <script>
@@ -426,7 +424,7 @@
 
     <!-- component for frustum culling of the dentist entity -->
     <script>
-      /*AFRAME.registerComponent('frustum-culling-disabled', {
+      AFRAME.registerComponent('frustum-culling-disabled', {
         init: function() {
           var el = this.el;
           el.addEventListener('model-loaded', () => {
@@ -458,9 +456,11 @@
             dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[1].children[0].frustumCulled = false;
           });
         }
-      });*/
+      });
 
     </script>
+
+    <!-- Component to pinch objects from a 'min pinchDistance'-->
     <script>
       AFRAME.registerComponent('pinchable', {
         schema: {
@@ -577,77 +577,71 @@
     </script>
 
     <script>
-      /*AFRAME.registerComponent('text-display', {
+      AFRAME.registerComponent('text-display-for-lefthand', {
         init: function() {
-          var sceneEl = this.el.sceneEl;
-          this.text = "";
-
-          this.el.sceneEl.addEventListener('pinchstarted', () => {
-            var entityList = sceneEl.querySelectorAll('a-entity');
-            var leftHandEl = entityList[2];
-            //console.log(leftHandEl.components['hand-tracking-controls']);
-            this.text = "Pinching event activated!!!";
-
-            this.el.setAttribute("text", "value", this.text);
-            //console.log(leftHandEl.components['hand-tracking-controls']);
-          });
+          var sceneEl = document.querySelector('a-scene');
+          var leftHandEl = sceneEl.querySelectorAll('a-entity')[2];
+          sceneEl.addEventListener('pinchstarted', this.onPinchStarted);
+          sceneEl.addEventListener('pinchended', this.onPinchEnded);
         },
 
-        tick: function() {
-          /*var sceneEl = this.el.sceneEl;
-          this.el.sceneEl.addEventListener('model-loaded', () => {
-            var entityList = sceneEl.querySelectorAll('a-entity');
-            var leftHandEl = entityList[2];
-            //console.log(leftHandEl.components['hand-tracking-controls']);
-          });
-        }
-        }
-      });*/
+        onPinchStarted: function() {
+          this.leftHandEl.emit('pinchstarted');
+        },
+        onPinchEnded: function() {
+          this.leftHandEl.emit('pinchended');
+        },
+      });
+
+      AFRAME.registerComponent('text-display-for-righthand', {
+        init: function() {
+          var sceneEl = document.querySelector('a-scene');
+          var leftHandEl = sceneEl.querySelectorAll('a-entity')[4];
+          sceneEl.addEventListener('pinchstarted', this.onPinchStarted);
+          sceneEl.addEventListener('pinchended', this.onPinchEnded);
+        },
+
+        onPinchStarted: function() {
+          this.rightHandEl.emit('pinchstarted');
+        },
+        onPinchEnded: function() {
+          this.rightHandEl.emit('pinchended');
+        },
+      });
 
     </script>
 
-    <script>
-      // the component has to be defined before the <a-scene>
-      /*AFRAME.registerComponent("show-text", {
-        // a schema, so we can provide different <a-text>s
-        schema: {
-          text: {
-            type: "selector"
-          }
-        },
-        // called upon initialisation
+    <script type="text/javascript">
+      AFRAME.registerComponent('handpose', {
         init: function() {
-
-          var leftHandEl = document.querySelector("#leftHand");
-
-          leftHandEl.addEventListener("pinchstarted", evt => {
-
-            if (!this.data.text) return;
-
-            const visible = this.data.text.getAttribute("visible");
-
-            this.data.text.setAttribute("visible", !visible);
-          });
+        
+          const pose = this.handyPose();
+          console.log(pose);
 
         },
 
-      });*/
+        handyPose: function() {
 
-    </script>
+          import('https://cdn.jsdelivr.net/npm/handy-work@1.4.0/build/esm/handy-work.standalone.js')
+            .then(function({
+              update,
+              loadPose,
+              dumpHands
+            }) {
+              const handyWorkUpdate = update;
+              const Hands = dumpHands;
+              const Pose = loadPose;
 
-    <script>
-      AFRAME.registerComponent('test-events', {
-        init() {
-          window.addEventListener('keyup', this.keyUp.bind(this))
-          window.addEventListener('keydown', this.keyDown.bind(this))
-        },
-        keyUp() {
-          this.el.emit('pinchended')
-        },
-        keyDown() {
-          this.el.emit('pinchstarted')
+              loadPose('relax', 'https://cdn.jsdelivr.net/gh/addy1997/handy-work@main/poses/relax.handpose');
+              loadPose('fist', 'https://cdn.jsdelivr.net/gh/addy1997/handy-work@main/poses/fist.handpose');
+              loadPose('flat', 'https://cdn.jsdelivr.net/gh/addy1997/handy-work@main/poses/flat.handpose');
+              loadPose('point', 'https://cdn.jsdelivr.net/gh/addy1997/handy-work@main/poses/point.handpose');
+              loadPose('horns', 'https://cdn.jsdelivr.net/gh/addy1997/handy-work@main/poses/horns.handpose');
+              loadPose('shaka', 'https://cdn.jsdelivr.net/gh/addy1997/handy-work@main/poses/shaka.handpose');
+              loadPose('vulcan', 'https://cdn.jsdelivr.net/gh/addy1997/handy-work@main/poses/vulcan.handpose');
+            }.bind(this));
         }
-      })
+      });
 
     </script>
 
@@ -657,7 +651,6 @@
     <a-scene physics="debug: true">
       <a-assets>
 
-        <!-- To trigger collision events -->
         <!-- Room asset -->
         <a-asset-item id="Room" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Room/basic_room_shell.glb"></a-asset-item>
 
@@ -714,6 +707,9 @@
 
         <!-- Dustbin asset -->
         <a-asset-item id="Dustbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dustbin/dustbin.glb"></a-asset-item>
+
+        <!-- Wrist watch asset -->
+        <a-asset-item id="Watch" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/watch.glb?v=1645016979219"></a-asset-item>
       </a-assets>
 
       <!-- Sickle Pro glTF -->
@@ -768,10 +764,10 @@
       <a-gltf-model id="cabinet" gltf-model="#Cabinet" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.12 -4" mesh-shadows></a-gltf-model>
 
       <!-- Fire extinguisher glTF-->
-      <a-gltf-model id="fire-extinguisher" gltf-model="#Fire-extinguisher" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.9 -3.81" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="fire-extinguisher" gltf-model="#Fire-extinguisher" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.9 -3.81" mesh-shadows pinchDistance="0.25"></a-gltf-model>
 
       <!-- Dustbin glTF-->
-      <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.089 -1.15" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.089 -1.15" mesh-shadows pinchDistance="0.25"></a-gltf-model>
 
       <!-- Partition glTF-->
       <a-gltf-model id="partition" gltf-model="#Partition" rotation="0 -45 0" scale="0.825 0.825 0.825" position="5.5 0.30 1.75" mesh-shadows></a-gltf-model>
@@ -779,22 +775,23 @@
       <!-- Partition 2 glTF-->
       <a-gltf-model id="partition2" gltf-model="#Partition" rotation="0 -135 0" scale="0.825 0.825 0.825" position="-5.5 0.30 7.5" mesh-shadows visible="false"></a-gltf-model>
 
-      <a-text id="textArea2" position="1 1.5 1" value="Pinch event started!!!" align="center" visible="true" animation__pinchstarted="property: visible; dur: 0; to: true; startEvents: pinchstarted" color="blue"></a-text>
+      <!-- Text area for displaying event information -->
+      <a-text id="textArea" position="0.15 1.5 2" value="A Pinching gesture detected on the Left Hand" align="center" visible="true" animation__pinchstarted="property: visible; dur: 6; to: true; startEvents: pinchstarted" color="red" scale="0.25 0.25 0.25"></a-text>
 
-      <!-- textArea for displaying text -->
-      <a-text id="textArea" position="2 1.5 1" value="Pinch event started!!!" align="center" visible="true" animation__pinchstarted="property: visible; dur: 2; to: true; startEvents: pinchstarted" color="red">
-      </a-text>
+      <!-- Text area for displaying event information -->
+      <a-text id="textArea2" position="1.5 1.5 2" value="A Pinching gesture detected on the Right Hand" align="center" visible="true" animation__pinchstarted="property: visible; dur: 6; to: true; startEvents: pinchstarted" color="blue" scale="0.25 0.25 0.25"></a-text>
 
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
 
+        <!-- Camera head -->
         <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
 
-        <!-- LeftHand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" test-events></a-entity>
+        <!-- Left hand controller -->
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" text-display-for-lefthand></a-entity>
 
-        <!-- RightHand controller -->
-        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" show-text="text: #textArea2" test-events></a-entity>
+        <!-- Right hand controller -->
+        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" text-display-for-righthand></a-entity>
 
       </a-entity>
 
@@ -803,8 +800,6 @@
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="-0.45 1.1 -1.5"></a-entity>
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="1.45 1.68 -2"></a-entity>
       <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.6;" position="-8 10 -18"></a-entity>
-
-      <a-sky color="#FFFFFF"></a-sky>
     </a-scene>
   </body>
 
