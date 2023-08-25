@@ -487,7 +487,7 @@
         onPinchStarted: function(evt) {
           var pinchDistance = this.calculatePinchDistance(evt.detail.position);
           if (pinchDistance < this.data.pinchDistance) {
-            this.el.emit('pinchedstarted');
+            this.el.emit('pinchstarted');
             this.pinched = true;
           }
         },
@@ -506,7 +506,7 @@
         onPinchEnded: function(evt) {
           if (this.pinched) {
             this.pinched = false;
-            this.el.emit('pinchedended');
+            this.el.emit('pinchended');
           }
         },
 
@@ -517,10 +517,10 @@
             return;
           }
           if (pinchDistance < this.data.pinchDistance) {
-            this.el.emit('pinchedmoved', evt.detail);
+            this.el.emit('pinchmoved', evt.detail);
           } else {
             this.pinched = false;
-            this.el.emit('pinchedended');
+            this.el.emit('pinchended');
           }
         }
       });
@@ -528,7 +528,7 @@
     </script>
 
     <script>
-      AFRAME.registerComponent('hand-info', {
+      /*AFRAME.registerComponent('hand-info', {
         init: function() {
 
           var sceneEl = document.querySelector('a-scene');
@@ -543,7 +543,7 @@
           var l_indexTipPos = leftHandElComponents['hand-tracking-controls']['indexTipPosition'];
           var r_indexTipPos = rightHandElComponents['hand-tracking-controls']['indexTipPosition'];
         },
-      });
+      });*/
 
     </script>
 
@@ -786,7 +786,7 @@
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.75 -1.68" mesh-shadows pinch-to-move pinchDistance="0.1"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.75 -1.68" mesh-shadows pinch-to-move pinchable="pinchDistance:0.1"></a-gltf-model>
 
       <!-- Denture glTF -->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" mesh-shadows></a-gltf-model>
