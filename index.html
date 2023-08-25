@@ -675,7 +675,7 @@
           var el = this.el;
           var sceneEl = this.el.sceneEl;
           this.localPosition = new THREE.Vector3();
-          this.onPinchedMoveSickle = this.onPinchMoveSickle.bind(this);
+          this.onPinchedMoveSickle = this.onPinchedSickle.bind(this);
 
           var entityList = this.el.sceneEl.querySelectorAll('a-gltf-model');
           var trackedEl = entityList[0];
