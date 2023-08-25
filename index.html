@@ -662,16 +662,19 @@
       AFRAME.registerComponent('pinch-to-move', {
 
         init: function() {
-          this.localPosition = new THREE.Vector3();
-          this.onPinchedMoved = this.onPinchedMoved.bind(this);
           var el = this.el;
           var sceneEl = this.el.sceneEl;
+
           var entityList = this.el.sceneEl.querySelectorAll('a-gltf-model');
-          var trackedEl = entityList[0];
-          var currentPosition = trackedEl.getAttribute('position');
+          var trackedEl = this.trackedEl = entityList[0];
+          this.localPosition = new THREE.Vector3();
+          this.onPinchedMoved = this.onPinchedMoved.bind(this);
           trackedEl.setAttribute('pinchable', {
             pinchDistance: 0.05
           });
+          
+          this.el.appendChild(trackedEl);
+          
           trackedEl.addEventListener('pinchedmoved', this.onPinchedMoved);
         },
 
@@ -680,8 +683,8 @@
           var evtDetail = this.evtDetail;
           var localPosition = this.localPosition;
           localPosition.copy(evt.detail.position);
-          this.el.object3D.updateMatrixWorld();
-          this.el.object3D.worldToLocal(localPosition);
+          el.object3D.updateMatrixWorld();
+          el.object3D.worldToLocal(localPosition);
           evtDetail.value = this.trackedEl.object3D.position;
           this.el.emit('positionchanged', evtDetail);
         }
