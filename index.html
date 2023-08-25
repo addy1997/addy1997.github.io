@@ -2,8 +2,8 @@
 <html>
 
   <head>
-    <!--<script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>-->
-    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@56d77f99494e01b6918612c526ae514f45d178a4/dist/aframe-master.min.js"></script>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@56d77f99494e01b6918612c526ae514f45d178a4/dist/aframe-master.min.js"></script>-->
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@67d1130/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
@@ -462,12 +462,14 @@
 
     <!-- Component to pinch objects from a 'min pinchDistance'-->
     <script>
+      /* global AFRAME, THREE */
       AFRAME.registerComponent('pinchable', {
         schema: {
           pinchDistance: {
             default: 0.1
           }
         },
+
         init: function() {
           var sceneEl = this.el.sceneEl;
           this.worldPosition = new THREE.Vector3();
@@ -496,10 +498,13 @@
           var el = this.el;
           var worldPosition = this.worldPosition;
           var pinchDistance;
+
           worldPosition.copy(el.object3D.position);
           el.object3D.parent.updateMatrixWorld();
           el.object3D.parent.localToWorld(worldPosition);
+
           pinchDistance = worldPosition.distanceTo(pinchWorldPosition);
+
           return pinchDistance;
         },
 
@@ -517,10 +522,10 @@
             return;
           }
           if (pinchDistance < this.data.pinchDistance) {
-            this.el.emit('pinchedmoved', evt.detail);
+            el.emit('pinchedmoved', evt.detail);
           } else {
             this.pinched = false;
-            this.el.emit('pinchended');
+            el.emit('pinchedended');
           }
         }
       });
@@ -656,54 +661,30 @@
     <script>
       AFRAME.registerComponent('pinch-to-move', {
 
-        schema: {
-          upperLimi_x: {
-            type: 'number',
-            default: 3
-          },
-          upperLimit_y: {
-            type: 'number',
-            default: 1
-          },
-          upperLimit_z: {
-            type: 'number',
-            default: 3
-          }
-        },
-
         init: function() {
-          var el = this.el;
-          var sceneEl = this.el.sceneEl;
           this.localPosition = new THREE.Vector3();
           this.onPinchedMoved = this.onPinchedMoved.bind(this);
+          var el = this.el;
+          var sceneEl = this.el.sceneEl;
 
           var entityList = this.el.sceneEl.querySelectorAll('a-gltf-model');
           var trackedEl = entityList[0];
           var currentPosition = trackedEl.getAttribute('position');
+          trackedEl.setAttribute('pinchable', {
+            pinchDistance: 0.05
+          });
           trackedEl.addEventListener('pinchedmoved', this.onPinchedMoved);
-
-          //Not sure why it's required to listen to the 'model-loaded' events.
-          /*el.addEventListener('model-loaded', (e) => {
-            var entityList = this.el.sceneEl.querySelectorAll('a-gltf-model');
-            var trackedEl = entityList[0];
-            var currentPosition = trackedEl.getAttribute('position');
-            trackedEl.addEventListener('pinchmoved', this.onPinchMoveSickle);
-          });*/
         },
 
         onPinchedMoved: function(evt) {
           var el = this.el;
           var evtDetail = this.evtDetail;
           var localPosition = this.localPosition;
-          var upperLimit = new THREE.Vector3();
           localPosition.copy(evt.detail.position);
           el.object3D.updateMatrixWorld();
           el.object3D.worldToLocal(localPosition);
-          /*if (localPosition.x < this.data.upperLimit.x || localPosition.y < this.data.upperLimit.y || localPosition.z < this.data.upperLimit.z) {
-            this.trackedEl.object3D.position.x, this.trackedEl.object3D.position.y, this.trackedEl.object3D.position.z = localPosition.x, localPosition.y, localPosition.z;
-          }*/
           evtDetail.value = this.trackedEl.object3D.position;
-          this.el.emit('positionchanged', evtDetail);
+          el.emit('positionchanged', evtDetail);
         }
       });
 
@@ -787,7 +768,7 @@
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.85 -1.68" mesh-shadows pinch-to-move></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.85 -1.68" mesh-shadows pinch-to-move pinchable="pinchDistance: 0.05"></a-gltf-model>
 
       <!-- Denture glTF -->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" mesh-shadows></a-gltf-model>
