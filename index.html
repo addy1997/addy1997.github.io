@@ -487,7 +487,7 @@
         onPinchStarted: function(evt) {
           var pinchDistance = this.calculatePinchDistance(evt.detail.position);
           if (pinchDistance < this.data.pinchDistance) {
-            this.el.emit('pinchstarted');
+            this.el.emit('pinchedstarted');
             this.pinched = true;
           }
         },
@@ -506,7 +506,7 @@
         onPinchEnded: function(evt) {
           if (this.pinched) {
             this.pinched = false;
-            this.el.emit('pinchended');
+            this.el.emit('pinchedended');
           }
         },
 
@@ -517,7 +517,7 @@
             return;
           }
           if (pinchDistance < this.data.pinchDistance) {
-            this.el.emit('pinchmoved', evt.detail);
+            this.el.emit('pinchedmoved', evt.detail);
           } else {
             this.pinched = false;
             this.el.emit('pinchended');
@@ -680,7 +680,7 @@
           var entityList = this.el.sceneEl.querySelectorAll('a-gltf-model');
           var trackedEl = entityList[0];
           var currentPosition = trackedEl.getAttribute('position');
-          trackedEl.addEventListener('pinchmoved', this.onPinchMoveSickle);
+          trackedEl.addEventListener('pinchedmoved', this.onPinchMoveSickle);
 
           //Not sure why it's required to listen to the 'model-loaded' events.
           /*el.addEventListener('model-loaded', (e) => {
