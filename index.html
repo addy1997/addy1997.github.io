@@ -654,7 +654,7 @@
     </script>
 
     <script>
-      AFRAME.registerComponent('pinch-to-move', {
+      /*AFRAME.registerComponent('pinch-to-move', {
 
         schema: {
           upperLimi_x: {
@@ -675,7 +675,7 @@
           var el = this.el;
           var sceneEl = this.el.sceneEl;
           this.localPosition = new THREE.Vector3();
-          this.onPinchedMoveSickle = this.onPinchedSickle.bind(this);
+          this.onPinchedMoveSickle = this.onPinchMoveSickle.bind(this);
 
           var entityList = this.el.sceneEl.querySelectorAll('a-gltf-model');
           var trackedEl = entityList[0];
@@ -688,7 +688,7 @@
             var trackedEl = entityList[0];
             var currentPosition = trackedEl.getAttribute('position');
             trackedEl.addEventListener('pinchmoved', this.onPinchMoveSickle);
-          });*/
+          });
         },
 
         onPinchMoveSickle: function(evt) {
@@ -704,8 +704,28 @@
           evtDetail.value = this.trackedEl.object3D.position;
           this.el.emit('positionchanged', evtDetail);
         }
-      });
+      });*/
 
+    </script>
+    
+    <script>
+     AFRAME.registerComponent('pinch-to-move', {
+       init: function() {
+         var scene = document.querySelector('a-scene');
+         var trackedEl = scene.querySelectorAll('a-gltf-model')[0];
+         var currentPosition = trackedEl.object3D.position;
+         trackedEl.addEventListener('pinchstarted', this.onPinchMoved);
+       }, 
+       
+       onPinchMoved: function() {
+         var sceneEl = document.querySelector('a-scene');
+         var leftHandEl = sceneEl.querySelectorAll('a-entity')[2];
+         leftHandEl.emit('pinchstarted');
+         this.trackedEl.object3D.position = leftHandEl.getAttribute('position');
+       }
+     })
+      
+    
     </script>
 
   </head>
