@@ -2,13 +2,13 @@
 <html>
 
   <head>
-    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <!--<script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@56d77f99494e01b6918612c526ae514f45d178a4/dist/aframe-master.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@67d1130/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>
-    <script type="text" src="https://cdn.jsdelivr.net/npm/handy-work@1.4.0/build/esm/handy-work.standalone.js"></script>
 
     <!-- Custom component for camera logging -->
     <script>
@@ -424,7 +424,7 @@
 
     <!-- component for frustum culling of the dentist entity -->
     <script>
-      AFRAME.registerComponent('frustum-culling-disabled', {
+      /*AFRAME.registerComponent('frustum-culling-disabled', {
         init: function() {
           var el = this.el;
           el.addEventListener('model-loaded', () => {
@@ -456,7 +456,7 @@
             dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[1].children[0].frustumCulled = false;
           });
         }
-      });
+      });*/
 
     </script>
 
@@ -596,7 +596,7 @@
       AFRAME.registerComponent('text-display-for-righthand', {
         init: function() {
           var sceneEl = document.querySelector('a-scene');
-          var leftHandEl = sceneEl.querySelectorAll('a-entity')[4];
+          var rightHandEl = sceneEl.querySelectorAll('a-entity')[4];
           sceneEl.addEventListener('pinchstarted', this.onPinchStarted);
           sceneEl.addEventListener('pinchended', this.onPinchEnded);
         },
@@ -611,35 +611,98 @@
 
     </script>
 
-    <script type="text/javascript">
-      AFRAME.registerComponent('handpose', {
+    <!-- Use this component for High-definition rendering only -->
+    <script>
+      AFRAME.registerComponent("envmap", {
         init: function() {
-        
-          const pose = this.handyPose();
-          console.log(pose);
-
+          let mesh = this.el.getObject3D("mesh");
+          if (mesh) {
+            this.loadEnvMap(scene.renderer, this.el);
+          } else {
+            this.el.addEventListener("model-loaded", () => {
+              this.loadEnvMap(this.el.sceneEl.renderer, this.el);
+            });
+          }
         },
 
-        handyPose: function() {
+        loadEnvMap: function(renderer, entity) {
+          let targetCube = new THREE.WebGLCubeRenderTarget(1048, {
+            generateMipmaps: true,
+            minFilter: THREE.LinearMipmapNearestFilter,
+            magFilter: THREE.NearestFilter
+          });
+          renderer.tonemapping = THREE.ACESFilmicToneMapping;
+          renderer.toneMappingExposure = 1;
+          renderer.outputEncoding = THREE.sRGBEncoding;
+          renderer.shadowMap.enabled = true;
+          renderer.shadowMap.autoUpdate = true;
 
-          import('https://cdn.jsdelivr.net/npm/handy-work@1.4.0/build/esm/handy-work.standalone.js')
-            .then(function({
-              update,
-              loadPose,
-              dumpHands
-            }) {
-              const handyWorkUpdate = update;
-              const Hands = dumpHands;
-              const Pose = loadPose;
+          let mesh = entity.getObject3D("mesh");
+          let texture = new THREE.TextureLoader().load("https://i.imgur.com/fO0KaHy.jpeg", function() {
+            let cubeTex = targetCube.fromEquirectangularTexture(renderer, texture);
+            mesh.traverse(function(el) {
+              if (el.material) {
+                el.material.envMap = cubeTex.texture;
+                el.material.envMap.intensity = 0.5;
+                el.material.needsUpdate = true;
+              }
+            })
+          })
+        },
+      });
 
-              loadPose('relax', 'https://cdn.jsdelivr.net/gh/addy1997/handy-work@main/poses/relax.handpose');
-              loadPose('fist', 'https://cdn.jsdelivr.net/gh/addy1997/handy-work@main/poses/fist.handpose');
-              loadPose('flat', 'https://cdn.jsdelivr.net/gh/addy1997/handy-work@main/poses/flat.handpose');
-              loadPose('point', 'https://cdn.jsdelivr.net/gh/addy1997/handy-work@main/poses/point.handpose');
-              loadPose('horns', 'https://cdn.jsdelivr.net/gh/addy1997/handy-work@main/poses/horns.handpose');
-              loadPose('shaka', 'https://cdn.jsdelivr.net/gh/addy1997/handy-work@main/poses/shaka.handpose');
-              loadPose('vulcan', 'https://cdn.jsdelivr.net/gh/addy1997/handy-work@main/poses/vulcan.handpose');
-            }.bind(this));
+    </script>
+
+    <script>
+      AFRAME.registerComponent('pinch-to-move', {
+
+        schema: {
+          upperLimi_x: {
+            type: 'number',
+            default: 3
+          },
+          upperLimit_y: {
+            type: 'number',
+            default: 1
+          },
+          upperLimit_z: {
+            type: 'number',
+            default: 3
+          }
+        },
+
+        init: function() {
+          var el = this.el;
+          var sceneEl = this.el.sceneEl;
+          this.localPosition = new THREE.Vector3();
+          this.onPinchedMoveSickle = this.onPinchedSickle.bind(this);
+
+          var entityList = this.el.sceneEl.querySelectorAll('a-gltf-model');
+          var trackedEl = entityList[0];
+          var currentPosition = trackedEl.getAttribute('position');
+          trackedEl.addEventListener('pinchedmoved', this.onPinchMoveSickle);
+
+          //Not sure why it's required to listen to the 'model-loaded' events.
+          /*el.addEventListener('model-loaded', (e) => {
+            var entityList = this.el.sceneEl.querySelectorAll('a-gltf-model');
+            var trackedEl = entityList[0];
+            var currentPosition = trackedEl.getAttribute('position');
+            trackedEl.addEventListener('pinchmoved', this.onPinchMoveSickle);
+          });*/
+        },
+
+        onPinchMoveSickle: function(evt) {
+          var evtDetail = this.evtDetail;
+          var localPosition = this.localPosition;
+          var upperLimit = new THREE.Vector3();
+          localPosition.copy(evt.detail.position);
+          this.el.object3D.updateMatrixWorld();
+          this.el.object3D.worldToLocal(localPosition);
+          if (localPosition.x < this.data.upperLimit.x || localPosition.y < this.data.upperLimit.y || localPosition.z < this.data.upperLimit.z) {
+            this.trackedEl.object3D.position.x, this.trackedEl.object3D.position.y, this.trackedEl.object3D.position.z = localPosition.x, localPosition.y, localPosition.z;
+          }
+          evtDetail.value = this.trackedEl.object3D.position;
+          this.el.emit('positionchanged', evtDetail);
         }
       });
 
@@ -650,6 +713,12 @@
   <body>
     <a-scene physics="debug: true">
       <a-assets>
+
+        <!-- mixin for left hand -->
+        <!--<a-mixin id="leftHandModel" src="https://cdn.aframe.io/controllers/oculus-hands/v4/left.glb"></a-mixin>-->
+
+        <!-- mixin for right hand -->
+        <!--<a-mixin id="rightHandModel" src="https://cdn.aframe.io/controllers/oculus-hands/v4/right.glb"></a-mixin>-->
 
         <!-- Room asset -->
         <a-asset-item id="Room" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Room/basic_room_shell.glb"></a-asset-item>
@@ -708,12 +777,16 @@
         <!-- Dustbin asset -->
         <a-asset-item id="Dustbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dustbin/dustbin.glb"></a-asset-item>
 
-        <!-- Wrist watch asset -->
-        <a-asset-item id="Watch" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/watch.glb?v=1645016979219"></a-asset-item>
+        <!-- Oculus left hand model asset -->
+        <!--<a-asset-item id="leftHandModel" src="https://cdn.aframe.io/controllers/oculus-hands/v4/left.glb"></a-asset-item>-->
+
+        <!-- Oculus right hand model asset -->
+        <!--<a-asset-item id="rightHandModel" src="https://cdn.aframe.io/controllers/oculus-hands/v4/right.glb"></a-asset-item>-->
+
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.75 -1.68" mesh-shadows grab-gltf></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.75 -1.68" mesh-shadows pinch-to-move></a-gltf-model>
 
       <!-- Denture glTF -->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" mesh-shadows></a-gltf-model>
@@ -781,17 +854,25 @@
       <!-- Text area for displaying event information -->
       <a-text id="textArea2" position="1.5 1.5 2" value="A Pinching gesture detected on the Right Hand" align="center" visible="true" animation__pinchstarted="property: visible; dur: 6; to: true; startEvents: pinchstarted" color="blue" scale="0.25 0.25 0.25"></a-text>
 
+      <!-- Oculus left hand entity -->
+      <!--<a-gltf-model id="oculusLHand" gltf-model="#leftHandModel" position="1.5 1.5 2" visible="true" hand-pose></a-gltf-model>-->
+
+      <!-- Oculus right hand entity -->
+      <!--<a-gltf-model id="oculusRHand" gltf-model="#rightHandModel" position="0.15 1.5 2" visible="true"></a-gltf-model>-->
+
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
 
         <!-- Camera head -->
-        <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
+        <a-entity id="camera-head" camera position="-0.74 1.25 -0.95" look-controls="pointerLockEnabled:true;"></a-entity>
 
         <!-- Left hand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" text-display-for-lefthand></a-entity>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" text-display-for-lefthand>
+        </a-entity>
 
         <!-- Right hand controller -->
-        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" text-display-for-righthand></a-entity>
+        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" text-display-for-righthand>
+        </a-entity>
 
       </a-entity>
 
