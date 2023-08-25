@@ -680,7 +680,7 @@
           var entityList = this.el.sceneEl.querySelectorAll('a-gltf-model');
           var trackedEl = entityList[0];
           var currentPosition = trackedEl.getAttribute('position');
-          trackedEl.addEventListener('pinchedmoved', this.onPinchMoveSickle);
+          trackedEl.addEventListener('pinchmoved', this.onPinchMoveSickle);
 
           //Not sure why it's required to listen to the 'model-loaded' events.
           /*el.addEventListener('model-loaded', (e) => {
