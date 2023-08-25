@@ -666,7 +666,6 @@
           this.onPinchedMoved = this.onPinchedMoved.bind(this);
           var el = this.el;
           var sceneEl = this.el.sceneEl;
-
           var entityList = this.el.sceneEl.querySelectorAll('a-gltf-model');
           var trackedEl = entityList[0];
           var currentPosition = trackedEl.getAttribute('position');
@@ -681,10 +680,10 @@
           var evtDetail = this.evtDetail;
           var localPosition = this.localPosition;
           localPosition.copy(evt.detail.position);
-          el.object3D.updateMatrixWorld();
-          el.object3D.worldToLocal(localPosition);
+          this.el.object3D.updateMatrixWorld();
+          this.el.object3D.worldToLocal(localPosition);
           evtDetail.value = this.trackedEl.object3D.position;
-          el.emit('positionchanged', evtDetail);
+          this.el.emit('positionchanged', evtDetail);
         }
       });
 
