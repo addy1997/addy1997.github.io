@@ -654,7 +654,7 @@
     </script>
 
     <script>
-      /*AFRAME.registerComponent('pinch-to-move', {
+      AFRAME.registerComponent('pinch-to-move', {
 
         schema: {
           upperLimi_x: {
@@ -675,12 +675,12 @@
           var el = this.el;
           var sceneEl = this.el.sceneEl;
           this.localPosition = new THREE.Vector3();
-          this.onPinchedMoveSickle = this.onPinchMoveSickle.bind(this);
+          this.onPinchedMoved = this.onPinchedMoved.bind(this);
 
           var entityList = this.el.sceneEl.querySelectorAll('a-gltf-model');
           var trackedEl = entityList[0];
           var currentPosition = trackedEl.getAttribute('position');
-          trackedEl.addEventListener('pinchedmoved', this.onPinchMoveSickle);
+          trackedEl.addEventListener('pinchedmoved', this.onPinchedMoved);
 
           //Not sure why it's required to listen to the 'model-loaded' events.
           /*el.addEventListener('model-loaded', (e) => {
@@ -688,44 +688,25 @@
             var trackedEl = entityList[0];
             var currentPosition = trackedEl.getAttribute('position');
             trackedEl.addEventListener('pinchmoved', this.onPinchMoveSickle);
-          });
+          });*/
         },
 
-        onPinchMoveSickle: function(evt) {
+        onPinchedMoved: function(evt) {
+          var el = this.el;
           var evtDetail = this.evtDetail;
           var localPosition = this.localPosition;
           var upperLimit = new THREE.Vector3();
           localPosition.copy(evt.detail.position);
-          this.el.object3D.updateMatrixWorld();
-          this.el.object3D.worldToLocal(localPosition);
+          el.object3D.updateMatrixWorld();
+          el.object3D.worldToLocal(localPosition);
           if (localPosition.x < this.data.upperLimit.x || localPosition.y < this.data.upperLimit.y || localPosition.z < this.data.upperLimit.z) {
             this.trackedEl.object3D.position.x, this.trackedEl.object3D.position.y, this.trackedEl.object3D.position.z = localPosition.x, localPosition.y, localPosition.z;
           }
           evtDetail.value = this.trackedEl.object3D.position;
           this.el.emit('positionchanged', evtDetail);
         }
-      });*/
+      });
 
-    </script>
-    
-    <script>
-     AFRAME.registerComponent('pinch-to-move', {
-       init: function() {
-         var scene = document.querySelector('a-scene');
-         var trackedEl = scene.querySelectorAll('a-gltf-model')[0];
-         var currentPosition = trackedEl.object3D.position;
-         trackedEl.addEventListener('pinchstarted', this.onPinchMoved);
-       }, 
-       
-       onPinchMoved: function() {
-         var sceneEl = document.querySelector('a-scene');
-         var leftHandEl = sceneEl.querySelectorAll('a-entity')[2];
-         leftHandEl.emit('pinchstarted');
-         this.trackedEl.object3D.position = leftHandEl.getAttribute('position');
-       }
-     })
-      
-    
     </script>
 
   </head>
@@ -806,7 +787,7 @@
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.85 -1.68" mesh-shadows pinch-to-move pinchable="pinchDistance:0.1"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.85 -1.68" mesh-shadows pinch-to-move></a-gltf-model>
 
       <!-- Denture glTF -->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" mesh-shadows></a-gltf-model>
