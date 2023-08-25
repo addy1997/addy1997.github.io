@@ -662,19 +662,12 @@
       AFRAME.registerComponent('pinch-to-move', {
 
         init: function() {
-          var el = this.el;
-          var sceneEl = this.el.sceneEl;
-
-          var entityList = this.el.sceneEl.querySelectorAll('a-gltf-model');
-          var trackedEl = this.trackedEl = entityList[0];
+          var sceneEl = document.querySelector('a-scene');
+          var trackedEl = this.trackedEl = sceneEl.querySelector('#sickle');
           this.localPosition = new THREE.Vector3();
           this.onPinchedMoved = this.onPinchedMoved.bind(this);
-          trackedEl.setAttribute('pinchable', {
-            pinchDistance: 0.05
-          });
-          
           this.el.appendChild(trackedEl);
-          
+
           trackedEl.addEventListener('pinchedmoved', this.onPinchedMoved);
         },
 
@@ -686,7 +679,82 @@
           el.object3D.updateMatrixWorld();
           el.object3D.worldToLocal(localPosition);
           evtDetail.value = this.trackedEl.object3D.position;
+          console.log(evtDetail.value);
           this.el.emit('positionchanged', evtDetail);
+        }
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('slider', {
+        schema: {
+          width: {
+            default: 0.5
+          }
+        },
+
+        init: function() {
+          var trackEl = this.trackEl = document.createElement('a-entity');
+          this.localPosition = new THREE.Vector3();
+          this.onPinchedMoved = this.onPinchedMoved.bind(this);
+
+          trackEl.setAttribute('geometry', {
+            primitive: 'box',
+            height: 0.01,
+            width: this.data.width,
+            depth: 0.01
+          });
+
+          trackEl.setAttribute('material', {
+            color: 'white'
+          });
+
+          this.el.appendChild(trackEl);
+
+          var pickerEl = this.pickerEl = document.createElement('a-entity');
+
+          pickerEl.setAttribute('geometry', {
+            primitive: 'cylinder',
+            radius: 0.02,
+            height: 0.05
+          });
+
+          pickerEl.setAttribute('material', {
+            color: '#3a50c5'
+          });
+
+          pickerEl.setAttribute('pinchable', {
+            pinchDistance: 0.05
+          });
+
+          pickerEl.setAttribute('rotation', {
+            x: 90,
+            y: 0,
+            z: 0
+          });
+
+          pickerEl.setAttribute('color-change', '');
+
+          this.el.appendChild(pickerEl);
+
+          pickerEl.addEventListener('pinchedmoved', this.onPinchedMoved);
+        },
+
+        onPinchedMoved: function(evt) {
+          var el = this.el;
+          var evtDetail = this.evtDetail;
+          var halfWidth = this.data.width / 2;
+          var localPosition = this.localPosition;
+          localPosition.copy(evt.detail.position);
+          el.object3D.updateMatrixWorld();
+          el.object3D.worldToLocal(localPosition);
+          if (localPosition.x < -halfWidth || localPosition.x > halfWidth) {
+            return;
+          }
+          this.pickerEl.object3D.position.x = localPosition.x;
+          evtDetail.value = (this.pickerEl.object3D.position.x + halfWidth) / this.data.width;
+          this.el.emit('sliderchanged', evtDetail);
         }
       });
 
@@ -770,7 +838,7 @@
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.85 -1.68" mesh-shadows pinch-to-move pinchable="pinchDistance: 0.05"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="1 1.10 1" mesh-shadows pinch-to-move pinchable="pinchDistance: 0.05"></a-gltf-model>
 
       <!-- Denture glTF -->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" mesh-shadows></a-gltf-model>
@@ -848,7 +916,7 @@
       <a-entity id="camera-control" movement-controls="speed:0.2;">
 
         <!-- Camera head -->
-        <a-entity id="camera-head" camera position="-0.74 1.25 -0.95" look-controls="pointerLockEnabled:true;"></a-entity>
+        <a-entity id="camera-head" camera position="1 1.10 1.55" look-controls="pointerLockEnabled:true;"></a-entity>
 
         <!-- Left hand controller -->
         <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" text-display-for-lefthand>
@@ -859,6 +927,8 @@
         </a-entity>
 
       </a-entity>
+      
+      <a-entity slider position="1 1.10 1"></a-entity>
 
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="8 10 18"></a-entity>
