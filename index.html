@@ -919,15 +919,18 @@
         <a-entity id="camera-head" camera position="1 1.10 1.55" look-controls="pointerLockEnabled:true;"></a-entity>
 
         <!-- Left hand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" text-display-for-lefthand>
-        </a-entity>
+        <!--<a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" text-display-for-lefthand>
+        </a-entity>-->
 
         <!-- Right hand controller -->
-        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" text-display-for-righthand>
-        </a-entity>
+        <!--<a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" text-display-for-righthand>
+        </a-entity>-->
+
+        <a-entity hand-tracking-controls="hand: left"></a-entity>
+        <a-entity hand-tracking-controls="hand: right"></a-entity>
 
       </a-entity>
-      
+
       <a-entity slider position="1 1.10 1"></a-entity>
 
       <!-- Lighting -->
