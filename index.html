@@ -661,8 +661,9 @@
           var sceneEl = this.el.sceneEl;
           this.localPosition = new THREE.Vector3();
           this.bindMethods();
-          var entityList = sceneEl.querySelectorAll('a-gltf-model');
-          var trackedEl = entityList[0];
+          var entityList = sceneEl.querySelectorAll('a-entity');
+          var trackedEl = entityList[2];
+          console.log(trackedEl.id)
           var currentPosition = trackedEl.getAttribute('position');
           trackedEl.addEventListener('pinchmoved', this.onPinchMoved);
         },
@@ -751,7 +752,7 @@
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.85 -1.68" mesh-shadows pinch-to-move pinchable="pinchDistance: 0.05"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.85 -1.68" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>
 
       <!-- Denture glTF -->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" mesh-shadows></a-gltf-model>
@@ -826,7 +827,7 @@
         <a-entity id="camera-head" camera position="-0.74 1.25 -0.95" look-controls="pointerLockEnabled:true;"></a-entity>
 
         <!-- Left hand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" text-display-for-lefthand>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" text-display-for-lefthand pinch-to-move>
         </a-entity>
 
         <!-- Right hand controller -->
