@@ -655,27 +655,12 @@
 
     <script>
       AFRAME.registerComponent('pinch-to-move', {
-
-        schema: {
-          upperLimi_x: {
-            type: 'number',
-            default: 3
-          },
-          upperLimit_y: {
-            type: 'number',
-            default: 1
-          },
-          upperLimit_z: {
-            type: 'number',
-            default: 3
-          }
-        },
-
+        
         init: function() {
           var el = this.el;
           var sceneEl = this.el.sceneEl;
           this.localPosition = new THREE.Vector3();
-          this.onPinchMoved = this.onPinchMoved.bind(this);
+          this.bindMethods();
           var entityList = sceneEl.querySelectorAll('a-gltf-model');
           var trackedEl = entityList[0];
           var currentPosition = trackedEl.getAttribute('position');
@@ -688,18 +673,13 @@
 
         onPinchMoved: function(evt) {
           var el = this.el;
-          var sceneEl = this.el.sceneEl;
           var evtDetail = this.evtDetail;
           var localPosition = this.localPosition;
-          var upperLimit = new THREE.Vector3();
           localPosition.copy(evt.detail.position);
           el.object3D.updateMatrixWorld();
           el.object3D.worldToLocal(localPosition);
-          if (localPosition.x < this.data.upperLimit_x || localPosition.y < this.data.upperLimit_y || localPosition.z < this.data.upperLimit_z) {
-            this.trackedEl.object3D.position.x, this.trackedEl.object3D.position.y, this.trackedEl.object3D.position.z = localPosition.x, localPosition.y, localPosition.z;
-          }
           evtDetail.value = this.trackedEl.object3D.position;
-          this.el.emit('positionchanged', evtDetail);
+          el.emit('pinchmoved', evtDetail);
         }
       });
 
