@@ -653,7 +653,7 @@
 
     </script>
 
-    <script>
+      <script>
       AFRAME.registerComponent('pinch-to-move', {
 
         schema: {
@@ -675,19 +675,20 @@
           var el = this.el;
           var sceneEl = this.el.sceneEl;
           this.localPosition = new THREE.Vector3();
-          this.onPinchMoved = this.onPinchMoved.bind(this);
+          this.onPinchedMoved = this.onPinchedMoved.bind(this);
 
-          var entityList = this.el.sceneEl.querySelectorAll('a-gltf-model');
+          var entityList = sceneEl.querySelectorAll('a-gltf-model');
           var trackedEl = entityList[0];
           var currentPosition = trackedEl.getAttribute('position');
-          trackedEl.addEventListener('pinchmoved', this.onPinchMoved);
+          trackedEl.addEventListener('pinchmoved', this.onPinchedMoved);
         },
 
-        onPinchMoved: function(evt) {
+        onPinchedMoved: function(evt) {
           var el = this.el;
           var evtDetail = this.evtDetail;
           var localPosition = this.localPosition;
           var upperLimit = new THREE.Vector3();
+          var leftHandEl = sceneEl.querySelectorAll('a-entity')[2];
           localPosition.copy(evt.detail.position);
           el.object3D.updateMatrixWorld();
           el.object3D.worldToLocal(localPosition);
@@ -696,11 +697,11 @@
           }
           evtDetail.value = this.trackedEl.object3D.position;
           this.el.emit('positionchanged', evtDetail);
+          leftHandEl.emit('pinchmoved');
         }
       });
 
     </script>
-
   </head>
 
   <body>
