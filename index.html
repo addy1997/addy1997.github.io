@@ -462,7 +462,7 @@
 
     <!-- Component to pinch objects from a 'min pinchDistance'-->
     <script>
-      /*AFRAME.registerComponent('pinchable', {
+      AFRAME.registerComponent('pinchable', {
         schema: {
           pinchDistance: {
             default: 0.1
@@ -523,7 +523,7 @@
             this.el.emit('pinchended');
           }
         }
-      });*/
+      });
 
     </script>
 
@@ -675,15 +675,18 @@
           var el = this.el;
           var sceneEl = this.el.sceneEl;
           this.localPosition = new THREE.Vector3();
-          this.onPinchedMoved = this.onPinchedMoved.bind(this);
-
+          this.onPinchMoved = this.onPinchMoved.bind(this);
           var entityList = sceneEl.querySelectorAll('a-gltf-model');
           var trackedEl = entityList[0];
           var currentPosition = trackedEl.getAttribute('position');
-          trackedEl.addEventListener('pinchmoved', this.onPinchedMoved);
+          trackedEl.addEventListener('pinchmoved', this.onPinchMoved);
         },
 
-        onPinchedMoved: function(evt) {
+        bindMethods: function() {
+          this.onPinchMoved = this.onPinchMoved.bind(this);
+        },  
+
+        onPinchMoved: function(evt) {
           var el = this.el;
           var sceneEl = this.el.sceneEl;
           var evtDetail = this.evtDetail;
@@ -768,7 +771,7 @@
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.85 -1.68" mesh-shadows pinch-to-move></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.85 -1.68" mesh-shadows pinch-to-move pinchable="pinchDistance: 0.05"></a-gltf-model>
 
       <!-- Denture glTF -->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" mesh-shadows></a-gltf-model>
