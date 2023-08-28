@@ -663,9 +663,8 @@
           this.bindMethods();
           var entityList = sceneEl.querySelectorAll('a-entity');
           var trackedEl = entityList[2];
-          console.log(trackedEl.id)
-          var currentPosition = trackedEl.getAttribute('position');
-          trackedEl.addEventListener('pinchmoved', this.onPinchMoved);
+          var current position = trackedEl.getAttribute('position');
+          sceneEl.addEventListener('pinchmoved', this.onPinchMoved);
         },
 
         bindMethods: function() {
@@ -673,14 +672,14 @@
         },  
 
         onPinchMoved: function(evt) {
-          var el = this.el;
+          //var el = this.el;
           var evtDetail = this.evtDetail;
           var localPosition = this.localPosition;
           localPosition.copy(evt.detail.position);
-          el.object3D.updateMatrixWorld();
-          el.object3D.worldToLocal(localPosition);
+          this.trackedEl.object3D.updateMatrixWorld();
+          this.trackedEl.object3D.worldToLocal(localPosition);
           evtDetail.value = this.trackedEl.object3D.position;
-          el.emit('pinchmoved', evtDetail);
+          this.trackedEl.emit('pinchmoved', evtDetail);
         }
       });
 
