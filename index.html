@@ -681,6 +681,7 @@
           var trackedEl = entityList[0];
           var currentPosition = trackedEl.getAttribute('position');
           trackedEl.addEventListener('pinchmoved', this.onPinchedMoved);
+          sceneEl.addEventLinstener('pinchmoved', this.onPinchedMoved);
         },
 
         onPinchedMoved: function(evt) {
