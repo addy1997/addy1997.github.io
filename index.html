@@ -2,8 +2,8 @@
 <html>
 
   <head>
-    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-    <!--<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@56d77f99494e01b6918612c526ae514f45d178a4/dist/aframe-master.min.js"></script>-->
+    <!--<script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@56d77f99494e01b6918612c526ae514f45d178a4/dist/aframe-master.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@67d1130/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
@@ -462,7 +462,7 @@
 
     <!-- Component to pinch objects from a 'min pinchDistance'-->
     <script>
-      AFRAME.registerComponent('pinchable', {
+      /*AFRAME.registerComponent('pinchable', {
         schema: {
           pinchDistance: {
             default: 0.1
@@ -487,7 +487,7 @@
         onPinchStarted: function(evt) {
           var pinchDistance = this.calculatePinchDistance(evt.detail.position);
           if (pinchDistance < this.data.pinchDistance) {
-            this.el.emit('pinchstarted');
+            this.el.emit('pinchedstarted');
             this.pinched = true;
           }
         },
@@ -506,7 +506,7 @@
         onPinchEnded: function(evt) {
           if (this.pinched) {
             this.pinched = false;
-            this.el.emit('pinchended');
+            this.el.emit('pinchedended');
           }
         },
 
@@ -517,13 +517,13 @@
             return;
           }
           if (pinchDistance < this.data.pinchDistance) {
-            this.el.emit('pinchmoved', evt.detail);
+            this.el.emit('pinchedmoved', evt.detail);
           } else {
             this.pinched = false;
             this.el.emit('pinchended');
           }
         }
-      });
+      });*/
 
     </script>
 
@@ -653,11 +653,11 @@
 
     </script>
 
-      <script>
+    <script>
       AFRAME.registerComponent('pinch-to-move', {
 
         schema: {
-          upperLimit_x: {
+          upperLimi_x: {
             type: 'number',
             default: 3
           },
@@ -675,19 +675,20 @@
           var el = this.el;
           var sceneEl = this.el.sceneEl;
           this.localPosition = new THREE.Vector3();
-          this.onPinchMoved = this.onPinchMoved.bind(this);
+          this.onPinchedMoved = this.onPinchedMoved.bind(this);
+
           var entityList = sceneEl.querySelectorAll('a-gltf-model');
           var trackedEl = entityList[0];
           var currentPosition = trackedEl.getAttribute('position');
           trackedEl.addEventListener('pinchmoved', this.onPinchedMoved);
         },
 
-        onPinchMoved: function(evt) {
+        onPinchedMoved: function(evt) {
           var el = this.el;
+          var sceneEl = this.el.sceneEl;
           var evtDetail = this.evtDetail;
           var localPosition = this.localPosition;
           var upperLimit = new THREE.Vector3();
-          var leftHandEl = sceneEl.querySelectorAll('a-entity')[2];
           localPosition.copy(evt.detail.position);
           el.object3D.updateMatrixWorld();
           el.object3D.worldToLocal(localPosition);
@@ -696,22 +697,16 @@
           }
           evtDetail.value = this.trackedEl.object3D.position;
           this.el.emit('positionchanged', evtDetail);
-          leftHandEl.emit('pinchmoved');
         }
       });
 
     </script>
+
   </head>
 
   <body>
     <a-scene physics="debug: true">
       <a-assets>
-
-        <!-- mixin for left hand -->
-        <!--<a-mixin id="leftHandModel" src="https://cdn.aframe.io/controllers/oculus-hands/v4/left.glb"></a-mixin>-->
-
-        <!-- mixin for right hand -->
-        <!--<a-mixin id="rightHandModel" src="https://cdn.aframe.io/controllers/oculus-hands/v4/right.glb"></a-mixin>-->
 
         <!-- Room asset -->
         <a-asset-item id="Room" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Room/basic_room_shell.glb"></a-asset-item>
@@ -770,16 +765,10 @@
         <!-- Dustbin asset -->
         <a-asset-item id="Dustbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dustbin/dustbin.glb"></a-asset-item>
 
-        <!-- Oculus left hand model asset -->
-        <!--<a-asset-item id="leftHandModel" src="https://cdn.aframe.io/controllers/oculus-hands/v4/left.glb"></a-asset-item>-->
-
-        <!-- Oculus right hand model asset -->
-        <!--<a-asset-item id="rightHandModel" src="https://cdn.aframe.io/controllers/oculus-hands/v4/right.glb"></a-asset-item>-->
-
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.85 -1.68" mesh-shadows pinch-to-move pinchable="pinchDistance: 0.05"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.85 -1.68" mesh-shadows pinch-to-move></a-gltf-model>
 
       <!-- Denture glTF -->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" mesh-shadows></a-gltf-model>
@@ -846,12 +835,6 @@
 
       <!-- Text area for displaying event information -->
       <a-text id="textArea2" position="1.5 1.5 2" value="A Pinching gesture detected on the Right Hand" align="center" visible="true" animation__pinchstarted="property: visible; dur: 6; to: true; startEvents: pinchstarted" color="blue" scale="0.25 0.25 0.25"></a-text>
-
-      <!-- Oculus left hand entity -->
-      <!--<a-gltf-model id="oculusLHand" gltf-model="#leftHandModel" position="1.5 1.5 2" visible="true" hand-pose></a-gltf-model>-->
-
-      <!-- Oculus right hand entity -->
-      <!--<a-gltf-model id="oculusRHand" gltf-model="#rightHandModel" position="0.15 1.5 2" visible="true"></a-gltf-model>-->
 
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
