@@ -701,15 +701,14 @@
       },
       
       onPinchMoved: function(evt) {
-        var el = this.el;
         var evtDetail = this.evtDetail;
         var localPosition = this.localPosition;
         localPosition.copy(evt.detail.position);
-        el.object3D.updateMatrixWorld();
-        el.object3D.worldToLocal(localPosition);
+        this.targetEl.object3D.updateMatrixWorld();
+        this.targetEl.object3D.worldToLocal(localPosition);
         this.targetEl.object3D.position.x, this.targetEl.object3D.position.y, this.targetEl.object3D.position.z = localPosition.x, localPosition.y, localPosition.z;
         evtDetail.value = (this.targetEl.object3D.position.x, this.targetEl.object3D.position.y, this.targetEl.object3D.position.z);
-        this.el.emit('positionchanged', evtDetail);
+        this.targetEl.emit('positionchanged', evtDetail);
         this.trackedEl.emit('pinchmoved');
       }
     });
