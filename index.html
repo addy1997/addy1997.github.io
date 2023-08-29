@@ -487,7 +487,7 @@
         onPinchStarted: function(evt) {
           var pinchDistance = this.calculatePinchDistance(evt.detail.position);
           if (pinchDistance < this.data.pinchDistance) {
-            this.el.emit('pinchedstarted');
+            this.el.emit('pinchstarted');
             this.pinched = true;
           }
         },
@@ -506,7 +506,7 @@
         onPinchEnded: function(evt) {
           if (this.pinched) {
             this.pinched = false;
-            this.el.emit('pinchedended');
+            this.el.emit('pinchended');
           }
         },
 
@@ -517,7 +517,7 @@
             return;
           }
           if (pinchDistance < this.data.pinchDistance) {
-            this.el.emit('pinchedmoved', evt.detail);
+            this.el.emit('pinchmoved', evt.detail);
           } else {
             this.pinched = false;
             this.el.emit('pinchended');
@@ -654,7 +654,7 @@
     </script>
 
     <script>
-      AFRAME.registerComponent('pinch-to-move', {
+      /*AFRAME.registerComponent('pinch-to-move', {
         
         init: function() {
           var el = this.el;
@@ -681,8 +681,40 @@
           evtDetail.value = this.trackedEl.object3D.position;
           this.trackedEl.emit('pinchmoved', evtDetail);
         }
-      });
+      });*/
 
+    </script>
+    
+    <script>
+    AFRAME.registerComponent('pinch-to-move', {
+      init: function() {
+        var sceneEl = document.querySelector('a-scene');
+        var trackedEl = sceneEl.querySelectorAll('a-entity')[2];
+        var targetEl = sceneEl.querySelectorAll('a-gltf-model')[0];
+        targetEl.setAttribute('pinchable', {pinchDistance: 0.05})
+        this.localPosition = new THREE.Vector3();
+        this.bindMethods();
+        trackedEl.addEventListener('pinchmoved', this.onPinchMoved);
+      },
+      
+      bindMethods: function () {
+        this.onPinchMoved = this.onPinchMoved.bind(this);
+      },
+      
+      onPinchMoved: function(evt) {
+        var el = this.el;
+        var evtDetail = this.evtDetail;
+        var localPosition = this.localPosition;
+        localPosition.copy(evt.detail.position);
+        el.object3D.updateMatrixWorld();
+        el.object3D.worldToLocal(localPosition);
+        this.targetEl.object3D.position.x, this.targetEl.object3D.position.y, this.targetEl.object3D.position.z = localPosition.x, localPosition.y, localPosition.z;
+        evtDetail.value = (this.targetEl.object3D.position.x, this.targetEl.object3D.position.y, this.targetEl.object3D.position.z);
+        this.el.emit('positionchanged', evtDetail);
+        this.trackedEl.emit('pinchmoved');
+      }
+    });
+    
     </script>
 
   </head>
