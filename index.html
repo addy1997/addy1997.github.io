@@ -653,66 +653,55 @@
     </script>
 
     <script>
-      /*AFRAME.registerComponent('pinch-to-move', {
-        
-        init: function() {
-          var el = this.el;
-          var sceneEl = this.el.sceneEl;
-          this.localPosition = new THREE.Vector3();
-          this.bindMethods();
-          var entityList = sceneEl.querySelectorAll('a-entity');
-          var trackedEl = entityList[2];
-          var current_position = trackedEl.getAttribute('position');
-          sceneEl.addEventListener('pinchmoved', this.onPinchMoved);
+      AFRAME.registerComponent('pinch-to-move', {
+      	schema:  {
+        	targetEl: {type: 'asset'},
+          trackedEl: {type: 'asset'},
+          evtDetail: {type: 'asset'},
+          localPosition: {type: 'asset'}
         },
 
-        bindMethods: function() {
+        dependencies: ['pinchable'],
+        
+        init: function() {
+          //console.log(this.el)
+          var sceneEl = document.querySelector('a-scene');          
+          var trackedEl = sceneEl.querySelector('#leftHand');
+          this.el.trackedEl = trackedEl;
+          //console.log( trackedEl)
+          //Tracked entity is the lefthand
+          var targetEl = sceneEl.querySelector("#sickle");
+          targetEl.setAttribute('pinchable', {
+            pinchDistance: 0.05
+          })          
+          trackedEl.addEventListener('pinchmoved', this.onPinchMoved);
           this.onPinchMoved = this.onPinchMoved.bind(this);
-        },  
+          
+          //var event = new Event("pinchmoved")
+          
+          //trackedEl.dispatchEvent(event)
+          
+          this.el.targetEl = targetEl;
+        },
 
         onPinchMoved: function(evt) {
-          //var el = this.el;
+          var targetEl = document.querySelector("#sickle");
+          var trackedEl = document.querySelector('#leftHand');
+          //console.log(targetEl.object3D)
+          var position_trackedEl = trackedEl.object3D.position;
           var evtDetail = this.evtDetail;
-          var localPosition = this.localPosition;
-          localPosition.copy(evt.detail.position);
-          this.trackedEl.object3D.updateMatrixWorld();
-          this.trackedEl.object3D.worldToLocal(localPosition);
-          evtDetail.value = this.trackedEl.object3D.position;
-          this.trackedEl.emit('pinchmoved', evtDetail);
+          var localPosition = new THREE.Vector3();
+          localPosition.copy(position_trackedEl);
+          //Target entity is the sickle object
+          targetEl.object3D.updateMatrixWorld();
+          targetEl.object3D.worldToLocal(localPosition);
+          targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z = localPosition.x, localPosition.y, localPosition.z;
+          evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
+          targetEl.emit('positionchanged', evtDetail);
+          trackedEl.emit('pinchmoved');
         }
-      });*/
+      });
 
-    </script>
-    
-    <script>
-    AFRAME.registerComponent('pinch-to-move', {
-      init: function() {
-        var sceneEl = document.querySelector('a-scene');
-        var trackedEl = sceneEl.querySelectorAll('a-entity')[2];
-        var targetEl = sceneEl.querySelectorAll('a-gltf-model')[0];
-        targetEl.setAttribute('pinchable', {pinchDistance: 0.05})
-        this.localPosition = new THREE.Vector3();
-        this.bindMethods();
-        sceneEl.addEventListener('pinchmoved', this.onPinchMoved);
-      },
-      
-      bindMethods: function () {
-        this.onPinchMoved = this.onPinchMoved.bind(this);
-      },
-      
-      onPinchMoved: function(evt) {
-        var evtDetail = this.evtDetail;
-        var localPosition = this.localPosition;
-        localPosition.copy(evt.detail.position);
-        this.targetEl.object3D.updateMatrixWorld();
-        this.targetEl.object3D.worldToLocal(localPosition);
-        this.targetEl.object3D.position.x, this.targetEl.object3D.position.y, this.targetEl.object3D.position.z = localPosition.x, localPosition.y, localPosition.z;
-        evtDetail.value = (this.targetEl.object3D.position.x, this.targetEl.object3D.position.y, this.targetEl.object3D.position.z);
-        this.targetEl.emit('positionchanged', evtDetail);
-        this.trackedEl.emit('pinchmoved');
-      }
-    });
-    
     </script>
 
   </head>
@@ -864,7 +853,7 @@
         </a-entity>
 
       </a-entity>
-
+      
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="8 10 18"></a-entity>
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="-0.45 1.1 -1.5"></a-entity>
