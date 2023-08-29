@@ -693,7 +693,7 @@
         targetEl.setAttribute('pinchable', {pinchDistance: 0.05})
         this.localPosition = new THREE.Vector3();
         this.bindMethods();
-        trackedEl.addEventListener('pinchmoved', this.onPinchMoved);
+        SceneEl.addEventListener('pinchmoved', this.onPinchMoved);
       },
       
       bindMethods: function () {
