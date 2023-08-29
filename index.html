@@ -695,7 +695,7 @@
           //Target entity is the sickle object
           targetEl.object3D.updateMatrixWorld();
           targetEl.object3D.worldToLocal(localPosition);
-          targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z = localPosition.x, localPosition.y, localPosition.z;
+          //targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z = localPosition.x, localPosition.y, localPosition.z;
           evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
           targetEl.emit('positionchanged', evtDetail);
           trackedEl.emit('pinchmoved');
