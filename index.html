@@ -658,7 +658,8 @@
         	targetEl: {type: 'asset'},
           trackedEl: {type: 'asset'},
           evtDetail: {type: 'asset'},
-          localPosition: {type: 'asset'}
+          localPosition: {type: 'asset'},
+          offset_x: {type: 'number', default: 0.05},
         },
 
         dependencies: ['pinchable'],
@@ -684,10 +685,12 @@
           var localPosition = this.localPosition;
           var evtDetail = this.evtDetail;
           var localPosition = new THREE.Vector3();
+          var offset = new THREE.Vector3();
           localPosition.copy(evt.detail.position);
           targetEl.object3D.updateMatrixWorld();
           targetEl.object3D.worldToLocal(localPosition);
-          targetEl.object3D.position = localPosition; 
+          if (evt.detail.position.x < targetEl.object3D.position.x) { return; };
+          targetEl.object3D.position.x = localPosition.x - this.data.offset.x; 
           evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
           targetEl.emit('positionchanged', evtDetail);
           trackedEl.emit('pinchmoved');
