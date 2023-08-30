@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
-    <!--<script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>
 
     <!-- Custom component for camera logging -->
     <script>
@@ -653,14 +653,7 @@
     </script>
 
     <script>
-      AFRAME.registerComponent('pinch-to-move', {
-      	/*schema:  {
-        	targetEl: {type: 'asset'},
-          trackedEl: {type: 'asset'},
-          evtDetail: {type: 'asset'},
-          localPosition: {type: 'asset'},
-          offset_x: {type: 'number', default: 0.05},
-        },*/
+      AFRAME.registerComponent('pinch-to-move-sickle', {
 
         dependencies: ['pinchable'],
         
@@ -690,6 +683,47 @@
           targetEl.object3D.updateMatrixWorld();
           targetEl.object3D.worldToLocal(localPosition);
           targetEl.object3D.position.z = localPosition.z;
+          targetEl.object3D.position.y = localPosition.y;
+          evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
+          targetEl.emit('positionchanged', evtDetail);
+          trackedEl.emit('pinchmoved');
+        }
+      });
+
+    </script>
+    
+    <script>
+      AFRAME.registerComponent('pinch-to-move-denture', {
+
+        dependencies: ['pinchable'],
+        
+        init: function() {
+          var sceneEl = document.querySelector('a-scene');          
+          var trackedEl = sceneEl.querySelector('#rightHand');
+          this.el.trackedEl = trackedEl;
+          var targetEl = sceneEl.querySelector("#denture");
+          targetEl.setAttribute('pinchable', {
+            pinchDistance: 0.05
+          })          
+          trackedEl.addEventListener('pinchmoved', this.onPinchMoved);
+          this.onPinchMoved = this.onPinchMoved.bind(this);
+          //var event = new Event("pinchmoved") 
+          //trackedEl.dispatchEvent(event)
+          this.el.targetEl = targetEl;
+        },
+
+        onPinchMoved: function(evt) {
+          var targetEl = document.querySelector("#denture");
+          var trackedEl = document.querySelector('#rightHand');
+          var localPosition = this.localPosition;
+          var evtDetail = this.evtDetail;
+          var localPosition = new THREE.Vector3();
+          var offset = new THREE.Vector3();
+          localPosition.copy(evt.detail.position);
+          targetEl.object3D.updateMatrixWorld();
+          targetEl.object3D.worldToLocal(localPosition);
+          targetEl.object3D.position.z = localPosition.z;
+          targetEl.object3D.position.y = localPosition.y;
           evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
           targetEl.emit('positionchanged', evtDetail);
           trackedEl.emit('pinchmoved');
@@ -767,13 +801,13 @@
       <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="180 180 0" scale="1 1 1" position="-0.88 0.85 -1.68" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>
 
       <!-- Denture glTF -->
-      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.92 0.68 -1.65" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>
 
       <!-- Scalpel glTF -->
       <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="-1 0.72 -1.65" mesh-shadows></a-gltf-model>
 
       <!-- Syringe glTF-->
-      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="-0.82 0.72 -1.59" pinchable="pinchDistance: 2.5" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="-0.82 0.72 -1.59" mesh-shadows></a-gltf-model>
 
       <!-- Mirror glTF-->
       <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.72 -1.65" mesh-shadows></a-gltf-model>
@@ -815,10 +849,10 @@
       <a-gltf-model id="cabinet" gltf-model="#Cabinet" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.12 -4" mesh-shadows></a-gltf-model>
 
       <!-- Fire extinguisher glTF-->
-      <a-gltf-model id="fire-extinguisher" gltf-model="#Fire-extinguisher" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.9 -3.81" mesh-shadows pinchDistance="0.25"></a-gltf-model>
+      <a-gltf-model id="fire-extinguisher" gltf-model="#Fire-extinguisher" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.9 -3.81" mesh-shadows></a-gltf-model>
 
       <!-- Dustbin glTF-->
-      <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.089 -1.15" mesh-shadows pinchDistance="0.25"></a-gltf-model>
+      <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.089 -1.15" mesh-shadows></a-gltf-model>
 
       <!-- Partition glTF-->
       <a-gltf-model id="partition" gltf-model="#Partition" rotation="0 -45 0" scale="0.825 0.825 0.825" position="5.5 0.30 1.75" mesh-shadows></a-gltf-model>
@@ -839,7 +873,7 @@
         <a-entity id="camera-head" camera position="-0.74 1.25 -0.95" look-controls="pointerLockEnabled:true;"></a-entity>
 
         <!-- Left hand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" text-display-for-lefthand pinch-to-move>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" text-display-for-lefthand pinch-to-move-sickle pinch-to-move-denture>
         </a-entity>
 
         <!-- Right hand controller -->
