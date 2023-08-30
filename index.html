@@ -698,7 +698,7 @@
         
         init: function() {
           var sceneEl = document.querySelector('a-scene');          
-          var trackedEl = sceneEl.querySelector('#rightHand');
+          var trackedEl = sceneEl.querySelector('#leftHand');
           this.el.trackedEl = trackedEl;
           var targetEl = sceneEl.querySelector("#denture");
           targetEl.setAttribute('pinchable', {
@@ -713,7 +713,7 @@
 
         onPinchMoved: function(evt) {
           var targetEl = document.querySelector("#denture");
-          var trackedEl = document.querySelector('#rightHand');
+          var trackedEl = document.querySelector('#leftHand');
           var localPosition = this.localPosition;
           var evtDetail = this.evtDetail;
           var localPosition = new THREE.Vector3();
