@@ -653,7 +653,7 @@
     </script>
 
     <script>
-      AFRAME.registerComponent('pinch-to-move-sickle', {
+      /*AFRAME.registerComponent('pinch-to-move-sickle', {
 
         dependencies: ['pinchable'],
         
@@ -687,7 +687,7 @@
           targetEl.emit('positionchanged', evtDetail);
           trackedEl.emit('pinchmoved');
         }
-      });
+      });*/
 
     </script>
     
@@ -871,11 +871,11 @@
         <a-entity id="camera-head" camera position="-0.74 1.25 -0.95" look-controls="pointerLockEnabled:true;"></a-entity>
 
         <!-- Left hand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" text-display-for-lefthand pinch-to-move-sickle>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" text-display-for-lefthand pinch-to-move-denture>
         </a-entity>
 
         <!-- Right hand controller -->
-        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" text-display-for-righthand pinch-to-move-denture>
+        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" text-display-for-righthand>
         </a-entity>
 
       </a-entity>
