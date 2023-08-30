@@ -653,7 +653,7 @@
     </script>
 
     <script>
-      /*AFRAME.registerComponent('pinch-to-move-sickle', {
+      AFRAME.registerComponent('pinch-to-move-sickle', {
 
         dependencies: ['pinchable'],
         
@@ -687,12 +687,12 @@
           targetEl.emit('positionchanged', evtDetail);
           trackedEl.emit('pinchmoved');
         }
-      });*/
+      });
 
     </script>
     
     <script>
-      AFRAME.registerComponent('pinch-to-move-denture', {
+      /*AFRAME.registerComponent('pinch-to-move-denture', {
 
         dependencies: ['pinchable'],
         
@@ -726,7 +726,7 @@
           targetEl.emit('positionchanged', evtDetail);
           trackedEl.emit('pinchmoved');
         }
-      });
+      });*/
 
     </script>
 
@@ -864,6 +864,9 @@
       <!-- Text area for displaying event information -->
       <a-text id="textArea2" position="1.5 1.5 2" value="A Pinching gesture detected on the Right Hand" align="center" visible="true" animation__pinchstarted="property: visible; dur: 6; to: true; startEvents: pinchstarted" color="blue" scale="0.25 0.25 0.25"></a-text>
 
+      <!-- Text area for displaying event information -->
+      <a-text id="textArea3" position="-0.88 1.05 -1.68" value="The sickle object is being moved" align="center" visible="true" animation__pinchmoved="property: visible; dur: 6; to: true; startEvents: pinchmoved" color="black" scale="0.25 0.25 0.25"></a-text>
+
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
 
@@ -871,7 +874,7 @@
         <a-entity id="camera-head" camera position="-0.74 1.25 -0.95" look-controls="pointerLockEnabled:true;"></a-entity>
 
         <!-- Left hand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" text-display-for-lefthand pinch-to-move-denture>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" event-set__sickle="_event: pinchmoved; _target: #textArea3; visible: true"text-display-for-lefthand pinch-to-move-sickle>
         </a-entity>
 
         <!-- Right hand controller -->
