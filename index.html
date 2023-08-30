@@ -654,13 +654,13 @@
 
     <script>
       AFRAME.registerComponent('pinch-to-move', {
-      	schema:  {
+      	/*schema:  {
         	targetEl: {type: 'asset'},
           trackedEl: {type: 'asset'},
           evtDetail: {type: 'asset'},
           localPosition: {type: 'asset'},
           offset_x: {type: 'number', default: 0.05},
-        },
+        },*/
 
         dependencies: ['pinchable'],
         
@@ -689,8 +689,7 @@
           localPosition.copy(evt.detail.position);
           targetEl.object3D.updateMatrixWorld();
           targetEl.object3D.worldToLocal(localPosition);
-          //if (evt.detail.position.x < targetEl.object3D.position.x) { return; };
-          targetEl.object3D.position.x = localPosition.x + this.data.offset_x; 
+          targetEl.object3D.position.x = localPosition.x; 
           evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
           targetEl.emit('positionchanged', evtDetail);
           trackedEl.emit('pinchmoved');
