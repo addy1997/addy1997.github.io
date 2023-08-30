@@ -689,7 +689,7 @@
           localPosition.copy(evt.detail.position);
           targetEl.object3D.updateMatrixWorld();
           targetEl.object3D.worldToLocal(localPosition);
-          targetEl.object3D.position.x = localPosition.x; 
+          targetEl.object3D.position.z = localPosition.z; 
           evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
           targetEl.emit('positionchanged', evtDetail);
           trackedEl.emit('pinchmoved');
