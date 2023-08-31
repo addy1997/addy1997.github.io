@@ -528,31 +528,36 @@
 
     <script>
       AFRAME.registerComponent('lwrist-movement-tracking', {
+        schema: {
+          minDist: {default: 0.25}
+        },
 
         init: function() {
           this.sceneEl = document.querySelector('a-scene');
           this.leftHandEl = this.sceneEl.querySelector('#leftHand');
+          this.worldPosition = new THREE.Vector3();
         },
         
-        tick: function() {
+        onWristMovement: function(evt) {
           var leftHand = this.leftHandEl;
           var lwristPosition = leftHand.components['hand-tracking-controls'].wristworldPosition;
-          leftHand.emit('lwristmoved');
-        },
-      });
-      
-      AFRAME.registerComponent('rwrist-movement-tracking', {
-
-        init: function() {
-          this.sceneEl = document.querySelector('a-scene');
-          this.rightHandEl = this.sceneEl.querySelector('#rightHand');
+          var distance = lwristPosition.distanceTo(evt.detail.position);
+          if (distance > this.data.minDist) {
+            return;
+          }
+          leftHand.emit('lwristmoved')
         },
         
-        tick: function() {
-          var rightHand = this.rightHandEl;
-          var rwristPosition = rightHand.components['hand-tracking-controls'].wristworldPosition;
-          rightHand.emit('rwristmoved');
-        },
+        calculateWristDistance: function(wristWorldPosition) {
+          var leftHand = this.leftHandEl;
+          var worldPosition = this.worldPosition;
+          var wristDistance;
+          worldPosition.copy(leftHand.object3D.position);
+          leftHand.object3D.updateMatrixWorld();
+          leftHand.object3D.localToWorld(worldPosition);
+          wristDistance = worldPosition.distanceTo(wristWorldPosition);
+          return wristDistance;
+        } 
       });
 
     </script>
@@ -823,7 +828,7 @@
         <a-entity id="camera-head" camera position="-0.74 1.25 -0.95" look-controls="pointerLockEnabled:true;"></a-entity>
 
         <!-- Left hand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" event-set__sickleshow="_event: pinchmoved; _target: #textArea3; visible: true" event-set__sicklehide="_event: pinchended; _target: #textArea3; visible: false" event-set__wristshow="_event: wristmoved; _target: #textArea4; visible: true" event-set__wristhide="_event: wristended; _target: #textArea4; visible: false" text-display-for-lefthand pinch-to-move-sickle lwrist-movement-tracking>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" event-set__sickleshow="_event: pinchmoved; _target: #textArea3; visible: true" event-set__sicklehide="_event: pinchended; _target: #textArea3; visible: false" event-set__wristshow="_event: lwristmoved; _target: #textArea4; visible: true" event-set__wristhide="_event: lwristmoved; _target: #textArea4; visible: false" text-display-for-lefthand pinch-to-move-sickle lwrist-movement-tracking>
         </a-entity>
 
         <!-- Right hand controller -->
