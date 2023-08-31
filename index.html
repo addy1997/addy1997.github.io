@@ -146,38 +146,7 @@
       });
 
     </script>
-    <!-- component to obtain list of the colliding objects with superhands -->
-    <script>
-      AFRAME.registerComponent('collision-objects', {
-        init: function() {
-          var sceneEl = document.querySelector('a-scene');
-          var entities = sceneEl.querySelectorAll('a-entity[super-hands]');
-          var leftHandEntity = entities[0];
-          var leftHandEntityComponents = leftHandEntity.components;
-          //console.log("The left hand entity is ", entities[0]);
-          //console.log(leftHandEntityComponents['super-hands']);
-          //console.log(leftHandEntityComponents['super-hands'].data);
-          //console.log(leftHandEntityComponents['super-hands'].data['colliderEvent']);
-          // The raycaster interacts with the "a-gltf-model" elements
-          //console.log(leftHandEntityComponents['raycaster'].data);
-          //console.log(leftHandEntityComponents['raycaster'].data['objects']);
-          //console.log(leftHandEntityComponents['raycaster'].data['origin']);
-          //console.log(leftHandEntityComponents['super-hands']);
-          var rightHandEntity = entities[1];
-          var rightHandEntityComponents = rightHandEntity.components;
-          //console.log("The right hand entity is ", entities[1]);
-          //console.log(rightHandEntityComponents['super-hands']);
-          //console.log(rightHandEntityComponents['super-hands'].data);
-          //console.log(rightHandEntityComponents['super-hands'].data['colliderEvent']);
-          // The raycaster interacts with the "a-gltf-model" elements
-          //console.log(rightHandEntityComponents['raycaster'].data);
-          //console.log(rightHandEntityComponents['raycaster'].data['objects']);
-          //console.log(rightHandEntityComponents['raycaster'].data['origin']);
-          //console.log(rightHandEntityComponents['super-hands']);
-        },
-      });
-
-    </script>
+    
     <!-- component to rotate sickle probe -->
     <!--<script>
       AFRAME.registerComponent('rotate-sickle', {
@@ -736,7 +705,7 @@
       <a-assets>
 
         <!-- mixin for raycaster events -->
-        <a-mixin id="colliding-ray" raycaster="showLine: true; objects: a-gltf-model; far: 1000; near: 0; lineColor: red; lineOpacity: 1;"></a-mixin>
+        <!--<a-mixin id="colliding-ray" raycaster="showLine: true; objects: a-gltf-model; far: 1000; near: 0; lineColor: red; lineOpacity: 1;"></a-mixin>-->
 
         <!-- Room asset -->
         <a-asset-item id="Room" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Room/basic_room_shell.glb"></a-asset-item>
@@ -768,7 +737,7 @@
         <!-- Denture asset -->
         <a-asset-item id="Denture" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Teeth/3d_denture.glb"></a-asset-item>
 
-        <!-- Sickle Pro asset -->
+        <!-- Sickle Probe asset -->
         <a-asset-item id="Sickle" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sickle/sickle_prob.glb"></a-asset-item>
 
         <!-- Syringe asset -->
@@ -944,11 +913,14 @@
       <!-- Camera system -->
       <a-entity id="camera-control" simple-navmesh-constraint="navmesh: .navmesh; height:1.25; exclude: .nav-hole;" movement-controls="enabled: true; speed:0.2;">
 
-        <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled:true;"></a-entity>
+        <!-- Camera head -->
+        <a-entity id="camera-head" camera position="-0.74 1.25 -0.26" look-controls="pointerLockEnabled: true"></a-entity>
 
-        <a-entity id="leftController" oculus-touch-controls="hand: left; model: true;" mixin="colliding-ray" cursor lhc-pos-logging haptics="events: triggerdown; pulseDuration: 1000; pulseIntensity: 0.5"></a-entity>
-
-        <a-entity id="rightController" oculus-touch-controls="hand: right; model: true;" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; button: grip; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" mixin="colliding-ray" cursor rhc-pos-logging haptics="events: triggerdown; pulseDuration: 1000; pulseIntensity: 0.5" gamepad-info></a-entity>
+        <!-- left hand controller entity -->
+        <a-entity id="leftController" tracked-controls="controller: 0" oculus-touch-controls="hand: left; model: true;" mixin="colliding-ray" cursor lhc-pos-logging haptics="events: triggerdown; pulseDuration: 1000; pulseIntensity: 0.5" joint-info></a-entity>
+        
+        <!-- right hand controller entity -->
+        <a-entity id="rightController" tracked-controls="controller: 0" oculus-touch-controls="hand: right; model: true;" blink-controls="cameraRig: #camera-control; teleportOrigin: #camera-head; button: grip; curveHitColor: #99ff99; curveMissColor: #ff0000; curveNumberPoints: 15; curveLineWidth: 0.05; curveShootingSpeed: 5; defaultPlaneSize: 100; landingMaxAngle: 45;" mixin="colliding-ray" cursor rhc-pos-logging haptics="events: triggerdown; pulseDuration: 1000; pulseIntensity: 0.5" joint-info></a-entity>
 
       </a-entity>
 
@@ -961,7 +933,6 @@
 
       <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.6;" position="-8 10 -18"></a-entity>
 
-      <!-- SKY asset -->
       <a-sky color="#e0ffff"></a-sky>
     </a-scene>
   </body>
