@@ -536,6 +536,7 @@
           this.sceneEl = document.querySelector('a-scene');
           this.leftHandEl = this.sceneEl.querySelector('#leftHand');
           this.worldPosition = new THREE.Vector3();
+          this.sceneEl.addEventListener('lwristmoved', this.onWristMovement);
         },
         
         onWristMovement: function(evt) {
