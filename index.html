@@ -537,6 +537,7 @@
           this.leftHandEl = this.sceneEl.querySelector('#leftHand');
           this.worldPosition = new THREE.Vector3();
           this.leftHandEl.addEventListener('lwristmoved', this.onWristMovement);
+          this.onWristMovement = this.onWristMovement.bind(this);
         },
         
         onWristMovement: function(evt) {
