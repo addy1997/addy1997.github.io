@@ -536,7 +536,7 @@
           this.sceneEl = document.querySelector('a-scene');
           this.leftHandEl = this.sceneEl.querySelector('#leftHand');
           this.worldPosition = new THREE.Vector3();
-          this.sceneEl.addEventListener('lwristmoved', this.onWristMovement);
+          this.leftHandEl.addEventListener('lwristmoved', this.onWristMovement);
         },
         
         onWristMovement: function(evt) {
@@ -546,7 +546,7 @@
           if (distance > this.data.minDist) {
             return;
           }
-          leftHand.emit('lwristmoved')
+          leftHand.emit('lwristmoved');
         },
         
         calculateWristDistance: function(wristWorldPosition) {
