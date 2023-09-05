@@ -1,168 +1,413 @@
-<!DOCTYPE html>
+<!Doctype html>
 <html>
 
-<head>
-    <meta charset="utf-8" />
-    <title>Xmas</title>
-    <meta name="description" content="Spring is coming!" />
-    <!-- A-Frame JavaScript library -->
-    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
-    <!-- A-Frame physics system -->
-    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
-    <!-- A-Frame extras -->
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
-</head>
-
-<body>
-    <a-scene physics="gravity: -1" renderer="antialias: true">
-        <a-assets>
-            <img id="hardwood" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/hardwood-floor.jpg">
-            <img id="wallpaper" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/stripe-wallpaper.jpeg">
-            <img id="angry" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/angry.jpg">
-            <img id="rude" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/rude.png">
-            <img id="check" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/check.png">
-            <img id="busy" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/macbook.png">
-            <a-asset-item id="tree" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/models/tree/scene.gltf"></a-asset-item>
-            <a-asset-item id="fireplace" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/models/fireplace/scene.gltf"></a-asset-item>
-        </a-assets>
-
-        <!-- Left hand -->
-        <!--
-        <a-entity
-            id="leftController" hand-controls="hand: left; handModelStyle: highPoly; color: #ffffff"
-            static-body="shape: sphere; sphereRadius: 0.02;" sphere-collider="objects: .throwable" grab>
-        </a-entity>
-        -->
-        <a-entity id="leftController" static-body="shape: sphere; sphereRadius: 0.02;"
-            oculus-touch-controls="hand: left" sphere-collider="objects: .throwable" grab>
-        </a-entity>
-        
-        <!-- Right hand -->
-        <!--
-        <a-entity
-            id="rightController" hand-controls="hand: right; handModelStyle: highPoly; color: #ffffff"
-            static-body="shape: sphere; sphereRadius: 0.02;" sphere-collider="objects: .throwable" grab>
-        </a-entity>
-        -->
-        <a-entity id="rightController" static-body="shape: sphere; sphereRadius: 0.02;"
-            oculus-touch-controls="hand: right" sphere-collider="objects: .throwable" grab>
-        </a-entity>
-
-        <a-sphere id="sphere1" class="throwable" dynamic-body position="-0.5 0.11 -0.5" radius="0.10" color="#4CC3D9">
-        </a-sphere>
-        <a-sphere id="sphere2" class="throwable" dynamic-body position="0.5 0.11 -0.5" radius="0.10" color="#FFC65D">
-        </a-sphere>
-
-        <a-box id="box1" static-body position="0.8 0 1" height="0.3" color="#4CC3D9"></a-box>
-        <a-box id="box2" static-body position="-0.8 0 1" height="0.3" color="#FFC65D"></a-box>
-
-        <!-- Ground -->
-        <a-plane static-body rotation="-90 0 0" width="8" height="8" src="#hardwood" repeat="4 4" roughness="0.7"
-            metalness="0.3">
-        </a-plane>
-
-        <!-- Walls -->
-        <a-plane static-body position="0 1.5 -4" width="8" height="3" src="#wallpaper" repeat="8 3" roughness="1"
-            metalness="0">
-        </a-plane>
-        <a-box position="0 0.06 -4" width="8" height="0.12" depth="0.02" color="white" roughness="1" metalness="0">
-        </a-box>
-
-        <a-plane static-body position="0 1.5 4" rotation="0 180 0" width="8" height="3" src="#wallpaper" repeat="8 3"
-            roughness="1" metalness="0">
-        </a-plane>
-        <a-box position="0 0.06 4" width="8" height="0.12" depth="0.02" color="white" roughness="1" metalness="0">
-        </a-box>
-
-        <a-plane static-body position="-4 1.5 0" rotation="0 90 0" width="8" height="3" src="#wallpaper" repeat="8 3"
-            roughness="1" metalness="0">
-        </a-plane>
-        <a-box position="-4 0.06 0" width="0.02" height="0.12" depth="8" color="white" roughness="1" metalness="0">
-        </a-box>
-
-        <a-plane static-body position="4 1.5 0" rotation="0 -90 0" width="8" height="3" src="#wallpaper" repeat="8 3"
-            roughness="1" metalness="0">
-        </a-plane>
-        <a-box position="4 0.06 0" width="0.02" height="0.12" depth="8" color="white" roughness="1" metalness="0">
-        </a-box>
-
-        <!-- Ceiling -->
-        <a-plane static-body position="0 3 0" rotation="90 0 0" width="8" height="8" color="white" roughness="1"
-            metalness="0"></a-plane>
-
-        <!-- Christmas tree -->
-        <a-gltf-model static-body="shape: box" src="#tree" position="-2.644 0 -2.777" rotation="0 -152 0"
-            scale="0.8 0.8 0.8"></a-gltf-model>
-        <a-gltf-model static-body="shape: box" src="#fireplace" position="2.638 0 -3.382" rotation="0 -9.512 0"
-            scale="0.03 0.03 0.03">
-        </a-gltf-model>
-
-        <a-circle src="#rude" radius="0.5" position="1.82715 1.89076 3.98" rotation="0 180 0"></a-circle>
-        <a-ring radius-inner="0.48" radius-outer="0.52" position="1.82715 1.89076 3.97" rotation="0 180 0"
-            color="#ebc356" metalness="0.75" roughness="0.5"></a-ring>
-        <a-circle src="#check" radius="0.5" position="0.72226 1.52811 3.98" rotation="0 180 0"></a-circle>
-        <a-ring radius-inner="0.48" radius-outer="0.52" position="0.72226 1.52811 3.97" rotation="0 180 0"
-            color="#ebc356" metalness="0.75" roughness="0.5"></a-ring>
-        <a-circle src="#angry" radius="0.5" position="-0.41231 1.98922 3.98" rotation="0 180 0"></a-circle>
-        <a-ring radius-inner="0.48" radius-outer="0.52" position="-0.41231 1.98922 3.97" rotation="0 180 0"
-            color="#ebc356" metalness="0.75" roughness="0.5"></a-ring>
-        <a-circle src="#busy" radius="0.5" position="-1.44021 1.42999 3.98" rotation="0 180 0"></a-circle>
-        <a-ring radius-inner="0.48" radius-outer="0.52" position="-1.44021 1.42999 3.97" rotation="0 180 0"
-            color="#ebc356" metalness="0.75" roughness="0.5"></a-ring>
-
-        <!-- Lights -->
-        <a-entity light="type: ambient; color: white; intensity: 0.5"></a-entity>
-        <a-entity light="type: point; color: white; intensity: 0.3" position="0 1.5 0"></a-entity>
-        <a-entity light="type: point; color: yellow; intensity: 1; distance: 1.5" position="-2.644 0.5 -2.777">
-        </a-entity>
-        <a-entity light="type: point; color: pink; intensity: 1; distance: 1.5" position="-2.644 1.7 -2.777"></a-entity>
-
-        <a-camera position="0 1.7 0">
-        </a-camera>
-    </a-scene>
-
-    <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            let scene = document.querySelector('a-scene');
-            let score = 0;
-
-            let giftCount = 0;
-            function giftAvalanche() {
-                let gift = document.createElement('a-box');
-
-                let size = Math.random() * 0.40 + 0.1;
-                gift.setAttribute('width', size);
-                gift.setAttribute('height', size);
-                gift.setAttribute('depth', size);
-                gift.setAttribute('color', 'hsl(' + Math.random() * 360 + ', 90%, 70%)');
-                gift.setAttribute('position', (Math.random() * 2 - 1) + ' 2.6 ' + (Math.random() * 2 - 1));
-                gift.setAttribute('dynamic-body', 'shape: box; mass: 0.1;');
-                gift.classList.add('throwable');
-
-                scene.appendChild(gift);
-
-                if (++giftCount < 50) window.setTimeout(giftAvalanche, 150);
-            }
-
-            document.querySelector('#box1').addEventListener('collide', (e) => {
-                if (e.detail.body.el.id === 'sphere1') {
-                    e.detail.target.el.setAttribute('visible', 'false');
-                    e.detail.body.el.setAttribute('visible', 'false');
-
-                    if (++score === 2) giftAvalanche();
-                }
-            });
-
-            document.querySelector('#box2').addEventListener('collide', (e) => {
-                if (e.detail.body.el.id === 'sphere2') {
-                    e.detail.target.el.setAttribute('visible', 'false');
-                    e.detail.body.el.setAttribute('visible', 'false');
-
-                    if (++score === 2) giftAvalanche();
-                }
-            });
-        });
+  <head>
+    <!-- AFRAME components -->
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@67d1130/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.3/dist/aframe-environment-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/rdub80/aframe-gui@master/dist/aframe-gui.min.js">
     </script>
-</body>
+
+    <!-- Custom components -->
+    <!-- Component to animate the dentist -->
+    <script>
+      AFRAME.registerComponent('animate', {
+        init: function() {
+          // wait until the model is loaded
+          this.el.addEventListener("model-loaded", evt => {
+            const mixer = new THREE.AnimationMixer(this.el.components['gltf-model'].model);
+            const clips = this.el.components['gltf-model'].model.animations[0];
+            mixer.clipAction(clips).play();
+            // "expose" the animation mixer
+            this.mixer = mixer;
+          })
+        },
+        // on each render loop (actually before each render loop)
+        tick: function(t, dt) {
+          if (!this.mixer) return; // if the mixer exists
+          this.mixer.update(dt / 1000) // update it with the delta time
+        }
+      });
+
+    </script>
+
+    <!-- Component to generate shadows in the scene -->
+    <script>
+      AFRAME.registerComponent('mesh-shadows', {
+        init: function() {
+          this.el.addEventListener('model-loaded', () => {
+            const el = this.el;
+            const obj = el.getObject3D('mesh');
+            obj.traverse(function(node) {
+              if (node.isMesh) {
+                node.castShadow = true;
+                node.receiveShadow = true;
+                node.material.shadowSide = 1;
+                node.material.roughness = 0.60;
+                if (node.material.map) {
+                  node.material.map.encoding = THREE.LinearEncoding;
+                }
+              }
+            });
+          });
+        },
+      });
+
+    </script>
+
+    <!-- Component to rotate patient's legs -->
+    <script>
+      AFRAME.registerComponent('rotate-patient-legs', {
+        schema: {
+          /*x_val: {
+            type: 'number',
+            default: 0
+          },
+          y_val: {
+            type: 'number',
+            default: 0
+          },*/
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          const el = this.el;
+          el.addEventListener('model-loaded', () => {
+            var sceneEl = document.querySelector('a-scene');
+            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
+            var entityPatient = glTFModels[10]
+            var patientObj = entityPatient.getObject3D('mesh');
+            patientObj.frustumCulled = false;
+            patientObj.getObjectByProperty("type", "SkinnedMesh").frustumCulled = false;
+            const entityPatientLeftLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperleg_l');
+            const entityPatientRightLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperleg_r');
+            const leftLegRotation = entityPatientLeftLeg.rotation;
+            const rightLegRotation = entityPatientRightLeg.rotation;
+            const entityPatientLeftLowerLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_lowerleg_l');
+            const entityPatientRightLowerLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_lowerleg_r');
+            const entityPatientLeftUpperLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperleg_l');
+            const entityPatientRightUpperLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperleg_r');
+            //var Pitch = parseInt(this.data.x_val);
+            //var Yaw = parseInt(this.data.y_val);
+            var Roll = parseInt(this.data.z_val);
+            entityPatientLeftLeg.rotateZ(Roll + 0.261799);
+            entityPatientRightLeg.rotateZ(Roll + 0.261799);
+            //Default setting
+            //entityPatientLeftUpperLeg.rotateZ(Roll + 0.174533);
+            //entityPatientRightUpperLeg.rotateZ(Roll + 0.174533);
+            //entityPatientLeftLowerLeg.rotateZ(Roll - 0.174533);
+            //entityPatientRightLowerLeg.rotateZ(Roll - 0.174533);
+            //Updated setting
+            entityPatientLeftLowerLeg.rotateZ(Roll - 0.01658063);
+            entityPatientRightLowerLeg.rotateZ(Roll - 0.01658063);
+            entityPatientLeftUpperLeg.rotateZ(Roll + 0.20944);
+            entityPatientRightUpperLeg.rotateZ(Roll + 0.20944);
+          });
+        }
+      });
+
+    </script>
+
+    <!-- component to rotate patient's hands -->
+    <script>
+      AFRAME.registerComponent('rotate-patient-hands', {
+        schema: {
+          x_val: {
+            type: 'number',
+            default: 0
+          },
+          y_val: {
+            type: 'number',
+            default: 0
+          },
+          /*z_val: {
+            type: 'number',
+            default: 0
+          }*/
+        },
+        init: function() {
+          const el = this.el;
+          el.addEventListener('model-loaded', () => {
+            var sceneEl = document.querySelector('a-scene');
+            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
+            var entityPatient = glTFModels[10]
+            var patientObj = entityPatient.getObject3D('mesh');
+            const entityPatientLeftHand = patientObj.getObjectByName('rp_nathan_animated_003_walking_hand_l');
+            const entityPatientRightHand = patientObj.getObjectByName('rp_nathan_animated_003_walking_hand_r');
+            const entityPatientLeftShoulder = patientObj.getObjectByName('rp_nathan_animated_003_walking_shoulder_l');
+            const entityPatientRightShoulder = patientObj.getObjectByName('rp_nathan_animated_003_walking_shoulder_r');
+            const entityPatientLeftUpperArm = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperarm_l');
+            const entityPatientRightUpperArm = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperarm_r');
+            const entityPatientLeftLowerArm = patientObj.getObjectByName('rp_nathan_animated_003_walking_lowerarm_l');
+            const entityPatientRightLowerArm = patientObj.getObjectByName('rp_nathan_animated_003_walking_lowerarm_r');
+            const entityPatientLeftUpperArmTwist = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperarm_twist_l');
+            const entityPatientRightUpperArmTwist = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperarm_twist_r');
+            const entityPatientLeftLowerArmTwist = patientObj.getObjectByName('rp_nathan_animated_003_walking_lowerarm_twist_l');
+            const entityPatientRightLowerArmTwist = patientObj.getObjectByName('rp_nathan_animated_003_walking_lowerarm_twist_r');
+            var Pitch = parseInt(this.data.x_val);
+            var Yaw = parseInt(this.data.y_val);
+            //var Roll = parseInt(this.data.z_val);
+            //Default setting
+            //entityPatientLeftUpperArm.rotateY(Yaw - 0.436332);
+            //entityPatientRightUpperArm.rotateY(Yaw - 0.436332);
+            //Updated setting
+            entityPatientLeftUpperArm.rotateY(Yaw - 0.523599);
+            entityPatientRightUpperArm.rotateY(Yaw - 0.523599);
+            entityPatientLeftUpperArm.rotateZ(Pitch - 0.261799);
+            entityPatientRightUpperArm.rotateZ(Pitch - 0.261799);
+          });
+        }
+      });
+
+    </script>
+
+    <!-- component to rotate patient's neck and spine -->
+    <script>
+      AFRAME.registerComponent('rotate-spine', {
+        schema: {
+          /*x_val: {
+            type: 'number',
+            default: 0
+          },
+          y_val: {
+            type: 'number',
+            default: 0
+          },*/
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          const el = this.el;
+          el.addEventListener('model-loaded', () => {
+            var sceneEl = document.querySelector('a-scene');
+            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
+            var entityPatient = glTFModels[10]
+            var patientObj = entityPatient.getObject3D('mesh');
+            const entityPatientSpine_01 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_01');
+            const entityPatientSpine_02 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_02');
+            const entityPatientSpine_03 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_03');
+            var Roll = parseInt(this.data.z_val);
+            //Default setting
+            //entityPatientSpine_01.rotateZ(Roll - 0.436332);
+            //entityPatientSpine_02.rotateZ(Roll + 0.174533);
+            //entityPatientSpine_03.rotateZ(Roll - 0.349066);
+            //Updated setting
+            entityPatientSpine_01.rotateZ(Roll - 0.820305);
+            entityPatientSpine_02.rotateZ(Roll + 0.0872665);
+          });
+        }
+      });
+
+    </script>
+
+    <!-- component for frustum culling of the patient entity -->
+    <script>
+      AFRAME.registerComponent('rotate-neck', {
+        schema: {
+          /*x_val: {
+            type: 'number',
+            default: 0
+          },
+          y_val: {
+            type: 'number',
+            default: 0
+          },*/
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          const el = this.el;
+          el.addEventListener('model-loaded', () => {
+            var sceneEl = document.querySelector('a-scene');
+            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
+            var entityPatient = glTFModels[10]
+            var patientObj = entityPatient.getObject3D('mesh');
+            const entityPatientNeck = patientObj.getObjectByName('rp_nathan_animated_003_walking_neck');
+            const entityPatientHead = patientObj.getObjectByName('rp_nathan_animated_003_walking_head');
+            const entityPatientHeadEnd = patientObj.getObjectByName('rp_nathan_animated_003_walking_head_end');
+            var Roll = parseInt(this.data.z_val);
+            //Default setting
+            //entityPatientNeck.rotateZ(Roll + 0.139626);
+            //entityPatientHead.rotateZ(Roll + 0.349066);
+            //Updated setting
+            entityPatientNeck.rotateZ(Roll + 0.226893);
+            entityPatientHead.rotateZ(Roll + 0.436332);
+          });
+        }
+      });
+
+    </script>
+
+    <!-- component for frustum culling of the dentist entity -->
+    <script>
+      AFRAME.registerComponent('frustum-culling-disabled', {
+        init: function() {
+          var el = this.el;
+          el.addEventListener('model-loaded', () => {
+            var sceneEl = document.querySelector('a-scene');
+            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
+            var entityDentist = glTFModels[7];
+            var dentistObj = entityDentist.getObject3D('mesh');
+            dentistObj.frustumCulled = false;
+            dentistObj.getObjectByProperty("type", "SkinnedMesh").frustumCulled = false;
+            //Bip001 L Hand_09
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
+            //Bip001 L Finger0_010
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
+            //Bip001 L Finger01_011
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
+            //Bip001 L Finger1_012
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[1].frustumCulled = false;
+            //Bip001_L_Finger11_00
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[1].children[0].frustumCulled = false;
+            //Bip001 R Hand_017
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].frustumCulled = false;
+            //Bip001 R Finger0_018
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].frustumCulled = false
+            //Bip001 R Finger01_019
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
+            //Bip001 R Finger1_020
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[1].frustumCulled = false;
+            //Bip001 R Finger11_021
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[1].children[0].frustumCulled = false;
+          });
+        }
+      });
+
+    </script>
+
+  </head>
+
+  <a-scene environment="preset:moon; skyType:atmosphere; skyColor: black; shadow: true; ground: flat">
+
+    <a-assets>
+
+      <!-- Room asset -->
+      <a-asset-item id="Room" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Room/abandoned_room_interior_style_5.glb"></a-asset-item>
+
+      <!-- Table asset -->
+      <a-asset-item id="Table" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Table/industrial_table.glb"></a-asset-item>
+
+      <!-- Chair asset -->
+      <a-asset-item id="Chair" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Chair/old_soviet_chair.glb"></a-asset-item>
+
+      <!-- Lamp asset -->
+      <a-asset-item id="Lamp" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Table-lamp/classic_table_lamp.glb"></a-asset-item>
+
+      <!-- Cupboard asset -->
+      <a-asset-item id="Cupboard" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Cupboard/cupboard.glb"></a-asset-item>
+
+      <!-- Books asset -->
+      <a-asset-item id="Books" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Books/book_stack.glb"></a-asset-item>
+
+      <!-- Oil Lamp asset -->
+      <a-asset-item id="Oillamp" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Oillamp/oil_lamp.glb"></a-asset-item>
+
+      <!-- Clock asset -->
+      <a-asset-item id="Clock" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Clock-tower/vintage_grandfather_clock_01_1k-v2.glb"></a-asset-item>
+
+      <!-- Chandelier asset -->
+      <a-asset-item id="Chandelier" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Chandelier/chandelier.glb"></a-asset-item>
+
+      <!-- Sofa asset -->
+      <a-asset-item id="Sofa" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Sofaset/sofa_set.glb"></a-asset-item>
+
+      <!-- Small Table asset -->
+      <a-asset-item id="S_table" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Small-table/vintage_table.glb"></a-asset-item>
+
+      <!-- Gramophone asset -->
+      <a-asset-item id="Gramophone" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Gramophone/vintage_gramophone.glb"></a-asset-item>
+
+      <!-- Recliner asset -->
+      <a-asset-item id="Recliner" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Sofaset/sofa.glb"></a-asset-item>
+
+    </a-assets>
+
+    <!-- Room glTF -->
+    <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.25 0.25 0.25" position="-0.45 0.05 -1.5"></a-gltf-model>
+
+    <!-- Table glTF -->
+    <a-gltf-model id="table" gltf-model="#Table" rotation="0 90 0" scale="9 9 9" position="-13.5 0.25 -18"></a-gltf-model>
+
+    <!-- Chair glTF -->
+    <a-gltf-model id="chair" gltf-model="#Chair" rotation="0 -90 0" scale="9 9 9" position="-11.5 0.25 -18"></a-gltf-model>
+
+    <a-gltf-model id="chair_1" gltf-model="#Chair" rotation="0 90 0" scale="9 9 9" position="-15.5 0.25 -20"></a-gltf-model>
+
+    <a-gltf-model id="chair_2" gltf-model="#Chair" rotation="0 90 0" scale="9 9 9" position="-15.5 0.25 -16"></a-gltf-model>
+
+    <!-- Lamp glTF -->
+    <a-gltf-model id="lamp" gltf-model="#Lamp" rotation="0 90 0" scale="8 8 8" position="-13.5 6.25 -21"></a-gltf-model>
+
+    <!-- Cupboard glTF -->
+    <a-gltf-model id="cupboard" gltf-model="#Cupboard" rotation="0 -90 0" scale="8 8 8" position="-8 0.5 -32"></a-gltf-model>
+
+    <a-gltf-model id="cupboard_2" gltf-model="#Cupboard" rotation="0 -90 0" scale="8 8 8" position="-8 0.5 -38"></a-gltf-model>
+
+    <!-- Books glTF -->
+    <a-gltf-model id="books" gltf-model="#Books" rotation="0 -90 0" scale="1.5 1.5 1.5" position="-7 8.15 -32"></a-gltf-model>
+
+    <a-gltf-model id="books_2" gltf-model="#Books" rotation="90 -180 0" scale="1.5 1.5 1.5" position="-7 8.15 -38"></a-gltf-model>-->
+
+    <!-- Oil lamp glTF -->
+    <a-gltf-model id="oillamp" gltf-model="#Oillamp" rotation="0 -90 0" scale="10.5 10.5 10.5" position="-7.5 7 -30"></a-gltf-model>
+
+    <!-- Clock glTF -->
+    <a-gltf-model id="clock" gltf-model="#Clock" rotation="0 -45 0" scale="8 8 8" position="-8.5 0.25 -50"></a-gltf-model>
+
+    <!-- Chandelier glTF -->
+    <a-gltf-model id="chandelier" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="30 26 -10"></a-gltf-model>
+
+    <a-gltf-model id="chandelier_2" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="-32 27 20"></a-gltf-model>
+
+    <a-gltf-model id="chandelier_3" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="-20 27 -20"></a-gltf-model>
+
+    <!-- Sofa glTF -->
+    <a-gltf-model id="sofa" gltf-model="#Sofa" rotation="0 180 0" scale="0.25 0.25 0.25" position="-32 0 35"></a-gltf-model>
+
+    <!-- Small table glTF -->
+    <a-gltf-model id="s_table" gltf-model="#S_table" rotation="0 0 0" scale="5 7 5" position="-48 0 12"></a-gltf-model>
+
+    <!-- Gramophone glTF -->
+    <a-gltf-model id="gramophone" gltf-model="#Gramophone" rotation="0 0 0" scale="0.045 0.045 0.045" position="-48 6 12"></a-gltf-model>
+
+    <!-- Recliner glTF -->
+    <a-gltf-model id="recliner" gltf-model="#Recliner" rotation="0 -45 0" scale="4.5 4.5 4.5" position="-20 0 10"></a-gltf-model>
+
+    <a-gltf-model id="recliner_2" gltf-model="#Recliner" rotation="0 45 0" scale="4.5 4.5 4.5" position="-40 0 10"></a-gltf-model>
+    
+    <!-- Camera system -->
+    <a-entity id="camera-control" movement-controls="speed:1.5;">
+
+      <!-- Camera head -->
+      <a-entity id="camera-head" camera position="-9 8.15 -30" look-controls="pointerLockEnabled:true;"></a-entity>
+      
+      <!-- Left hand controller -->
+      <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false">
+      </a-entity>
+
+      <!-- Right hand controller -->
+      <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false">
+      </a-entity>
+
+    </a-entity>
+
+    <!-- Lighting -->
+    <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="1.35 0.5 -1.45"></a-entity>
+    <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="1.35 0.5 -1.45"></a-entity>
+    <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.8; distance: 0" position="30 28 -10"></a-entity>
+    <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.8; distance: 0" position="-30 28 -10"></a-entity>
+
+  </a-scene>
 
 </html>
