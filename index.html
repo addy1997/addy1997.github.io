@@ -9,10 +9,42 @@
     <script src="https://cdn.jsdelivr.net/npm/aframe-environment-component@1.3.3/dist/aframe-environment-component.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/rdub80/aframe-gui@master/dist/aframe-gui.min.js">
-    </script>
 
     <!-- Custom components -->
+    
+    <!-- Custom component for camera logging -->
+    <script>
+      AFRAME.registerComponent('camera-logger', {
+        schema: {
+          timestamp: {
+            type: 'int'
+          },
+          seconds: {
+            type: 'int'
+          }
+        },
+        init: function() {
+          var cameraEl = this.el.sceneEl.camera.el;
+          var rotation = cameraEl.getAttribute('rotation');
+          var worldPos = new THREE.Vector3();
+          worldPos.setFromMatrixPosition(cameraEl.object3D.matrixWorld);
+          console.log("Time: " + this.data.seconds + "; Camera Position: (" + worldPos.x.toFixed(2) + ", " + worldPos.y.toFixed(2) + ", " + worldPos.z.toFixed(2) + "); Camera Rotation: (" + rotation.x.toFixed(2) + ", " + rotation.y.toFixed(2) + ", " + rotation.z.toFixed(2) + ")");
+        },
+        play: function() {
+          this.data.timestamp = Date.now();
+          this.init();
+        },
+        tick: function() {
+          if (Date.now() - this.data.timestamp > 1000) {
+            this.data.timestamp += 1000;
+            this.data.seconds += 1;
+            this.init();
+          }
+        },
+      });
+
+    </script>
+    
     <!-- Component to animate the dentist -->
     <script>
       AFRAME.registerComponent('animate', {
@@ -81,7 +113,7 @@
           el.addEventListener('model-loaded', () => {
             var sceneEl = document.querySelector('a-scene');
             var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-            var entityPatient = glTFModels[10]
+            var entityPatient = glTFModels[37]
             var patientObj = entityPatient.getObject3D('mesh');
             patientObj.frustumCulled = false;
             patientObj.getObjectByProperty("type", "SkinnedMesh").frustumCulled = false;
@@ -136,7 +168,7 @@
           el.addEventListener('model-loaded', () => {
             var sceneEl = document.querySelector('a-scene');
             var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-            var entityPatient = glTFModels[10]
+            var entityPatient = glTFModels[37]
             var patientObj = entityPatient.getObject3D('mesh');
             const entityPatientLeftHand = patientObj.getObjectByName('rp_nathan_animated_003_walking_hand_l');
             const entityPatientRightHand = patientObj.getObjectByName('rp_nathan_animated_003_walking_hand_r');
@@ -189,7 +221,7 @@
           el.addEventListener('model-loaded', () => {
             var sceneEl = document.querySelector('a-scene');
             var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-            var entityPatient = glTFModels[10]
+            var entityPatient = glTFModels[37]
             var patientObj = entityPatient.getObject3D('mesh');
             const entityPatientSpine_01 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_01');
             const entityPatientSpine_02 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_02');
@@ -230,7 +262,7 @@
           el.addEventListener('model-loaded', () => {
             var sceneEl = document.querySelector('a-scene');
             var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-            var entityPatient = glTFModels[10]
+            var entityPatient = glTFModels[37]
             var patientObj = entityPatient.getObject3D('mesh');
             const entityPatientNeck = patientObj.getObjectByName('rp_nathan_animated_003_walking_neck');
             const entityPatientHead = patientObj.getObjectByName('rp_nathan_animated_003_walking_head');
@@ -256,7 +288,7 @@
           el.addEventListener('model-loaded', () => {
             var sceneEl = document.querySelector('a-scene');
             var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-            var entityDentist = glTFModels[7];
+            var entityDentist = glTFModels[36];
             var dentistObj = entityDentist.getObject3D('mesh');
             dentistObj.frustumCulled = false;
             dentistObj.getObjectByProperty("type", "SkinnedMesh").frustumCulled = false;
@@ -293,134 +325,325 @@
     <a-assets>
       <!-- Living room assets -->
       <!-- Room asset -->
-      <a-asset-item id="Room" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Room/abandoned_room_interior_style_5.glb"></a-asset-item>
+      <a-asset-item id="Room" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Room/abandoned_room_interior_style_5.glb">
+      </a-asset-item>
 
       <!-- Table asset -->
-      <a-asset-item id="Table" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Table/industrial_table.glb"></a-asset-item>
+      <a-asset-item id="Table" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Table/industrial_table.glb">
+      </a-asset-item>
 
       <!-- Chair asset -->
-      <a-asset-item id="Chair" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Chair/old_soviet_chair.glb"></a-asset-item>
+      <a-asset-item id="Chair" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Chair/old_soviet_chair.glb">
+      </a-asset-item>
 
       <!-- Lamp asset -->
-      <a-asset-item id="Lamp" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Table-lamp/classic_table_lamp.glb"></a-asset-item>
+      <a-asset-item id="Lamp" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Table-lamp/classic_table_lamp.glb">
+      </a-asset-item>
 
       <!-- Cupboard asset -->
-      <a-asset-item id="Cupboard" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Cupboard/cupboard.glb"></a-asset-item>
+      <a-asset-item id="Cupboard" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Cupboard/cupboard.glb">
+      </a-asset-item>
 
       <!-- Books asset -->
-      <a-asset-item id="Books" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Books/book_stack.glb"></a-asset-item>
+      <a-asset-item id="Books" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Books/book_stack.glb">
+      </a-asset-item>
 
       <!-- Oil Lamp asset -->
-      <a-asset-item id="Oillamp" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Oillamp/oil_lamp.glb"></a-asset-item>
+      <a-asset-item id="Oillamp" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Oillamp/oil_lamp.glb">
+      </a-asset-item>
 
       <!-- Clock asset -->
-      <a-asset-item id="Clock" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Clock-tower/vintage_grandfather_clock_01_1k-v2.glb"></a-asset-item>
+      <a-asset-item id="Clock" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Clock-tower/vintage_grandfather_clock_01_1k-v2.glb">
+      </a-asset-item>
 
       <!-- Chandelier asset -->
-      <a-asset-item id="Chandelier" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Chandelier/chandelier.glb"></a-asset-item>
+      <a-asset-item id="Chandelier" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Chandelier/chandelier.glb">
+      </a-asset-item>
 
       <!-- Sofa asset -->
-      <a-asset-item id="Sofa" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Sofaset/sofa_set.glb"></a-asset-item>
+      <a-asset-item id="Sofa" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Sofaset/sofa_set.glb">
+      </a-asset-item>
 
       <!-- Small Table asset -->
-      <a-asset-item id="S_table" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Small-table/vintage_table.glb"></a-asset-item>
+      <a-asset-item id="S_table" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Small-table/vintage_table.glb">
+      </a-asset-item>
 
       <!-- Gramophone asset -->
-      <a-asset-item id="Gramophone" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Gramophone/vintage_gramophone.glb"></a-asset-item>
+      <a-asset-item id="Gramophone" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Gramophone/vintage_gramophone.glb">
+      </a-asset-item>
 
       <!-- Recliner asset -->
-      <a-asset-item id="Recliner" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Sofaset/sofa.glb"></a-asset-item>
+      <a-asset-item id="Recliner" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Sofaset/sofa.glb">
+      </a-asset-item>
 
       <!-- Radiator asset -->
-      <a-asset-item id="Radiator" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Radiator/old_radiator.glb"></a-asset-item>
+      <a-asset-item id="Radiator" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Radiator/old_radiator.glb">
+      </a-asset-item>
 
       <!-- Cabinet asset -->
-      <a-asset-item id="Cabinet" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Cabinet/vintage_buffet_cabinet_tv_bench.glb"></a-asset-item>
+      <a-asset-item id="Cabinet" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Cabinet/vintage_buffet_cabinet_tv_bench.glb">
+      </a-asset-item>
 
       <!-- Television asset -->
-      <a-asset-item id="Television" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/TV/retro_television.glb"></a-asset-item>
-      
+      <a-asset-item id="Television" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/TV/retro_television.glb">
+      </a-asset-item>
+
       <!-- Office assets -->
-      
+
+      <!-- Dentist's Chair asset -->
+      <a-asset-item id="Dentist-Chair" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dentist chair/model/dentist_chair.glb">
+      </a-asset-item>
+
+      <!-- Cabinet asset -->
+      <a-asset-item id="Wash" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_cabinet/cabinet.glb">
+      </a-asset-item>
+
+      <!-- Fire extinguisher asset -->
+      <a-asset-item id="Fire-extinguisher" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/fire_extinguisher/fire_extinguisher.glb">
+      </a-asset-item>
+
+      <!-- Dustbin asset -->
+      <a-asset-item id="Dustbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dustbin/dustbin.glb">
+      </a-asset-item>
+
+      <!-- Patient asset -->
+      <a-asset-item id="Patient" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/patient/Nathan.glb">
+      </a-asset-item>
+
+      <!-- Dentist asset -->
+      <a-asset-item id="Dentist" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dentist/model/Dentist.glb">
+      </a-asset-item>
+
+      <!-- Scalpel asset -->
+      <a-asset-item id="Scalpels" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/scalpels/models/pair_of_scalpels.glb">
+      </a-asset-item>
+
+      <!-- Denture asset -->
+      <a-asset-item id="Denture" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Teeth/3d_denture.glb">
+      </a-asset-item>
+
+      <!-- Sickle Probe asset -->
+      <a-asset-item id="Sickle" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sickle/sickle_prob.glb">
+      </a-asset-item>
+
+      <!-- Syringe asset -->
+      <a-asset-item id="Syringe" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/syringe/dental_syringe.glb">
+      </a-asset-item>
+
+      <!-- Dental Mirror asset -->
+      <a-asset-item id="Mirror" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental-mirror/dental_mirror.glb">
+      </a-asset-item>
+
+      <!-- Compactor asset -->
+      <a-asset-item id="Compactor" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/compactor/compactor.glb">
+      </a-asset-item>
+
+      <!-- Trolley asset -->
+      <a-asset-item id="Trolley" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/medical%20cart/medical_cart.glb">
+      </a-asset-item>
 
     </a-assets>
-    
+
     <!-- Living room entities -->
     <!-- Room glTF -->
-    <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.25 0.25 0.25" position="-0.45 0.1 -1.5"></a-gltf-model>
+    <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.25 0.25 0.25" position="-0.45 0.1 -1.5">
+
+    </a-gltf-model>
 
     <!-- Table glTF -->
-    <a-gltf-model id="table" gltf-model="#Table" rotation="0 90 0" scale="9 9 9" position="-13.5 0 -18"></a-gltf-model>
+    <a-gltf-model id="table" gltf-model="#Table" rotation="0 90 0" scale="9 9 9" position="-13.5 0 -18">
+
+    </a-gltf-model>
 
     <!-- Chair glTF -->
-    <a-gltf-model id="chair" gltf-model="#Chair" rotation="0 -90 0" scale="9 9 9" position="-11.5 0 -18"></a-gltf-model>
+    <a-gltf-model id="chair" gltf-model="#Chair" rotation="0 -90 0" scale="9 9 9" position="-11.5 0.05 -18">
 
-    <a-gltf-model id="chair_1" gltf-model="#Chair" rotation="0 90 0" scale="9 9 9" position="-15.5 0 -20"></a-gltf-model>
+    </a-gltf-model>
 
-    <a-gltf-model id="chair_2" gltf-model="#Chair" rotation="0 90 0" scale="9 9 9" position="-15.5 0 -16"></a-gltf-model>
+    <a-gltf-model id="chair_1" gltf-model="#Chair" rotation="0 90 0" scale="9 9 9" position="-15.5 0.05 -21">
+
+    </a-gltf-model>
+
+    <a-gltf-model id="chair_2" gltf-model="#Chair" rotation="0 90 0" scale="9 9 9" position="-15.5 0.05 -16">
+
+    </a-gltf-model>
 
     <!-- Lamp glTF -->
-    <a-gltf-model id="lamp" gltf-model="#Lamp" rotation="0 90 0" scale="8 8 8" position="-13.5 6 -21"></a-gltf-model>
+    <a-gltf-model id="lamp" gltf-model="#Lamp" rotation="0 90 0" scale="8 8 8" position="-13.5 6 -21">
+
+    </a-gltf-model>
 
     <!-- Cupboard glTF -->
-    <a-gltf-model id="cupboard" gltf-model="#Cupboard" rotation="0 -90 0" scale="8 8 8" position="-8 0.3 -32"></a-gltf-model>
+    <a-gltf-model id="cupboard" gltf-model="#Cupboard" rotation="0 -90 0" scale="8 8 8" position="-7.75 0 -32">
 
-    <a-gltf-model id="cupboard_2" gltf-model="#Cupboard" rotation="0 -90 0" scale="8 8 8" position="-8 0.3 -38"></a-gltf-model>
+    </a-gltf-model>
+
+    <a-gltf-model id="cupboard_2" gltf-model="#Cupboard" rotation="0 -90 0" scale="8 8 8" position="-7.75 0 -38">
+
+    </a-gltf-model>
 
     <!-- Books glTF -->
-    <a-gltf-model id="books" gltf-model="#Books" rotation="0 -90 0" scale="1.5 1.5 1.5" position="-7 8 -32"></a-gltf-model>
+    <a-gltf-model id="books" gltf-model="#Books" rotation="0 -90 0" scale="1.5 1.5 1.5" position="-7 7.65 -32">
 
-    <a-gltf-model id="books_2" gltf-model="#Books" rotation="90 -180 0" scale="1.5 1.5 1.5" position="-7 8 -38"></a-gltf-model>
+    </a-gltf-model>
+
+    <a-gltf-model id="books_2" gltf-model="#Books" rotation="90 -180 0" scale="1.5 1.5 1.5" position="-7 8 -38">
+
+    </a-gltf-model>
 
     <!-- Oil lamp glTF -->
-    <a-gltf-model id="oillamp" gltf-model="#Oillamp" rotation="0 -90 0" scale="10.5 10.5 10.5" position="-7.5 7 -30"></a-gltf-model>
+    <a-gltf-model id="oillamp" gltf-model="#Oillamp" rotation="0 -90 0" scale="10.5 10.5 10.5" position="-7.5 6.5 -30">
+
+    </a-gltf-model>
 
     <!-- Clock glTF -->
-    <a-gltf-model id="clock" gltf-model="#Clock" rotation="0 -45 0" scale="8 8 8" position="-8.5 0.1 -50"></a-gltf-model>
+    <a-gltf-model id="clock" gltf-model="#Clock" rotation="0 -45 0" scale="8 8 8" position="-8.5 0.1 -50">
+
+    </a-gltf-model>
 
     <!-- Chandelier glTF -->
+    <a-gltf-model id="chandelier_2" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="-32 28 20">
 
-    <a-gltf-model id="chandelier_2" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="-32 28 20"></a-gltf-model>
+    </a-gltf-model>
 
-    <a-gltf-model id="chandelier_3" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="-20 31 -20"></a-gltf-model>
+    <a-gltf-model id="chandelier_3" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="-20 31 -20">
+
+    </a-gltf-model>
 
     <!-- Sofa glTF -->
-    <a-gltf-model id="sofa" gltf-model="#Sofa" rotation="0 180 0" scale="0.25 0.25 0.25" position="-32 0.15 35"></a-gltf-model>
+    <a-gltf-model id="sofa" gltf-model="#Sofa" rotation="0 180 0" scale="0.25 0.25 0.25" position="-32 0.15 35">
+
+    </a-gltf-model>
 
     <!-- Small table glTF -->
-    <a-gltf-model id="s_table" gltf-model="#S_table" rotation="0 0 0" scale="5 7 5" position="-48 0.15 12"></a-gltf-model>
+    <a-gltf-model id="s_table" gltf-model="#S_table" rotation="0 0 0" scale="5 7 5" position="-48 0.15 12">
+
+    </a-gltf-model>
 
     <!-- Gramophone glTF -->
-    <a-gltf-model id="gramophone" gltf-model="#Gramophone" rotation="0 0 0" scale="0.045 0.045 0.045" position="-48 6 12"></a-gltf-model>
+    <a-gltf-model id="gramophone" gltf-model="#Gramophone" rotation="0 0 0" scale="0.045 0.045 0.045" position="-48 6 12">
+
+    </a-gltf-model>
 
     <!-- Recliner glTF -->
-    <a-gltf-model id="recliner" gltf-model="#Recliner" rotation="0 -45 0" scale="4.5 4.5 4.5" position="-20 0.25 10"></a-gltf-model>
+    <a-gltf-model id="recliner" gltf-model="#Recliner" rotation="0 -45 0" scale="4.5 4.5 4.5" position="-20 0.25 10">
 
-    <a-gltf-model id="recliner_2" gltf-model="#Recliner" rotation="0 45 0" scale="4.5 4.5 4.5" position="-40 0.25 10"></a-gltf-model>
+    </a-gltf-model>
+
+    <a-gltf-model id="recliner_2" gltf-model="#Recliner" rotation="0 45 0" scale="4.5 4.5 4.5" position="-40 0.25 10">
+
+    </a-gltf-model>
 
     <!-- Radiator glTF -->
-    <a-gltf-model id="radiator" gltf-model="#Radiator" rotation="0 0 0" scale="10 10 10" position="-18.5 0.345 -52"></a-gltf-model>
+    <a-gltf-model id="radiator" gltf-model="#Radiator" rotation="0 0 0" scale="10 10 10" position="-18.5 0.345 -52">
 
-    <a-gltf-model id="radiator_2" gltf-model="#Radiator" rotation="0 0 0" scale="10 10 10" position="-52 0.345 -52"></a-gltf-model>
+    </a-gltf-model>
 
-    <a-gltf-model id="radiator_3" gltf-model="#Radiator" rotation="0 90 0" scale="15 10 10" position="-62 0.345 -40"></a-gltf-model>
+    <a-gltf-model id="radiator_2" gltf-model="#Radiator" rotation="0 0 0" scale="10 10 10" position="-52 0.345 -52">
 
-    <a-gltf-model id="radiator_4" gltf-model="#Radiator" rotation="0 90 0" scale="15 10 10" position="-62 0.345 30"></a-gltf-model>
+    </a-gltf-model>
+
+    <a-gltf-model id="radiator_3" gltf-model="#Radiator" rotation="0 90 0" scale="15 10 10" position="-62 0.345 -40">
+
+    </a-gltf-model>
+
+    <a-gltf-model id="radiator_4" gltf-model="#Radiator" rotation="0 90 0" scale="15 10 10" position="-62 0.345 30">
+
+    </a-gltf-model>
 
     <!-- Cabinet glTF -->
-    <a-gltf-model id="cabinet" gltf-model="#Cabinet" rotation="0 -90 0" scale="8 8 8" position="-60 0.15 -5"></a-gltf-model>
+    <a-gltf-model id="cabinet" gltf-model="#Cabinet" rotation="0 -90 0" scale="8 8 8" position="-60 0 -5">
+
+    </a-gltf-model>
 
     <!-- TV glTF -->
-    <a-gltf-model id="television" gltf-model="#Television" rotation="0 90 0" scale="0.75 0.75 0.75" position="-60 5.15 -5"></a-gltf-model>
-    
+    <a-gltf-model id="television" gltf-model="#Television" rotation="0 90 0" scale="0.75 0.75 0.75" position="-60 5 -5">
+
+    </a-gltf-model>
+
     <!-- Office entities -->
-    <a-gltf-model id="chandelier" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="30 28 -10"></a-gltf-model>
-  
+    <a-gltf-model id="chandelier" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="30 28 -10">
+
+    </a-gltf-model>
+
+    <a-gltf-model id="radiator_5" gltf-model="#Radiator" rotation="0 0 0" scale="10 10 10" position="5 0.345 -52">
+
+    </a-gltf-model>
+
+    <a-gltf-model id="radiator_6" gltf-model="#Radiator" rotation="0 -90 0" scale="15 10 10" position="42 0.345 -40">
+
+    </a-gltf-model>
+    
+    <!-- Trolley glTF -->
+    <a-gltf-model id="trolley" gltf-model="#Trolley" rotation="0 90 0" scale="0.075 0.075 0.075" position="25 0 -1.55" mesh-shadows>
+
+    </a-gltf-model>
+    
+    <!-- Compactor glTF -->
+    <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="3 3 3" position="25.25 6 -1.55" mesh-shadows>
+
+    </a-gltf-model>
+    
+    <!-- Mirror glTF -->
+    <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="8 8 8" position="25.15 6 -1.55" mesh-shadows>
+
+    </a-gltf-model>
+    
+    <!-- Scalpel glTF -->
+    <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 180 0" scale="3 3 3" position="25 6 -1.55" mesh-shadows>
+    
+    </a-gltf-model>
+
+    <!-- Sickle Pro glTF -->
+    <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="-90 0 0" scale="8 8 8" position="24.85 6.25 -1.55" mesh-shadows>
+
+    </a-gltf-model>
+    
+    <!-- Syringe glTF -->
+    <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.01 0.01 0.01" position="24.65 6 -1.55" mesh-shadows>
+
+    </a-gltf-model>
+
+    <!-- Denture glTF -->
+    <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.065 0.065 0.065" position="24.25 5.75 -2" mesh-shadows>
+
+    </a-gltf-model>
+
+    <!-- Dentist Chair glTF -->
+    <a-gltf-model id="dentist_chair" gltf-model="#Dentist-Chair" rotation="0 0 0" scale="8 8 8" position="10 0 10" mesh-shadows>
+
+    </a-gltf-model>
+
+    <!-- Dentist glTF -->
+    <a-gltf-model id="dentist" gltf-model="#Dentist" rotation="0 30 0" scale="4.5 4.5 4.5" position="-0.15 14 -1.55" animate frustum-culling-disabled mesh-shadows>
+
+    </a-gltf-model>
+
+    <!-- Patient glTF -->
+    <a-gltf-model id="patient" gltf-model="#Patient" rotation="-60.5 180 0" scale="7 7 7" position="13.5 3 3" rotate-patient-legs="z_val: 0.785398" rotate-patient-hands="x_val: 0; y_val: 2.00713" rotate-spine="z_val:0.785398" rotate-neck="z_val:0.785398" mesh-shadows frustum-culling-disabled>
+
+    </a-gltf-model>
+
+    <!-- Wash glTF -->
+    <a-gltf-model id="wash" gltf-model="#Wash" rotation="0 180 0" scale="8 8 8" position="44 0 -4.5" mesh-shadows>
+
+    </a-gltf-model>
+
+    <!-- Fire extinguisher glTF -->
+    <a-gltf-model id="fire_extinguisher" gltf-model="#Fire-extinguisher" rotation="0 90 0" scale="10 10 10" position="-2.75 6 9" mesh-shadows>
+
+    </a-gltf-model>
+
+    <!-- Dustbin glTF -->
+    <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="2 2 2" position="39 0 -4.5" mesh-shadows>
+
+    </a-gltf-model>
+
     <!-- Camera system -->
     <a-entity id="camera-control" movement-controls="speed:1.5;">
 
       <!-- Camera head -->
-      <a-entity id="camera-head" camera position="-9 8.15 -30" look-controls="pointerLockEnabled:true;"></a-entity>
+      <a-entity id="camera-head" camera position="22.5 8 -1.65" look-controls="pointerLockEnabled:true;"></a-entity>
 
       <!-- Left hand controller -->
       <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control">
@@ -435,8 +658,8 @@
     <!-- Lighting -->
     <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="1.35 0.5 -1.45"></a-entity>
     <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="1.35 0.5 -1.45"></a-entity>
-    <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.8; distance: 0" position="30 28 -10"></a-entity>
-    <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.8; distance: 0" position="-30 28 -10"></a-entity>
+    <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.2; distance: 0" position="30 28 -10"></a-entity>
+    <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.2; distance: 0" position="-20 31 -20"></a-entity>
 
   </a-scene>
 
