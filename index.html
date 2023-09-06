@@ -291,7 +291,7 @@
   <a-scene environment="preset:moon; skyType:atmosphere; skyColor: black; shadow: true; ground: flat">
 
     <a-assets>
-
+      <!-- Living room assets -->
       <!-- Room asset -->
       <a-asset-item id="Room" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Room/abandoned_room_interior_style_5.glb"></a-asset-item>
 
@@ -330,46 +330,55 @@
 
       <!-- Recliner asset -->
       <a-asset-item id="Recliner" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Sofaset/sofa.glb"></a-asset-item>
-      
+
       <!-- Radiator asset -->
       <a-asset-item id="Radiator" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Radiator/old_radiator.glb"></a-asset-item>
 
-    </a-assets>
+      <!-- Cabinet asset -->
+      <a-asset-item id="Cabinet" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/Cabinet/vintage_buffet_cabinet_tv_bench.glb"></a-asset-item>
 
+      <!-- Television asset -->
+      <a-asset-item id="Television" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Scene2/TV/retro_television.glb"></a-asset-item>
+      
+      <!-- Office assets -->
+      
+
+    </a-assets>
+    
+    <!-- Living room entities -->
     <!-- Room glTF -->
     <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.25 0.25 0.25" position="-0.45 0.1 -1.5"></a-gltf-model>
 
     <!-- Table glTF -->
-    <a-gltf-model id="table" gltf-model="#Table" rotation="0 90 0" scale="9 9 9" position="-13.5 0.2 -18"></a-gltf-model>
+    <a-gltf-model id="table" gltf-model="#Table" rotation="0 90 0" scale="9 9 9" position="-13.5 0 -18"></a-gltf-model>
 
     <!-- Chair glTF -->
-    <a-gltf-model id="chair" gltf-model="#Chair" rotation="0 -90 0" scale="9 9 9" position="-11.5 0.2 -18"></a-gltf-model>
+    <a-gltf-model id="chair" gltf-model="#Chair" rotation="0 -90 0" scale="9 9 9" position="-11.5 0 -18"></a-gltf-model>
 
-    <a-gltf-model id="chair_1" gltf-model="#Chair" rotation="0 90 0" scale="9 9 9" position="-15.5 0.2 -20"></a-gltf-model>
+    <a-gltf-model id="chair_1" gltf-model="#Chair" rotation="0 90 0" scale="9 9 9" position="-15.5 0 -20"></a-gltf-model>
 
-    <a-gltf-model id="chair_2" gltf-model="#Chair" rotation="0 90 0" scale="9 9 9" position="-15.5 0.2 -16"></a-gltf-model>
+    <a-gltf-model id="chair_2" gltf-model="#Chair" rotation="0 90 0" scale="9 9 9" position="-15.5 0 -16"></a-gltf-model>
 
     <!-- Lamp glTF -->
-    <a-gltf-model id="lamp" gltf-model="#Lamp" rotation="0 90 0" scale="8 8 8" position="-13.5 6.20 -21"></a-gltf-model>
+    <a-gltf-model id="lamp" gltf-model="#Lamp" rotation="0 90 0" scale="8 8 8" position="-13.5 6 -21"></a-gltf-model>
 
     <!-- Cupboard glTF -->
-    <a-gltf-model id="cupboard" gltf-model="#Cupboard" rotation="0 -90 0" scale="8 8 8" position="-8 0.45 -32"></a-gltf-model>
+    <a-gltf-model id="cupboard" gltf-model="#Cupboard" rotation="0 -90 0" scale="8 8 8" position="-8 0.3 -32"></a-gltf-model>
 
-    <a-gltf-model id="cupboard_2" gltf-model="#Cupboard" rotation="0 -90 0" scale="8 8 8" position="-8 0.45 -38"></a-gltf-model>
+    <a-gltf-model id="cupboard_2" gltf-model="#Cupboard" rotation="0 -90 0" scale="8 8 8" position="-8 0.3 -38"></a-gltf-model>
 
     <!-- Books glTF -->
-    <a-gltf-model id="books" gltf-model="#Books" rotation="0 -90 0" scale="1.5 1.5 1.5" position="-7 8.15 -32"></a-gltf-model>
+    <a-gltf-model id="books" gltf-model="#Books" rotation="0 -90 0" scale="1.5 1.5 1.5" position="-7 8 -32"></a-gltf-model>
 
-    <a-gltf-model id="books_2" gltf-model="#Books" rotation="90 -180 0" scale="1.5 1.5 1.5" position="-7 8.15 -38"></a-gltf-model>-->
+    <a-gltf-model id="books_2" gltf-model="#Books" rotation="90 -180 0" scale="1.5 1.5 1.5" position="-7 8 -38"></a-gltf-model>
 
     <!-- Oil lamp glTF -->
     <a-gltf-model id="oillamp" gltf-model="#Oillamp" rotation="0 -90 0" scale="10.5 10.5 10.5" position="-7.5 7 -30"></a-gltf-model>
 
     <!-- Clock glTF -->
-    <a-gltf-model id="clock" gltf-model="#Clock" rotation="0 -45 0" scale="8 8 8" position="-8.5 0.25 -50"></a-gltf-model>
+    <a-gltf-model id="clock" gltf-model="#Clock" rotation="0 -45 0" scale="8 8 8" position="-8.5 0.1 -50"></a-gltf-model>
 
     <!-- Chandelier glTF -->
-    <a-gltf-model id="chandelier" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="30 28 -10"></a-gltf-model>
 
     <a-gltf-model id="chandelier_2" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="-32 28 20"></a-gltf-model>
 
@@ -385,25 +394,34 @@
     <a-gltf-model id="gramophone" gltf-model="#Gramophone" rotation="0 0 0" scale="0.045 0.045 0.045" position="-48 6 12"></a-gltf-model>
 
     <!-- Recliner glTF -->
-    <a-gltf-model id="recliner" gltf-model="#Recliner" rotation="0 -45 0" scale="4.5 4.5 4.5" position="-20 0.15 10"></a-gltf-model>
+    <a-gltf-model id="recliner" gltf-model="#Recliner" rotation="0 -45 0" scale="4.5 4.5 4.5" position="-20 0.25 10"></a-gltf-model>
 
-    <a-gltf-model id="recliner_2" gltf-model="#Recliner" rotation="0 45 0" scale="4.5 4.5 4.5" position="-40 0.15 10"></a-gltf-model>
-    
+    <a-gltf-model id="recliner_2" gltf-model="#Recliner" rotation="0 45 0" scale="4.5 4.5 4.5" position="-40 0.25 10"></a-gltf-model>
+
     <!-- Radiator glTF -->
-    <a-gltf-model id="radiator" gltf-model="#Radiator" rotation="0 0 0" scale="10 10 10" position="-18.5 0.35 -52.5"></a-gltf-model>
+    <a-gltf-model id="radiator" gltf-model="#Radiator" rotation="0 0 0" scale="10 10 10" position="-18.5 0.345 -52"></a-gltf-model>
+
+    <a-gltf-model id="radiator_2" gltf-model="#Radiator" rotation="0 0 0" scale="10 10 10" position="-52 0.345 -52"></a-gltf-model>
+
+    <a-gltf-model id="radiator_3" gltf-model="#Radiator" rotation="0 90 0" scale="15 10 10" position="-62 0.345 -40"></a-gltf-model>
+
+    <a-gltf-model id="radiator_4" gltf-model="#Radiator" rotation="0 90 0" scale="15 10 10" position="-62 0.345 30"></a-gltf-model>
+
+    <!-- Cabinet glTF -->
+    <a-gltf-model id="cabinet" gltf-model="#Cabinet" rotation="0 -90 0" scale="8 8 8" position="-60 0.15 -5"></a-gltf-model>
+
+    <!-- TV glTF -->
+    <a-gltf-model id="television" gltf-model="#Television" rotation="0 90 0" scale="0.75 0.75 0.75" position="-60 5.15 -5"></a-gltf-model>
     
-    <a-gltf-model id="radiator_2" gltf-model="#Radiator" rotation="0 0 0" scale="10 10 10" position="-52 0.35 -52.5"></a-gltf-model>
-    
-    <a-gltf-model id="radiator_3" gltf-model="#Radiator" rotation="0 90 0" scale="15 10 10" position="-62 0.35 -40"></a-gltf-model>
-    
-    <a-gltf-model id="radiator_4" gltf-model="#Radiator" rotation="0 90 0" scale="15 10 10" position="-62 0.35 30"></a-gltf-model>
-    
+    <!-- Office entities -->
+    <a-gltf-model id="chandelier" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="30 28 -10"></a-gltf-model>
+  
     <!-- Camera system -->
     <a-entity id="camera-control" movement-controls="speed:1.5;">
 
       <!-- Camera head -->
       <a-entity id="camera-head" camera position="-9 8.15 -30" look-controls="pointerLockEnabled:true;"></a-entity>
-      
+
       <!-- Left hand controller -->
       <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control">
       </a-entity>
