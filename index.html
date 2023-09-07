@@ -441,6 +441,18 @@
       <!-- Trolley asset -->
       <a-asset-item id="Trolley" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/medical%20cart/medical_cart.glb">
       </a-asset-item>
+      
+      <!-- Office Desk asset -->
+      <a-asset-item id="Office-Desk" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Office%20Desk/office_desk.glb">
+      </a-asset-item>
+      
+      <!-- Office Desktop asset -->
+      <a-asset-item id="Office-Desktop" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Desktop/ar_pc_personal_computer_tugas.glb">
+      </a-asset-item>
+      
+      <!-- Office Chair asset -->
+      <a-asset-item id="Office-Chair" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Office%20Chair/office_chair.glb">
+      </a-asset-item>
 
     </a-assets>
 
@@ -610,12 +622,12 @@
     </a-gltf-model>
 
     <!-- Dentist Chair glTF -->
-    <a-gltf-model id="dentist_chair" gltf-model="#Dentist-Chair" rotation="0 0 0" scale="8 8 8" position="10 0 10" mesh-shadows>
+    <a-gltf-model id="dentist_chair" gltf-model="#Dentist-Chair" rotation="0 0 0" scale="8 8 8" position="10 0.15 10" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Dentist glTF -->
-    <a-gltf-model id="dentist" gltf-model="#Dentist" rotation="0 30 0" scale="4.5 4.5 4.5" position="-0.15 14 -1.55" animate frustum-culling-disabled mesh-shadows>
+    <a-gltf-model id="dentist" gltf-model="#Dentist" rotation="0 30 0" scale="4.5 4.5 4.5" position="-0.15 13.5 -1.55" animate frustum-culling-disabled mesh-shadows>
 
     </a-gltf-model>
 
@@ -638,12 +650,27 @@
     <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="2 2 2" position="39 0 -4.5" mesh-shadows>
 
     </a-gltf-model>
+    
+    <!-- Office Desk -->
+    <a-gltf-model id="office_desk" gltf-model="#Office-Desk" rotation="0 -90 0" scale="42 38 48" position="8.75 0 -28">
 
+    </a-gltf-model>
+    
+    <!-- Office Desktop -->
+    <a-gltf-model id="office_desktop" gltf-model="#Office-Desktop" rotation="0 -90 0" scale="2.5 2.5 2.5" position="5 7.25 -20">
+
+    </a-gltf-model>
+    
+    <!-- Office Chair -->
+    <a-gltf-model id="office_chair" gltf-model="#Office-Chair" rotation="0 90 0" scale="8 8 8" position="0 0.345 -20">
+
+    </a-gltf-model>
+    
     <!-- Camera system -->
     <a-entity id="camera-control" movement-controls="speed:1.5;">
 
       <!-- Camera head -->
-      <a-entity id="camera-head" camera position="3 10 3" look-controls="pointerLockEnabled:true;"></a-entity>
+      <a-entity id="camera-head" camera position="7 12 20" look-controls="pointerLockEnabled:true;"></a-entity>
 
       <!-- Left hand controller -->
       <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control">
