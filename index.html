@@ -11,7 +11,7 @@
     <script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>
 
     <!-- Custom components -->
-    
+
     <!-- Custom component for camera logging -->
     <script>
       AFRAME.registerComponent('camera-logger', {
@@ -44,7 +44,7 @@
       });
 
     </script>
-    
+
     <!-- Component to animate the dentist -->
     <script>
       AFRAME.registerComponent('animate', {
@@ -317,6 +317,47 @@
       });
 
     </script>
+    
+    <script>
+      AFRAME.registerComponent("envmap", {
+        init: function() {
+          let mesh = this.el.getObject3D("mesh");
+          if (mesh) {
+            loadEnvMap(scene.renderer, this.el);
+          } else {
+            this.el.addEventListener("model-loaded", () => {
+              loadEnvMap(this.el.sceneEl.renderer, this.el);
+            });
+          }
+        }
+      });
+
+      function loadEnvMap(renderer, entity) {
+        let targetCube = new THREE.WebGLCubeRenderTarget(1048, {
+          generateMipmaps: true,
+          minFilter: THREE.LinearMipmapLinearFilter,
+          magFilter: THREE.NearestFilter
+        });
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        renderer.toneMappingExposure = 1;
+        renderer.outputEncoding = THREE.sRGBEncoding;
+
+        let mesh = entity.getObject3D("mesh");
+        let texture = new THREE.TextureLoader().load(
+          "https://i.imgur.com/fO0KaHy.jpeg",
+          function() {
+            let cubeTex = targetCube.fromEquirectangularTexture(renderer, texture);
+            mesh.traverse(function(el) {
+              if (el.material) {
+                el.material.envMap = cubeTex.texture;
+                el.material.envMap.intensity = 1;
+                el.material.needsUpdate = true;
+              }
+            });
+          });
+      }
+
+    </script>
 
   </head>
 
@@ -441,15 +482,15 @@
       <!-- Trolley asset -->
       <a-asset-item id="Trolley" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/medical%20cart/medical_cart.glb">
       </a-asset-item>
-      
+
       <!-- Office Desk asset -->
       <a-asset-item id="Office-Desk" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Office%20Desk/office_desk.glb">
       </a-asset-item>
-      
+
       <!-- Office Desktop asset -->
       <a-asset-item id="Office-Desktop" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Desktop/ar_pc_personal_computer_tugas.glb">
       </a-asset-item>
-      
+
       <!-- Office Chair asset -->
       <a-asset-item id="Office-Chair" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Office%20Chair/office_chair.glb">
       </a-asset-item>
@@ -458,159 +499,159 @@
 
     <!-- Living room entities -->
     <!-- Room glTF -->
-    <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.25 0.25 0.25" position="-0.45 0.1 -1.5">
+    <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.25 0.25 0.25" position="-0.45 0.1 -1.5" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Table glTF -->
-    <a-gltf-model id="table" gltf-model="#Table" rotation="0 90 0" scale="9 9 9" position="-13.5 0 -18">
+    <a-gltf-model id="table" gltf-model="#Table" rotation="0 90 0" scale="9 9 9" position="-13.5 0 -18" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Chair glTF -->
-    <a-gltf-model id="chair" gltf-model="#Chair" rotation="0 -90 0" scale="9 9 9" position="-11.5 0.05 -18">
+    <a-gltf-model id="chair" gltf-model="#Chair" rotation="0 -90 0" scale="9 9 9" position="-11.5 0.05 -18" mesh-shadows>
 
     </a-gltf-model>
 
-    <a-gltf-model id="chair_1" gltf-model="#Chair" rotation="0 90 0" scale="9 9 9" position="-15.5 0.05 -21">
+    <a-gltf-model id="chair_1" gltf-model="#Chair" rotation="0 90 0" scale="9 9 9" position="-15.5 0.05 -21" mesh-shadows>
 
     </a-gltf-model>
 
-    <a-gltf-model id="chair_2" gltf-model="#Chair" rotation="0 90 0" scale="9 9 9" position="-15.5 0.05 -16">
+    <a-gltf-model id="chair_2" gltf-model="#Chair" rotation="0 90 0" scale="9 9 9" position="-15.5 0.05 -16" mesh-shadows>  
 
     </a-gltf-model>
 
     <!-- Lamp glTF -->
-    <a-gltf-model id="lamp" gltf-model="#Lamp" rotation="0 90 0" scale="8 8 8" position="-13.5 6 -21">
+    <a-gltf-model id="lamp" gltf-model="#Lamp" rotation="0 90 0" scale="8 8 8" position="-13.5 6 -21" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Cupboard glTF -->
-    <a-gltf-model id="cupboard" gltf-model="#Cupboard" rotation="0 -90 0" scale="8 8 8" position="-7.75 0 -32">
+    <a-gltf-model id="cupboard" gltf-model="#Cupboard" rotation="0 -90 0" scale="8 8 8" position="-7.75 0 -32" mesh-shadows>
 
     </a-gltf-model>
 
-    <a-gltf-model id="cupboard_2" gltf-model="#Cupboard" rotation="0 -90 0" scale="8 8 8" position="-7.75 0 -38">
+    <a-gltf-model id="cupboard_2" gltf-model="#Cupboard" rotation="0 -90 0" scale="8 8 8" position="-7.75 0 -38" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Books glTF -->
-    <a-gltf-model id="books" gltf-model="#Books" rotation="0 -90 0" scale="1.5 1.5 1.5" position="-7 7.65 -32">
+    <a-gltf-model id="books" gltf-model="#Books" rotation="0 -90 0" scale="1.5 1.5 1.5" position="-7 7.65 -32" mesh-shadows>
 
     </a-gltf-model>
 
-    <a-gltf-model id="books_2" gltf-model="#Books" rotation="90 -180 0" scale="1.5 1.5 1.5" position="-7 8 -38">
+    <a-gltf-model id="books_2" gltf-model="#Books" rotation="90 -180 0" scale="1.5 1.5 1.5" position="-7 8 -38" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Oil lamp glTF -->
-    <a-gltf-model id="oillamp" gltf-model="#Oillamp" rotation="0 -90 0" scale="10.5 10.5 10.5" position="-7.5 6.5 -30">
+    <a-gltf-model id="oillamp" gltf-model="#Oillamp" rotation="0 -90 0" scale="10.5 10.5 10.5" position="-7.5 6.5 -30" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Clock glTF -->
-    <a-gltf-model id="clock" gltf-model="#Clock" rotation="0 -45 0" scale="8 8 8" position="-8.5 0.1 -50">
+    <a-gltf-model id="clock" gltf-model="#Clock" rotation="0 -45 0" scale="8 8 8" position="-8.5 0.1 -50" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Chandelier glTF -->
-    <a-gltf-model id="chandelier_2" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="-32 28 20">
+    <a-gltf-model id="chandelier_2" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="-32 28 20" mesh-shadows>
 
     </a-gltf-model>
 
-    <a-gltf-model id="chandelier_3" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="-20 31 -20">
+    <a-gltf-model id="chandelier_3" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="-20 31 -20" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Sofa glTF -->
-    <a-gltf-model id="sofa" gltf-model="#Sofa" rotation="0 180 0" scale="0.25 0.25 0.25" position="-32 0.15 35">
+    <a-gltf-model id="sofa" gltf-model="#Sofa" rotation="0 180 0" scale="0.25 0.25 0.25" position="-32 0.15 35" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Small table glTF -->
-    <a-gltf-model id="s_table" gltf-model="#S_table" rotation="0 0 0" scale="5 7 5" position="-48 0.15 12">
+    <a-gltf-model id="s_table" gltf-model="#S_table" rotation="0 0 0" scale="5 7 5" position="-48 0.15 12" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Gramophone glTF -->
-    <a-gltf-model id="gramophone" gltf-model="#Gramophone" rotation="0 0 0" scale="0.045 0.045 0.045" position="-48 6 12">
+    <a-gltf-model id="gramophone" gltf-model="#Gramophone" rotation="0 0 0" scale="0.045 0.045 0.045" position="-48 6 12" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Recliner glTF -->
-    <a-gltf-model id="recliner" gltf-model="#Recliner" rotation="0 -45 0" scale="4.5 4.5 4.5" position="-20 0.25 10">
+    <a-gltf-model id="recliner" gltf-model="#Recliner" rotation="0 -45 0" scale="4.5 4.5 4.5" position="-20 0.25 10" mesh-shadows>
 
     </a-gltf-model>
 
-    <a-gltf-model id="recliner_2" gltf-model="#Recliner" rotation="0 45 0" scale="4.5 4.5 4.5" position="-40 0.25 10">
+    <a-gltf-model id="recliner_2" gltf-model="#Recliner" rotation="0 45 0" scale="4.5 4.5 4.5" position="-40 0.25 10" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Radiator glTF -->
-    <a-gltf-model id="radiator" gltf-model="#Radiator" rotation="0 0 0" scale="10 10 10" position="-18.5 0.345 -52">
+    <a-gltf-model id="radiator" gltf-model="#Radiator" rotation="0 0 0" scale="10 10 10" position="-18.5 0.345 -52" mesh-shadows>
 
     </a-gltf-model>
 
-    <a-gltf-model id="radiator_2" gltf-model="#Radiator" rotation="0 0 0" scale="10 10 10" position="-52 0.345 -52">
+    <a-gltf-model id="radiator_2" gltf-model="#Radiator" rotation="0 0 0" scale="10 10 10" position="-52 0.345 -52" mesh-shadows>
 
     </a-gltf-model>
 
-    <a-gltf-model id="radiator_3" gltf-model="#Radiator" rotation="0 90 0" scale="15 10 10" position="-62 0.345 -40">
+    <a-gltf-model id="radiator_3" gltf-model="#Radiator" rotation="0 90 0" scale="15 10 10" position="-62 0.345 -40" mesh-shadows>
 
     </a-gltf-model>
 
-    <a-gltf-model id="radiator_4" gltf-model="#Radiator" rotation="0 90 0" scale="15 10 10" position="-62 0.345 30">
+    <a-gltf-model id="radiator_4" gltf-model="#Radiator" rotation="0 90 0" scale="15 10 10" position="-62 0.345 30" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Cabinet glTF -->
-    <a-gltf-model id="cabinet" gltf-model="#Cabinet" rotation="0 -90 0" scale="8 8 8" position="-60 0 -5">
+    <a-gltf-model id="cabinet" gltf-model="#Cabinet" rotation="0 -90 0" scale="8 8 8" position="-60 0 -5" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- TV glTF -->
-    <a-gltf-model id="television" gltf-model="#Television" rotation="0 90 0" scale="0.75 0.75 0.75" position="-60 5 -5">
+    <a-gltf-model id="television" gltf-model="#Television" rotation="0 90 0" scale="0.75 0.75 0.75" position="-60 5 -5" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Office entities -->
-    <a-gltf-model id="chandelier" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="30 28 -10">
+    <a-gltf-model id="chandelier" gltf-model="#Chandelier" rotation="0 -45 0" scale="0.095 0.095 0.095" position="30 28 -10" mesh-shadows>
 
     </a-gltf-model>
 
-    <a-gltf-model id="radiator_5" gltf-model="#Radiator" rotation="0 0 0" scale="10 10 10" position="5 0.345 -52">
+    <a-gltf-model id="radiator_5" gltf-model="#Radiator" rotation="0 0 0" scale="10 10 10" position="5 0.345 -52" mesh-shadows>
 
     </a-gltf-model>
 
-    <a-gltf-model id="radiator_6" gltf-model="#Radiator" rotation="0 -90 0" scale="15 10 10" position="42 0.345 -40">
+    <a-gltf-model id="radiator_6" gltf-model="#Radiator" rotation="0 -90 0" scale="15 10 10" position="42 0.345 -40" mesh-shadows>
 
     </a-gltf-model>
-    
+
     <!-- Trolley glTF -->
     <a-gltf-model id="trolley" gltf-model="#Trolley" rotation="0 90 0" scale="0.075 0.075 0.075" position="25 0 -1.55" mesh-shadows>
 
     </a-gltf-model>
-    
+
     <!-- Compactor glTF -->
     <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="3 3 3" position="25.25 6 -1.55" mesh-shadows>
 
     </a-gltf-model>
-    
+
     <!-- Mirror glTF -->
     <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="8 8 8" position="25.15 6 -1.55" mesh-shadows>
 
     </a-gltf-model>
-    
+
     <!-- Scalpel glTF -->
     <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 180 0" scale="3 3 3" position="25 6 -1.55" mesh-shadows>
-    
+
     </a-gltf-model>
 
     <!-- Sickle Pro glTF -->
     <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="-90 0 0" scale="8 8 8" position="24.85 6.25 -1.55" mesh-shadows>
 
     </a-gltf-model>
-    
+
     <!-- Syringe glTF -->
     <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.01 0.01 0.01" position="24.65 6 -1.55" mesh-shadows>
 
@@ -650,22 +691,22 @@
     <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="2 2 2" position="39 0 -4.5" mesh-shadows>
 
     </a-gltf-model>
-    
+
     <!-- Office Desk -->
-    <a-gltf-model id="office_desk" gltf-model="#Office-Desk" rotation="0 -90 0" scale="42 38 48" position="8.75 0 -28">
+    <a-gltf-model id="office_desk" gltf-model="#Office-Desk" rotation="0 -90 0" scale="42 38 48" position="8.75 0 -28" mesh-shadows>
 
     </a-gltf-model>
-    
+
     <!-- Office Desktop -->
-    <a-gltf-model id="office_desktop" gltf-model="#Office-Desktop" rotation="0 -90 0" scale="2.5 2.5 2.5" position="5 7.25 -20">
+    <a-gltf-model id="office_desktop" gltf-model="#Office-Desktop" rotation="0 -90 0" scale="2.5 2.5 2.5" position="5 7.25 -20" wwwmesh-shadows>
 
     </a-gltf-model>
-    
+
     <!-- Office Chair -->
-    <a-gltf-model id="office_chair" gltf-model="#Office-Chair" rotation="0 90 0" scale="8 8 8" position="0 0.345 -20">
+    <a-gltf-model id="office_chair" gltf-model="#Office-Chair" rotation="0 90 0" scale="8 8 8" position="0 0.345 -20" mesh-shadows>
 
     </a-gltf-model>
-    
+
     <!-- Camera system -->
     <a-entity id="camera-control" movement-controls="speed:1.5;">
 
