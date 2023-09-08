@@ -113,7 +113,7 @@
           el.addEventListener('model-loaded', () => {
             var sceneEl = document.querySelector('a-scene');
             var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-            var entityPatient = glTFModels[37]
+            var entityPatient = glTFModels[40]
             var patientObj = entityPatient.getObject3D('mesh');
             patientObj.frustumCulled = false;
             patientObj.getObjectByProperty("type", "SkinnedMesh").frustumCulled = false;
@@ -168,7 +168,7 @@
           el.addEventListener('model-loaded', () => {
             var sceneEl = document.querySelector('a-scene');
             var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-            var entityPatient = glTFModels[37]
+            var entityPatient = glTFModels[40]
             var patientObj = entityPatient.getObject3D('mesh');
             const entityPatientLeftHand = patientObj.getObjectByName('rp_nathan_animated_003_walking_hand_l');
             const entityPatientRightHand = patientObj.getObjectByName('rp_nathan_animated_003_walking_hand_r');
@@ -221,7 +221,7 @@
           el.addEventListener('model-loaded', () => {
             var sceneEl = document.querySelector('a-scene');
             var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-            var entityPatient = glTFModels[37]
+            var entityPatient = glTFModels[40]
             var patientObj = entityPatient.getObject3D('mesh');
             const entityPatientSpine_01 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_01');
             const entityPatientSpine_02 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_02');
@@ -262,7 +262,7 @@
           el.addEventListener('model-loaded', () => {
             var sceneEl = document.querySelector('a-scene');
             var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-            var entityPatient = glTFModels[37]
+            var entityPatient = glTFModels[40]
             var patientObj = entityPatient.getObject3D('mesh');
             const entityPatientNeck = patientObj.getObjectByName('rp_nathan_animated_003_walking_neck');
             const entityPatientHead = patientObj.getObjectByName('rp_nathan_animated_003_walking_head');
@@ -288,7 +288,7 @@
           el.addEventListener('model-loaded', () => {
             var sceneEl = document.querySelector('a-scene');
             var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-            var entityDentist = glTFModels[36];
+            var entityDentist = glTFModels[39];
             var dentistObj = entityDentist.getObject3D('mesh');
             dentistObj.frustumCulled = false;
             dentistObj.getObjectByProperty("type", "SkinnedMesh").frustumCulled = false;
@@ -361,7 +361,7 @@
 
   </head>
 
-  <a-scene environment="preset:moon; skyType:atmosphere; skyColor: black; shadow: true; ground: flat">
+  <a-scene environment="preset:moon; skyType:atmosphere; skyColor: black; shadow: true; ground: flat" inspector="url: https://cdn.jsdelivr.net/gh/aframevr/aframe-inspector@master/dist/aframe-inspector.min.js">
 
     <a-assets>
       <!-- Living room assets -->
@@ -488,11 +488,23 @@
       </a-asset-item>
 
       <!-- Office Desktop asset -->
-      <a-asset-item id="Office-Desktop" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Desktop/ar_pc_personal_computer_tugas.glb">
+      <a-asset-item id="Office-Desktop" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Desktop/imac_3d_model__free__agustin_honnun.glb">
       </a-asset-item>
 
       <!-- Office Chair asset -->
       <a-asset-item id="Office-Chair" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Office%20Chair/office_chair.glb">
+      </a-asset-item>
+      
+      <!-- Smoke alarm asset -->
+      <a-asset-item id="Smoke-Alarm" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Smoke%20alarm/smoke_detector_a5.glb">
+      </a-asset-item>
+      
+      <!-- Centre table asset -->
+      <a-asset-item id="Centre-Table" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Centre-table/modern_wooden_glass_top_table_-_asset.glb">
+      </a-asset-item>
+      
+      <!-- Magazines asset -->
+      <a-asset-item id="Magazines" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Scene2/Magazines/tex_comics_collection.glb">
       </a-asset-item>
 
     </a-assets>
@@ -564,26 +576,37 @@
     </a-gltf-model>
 
     <!-- Sofa glTF -->
-    <a-gltf-model id="sofa" gltf-model="#Sofa" rotation="0 180 0" scale="0.25 0.25 0.25" position="-32 0.15 35" mesh-shadows>
+    <a-gltf-model id="sofa" gltf-model="#Sofa" rotation="0 90 0" scale="0.095 0.095 0.095" position="-52 0.345 30" mesh-shadows>
+
+    </a-gltf-model>
+    
+    <!-- Centre table glTF -->
+    <a-gltf-model id="centre_table" gltf-model="#Centre-Table" rotation="0 180 0" scale="2 2 2" position="-25 0.345 25" mesh-shadows>
+
+    </a-gltf-model>
+    
+     <!-- Magazines glTF -->
+    <a-gltf-model id="magazines" gltf-model="#Magazines" rotation="0 180 0" scale="5.5 5.5 5.5" position="-25 4.5 25" mesh-shadows>
 
     </a-gltf-model>
 
+
     <!-- Small table glTF -->
-    <a-gltf-model id="s_table" gltf-model="#S_table" rotation="0 0 0" scale="5 7 5" position="-48 0.15 12" mesh-shadows>
+    <a-gltf-model id="s_table" gltf-model="#S_table" rotation="0 0 0" scale="5 7 5" position="-48 0.15 16" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Gramophone glTF -->
-    <a-gltf-model id="gramophone" gltf-model="#Gramophone" rotation="0 0 0" scale="0.045 0.045 0.045" position="-48 6 12" mesh-shadows>
+    <a-gltf-model id="gramophone" gltf-model="#Gramophone" rotation="0 0 0" scale="0.045 0.045 0.045" position="-48 6 16" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- Recliner glTF -->
-    <a-gltf-model id="recliner" gltf-model="#Recliner" rotation="0 -45 0" scale="4.5 4.5 4.5" position="-20 0.25 10" mesh-shadows>
+    <a-gltf-model id="recliner" gltf-model="#Recliner" rotation="0 0 0" scale="4.5 4.5 4.5" position="-34 0.25 13" mesh-shadows>
 
     </a-gltf-model>
 
-    <a-gltf-model id="recliner_2" gltf-model="#Recliner" rotation="0 45 0" scale="4.5 4.5 4.5" position="-40 0.25 10" mesh-shadows>
+    <a-gltf-model id="recliner_2" gltf-model="#Recliner" rotation="0 0 0" scale="4.5 4.5 4.5" position="-20 0.25 13" mesh-shadows>
 
     </a-gltf-model>
 
@@ -605,12 +628,16 @@
     </a-gltf-model>
 
     <!-- Cabinet glTF -->
-    <a-gltf-model id="cabinet" gltf-model="#Cabinet" rotation="0 -90 0" scale="8 8 8" position="-60 0 -5" mesh-shadows>
+    <a-gltf-model id="cabinet" gltf-model="#Cabinet" rotation="0 225 0" scale="8 8 8" position="-20 0.25 38" mesh-shadows>
 
     </a-gltf-model>
 
     <!-- TV glTF -->
-    <a-gltf-model id="television" gltf-model="#Television" rotation="0 90 0" scale="0.75 0.75 0.75" position="-60 5 -5" mesh-shadows>
+    <a-gltf-model id="television" gltf-model="#Television" rotation="0 225 0" scale="0.75 0.75 0.75" position="-20 5.5 38" mesh-shadows>
+
+    </a-gltf-model>
+    
+    <a-gltf-model id="smoke_alarm_2" gltf-model="#Smoke-Alarm" rotation="0 180 0" scale="0.008 0.008 0.008" position="-32 30 -8" mesh-shadows>
 
     </a-gltf-model>
 
@@ -692,18 +719,23 @@
 
     </a-gltf-model>
 
-    <!-- Office Desk -->
-    <a-gltf-model id="office_desk" gltf-model="#Office-Desk" rotation="0 -90 0" scale="42 38 48" position="8.75 0 -28" mesh-shadows>
+    <!-- Office Desk glTF -->
+    <a-gltf-model id="office_desk" gltf-model="#Office-Desk" rotation="0 -90 0" scale="38 38 38" position="8.75 0 -28" mesh-shadows>
 
     </a-gltf-model>
 
-    <!-- Office Desktop -->
-    <a-gltf-model id="office_desktop" gltf-model="#Office-Desktop" rotation="0 -90 0" scale="2.5 2.5 2.5" position="5 7.25 -20" wwwmesh-shadows>
+    <!-- Office Desktop glTF -->
+    <a-gltf-model id="office_desktop" gltf-model="#Office-Desktop" rotation="0 90 0" scale="6 6 6" position="5 7.25 -20" mesh-shadows>
 
     </a-gltf-model>
 
-    <!-- Office Chair -->
+    <!-- Office Chair glTF -->
     <a-gltf-model id="office_chair" gltf-model="#Office-Chair" rotation="0 90 0" scale="8 8 8" position="0 0.345 -20" mesh-shadows>
+
+    </a-gltf-model>
+    
+     <!-- Smoke alarm glTF -->
+    <a-gltf-model id="smoke_alarm" gltf-model="#Smoke-Alarm" rotation="0 180 0" scale="0.008 0.008 0.008" position="32 30 -8" mesh-shadows>
 
     </a-gltf-model>
 
@@ -711,15 +743,15 @@
     <a-entity id="camera-control" movement-controls="speed:1.5;">
 
       <!-- Camera head -->
-      <a-entity id="camera-head" camera position="7 12 20" look-controls="pointerLockEnabled:true;"></a-entity>
+      <a-entity id="camera-head" camera position="-32 10 35" look-controls="pointerLockEnabled:true;"></a-entity>
 
-      <!-- Left hand controller -->
-      <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control">
-      </a-entity>
+       <!-- Left hand controller -->
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" event-set__sickleshow="_event: pinchmoved; _target: #textArea3; visible: true" event-set__sicklehide="_event: pinchended; _target: #textArea3; visible: false" event-set__wristshow="_event: pinchmoved; _target: #textArea4; visible: true" event-set__wristhide="_event: pinchmoved; _target: #textArea4; visible: false">
+        </a-entity>
 
-      <!-- Right hand controller -->
-      <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5">
-      </a-entity>
+        <!-- Right hand controller -->
+        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras hand-teleport="rig: #camera-control; origin: camera-head" drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false">
+        </a-entity>
 
     </a-entity>
 
