@@ -648,7 +648,7 @@
 
         init: function() {
           var sceneEl = document.querySelector('a-scene');
-          var trackedEl = sceneEl.querySelector('#leftHand');
+          var trackedEl = sceneEl.querySelector('#rightHand');
           this.el.trackedEl = trackedEl;
           var targetEl = sceneEl.querySelector("#sickle");
           targetEl.setAttribute('pinchable', {
@@ -663,7 +663,7 @@
 
         onPinchMoved: function(evt) {
           var targetEl = document.querySelector("#sickle");
-          var trackedEl = document.querySelector('#leftHand');
+          var trackedEl = document.querySelector('#rightHand');
           var localPosition = this.localPosition;
           var evtDetail = this.evtDetail;
           var localPosition = new THREE.Vector3();
