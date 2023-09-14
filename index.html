@@ -671,9 +671,9 @@
           localPosition.copy(evt.detail.position);
           targetEl.object3D.updateMatrixWorld();
           targetEl.object3D.worldToLocal(localPosition);
-          //targetEl.object3D.position.z = localPosition.z;
+          targetEl.object3D.position.z = localPosition.z;
           //targetEl.object.position.y = localPosition.y;
-          targetEl.object.position.x = localPosition.x;
+          //targetEl.object.position.x = localPosition.x;
           evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
           targetEl.emit('positionchanged', evtDetail);
           trackedEl.emit('pinchmoved');
@@ -748,7 +748,7 @@
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="-0.98 0.70 -1.68" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="-0.98 0.71 -1.68" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>
 
       <!-- Denture glTF -->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.89 0.67 -1.65" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>
