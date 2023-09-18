@@ -684,7 +684,7 @@
       });*/
 
     </script>
-    
+
     <!-- pressable component -->
     <script>
       AFRAME.registerComponent('pressable', {
@@ -755,8 +755,8 @@
             default: false
           }
         },
-        
-        dependencies: ['pinchable'],
+
+        dependencies: ['pressable'],
 
         init: function() {
           var el = this.el;
@@ -791,21 +791,23 @@
           el.appendChild(labelEl);
           el.appendChild(buttonEl);
         },
-        
+
         bindMethods: function() {
           this.onPressStarted = this.onPressStarted.bind(this);
           this.onPressEnded = this.onPressEnded.bind(this);
         },
-        
-        update: function() {
+
+        update: function(oldData) {
           if (oldData.label !== this.data.label) {
-            this.labelEl.setAttribute('text','value',this.data.label);
+            this.labelEl.setAttribute('text', 'value', this.data.label);
           }
         },
-        
+
         onPressStarted: function() {
           var buttonEl = this.buttonEl;
-          buttonEl.setAttribute('material', {color: 'green'});
+          buttonEl.setAttribute('material', {
+            color: 'green'
+          });
           buttonEl.emit('click');
           if (this.data.pressable) {
             if (buttonEl.is('pressed')) {
@@ -815,12 +817,81 @@
             }
           }
         },
-        
+
         onPressEnded: function() {
-          if (this.buttonEl.is('pressed')) { return; };
-          this.buttonEl.setAttribute('material', { color: 'white' })
+          if (this.buttonEl.is('pressed')) {
+            return;
+          };
+          this.buttonEl.setAttribute('material', {
+            color: 'white'
+          })
         }
       });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('event-manager', {
+        init: function() {
+
+          this.bindMethods();
+
+          this.dentureButtonEl = document.querySelector('#dentureButton');
+          this.sickleButtonEl = document.querySelector('#sickleButton');
+          this.compactorButtonEl = document.querySelector('#compactorButton');
+          this.syringeButtonEl = document.querySelector('#syringeButton');
+          this.scalpelButtonEl = document.querySelector('#scalpelsButton');
+          this.mirrorButtonEl = document.querySelector('#mirrorButton');
+          
+          
+          
+          this.dentureEl = document.querySelector('#denture');
+          this.sickleEl = document.querySelector('#sickle');
+          this.compactorEl = document.querySelector('#compactor');
+          this.syringeEl = document.querySelector('#syringe');
+          this.scalpelEl = document.querySelector('#scalpels');
+          this.mirrorEl = document.querySelector('#mirror');
+          
+          this.dentureButtonEl.addEventListener('click', this.onClick);
+          this.sickleButtonEl.addEventListener('click', this.onClick);
+          this.compactorButtonEl.addEventListener('click', this.onClick);
+          this.syringeButtonEl.addEventListener('click', this.onClick);
+          this.scalpelButtonEl.addEventListener('click', this.onClick);
+          this.mirrorButtonEl.addEventListener('click', this.onClick);
+
+          this.dentureButtonEl.addState('pressed');
+          this.sickleButtonEl.addState('pressed');
+          this.compactorButtonEl.addState('pressed');
+          this.syringeButtonEl.addState('pressed');
+          this.scalpelButtonEl.addState('pressed');
+          this.mirrorButtonEl.addState('pressed');
+        },
+
+        bindMethods: function() {
+          this.onClick = this.onClick.bind(this);
+        },
+
+        onClick: function(evt) {
+
+          var targetEl = evt.target;
+          if (targetEl === this.dentureEl || targetEl === this.sickleButtonEl || targetEl === this.compactorButtonEl || targetEl === this.syringeButtonEl || targetEl === this.scalpelButtonEl || targetEl === this.mirrorButtonEl) {
+
+            this.dentureButtonEl.removeState('pressed');
+            this.sickleButtonEl.removeState('pressed');
+            this.compactorButtonEl.removeState('pressed');
+            this.syringeButtonEl.removeState('pressed');
+            this.scalpelButtonEl.removeState('pressed');
+            this.mirrorButtonEl.removeState('pressed');
+            
+            this.dentureEl.object3D.visible = false;
+            this.sickleEl.object3D.visible = false;
+            this.compactorEl.object3D.visible = false;
+            this.syringeEl.object3D.visible = false;
+            this.scalpelEl.object3D.visible = false;
+            this.mirrorEl.object3D.visible = false;
+          }
+        },
+      })
 
     </script>
 
@@ -980,17 +1051,17 @@
 
       </a-entity>
 
-      <a-entity id="dentureButton" button="label: Denture; width: 0.25; height: 0.15; depth: 0.01" position="-0.85 1 2"></a-entity>
+      <a-entity id="dentureButton" button="label: Denture; width: 0.25; height: 0.15; depth: 0.01; pressable: true;" position="-0.85 1 2" event-manager></a-entity>
 
-      <a-entity id="sickleButton" button="label: Sickle; width: 0.25; height: 0.15; depth: 0.01" position="-1.15 1 2"></a-entity>
+      <a-entity id="sickleButton" button="label: Sickle; width: 0.25; height: 0.15; depth: 0.01; pressable: true;" position="-1.15 1 2" event-manager></a-entity>
 
-      <a-entity id="mirrorButton" button="label: Mirror; width: 0.25; height: 0.15; depth: 0.01" position="-1.45 1 2"></a-entity>
+      <a-entity id="mirrorButton" button="label: Mirror; width: 0.25; height: 0.15; depth: 0.01; pressable: true;" position="-1.45 1 2" event-manager></a-entity>
 
-      <a-entity id="syringeButton" button="label: Syringe; width: 0.25; height: 0.15; depth: 0.01" position="-1.75 1 2"></a-entity>
+      <a-entity id="syringeButton" button="label: Syringe; width: 0.25; height: 0.15; depth: 0.01; pressable: true;" position="-1.75 1 2" event-manager></a-entity>
 
-      <a-entity id="scalpelsButton" button="label: Scalpels; width: 0.25; height: 0.15; depth: 0.01" position="-2.05 1 2"></a-entity>
+      <a-entity id="scalpelsButton" button="label: Scalpels; width: 0.25; height: 0.15; depth: 0.01; pressable: true;" position="-2.05 1 2" event-manager></a-entity>
 
-      <a-entity id="compactorButton" button="label: Compactor; width: 0.25; height: 0.15; depth: 0.01" position="-2.35 1 2"></a-entity>
+      <a-entity id="compactorButton" button="label: Compactor; width: 0.25; height: 0.15; depth: 0.01; pressable: true;" position="-2.35 1 2" event-manager></a-entity>
 
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="8 10 18"></a-entity>
