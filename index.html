@@ -847,6 +847,15 @@
           this.syringeEl = document.querySelector('#syringe');
           this.scalpelEl = document.querySelector('#scalpels');
           this.mirrorEl = document.querySelector('#mirror');
+          
+          this.buttonToGeometry = {
+            'dentureButton': this.dentureEl,
+            'sickleButton': this.sickleEl,
+            'compactorButton': this.compactorEl,
+            'syringeButton': this.syringeEl,
+            'scalpelsButton': this.scalpelEl,
+            'mirrorButton': this.mirrorEl
+          }
 
           this.dentureButtonEl.addEventListener('click', this.onClick);
           this.sickleButtonEl.addEventListener('click', this.onClick);
@@ -882,10 +891,19 @@
           this.syringeEl = document.querySelector('#syringe');
           this.scalpelEl = document.querySelector('#scalpels');
           this.mirrorEl = document.querySelector('#mirror');
+          
+          this.buttonToGeometry = {
+            'dentureButton': this.dentureEl,
+            'sickleButton': this.sickleEl,
+            'compactorButton': this.compactorEl,
+            'syringeButton': this.syringeEl,
+            'scalpelsButton': this.scalpelEl,
+            'mirrorButton': this.mirrorEl
+          }
+
 
           var targetEl = evt.target;
           if (targetEl === this.dentureEl || targetEl === this.sickleButtonEl || targetEl === this.compactorButtonEl || targetEl === this.syringeButtonEl || targetEl === this.scalpelButtonEl || targetEl === this.mirrorButtonEl) {
-
             this.dentureButtonEl.removeState('pressed');
             this.sickleButtonEl.removeState('pressed');
             this.compactorButtonEl.removeState('pressed');
@@ -894,11 +912,12 @@
             this.mirrorButtonEl.removeState('pressed');
 
             this.dentureEl.object3D.visible = false;
-            this.sickleEl.object3D.visible = true;
+            this.sickleEl.object3D.visible = false;
             this.compactorEl.object3D.visible = false;
             this.syringeEl.object3D.visible = false;
             this.scalpelEl.object3D.visible = false;
             this.mirrorEl.object3D.visible = false;
+            this.buttonToGeometry[targetEl.id].object3D.visible = true;
           }
         },
       })
@@ -971,7 +990,7 @@
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="-0.98 0.71 -1.68" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="-0.98 0.71 -1.68" mesh-shadows pinchable="pinchDistance: 0.05" visible="false"></a-gltf-model>
 
       <!-- Denture glTF -->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.89 0.67 -1.65" mesh-shadows pinchable="pinchDistance: 0.05" visible="false"></a-gltf-model>
