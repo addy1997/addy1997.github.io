@@ -526,7 +526,7 @@
 
     </script>
 
-<script>
+    <script>
       /*AFRAME.registerComponent('lwrist-movement-tracking', {
         schema: {
           minDist: {default: 0.25}
@@ -684,6 +684,145 @@
       });*/
 
     </script>
+    
+    <!-- pressable component -->
+    <script>
+      AFRAME.registerComponent('pressable', {
+        schema: {
+          pressDistance: {
+            default: 0.06
+          }
+        },
+
+        init: function() {
+          this.worldPosition = new THREE.Vector3();
+          this.handEls = document.querySelectorAll('[hand-tracking-controls]');
+          this.pressed = false;
+        },
+
+        tick: function() {
+          var handEls = this.handEls;
+          var handEl;
+          var distance;
+          for (var i = 0; i < handEls.length; i++) {
+            handEl = handEls[i];
+            distance = this.calculateFingerDistance(handEl.components['hand-tracking-controls'].indexTipPosition);
+            if (distance < this.data.pressDistance) {
+              if (!this.pressed) {
+                this.el.emit('pressedstarted');
+              }
+              this.pressed = true;
+              return;
+            }
+          }
+          if (this.pressed) {
+            this.el.emit('pressedended');
+          }
+          this.pressed = false;
+        },
+
+        calculateFingerDistance: function(fingerPosition) {
+          var el = this.el;
+          var worldPosition = this.worldPosition;
+
+          worldPosition.copy(el.object3D.position);
+          el.object3D.parent.updateMatrixWorld();
+          el.object3D.parent.localToWorld(worldPosition);
+
+          return worldPosition.distanceTo(fingerPosition);
+        }
+      });
+
+    </script>
+
+    <!-- UI for Navident scene -->
+    <script>
+      AFRAME.registerComponent('button', {
+        schema: {
+          label: {
+            default: 'label'
+          },
+          width: {
+            default: 0.25
+          },
+          height: {
+            default: 0.15
+          },
+          depth: {
+            default: 0.01
+          },
+          pressable: {
+            default: false
+          }
+        },
+        
+        dependencies: ['pinchable'],
+
+        init: function() {
+          var el = this.el;
+          var labelEl = this.labelEl = document.createElement('a-entity');
+          var buttonEl = this.buttonEl = document.createElement('a-entity');
+
+          buttonEl.setAttribute('geometry', {
+            primitive: 'box',
+            width: this.data.width,
+            height: this.data.height,
+            depth: this.data.depth
+          });
+
+          buttonEl.setAttribute('material', {
+            color: 'white'
+          });
+
+          buttonEl.setAttribute('pressable', '');
+
+          labelEl.setAttribute('scale',
+            '0.75, 0.75, 0.75'
+          );
+
+          labelEl.setAttribute('text', {
+            value: this.data.label,
+            color: 'blue',
+            align: 'center'
+          });
+
+          labelEl.setAttribute('position', '0 0 0.01');
+
+          el.appendChild(labelEl);
+          el.appendChild(buttonEl);
+        },
+        
+        bindMethods: function() {
+          this.onPressStarted = this.onPressStarted.bind(this);
+          this.onPressEnded = this.onPressEnded.bind(this);
+        },
+        
+        update: function() {
+          if (oldData.label !== this.data.label) {
+            this.labelEl.setAttribute('text','value',this.data.label);
+          }
+        },
+        
+        onPressStarted: function() {
+          var buttonEl = this.buttonEl;
+          buttonEl.setAttribute('material', {color: 'green'});
+          buttonEl.emit('click');
+          if (this.data.pressable) {
+            if (buttonEl.is('pressed')) {
+              buttonEl.removeState('pressed');
+            } else {
+              buttonEl.addState('pressed');
+            }
+          }
+        },
+        
+        onPressEnded: function() {
+          if (this.buttonEl.is('pressed')) { return; };
+          this.buttonEl.setAttribute('material', { color: 'white' })
+        }
+      });
+
+    </script>
 
   </head>
 
@@ -821,10 +960,10 @@
 
       <!-- Text area for displaying event information -->
       <!--<a-text id="textArea3" position="1.5 1.75 2" value="The sickle object is being moved" align="center" visible="true" animation__pinchmoved="property: visible; dur: 6; to: true; startEvents: pinchmoved" color="black" scale="0.15 0.15 0.15"></a-text>-->
-      
+
       <!-- Text area for displaying event information -->
       <!--<a-text id="textArea4" position="1.5 1.75 2" value="The sickle object is being moved" align="center" visible="true" animation__pinchmoved="property: visible; dur: 6; to: true; startEvents: pinchmoved" color="black" scale="0.15 0.15 0.15"></a-text>-->
-      
+
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
 
@@ -832,20 +971,34 @@
         <a-entity id="camera-head" camera position="-0.74 1.25 -0.95" look-controls="pointerLockEnabled:true;"></a-entity>
 
         <!-- Left hand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false"  text-display-for-lefthand lwrist-movement-tracking>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false">
         </a-entity>
 
         <!-- Right hand controller -->
-        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" event-set__sickleshow="_event: pinchmoved; _target: #textArea3; visible: true" event-set__sicklehide="_event: pinchended; _target: #textArea3; visible: false" text-display-for-righthand rwrist-movement-tracking pinch-to-move-sickle>
+        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" event-set__sickleshow="_event: pinchmoved; _target: #textArea3; visible: true" event-set__sicklehide="_event: pinchended; _target: #textArea3; visible: false">
         </a-entity>
 
       </a-entity>
+
+      <a-entity id="dentureButton" button="label: Denture; width: 0.25; height: 0.15; depth: 0.01" position="-0.85 1 2"></a-entity>
+
+      <a-entity id="sickleButton" button="label: Sickle; width: 0.25; height: 0.15; depth: 0.01" position="-1.15 1 2"></a-entity>
+
+      <a-entity id="mirrorButton" button="label: Mirror; width: 0.25; height: 0.15; depth: 0.01" position="-1.45 1 2"></a-entity>
+
+      <a-entity id="syringeButton" button="label: Syringe; width: 0.25; height: 0.15; depth: 0.01" position="-1.75 1 2"></a-entity>
+
+      <a-entity id="scalpelsButton" button="label: Scalpels; width: 0.25; height: 0.15; depth: 0.01" position="-2.05 1 2"></a-entity>
+
+      <a-entity id="compactorButton" button="label: Compactor; width: 0.25; height: 0.15; depth: 0.01" position="-2.35 1 2"></a-entity>
 
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="8 10 18"></a-entity>
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="-0.45 1.1 -1.5"></a-entity>
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="1.45 1.68 -2"></a-entity>
       <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.6;" position="-8 10 -18"></a-entity>
+
+      <a-sky color="#6EBAA7"></a-sky>
     </a-scene>
   </body>
 
