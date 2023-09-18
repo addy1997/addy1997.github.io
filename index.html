@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
-    <!--<script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>
 
     <!-- Custom component for camera logging -->
     <script>
@@ -963,6 +963,20 @@
         },
 
         onClick: function(evt) {
+        
+          this.dentureButtonEl = document.querySelector('#dentureButton');
+          this.sickleButtonEl = document.querySelector('#sickleButton');
+          this.compactorButtonEl = document.querySelector('#compactorButton');
+          this.syringeButtonEl = document.querySelector('#syringeButton');
+          this.scalpelButtonEl = document.querySelector('#scalpelsButton');
+          this.mirrorButtonEl = document.querySelector('#mirrorButton');
+
+          this.dentureEl = document.querySelector('#denture');
+          this.sickleEl = document.querySelector('#sickle');
+          this.compactorEl = document.querySelector('#compactor');
+          this.syringeEl = document.querySelector('#syringe');
+          this.scalpelEl = document.querySelector('#scalpels');
+          this.mirrorEl = document.querySelector('#mirror');
 
           var targetEl = evt.target;
           if (targetEl === this.dentureEl || targetEl === this.sickleButtonEl || targetEl === this.compactorButtonEl || targetEl === this.syringeButtonEl || targetEl === this.scalpelButtonEl || targetEl === this.mirrorButtonEl) {
