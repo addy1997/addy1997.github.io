@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
-    <!--<script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>
 
     <!-- Custom component for camera logging -->
     <script>
@@ -735,101 +735,6 @@
 
     </script>
 
-    <!-- UI for Navident scene -->
-    <script>
-      /*AFRAME.registerComponent('button', {
-        schema: {
-          label: {
-            default: 'label'
-          },
-          width: {
-            default: 0.25
-          },
-          height: {
-            default: 0.15
-          },
-          depth: {
-            default: 0.01
-          },
-          pressable: {
-            default: false
-          }
-        },
-
-        dependencies: ['pressable'],
-
-        init: function() {
-          var el = this.el;
-          var labelEl = this.labelEl = document.createElement('a-entity');
-          var buttonEl = this.buttonEl = document.createElement('a-entity');
-
-          buttonEl.setAttribute('geometry', {
-            primitive: 'box',
-            width: this.data.width,
-            height: this.data.height,
-            depth: this.data.depth
-          });
-
-          buttonEl.setAttribute('material', {
-            color: 'white'
-          });
-
-          buttonEl.setAttribute('pressable', '');
-
-          labelEl.setAttribute('scale',
-            '0.75, 0.75, 0.75'
-          );
-
-          labelEl.setAttribute('text', {
-            value: this.data.label,
-            color: 'blue',
-            align: 'center'
-          });
-
-          labelEl.setAttribute('position', '0 0 0.01');
-
-          el.appendChild(labelEl);
-          el.appendChild(buttonEl);
-        },
-
-        bindMethods: function() {
-          this.onPressStarted = this.onPressStarted.bind(this);
-          this.onPressEnded = this.onPressEnded.bind(this);
-        },
-
-        update: function(oldData) {
-          if (oldData.label !== this.data.label) {
-            this.labelEl.setAttribute('text', 'value', this.data.label);
-          }
-        },
-
-        onPressStarted: function() {
-          var buttonEl = this.buttonEl;
-          buttonEl.setAttribute('material', {
-            color: 'green'
-          });
-          buttonEl.emit('click');
-          if (this.data.pressable) {
-            if (buttonEl.is('pressed')) {
-              buttonEl.removeState('pressed');
-            } else {
-              buttonEl.addState('pressed');
-            }
-          }
-        },
-
-        onPressEnded: function() {
-          if (this.buttonEl.is('pressed')) {
-            return;
-          };
-          this.buttonEl.setAttribute('material', {
-            color: 'white'
-          })
-        }
-      });*/
-
-    </script>
-
     <script>
       AFRAME.registerComponent('button', {
         schema: {
@@ -989,7 +894,7 @@
             this.mirrorButtonEl.removeState('pressed');
 
             this.dentureEl.object3D.visible = false;
-            this.sickleEl.object3D.visible = false;
+            this.sickleEl.object3D.visible = true;
             this.compactorEl.object3D.visible = false;
             this.syringeEl.object3D.visible = false;
             this.scalpelEl.object3D.visible = false;
@@ -1069,19 +974,19 @@
       <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="-0.98 0.71 -1.68" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>
 
       <!-- Denture glTF -->
-      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.89 0.67 -1.65" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>
+      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.89 0.67 -1.65" mesh-shadows pinchable="pinchDistance: 0.05" visible="false"></a-gltf-model>
 
       <!-- Scalpel glTF -->
-      <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="-0.95 0.70 -1.68" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="-0.95 0.70 -1.68" mesh-shadows visible="false"></a-gltf-model>
 
       <!-- Syringe glTF-->
-      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="-0.82 0.70 -1.60" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="-0.82 0.70 -1.60" mesh-shadows visible="false"></a-gltf-model>
 
       <!-- Mirror glTF-->
-      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.70 -1.68" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.70 -1.68" mesh-shadows visible="false"></a-gltf-model>
 
       <!-- Compactor glTF-->
-      <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="-0.75 0.68 -1.68" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="-0.75 0.68 -1.68" mesh-shadows visible="false"></a-gltf-model>
 
       <!-- Room glTF -->
       <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5"></a-gltf-model>
@@ -1156,17 +1061,17 @@
 
       </a-entity>
 
-      <a-entity id="dentureButton" button="label: Denture; width: 0.25; toggable: true;" position="-0.85 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
+      <a-entity id="dentureButton" button="label: Denture; width: 0.25;" position="-0.85 1 2" event-manager></a-entity>
 
-      <a-entity id="sickleButton" button="label: Sickle; width: 0.25; toggable: true;" position="-1.15 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
+      <a-entity id="sickleButton" button="label: Sickle; width: 0.25;" position="-1.15 1 2" event-manager></a-entity>
 
-      <a-entity id="mirrorButton" button="label: Mirror; width: 0.25; toggable: true;" position="-1.45 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
+      <a-entity id="mirrorButton" button="label: Mirror; width: 0.25;" position="-1.45 1 2" event-manager></a-entity>
 
-      <a-entity id="syringeButton" button="label: Syringe; width: 0.25;  toggable: true;" position="-1.75 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
+      <a-entity id="syringeButton" button="label: Syringe; width: 0.25;" position="-1.75 1 2" event-manager></a-entity>
 
-      <a-entity id="scalpelsButton" button="label: Scalpels; width: 0.25; toggable: true;" position="-2.05 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
+      <a-entity id="scalpelsButton" button="label: Scalpels; width: 0.25;" position="-2.05 1 2" event-manager></a-entity>
 
-      <a-entity id="compactorButton" button="label: Compactor; width: 0.25; toggable: true;" position="-2.35 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
+      <a-entity id="compactorButton" button="label: Compactor; width: 0.25;" position="-2.35 1 2" event-manager></a-entity>
 
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="8 10 18"></a-entity>
