@@ -834,10 +834,11 @@
         dependencies: ['pressable'],
       
         init: function() {
-
-          var dentureButtonEl = document.querySelector('#dentureButton');
-          var sickleButtonEl = document.querySelector('#sickleButton');
-          var compactorButtonEl = document.querySelector('#compactorButton');
+        
+          var sceneEl = document.querySelector('a-scene');
+          var dentureButtonEl = sceneEl.querySelector('#dentureButton');
+          var sickleButtonEl = sceneEl.querySelector('#sickleButton');
+          var compactorButtonEl = sceneEl.querySelector('#compactorButton');
           
           dentureButtonEl.setAttribute('pressable', {pressDistance: 0.06});
           sickleButtonEl.setAttribute('pressable', {pressDistance: 0.06});
@@ -853,6 +854,11 @@
           sickleButtonEl.addState('pressed');
           compactorButtonEl.addState('pressed');
           
+          /*var event = new Event('click');
+          dentureButtonEl.dispatchEvent(event);
+          sickleButtonEl.dispatchEvent(event);
+          compactorButtonEl.dispatchEvent(event);*/
+          
           this.el.dentureButtonEl = dentureButtonEl;
           this.el.dentureButtonEl = sickleButtonEl;
           this.el.dentureButtonEl = compactorButtonEl;
@@ -860,13 +866,15 @@
 
         onClick: function(evt) {
         
-          var dentureButtonEl = document.querySelector('#dentureButton');
-          var sickleButtonEl = document.querySelector('#sickleButton');
-          var compactorButtonEl = document.querySelector('#compactorButton');
+          var sceneEl = document.querySelector('a-scene');
+        
+          var dentureButtonEl = sceneEl.querySelector('#dentureButton');
+          var sickleButtonEl = sceneEl.querySelector('#sickleButton');
+          var compactorButtonEl = sceneEl.querySelector('#compactorButton');
           
-          var dentureEl = document.querySelector('#denture');
-          var sickleEl = document.querySelector('#sickle');
-          var compactorEl = document.querySelector('#compactor');
+          var dentureEl = sceneEl.querySelector('#denture');
+          var sickleEl = sceneEl.querySelector('#sickle');
+          var compactorEl = sceneEl.querySelector('#compactor');
         
           var buttonToGeometry = {
             'dentureButton': dentureEl,
@@ -895,7 +903,7 @@
   </head>
 
   <body>
-    <a-scene physics="debug: true">
+    <a-scene physics="debug: true" cursor="rayOrigin: mouse">
       <a-assets>
 
         <!-- Room asset -->
