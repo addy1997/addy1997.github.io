@@ -831,29 +831,15 @@
     <script>
       AFRAME.registerComponent('event-manager', {
         init: function() {
-
+        
+          this.onClick = this.onClick.bind(this);
+          
           this.dentureButtonEl = document.querySelector('#dentureButton');
           this.sickleButtonEl = document.querySelector('#sickleButton');
           this.compactorButtonEl = document.querySelector('#compactorButton');
           this.syringeButtonEl = document.querySelector('#syringeButton');
           this.scalpelButtonEl = document.querySelector('#scalpelsButton');
           this.mirrorButtonEl = document.querySelector('#mirrorButton');
-
-          this.dentureEl = document.querySelector('#denture');
-          this.sickleEl = document.querySelector('#sickle');
-          this.compactorEl = document.querySelector('#compactor');
-          this.syringeEl = document.querySelector('#syringe');
-          this.scalpelEl = document.querySelector('#scalpels');
-          this.mirrorEl = document.querySelector('#mirror');
-          
-          this.buttonToGeometry = {
-            'dentureButton': this.dentureEl,
-            'sickleButton': this.sickleEl,
-            'compactorButton': this.compactorEl,
-            'syringeButton': this.syringeEl,
-            'scalpelsButton': this.scalpelEl,
-            'mirrorButton': this.mirrorEl
-          }
 
           this.dentureButtonEl.addEventListener('click', this.onClick);
           this.sickleButtonEl.addEventListener('click', this.onClick);
@@ -868,8 +854,6 @@
           this.syringeButtonEl.addState('pressed');
           this.scalpelButtonEl.addState('pressed');
           this.mirrorButtonEl.addState('pressed');
-          
-          this.onClick = this.onClick.bind(this);
         },
 
         onClick: function(evt) {
@@ -898,7 +882,8 @@
           }
           
           var targetEl = evt.target;
-          if (targetEl === this.dentureEl || targetEl === this.sickleButtonEl || targetEl === this.compactorButtonEl || targetEl === this.syringeButtonEl || targetEl === this.scalpelButtonEl || targetEl === this.mirrorButtonEl) {
+          
+          if (targetEl === this.dentureButtonEl || targetEl === this.sickleButtonEl || targetEl === this.compactorButtonEl || targetEl === this.syringeButtonEl || targetEl === this.scalpelButtonEl || targetEl === this.mirrorButtonEl) {
           
             this.dentureButtonEl.removeState('pressed');
             this.sickleButtonEl.removeState('pressed');
@@ -986,7 +971,7 @@
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="-0.98 0.71 -1.68" mesh-shadows pinchable="pinchDistance: 0.05" visible="false"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="-0.98 0.71 -1.68" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>
 
       <!-- Denture glTF -->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.89 0.67 -1.65" mesh-shadows pinchable="pinchDistance: 0.05" visible="false"></a-gltf-model>
