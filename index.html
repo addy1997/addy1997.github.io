@@ -744,7 +744,7 @@
           width: {
             default: 0.11
           },
-          toggable: {
+          togglable: {
             default: false
           }
         },
@@ -832,8 +832,6 @@
       AFRAME.registerComponent('event-manager', {
         init: function() {
 
-          this.bindMethods();
-
           this.dentureButtonEl = document.querySelector('#dentureButton');
           this.sickleButtonEl = document.querySelector('#sickleButton');
           this.compactorButtonEl = document.querySelector('#compactorButton');
@@ -870,9 +868,7 @@
           this.syringeButtonEl.addState('pressed');
           this.scalpelButtonEl.addState('pressed');
           this.mirrorButtonEl.addState('pressed');
-        },
-
-        bindMethods: function() {
+          
           this.onClick = this.onClick.bind(this);
         },
 
@@ -900,10 +896,10 @@
             'scalpelsButton': this.scalpelEl,
             'mirrorButton': this.mirrorEl
           }
-
-
+          
           var targetEl = evt.target;
           if (targetEl === this.dentureEl || targetEl === this.sickleButtonEl || targetEl === this.compactorButtonEl || targetEl === this.syringeButtonEl || targetEl === this.scalpelButtonEl || targetEl === this.mirrorButtonEl) {
+          
             this.dentureButtonEl.removeState('pressed');
             this.sickleButtonEl.removeState('pressed');
             this.compactorButtonEl.removeState('pressed');
@@ -1068,7 +1064,7 @@
       <a-entity id="camera-control" movement-controls="speed:0.2;">
 
         <!-- Camera head -->
-        <a-entity id="camera-head" camera position="-0.74 1.25 -0.95" look-controls="pointerLockEnabled:true;"></a-entity>
+        <a-entity id="camera-head" camera position="-1.45 1 3" look-controls="pointerLockEnabled:true;"></a-entity>
 
         <!-- Left hand controller -->
         <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false">
@@ -1080,17 +1076,17 @@
 
       </a-entity>
 
-      <a-entity id="dentureButton" button="label: Denture; width: 0.25;" position="-0.85 1 2" event-manager></a-entity>
+      <a-entity id="dentureButton" button="label: Denture; width: 0.25;" position="-0.85 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
 
-      <a-entity id="sickleButton" button="label: Sickle; width: 0.25;" position="-1.15 1 2" event-manager></a-entity>
+      <a-entity id="sickleButton" button="label: Sickle; width: 0.25;" position="-1.15 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
 
-      <a-entity id="mirrorButton" button="label: Mirror; width: 0.25;" position="-1.45 1 2" event-manager></a-entity>
+      <a-entity id="mirrorButton" button="label: Mirror; width: 0.25;" position="-1.45 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
 
-      <a-entity id="syringeButton" button="label: Syringe; width: 0.25;" position="-1.75 1 2" event-manager></a-entity>
+      <a-entity id="syringeButton" button="label: Syringe; width: 0.25;" position="-1.75 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
 
-      <a-entity id="scalpelsButton" button="label: Scalpels; width: 0.25;" position="-2.05 1 2" event-manager></a-entity>
+      <a-entity id="scalpelsButton" button="label: Scalpels; width: 0.25;" position="-2.05 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
 
-      <a-entity id="compactorButton" button="label: Compactor; width: 0.25;" position="-2.35 1 2" event-manager></a-entity>
+      <a-entity id="compactorButton" button="label: Compactor; width: 0.25;" position="-2.35 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
 
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="8 10 18"></a-entity>
