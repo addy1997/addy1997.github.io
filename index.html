@@ -1002,14 +1002,14 @@
     
     <script>
     
-    AFRAME.registerComponent('press-sicklebutton', {
+    AFRAME.registerComponent('press-mirrorbutton', {
       
       dependencies: ['pressable'],
       
       init: function() {
         var sceneEl = document.querySelector('a-scene');
         var trackedEl = sceneEl.querySelector('#leftHand');
-        var buttonEl = sceneEl.querySelector('#sickleButton');
+        var buttonEl = sceneEl.querySelector('#mirrorButton');
         buttonEl.setAttribute('pressable', {pressDistance: 0.06});
         buttonEl.addEventListener('click', this.onPressed);
         this.onPressed = this.onPressed.bind(this);
@@ -1018,17 +1018,14 @@
       onPressed: function(evt) {
         var targetEl = evt.target;
         var trackedEl = document.querySelector('#leftHand');
-        var buttonEl = document.querySelector('sickleButton');
-        var sickleEl = document.querySelector('sickle');
+        var buttonEl = document.querySelector('#mirrorButton');
+        var mirrorEl = document.querySelector('#mirror');
         
         if (targetEl === buttonEl) {
-          sickleEl.object3D.visible = false;
           buttonEl.removeState('pressed');
+          mirrorEl.object3D.visible = false;
         }
-        trackedEl.emit('pressedstarted');
-      }
-      
-      
+      }, 
     })
     
     </script>
@@ -1194,13 +1191,13 @@
 
       <a-entity id="dentureButton" button="label:Denture; width: 0.25;" position="-0.85 1 2" event-manager pressable="pressDistance: 0.06" click-denturebutton></a-entity>
 
-      <a-entity id="sickleButton" button="label:Sickle; width: 0.25;" position="-1.15 1 2" event-manager pressable="pressDistance: 0.06" click-sicklebutton press-sicklebutton></a-entity>
+      <a-entity id="sickleButton" button="label:Sickle; width: 0.25;" position="-1.15 1 2" event-manager pressable="pressDistance: 0.06" click-sicklebutton></a-entity>
 
       <a-entity id="compactorButton" button="label:Compactor; width: 0.25;" position="-1.45 1 2" event-manager pressable="pressDistance: 0.06" click-compactorbutton></a-entity>
       
       <a-entity id="scalpelsButton" button="label:Scalpels ; width: 0.25;" position="-1.75 1 2" event-manager pressable="pressDistance: 0.06" click-scalpelsbutton></a-entity>
       
-      <a-entity id="mirrorButton" button="label:Mirror; width: 0.25;" position="-2.05 1 2" event-manager pressable="pressDistance: 0.06" click-mirrorbutton></a-entity>
+      <a-entity id="mirrorButton" button="label:Mirror; width: 0.25;" position="-2.05 1 2" event-manager pressable="pressDistance: 0.06" click-mirrorbutton press-mirrorbutton></a-entity>
       
       <a-entity id="syringeButton" button="label:Syringe ; width: 0.25;" position="-2.35 1 2" event-manager pressable="pressDistance: 0.06" click-syringebutton></a-entity>
 
