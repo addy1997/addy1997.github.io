@@ -830,51 +830,58 @@
 
     <script>
       AFRAME.registerComponent('event-manager', {
+      
+        dependencies: ['pressable'],
+      
         init: function() {
 
-          this.dentureButtonEl = document.querySelector('#dentureButton');
-          this.sickleButtonEl = document.querySelector('#sickleButton');
-          this.compactorButtonEl = document.querySelector('#compactorButton');
+          var dentureButtonEl = document.querySelector('#dentureButton');
+          var sickleButtonEl = document.querySelector('#sickleButton');
+          var compactorButtonEl = document.querySelector('#compactorButton');
+          
+          dentureButtonEl.setAttribute('pressable', {pressDistance: 0.06});
+          sickleButtonEl.setAttribute('pressable', {pressDistance: 0.06});
+          compactorButtonEl.setAttribute('pressable', {pressDistance: 0.06});
 
-          this.dentureButtonEl.addEventListener('click', (e) => {this.onClick});
-          this.sickleButtonEl.addEventListener('click', (e) => {this.onClick});
-          this.compactorButtonEl.addEventListener('click', (e) => {this.onClick});
+          dentureButtonEl.addEventListener('click',this.onClick);
+          sickleButtonEl.addEventListener('click', this.onClick);
+          compactorButtonEl.addEventListener('click', this.onClick);
           
           this.onClick = this.onClick.bind(this);
 
-          this.dentureButtonEl.addState('pressed');
-          this.sickleButtonEl.addState('pressed');
-          this.compactorButtonEl.addState('pressed');
+          dentureButtonEl.addState('pressed');
+          sickleButtonEl.addState('pressed');
+          compactorButtonEl.addState('pressed');
         },
 
         onClick: function(evt) {
         
-          this.dentureButtonEl = document.querySelector('#dentureButton');
-          this.sickleButtonEl = document.querySelector('#sickleButton');
-          this.compactorButtonEl = document.querySelector('#compactorButton');
+          var dentureButtonEl = document.querySelector('#dentureButton');
+          var sickleButtonEl = document.querySelector('#sickleButton');
+          var compactorButtonEl = document.querySelector('#compactorButton');
           
-          this.dentureEl = document.querySelector('#denture');
-          this.sickleEl = document.querySelector('#sickle');
-          this.compactorEl = document.querySelector('#compactor');
+          var dentureEl = document.querySelector('#denture');
+          var sickleEl = document.querySelector('#sickle');
+          var compactorEl = document.querySelector('#compactor');
         
-          this.buttonToGeometry = {
-            'dentureButton': this.dentureEl,
-            'sickleButton': this.sickleEl,
-            'compactorButton': this.compactorEl,
+          var buttonToGeometry = {
+            'dentureButton': dentureEl,
+            'sickleButton': sickleEl,
+            'compactorButton': compactorEl,
           }
 
           var targetEl = evt.target;
 
-          if (targetEl === this.dentureButtonEl || targetEl === this.sickleButtonEl || targetEl === this.compactorButtonEl)           {
+          if (targetEl === dentureButtonEl || targetEl === sickleButtonEl || targetEl === compactorButtonEl)
+          {
+            dentureButtonEl.removeState('pressed');
+            sickleButtonEl.removeState('pressed');
+            compactorButtonEl.removeState('pressed');
 
-            this.dentureButtonEl.removeState('pressed');
-            this.sickleButtonEl.removeState('pressed');
-            this.compactorButtonEl.removeState('pressed');
-
-            this.dentureEl.object3D.visible = true;
-            this.sickleEl.object3D.visible = true;
-            this.compactorEl.object3D.visible = true;
-            this.buttonToGeometry[targetEl.id].object3D.visible = true;
+            dentureEl.object3D.visible = true;
+            sickleEl.object3D.visible = true;
+            compactorEl.object3D.visible = true;
+            buttonToGeometry[targetEl.id].object3D.visible = true;
           }
         },
       })
