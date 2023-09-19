@@ -831,29 +831,20 @@
     <script>
       AFRAME.registerComponent('event-manager', {
         init: function() {
-        
-          this.onClick = this.onClick.bind(this);
-          
+
           this.dentureButtonEl = document.querySelector('#dentureButton');
           this.sickleButtonEl = document.querySelector('#sickleButton');
           this.compactorButtonEl = document.querySelector('#compactorButton');
-          this.syringeButtonEl = document.querySelector('#syringeButton');
-          this.scalpelButtonEl = document.querySelector('#scalpelsButton');
-          this.mirrorButtonEl = document.querySelector('#mirrorButton');
 
-          this.dentureButtonEl.addEventListener('click', this.onClick);
-          this.sickleButtonEl.addEventListener('click', this.onClick);
-          this.compactorButtonEl.addEventListener('click', this.onClick);
-          this.syringeButtonEl.addEventListener('click', this.onClick);
-          this.scalpelButtonEl.addEventListener('click', this.onClick);
-          this.mirrorButtonEl.addEventListener('click', this.onClick);
+          this.dentureButtonEl.addEventListener('click', (e) => {this.onClick});
+          this.sickleButtonEl.addEventListener('click', (e) => {this.onClick});
+          this.compactorButtonEl.addEventListener('click', (e) => {this.onClick});
+          
+          this.onClick = this.onClick.bind(this);
 
           this.dentureButtonEl.addState('pressed');
           this.sickleButtonEl.addState('pressed');
           this.compactorButtonEl.addState('pressed');
-          this.syringeButtonEl.addState('pressed');
-          this.scalpelButtonEl.addState('pressed');
-          this.mirrorButtonEl.addState('pressed');
         },
 
         onClick: function(evt) {
@@ -861,43 +852,28 @@
           this.dentureButtonEl = document.querySelector('#dentureButton');
           this.sickleButtonEl = document.querySelector('#sickleButton');
           this.compactorButtonEl = document.querySelector('#compactorButton');
-          this.syringeButtonEl = document.querySelector('#syringeButton');
-          this.scalpelButtonEl = document.querySelector('#scalpelsButton');
-          this.mirrorButtonEl = document.querySelector('#mirrorButton');
-
+          
           this.dentureEl = document.querySelector('#denture');
           this.sickleEl = document.querySelector('#sickle');
           this.compactorEl = document.querySelector('#compactor');
-          this.syringeEl = document.querySelector('#syringe');
-          this.scalpelEl = document.querySelector('#scalpels');
-          this.mirrorEl = document.querySelector('#mirror');
-          
+        
           this.buttonToGeometry = {
             'dentureButton': this.dentureEl,
             'sickleButton': this.sickleEl,
             'compactorButton': this.compactorEl,
-            'syringeButton': this.syringeEl,
-            'scalpelsButton': this.scalpelEl,
-            'mirrorButton': this.mirrorEl
           }
-          
+
           var targetEl = evt.target;
-          
-          if (targetEl === this.dentureButtonEl || targetEl === this.sickleButtonEl || targetEl === this.compactorButtonEl || targetEl === this.syringeButtonEl || targetEl === this.scalpelButtonEl || targetEl === this.mirrorButtonEl) {
-          
+
+          if (targetEl === this.dentureButtonEl || targetEl === this.sickleButtonEl || targetEl === this.compactorButtonEl)           {
+
             this.dentureButtonEl.removeState('pressed');
             this.sickleButtonEl.removeState('pressed');
             this.compactorButtonEl.removeState('pressed');
-            this.syringeButtonEl.removeState('pressed');
-            this.scalpelButtonEl.removeState('pressed');
-            this.mirrorButtonEl.removeState('pressed');
 
-            this.dentureEl.object3D.visible = false;
-            this.sickleEl.object3D.visible = false;
-            this.compactorEl.object3D.visible = false;
-            this.syringeEl.object3D.visible = false;
-            this.scalpelEl.object3D.visible = false;
-            this.mirrorEl.object3D.visible = false;
+            this.dentureEl.object3D.visible = true;
+            this.sickleEl.object3D.visible = true;
+            this.compactorEl.object3D.visible = true;
             this.buttonToGeometry[targetEl.id].object3D.visible = true;
           }
         },
@@ -1042,9 +1018,6 @@
       <!-- Text area for displaying event information -->
       <!--<a-text id="textArea3" position="1.5 1.75 2" value="The sickle object is being moved" align="center" visible="true" animation__pinchmoved="property: visible; dur: 6; to: true; startEvents: pinchmoved" color="black" scale="0.15 0.15 0.15"></a-text>-->
 
-      <!-- Text area for displaying event information -->
-      <!--<a-text id="textArea4" position="1.5 1.75 2" value="The sickle object is being moved" align="center" visible="true" animation__pinchmoved="property: visible; dur: 6; to: true; startEvents: pinchmoved" color="black" scale="0.15 0.15 0.15"></a-text>-->
-
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
 
@@ -1065,13 +1038,7 @@
 
       <a-entity id="sickleButton" button="label: Sickle; width: 0.25;" position="-1.15 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
 
-      <a-entity id="mirrorButton" button="label: Mirror; width: 0.25;" position="-1.45 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
-
-      <a-entity id="syringeButton" button="label: Syringe; width: 0.25;" position="-1.75 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
-
-      <a-entity id="scalpelsButton" button="label: Scalpels; width: 0.25;" position="-2.05 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
-
-      <a-entity id="compactorButton" button="label: Compactor; width: 0.25;" position="-2.35 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
+      <a-entity id="compactorButton" button="label: Compactor; width: 0.25;" position="-1.45 1 2" event-manager pressable="pressDistance: 0.06"></a-entity>
 
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="8 10 18"></a-entity>
