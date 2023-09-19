@@ -1009,7 +1009,7 @@
       init: function() {
         var sceneEl = document.querySelector('a-scene');
         var trackedEl = sceneEl.querySelector('#leftHand');
-        var buttonEl = sceneEl.querySelector('sickleButtonEl');
+        var buttonEl = sceneEl.querySelector('#sickleButton');
         buttonEl.setAttribute('pressable', {pressDistance: 0.06});
         buttonEl.addEventListener('click', this.onPressed);
         this.onPressed = this.onPressed.bind(this);
@@ -1018,7 +1018,7 @@
       onPressed: function(evt) {
         var targetEl = evt.target;
         var trackedEl = document.querySelector('#leftHand');
-        var buttonEl = document.querySelector('sickleButtonEl');
+        var buttonEl = document.querySelector('sickleButton');
         var sickleEl = document.querySelector('sickle');
         
         if (targetEl === buttonEl) {
