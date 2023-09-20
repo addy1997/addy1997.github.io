@@ -879,12 +879,12 @@
           scalpelsButtonEl.addState('pressed');
           mirrorButtonEl.addState('pressed');
 
-          this.el.dentureButtonEl = dentureButtonEl;
+          /*this.el.dentureButtonEl = dentureButtonEl;
           this.el.sickleButtonEl = sickleButtonEl;
           this.el.compactorButtonEl = compactorButtonEl;
           this.el.syringeButtonEl = syringeButtonEl;
           this.el.scalpelsButtonEl = scalpelsButtonEl;
-          this.el.mirrorButtonEl = mirrorButtonEl;
+          this.el.mirrorButtonEl = mirrorButtonEl;*/
         },
 
         onClick: function(evt) {
@@ -1001,6 +1001,48 @@
             sickleEl.object3D.visible = false;
           });
         }
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('press-syringebutton', {
+
+        schema: {
+          collisionDistance: {
+            default: 0.05
+          },
+        },
+
+        init: function() {
+
+          var sceneEl = this.sceneEl = document.querySelector('a-scene');
+          var leftHandEl = this.leftHandEl = sceneEl.querySelector('#leftHand');
+          var worldPosition = this.worldPosition = new THREE.Vector3();
+          var distance = this.calculateFingerDistance(leftHandEl.components['hand-tracking-controls'].indexTipPosition);
+         
+          if (distance > this.data.collisionDistance)
+            leftHandEl.addEventListener('click', this.onClicked);
+            this.onClicked.bind(this);
+        },
+
+        calculateFingerDistance: function(fingerPosition) {
+
+          var syringeButtonEl = this.syringeButton = this.sceneEl.querySelector('#syringeButton');
+          var worldPosition = this.worldPosition;
+          worldPosition.copy(syringeButtonEl.object3D.position);
+          syringeButtonEl.object3D.parent.updateMatrixWorld();
+          syringeButtonEl.object3D.parent.localToWorld(worldPosition);
+          return worldPosition.distanceTo(fingerPosition);
+          syringeButtonEl.emit('click');
+        },
+
+        onClicked: function(evt) {
+          var syringeEl = this.sceneEl.querySelector('#syringe');
+          var targetEl = this.syringeButtonEl;
+          if (evt.target === targetEl)
+            syringeEl.object3D.visible = false;
+        },
       });
 
     </script>
@@ -1155,7 +1197,7 @@
         <a-entity id="camera-head" camera position="-1.45 1 3" look-controls="pointerLockEnabled:true;"></a-entity>
 
         <!-- Left hand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false">
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" press-syringebutton>
         </a-entity>
 
         <!-- Right hand controller -->
@@ -1164,6 +1206,7 @@
 
       </a-entity>
 
+      <!-- Buttons for dental tools -->
       <a-entity id="dentureButton" button="label:Denture; width: 0.25;" position="-0.85 1 2" event-manager pressable="pressDistance: 0.06" click-denturebutton></a-entity>
 
       <a-entity id="sickleButton" button="label:Sickle; width: 0.25;" position="-1.15 1 2" event-manager pressable="pressDistance: 0.06" click-sicklebutton></a-entity>
@@ -1174,8 +1217,15 @@
 
       <a-entity id="mirrorButton" button="label:Mirror; width: 0.25;" position="-2.05 1 2" event-manager pressable="pressDistance: 0.06" click-mirrorbutton></a-entity>
 
-      <a-entity id="syringeButton" button="label:Syringe ; width: 0.25;" position="-2.35 1 2" event-manager pressable="pressDistance: 0.06" click-syringebutton></a-entity>
+      <a-entity id="syringeButton" button="label:Syringe ; width: 0.25;" position="-2.35 1 2" event-manager pressable="pressDistance: 0.06" click-syringebutton press-syringebutton></a-entity>
 
+      <!-- Buttons for scenarios -->
+      <a-entity id="scenario1Button" button="label:Anaesthesia; width: 0.45;" position="-2.85 1.25 2"></a-entity>
+
+      <a-entity id="scenario2Button" button="label:General Examination; width: 0.45;" position="-2.85 1 2"></a-entity>
+      <a-entity id="scenario3Button" button="label:Surgery; width: 0.45;" position="-2.85 1.45 2"></a-entity>
+
+      <a-entity id="scenario4Button" button="label:Implant Placement; width: 0.45;" position="-2.85 1.65 2"></a-entity>
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="8 10 18"></a-entity>
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="-0.45 1.1 -1.5"></a-entity>
