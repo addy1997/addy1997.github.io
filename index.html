@@ -1046,23 +1046,34 @@
       });
 
     </script>
-    
+
     <script>
-    
-    AFRAME.registerComponent('text-display', {
-      init: function() {
-         var sceneEl = this.sceneEl = document.querySelector('a-scene');
-         var leftHandEl = this.leftHandEl = sceneEl.querySelector('#leftHand');
-         var fingerTipPos = this.fingerTipPos = leftHandEl.components['hand-tracking-controls'].indexTipPosition;
-         this.text = "";
-      },
-      
-      tick: function() {
-        this.text = "Position:" + this.fingerTipPos;
-        this.el.setAttribute("text", "value", this.text);
-      },
-    });
-    
+      AFRAME.registerComponent('text-display', {
+        init: function() {
+          var sceneEl = document.querySelector('a-scene');
+          var leftHandEl = this.leftHandEl = sceneEl.querySelector('#leftHand');
+          var worldPosition = this.worldPosition = new THREE.Vector3();
+          var distance = this.distance = this.calculateFingerDistance(leftHandEl.components['hand-tracking-controls'].indexTipPosition);
+
+          this.text = "";
+        },
+
+        tick: function() {
+          this.text = "The distance is" + this.distance;
+          this.el.setAttribute("text", "value", this.text);
+        },
+
+        calculateFingerDistance: function(fingerPosition) {
+
+          var syringeButtonEl = this.syringeButton = this.sceneEl.querySelector('#syringeButton');
+          var worldPosition = this.worldPosition;
+          worldPosition.copy(syringeButtonEl.object3D.position);
+          syringeButtonEl.object3D.parent.updateMatrixWorld();
+          syringeButtonEl.object3D.parent.localToWorld(worldPosition);
+          return worldPosition.distanceTo(fingerPosition);
+        },
+      });
+
     </script>
 
   </head>
