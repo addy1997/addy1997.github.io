@@ -461,7 +461,7 @@
 
     <!-- Component to pinch objects from a 'min pinchDistance'-->
     <script>
-      /*AFRAME.registerComponent('pinchable', {
+      AFRAME.registerComponent('pinchable', {
         schema: {
           pinchDistance: {
             default: 0.1
@@ -522,7 +522,7 @@
             this.el.emit('pinchended');
           }
         }
-      });*/
+      });
 
     </script>
 
@@ -642,7 +642,7 @@
     </script>
 
     <script>
-      /*AFRAME.registerComponent('pinch-to-move-sickle', {
+      AFRAME.registerComponent('pinch-to-move-sickle', {
 
         dependencies: ['pinchable'],
 
@@ -681,7 +681,7 @@
           targetEl.emit('positionchanged', evtDetail);
           trackedEl.emit('pinchmoved');
         }
-      });*/
+      });
 
     </script>
 
@@ -1070,7 +1070,7 @@
       <a-text id="textArea2" position="1.5 1.5 2" value="A Pinching gesture detected on the Right Hand" align="center" visible="true" animation__pinchstarted="property: visible; dur: 6; to: true; startEvents: pinchstarted" color="blue" scale="0.15 0.15 0.15"></a-text>
 
       <!-- Text area for displaying event information -->
-      <!--<a-text id="textArea3" position="1.5 1.75 2" value="The sickle object is being moved" align="center" visible="true" animation__pinchmoved="property: visible; dur: 6; to: true; startEvents: pinchmoved" color="black" scale="0.15 0.15 0.15"></a-text>-->
+      <a-text id="textArea3" position="1.5 1.75 2" value="The sickle object is being moved" align="center" visible="true" animation__pinchmoved="property: visible; dur: 6; to: true; startEvents: pinchmoved" color="black" scale="0.15 0.15 0.15"></a-text>
 
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
@@ -1079,7 +1079,7 @@
         <a-entity id="camera-head" camera position="0 1 0.5" look-controls="pointerLockEnabled:true;"></a-entity>
 
         <!-- Left hand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" event-set__textshow="_event: pinchmoved; _target: #textArea3; visible: true" event-set__texthide="_event: pinchended; _target: #textArea3; visible: false">
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" event-set__textshow="_event: pinchmoved; _target: #textArea3; visible: true" event-set__texthide="_event: pinchended; _target: #textArea3; visible: false" pinch-to-move-sickle>
         </a-entity>
 
         <!-- Right hand controller -->
