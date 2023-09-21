@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>-->
 
     <!-- Custom component for camera logging -->
     <script>
@@ -461,7 +461,7 @@
 
     <!-- Component to pinch objects from a 'min pinchDistance'-->
     <script>
-      AFRAME.registerComponent('pinchable', {
+      /*AFRAME.registerComponent('pinchable', {
         schema: {
           pinchDistance: {
             default: 0.1
@@ -522,7 +522,7 @@
             this.el.emit('pinchended');
           }
         }
-      });
+      });*/
 
     </script>
 
@@ -829,7 +829,7 @@
     </script>
 
     <script>
-      AFRAME.registerComponent('event-manager', {
+      /*AFRAME.registerComponent('event-manager', {
 
         dependencies: ['pressable'],
 
@@ -879,12 +879,12 @@
           scalpelsButtonEl.addState('pressed');
           mirrorButtonEl.addState('pressed');
 
-          /*this.el.dentureButtonEl = dentureButtonEl;
+          this.el.dentureButtonEl = dentureButtonEl;
           this.el.sickleButtonEl = sickleButtonEl;
           this.el.compactorButtonEl = compactorButtonEl;
           this.el.syringeButtonEl = syringeButtonEl;
           this.el.scalpelsButtonEl = scalpelsButtonEl;
-          this.el.mirrorButtonEl = mirrorButtonEl;*/
+          this.el.mirrorButtonEl = mirrorButtonEl;
         },
 
         onClick: function(evt) {
@@ -923,12 +923,12 @@
             mirrorEl.object3D.visible = true;
           }
         },
-      });
+      });*/
 
     </script>
 
     <script>
-      AFRAME.registerComponent('click-sicklebutton', {
+      /*AFRAME.registerComponent('click-sicklebutton', {
         init: function() {
           this.el.addEventListener('click', (e) => {
             var sceneEl = document.querySelector('a-scene');
@@ -936,12 +936,12 @@
             sickleEl.object3D.visible = false;
           });
         }
-      });
+      });*/
 
     </script>
 
     <script>
-      AFRAME.registerComponent('click-denturebutton', {
+      /*AFRAME.registerComponent('click-denturebutton', {
         init: function() {
           this.el.addEventListener('click', (e) => {
             var sceneEl = document.querySelector('a-scene');
@@ -949,12 +949,12 @@
             sickleEl.object3D.visible = false;
           });
         }
-      });
+      });*/
 
     </script>
 
     <script>
-      AFRAME.registerComponent('click-compactorbutton', {
+      /*AFRAME.registerComponent('click-compactorbutton', {
         init: function() {
           this.el.addEventListener('click', (e) => {
             var sceneEl = document.querySelector('a-scene');
@@ -962,12 +962,12 @@
             sickleEl.object3D.visible = false;
           });
         }
-      });
+      });*/
 
     </script>
 
     <script>
-      AFRAME.registerComponent('click-scalpelsbutton', {
+      /*AFRAME.registerComponent('click-scalpelsbutton', {
         init: function() {
           this.el.addEventListener('click', (e) => {
             var sceneEl = document.querySelector('a-scene');
@@ -975,12 +975,12 @@
             sickleEl.object3D.visible = false;
           });
         }
-      });
+      });*/
 
     </script>
 
     <script>
-      AFRAME.registerComponent('click-mirrorbutton', {
+      /*AFRAME.registerComponent('click-mirrorbutton', {
         init: function() {
           this.el.addEventListener('click', (e) => {
             var sceneEl = document.querySelector('a-scene');
@@ -988,12 +988,12 @@
             sickleEl.object3D.visible = false;
           });
         }
-      });
+      });*/
 
     </script>
 
     <script>
-      AFRAME.registerComponent('click-syringebutton', {
+      /*AFRAME.registerComponent('click-syringebutton', {
         init: function() {
           this.el.addEventListener('click', (e) => {
             var sceneEl = document.querySelector('a-scene');
@@ -1001,12 +1001,12 @@
             sickleEl.object3D.visible = false;
           });
         }
-      });
+      });*/
 
     </script>
 
     <script>
-      AFRAME.registerComponent('press-syringebutton', {
+      /*AFRAME.registerComponent('press-syringebutton', {
 
         schema: {
           collisionDistance: {
@@ -1019,13 +1019,14 @@
           var sceneEl = this.sceneEl = document.querySelector('a-scene');
           var leftHandEl = this.leftHandEl = sceneEl.querySelector('#leftHand');
           var worldPosition = this.worldPosition = new THREE.Vector3();
-          var distance = this.calculateFingerDistance(leftHandEl.components['hand-tracking-controls'].indexTipPosition);
-
+          var distance = this.distance = this.calculateFingerDistance(leftHandEl.components['hand-tracking-controls'].indexTipPosition);
+          
           if (distance > this.data.collisionDistance)
             leftHandEl.addEventListener('click', this.onClicked);
           this.onClicked.bind(this);
+          
         },
-
+        
         calculateFingerDistance: function(fingerPosition) {
 
           var syringeButtonEl = this.syringeButton = this.sceneEl.querySelector('#syringeButton');
@@ -1040,39 +1041,119 @@
         onClicked: function(evt) {
           var syringeEl = this.sceneEl.querySelector('#syringe');
           var targetEl = this.syringeButtonEl;
+          console.log(targetEl);
           if (evt.target === targetEl)
             syringeEl.object3D.visible = false;
+        },
+      });*/
+
+    </script>
+
+    <script>
+      /* global AFRAME */
+      AFRAME.registerComponent("event-manager", {
+        init: function() {
+          this.bindMethods();
+
+          this.sickleEl = document.querySelector("#sickle");
+          this.mirrorEl = document.querySelector("#mirror");
+
+          this.sickleButtonEl = document.querySelector("#sickleButton");
+          this.mirrorButtonEl = document.querySelector("#mirrorButton");
+          this.darkModeButtonEl = document.querySelector("#darkModeButton");
+
+          /*dentureButtonEl.setAttribute("pressable", {
+            pressDistance: 0.06,
+          });*/
+          this.sickleButtonEl.setAttribute("pressable", {
+            pressDistance: 0.06,
+          });
+          /*compactorButtonEl.setAttribute("pressable", {
+            pressDistance: 0.06,
+          });*/
+          /*scalpelsButtonEl.setAttribute("pressable", {
+            pressDistance: 0.06,
+          });*/
+          this.mirrorButtonEl.setAttribute("pressable", {
+            pressDistance: 0.06,
+          });
+
+          this.buttonToTools = {
+            sickleButton: this.sickleEl,
+            mirrorButton: this.mirrorEl,
+          };
+
+          this.sickleButtonEl.addEventListener("click", this.onClick);
+          this.mirrorButtonEl.addEventListener("click", this.onClick);
+          this.darkModeButtonEl.addEventListener("click", this.onClick);
+          this.sickleButtonEl.addState("pressed");
+        },
+
+        bindMethods: function() {
+          this.onClick = this.onClick.bind(this);
+        },
+
+        onClick: function(evt) {
+          var targetEl = evt.target;
+          if (
+            targetEl === this.sickleButtonEl ||
+            targetEl === this.mirrorButtonEl
+          ) {
+            this.sickleButtonEl.removeState("pressed");
+            this.mirrorButtonEl.removeState("pressed");
+
+            this.sickleEl.object3D.visible = false;
+            this.mirrorEl.object3D.visible = false;
+            this.buttonToTools[targetEl.id].object3D.visible = true;
+          }
+
+          if (targetEl === this.darkModeButtonEl) {
+            if (this.el.sceneEl.is("starry")) {
+              targetEl.setAttribute("button", "label", "Dark Mode");
+              this.el.sceneEl.setAttribute("environment", {
+                preset: "default"
+              });
+              this.el.sceneEl.removeState("starry");
+            } else {
+              targetEl.setAttribute("button", "label", "Light Mode");
+              this.el.sceneEl.setAttribute("environment", {
+                preset: "starry"
+              });
+              this.el.sceneEl.addState("starry");
+            }
+          } else {
+            targetEl.addState("pressed");
+          }
         },
       });
 
     </script>
 
     <script>
-      AFRAME.registerComponent('text-display', {
+      /* global AFRAME */
+      AFRAME.registerComponent('menu', {
         init: function() {
-          var sceneEl = document.querySelector('a-scene');
-          var leftHandEl = this.leftHandEl = sceneEl.querySelector('#leftHand');
-          var worldPosition = this.worldPosition = new THREE.Vector3();
-          var distance = this.distance = this.calculateFingerDistance(leftHandEl.components['hand-tracking-controls'].indexTipPosition);
-
-          this.text = "";
-        },
-
-        tick: function() {
-          this.text = "The distance is" + this.distance;
-          this.el.setAttribute("text", "value", this.text);
-        },
-
-        calculateFingerDistance: function(fingerPosition) {
-
-          var syringeButtonEl = this.syringeButton = this.sceneEl.querySelector('#syringeButton');
-          var worldPosition = this.worldPosition;
-          worldPosition.copy(syringeButtonEl.object3D.position);
-          syringeButtonEl.object3D.parent.updateMatrixWorld();
-          syringeButtonEl.object3D.parent.localToWorld(worldPosition);
-          return worldPosition.distanceTo(fingerPosition);
-        },
+          var el = this.el;
+          var menuBackGroundEl = document.createElement('a-entity');
+          menuBackGroundEl.setAttribute('geometry', {
+            primitive: 'box',
+            width: 0.6,
+            height: 0.40,
+            depth: 0.01
+          });
+          menuBackGroundEl.setAttribute('material', {
+            color: 'gray'
+          });
+          menuBackGroundEl.setAttribute('position', '0 0 -0.025');
+          el.appendChild(menuBackGroundEl);
+        }
       });
+
+    </script>
+
+    <script>
+
+
 
     </script>
 
@@ -1143,7 +1224,7 @@
 
       <!-- Sickle Pro glTF -->
       <!--<a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="-0.98 0.71 -1.68" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>-->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="-1.15 1.25 2" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="0 1.25 0" mesh-shadows pinchable="pinchDistance: 0.05" visible="false"></a-gltf-model>
 
       <!-- Denture glTF -->
       <!--<a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.89 0.67 -1.65" mesh-shadows pinchable="pinchDistance: 0.05" ></a-gltf-model>-->
@@ -1159,7 +1240,7 @@
 
       <!-- Mirror glTF-->
       <!--<a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.70 -1.68" mesh-shadows visible="false"></a-gltf-model>-->
-      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-2.05 1.25 2" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="0 1.25 0" mesh-shadows></a-gltf-model>
 
       <!-- Compactor glTF-->
       <!--<a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="-0.75 0.68 -1.68" mesh-shadows></a-gltf-model>-->
@@ -1219,19 +1300,14 @@
       <!-- Text area for displaying event information -->
       <!--<a-text id="textArea3" position="1.5 1.75 2" value="The sickle object is being moved" align="center" visible="true" animation__pinchmoved="property: visible; dur: 6; to: true; startEvents: pinchmoved" color="black" scale="0.15 0.15 0.15"></a-text>-->
 
-      <!-- Text area for displaying event information -->
-      <a-entity id="textArea3" position="0.75 1 2" geometry="primitive: plane;  width: 3; height: 2" material="color: #444444; transparent: true; opacity: 0.80;" align="center" visible="true" text="anchor: center; baseline: center; wrapCount: 40;
-				transparent: true; opacity: 0.90; color: #8888FF;
-				value: 1 \n 2 \n 3 \n 4" animation__pinchstarted="property: visible; dur: 6; to: true; startEvents: pinchstarted;" color="blue" scale="0.15 0.15 0.15" text-display></a-entity>
-
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
 
         <!-- Camera head -->
-        <a-entity id="camera-head" camera position="-1.45 1 3" look-controls="pointerLockEnabled:true;"></a-entity>
+        <a-entity id="camera-head" camera position="0 1 0.5" look-controls="pointerLockEnabled:true;"></a-entity>
 
         <!-- Left hand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" event-set__textshow="_event: pinchmoved; _target: #textArea3; visible: true" event-set__texthide="_event: pinchended; _target: #textArea3; visible: false" text-display>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" event-set__textshow="_event: pinchmoved; _target: #textArea3; visible: true" event-set__texthide="_event: pinchended; _target: #textArea3; visible: false">
         </a-entity>
 
         <!-- Right hand controller -->
@@ -1239,19 +1315,43 @@
         </a-entity>
 
       </a-entity>
+      
+      <a-entity
+        id="menu"
+        menu
+        position="0 1 0"
+        rotation="-45 0 0"
+        event-manager
+      >
+        <a-entity
+          id="sickleButton"
+          button="label: Sickle"
+          position="-0.15 0 0"
+        ></a-entity>
+        <a-entity
+          id="mirrorButton"
+          button="label: Mirror"
+          position="0.15 0 0"
+        ></a-entity>
+        <a-entity
+          id="darkModeButton"
+          button="label: Dark Mode; width: 0.20; toggable: true"
+          position="0 -0.10 0"
+        ></a-entity>
+      </a-entity>
 
       <!-- Buttons for dental tools -->
       <a-entity id="dentureButton" button="label:Denture; width: 0.25;" position="-0.85 1 2" event-manager pressable="pressDistance: 0.06" click-denturebutton></a-entity>
 
-      <a-entity id="sickleButton" button="label:Sickle; width: 0.25;" position="-1.15 1 2" event-manager pressable="pressDistance: 0.06" click-sicklebutton></a-entity>
+      <!--<a-entity id="sickleButton" button="label:Sickle; width: 0.25;" position="-1.15 1 2" event-manager pressable="pressDistance: 0.06" click-sicklebutton></a-entity>-->
 
       <a-entity id="compactorButton" button="label:Compactor; width: 0.25;" position="-1.45 1 2" event-manager pressable="pressDistance: 0.06" click-compactorbutton></a-entity>
 
       <a-entity id="scalpelsButton" button="label:Scalpels ; width: 0.25;" position="-1.75 1 2" event-manager pressable="pressDistance: 0.06" click-scalpelsbutton></a-entity>
 
-      <a-entity id="mirrorButton" button="label:Mirror; width: 0.25;" position="-2.05 1 2" event-manager pressable="pressDistance: 0.06" click-mirrorbutton></a-entity>
+      <!--<a-entity id="mirrorButton" button="label:Mirror; width: 0.25;" position="-2.05 1 2" event-manager pressable="pressDistance: 0.06" click-mirrorbutton press-syringebutton></a-entity>-->
 
-      <a-entity id="syringeButton" button="label:Syringe ; width: 0.25;" position="-2.35 1 2" press-syringebutton></a-entity>
+      <a-entity id="syringeButton" button="label:Syringe ; width: 0.25;" position="-2.35 1 2"></a-entity>
 
       <!-- Buttons for scenarios -->
       <a-entity id="scenario1Button" button="label:Anaesthesia; width: 0.45;" position="-2.85 1.25 2"></a-entity>
