@@ -656,7 +656,7 @@
           var sceneEl = document.querySelector('a-scene');
           var trackedEl = sceneEl.querySelector('#rightHand');
           this.el.trackedEl = trackedEl;
-          var targetEl = sceneEl.querySelector("#sickle");
+          var targetEl = sceneEl.querySelector("#mirror");
           targetEl.setAttribute('pinchable', {
             pinchDistance: 0.05
           })
@@ -668,7 +668,7 @@
         },
 
         onPinchMoved: function(evt) {
-          var targetEl = document.querySelector("#sickle");
+          var targetEl = document.querySelector("#mirror");
           var trackedEl = document.querySelector('#rightHand');
           var localPosition = this.localPosition;
           var evtDetail = this.evtDetail;
@@ -678,7 +678,7 @@
           targetEl.object3D.updateMatrixWorld();
           targetEl.object3D.worldToLocal(localPosition);
 
-          if (localPosition.x < this.data.width/2 || localPosition.x > this.data.width/2) { return; }
+          //if (localPosition.x < this.data.width/2 || localPosition.x > this.data.width/2) { return; }
           /*targetEl.object3D.position.z = localPosition.z;
           targetEl.object3D.position.y = localPosition.y;
           targetEl.object3D.position.x = localPosition.x;*/
@@ -690,9 +690,9 @@
             y: localPosition.y,
             z: localPosition.z
           });*/
-          evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
+          /*evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
           targetEl.emit('positionchanged', evtDetail);
-          trackedEl.emit('pinchmoved');
+          trackedEl.emit('pinchmoved');*/
         }
       });
 
@@ -700,7 +700,7 @@
 
     <!-- pressable component -->
     <script>
-      AFRAME.registerComponent('pressable', {
+      /*AFRAME.registerComponent('pressable', {
         schema: {
           pressDistance: {
             default: 0.06
@@ -744,12 +744,12 @@
 
           return worldPosition.distanceTo(fingerPosition);
         }
-      });
+      });*/
 
     </script>
 
     <script>
-      AFRAME.registerComponent('button', {
+      /*AFRAME.registerComponent('button', {
         schema: {
           label: {
             default: 'label'
@@ -837,13 +837,13 @@
             color: this.color
           });
         }
-      });
+      });*/
 
     </script>
 
     <script>
       /* global AFRAME */
-      AFRAME.registerComponent("event-manager", {
+      /*AFRAME.registerComponent("event-manager", {
 
         init: function() {
           this.bindMethods();
@@ -916,13 +916,13 @@
             this.buttonToTools[targetEl.id].object3D.visible = true;
           }
         },
-      });
+      });*/
 
     </script>
 
     <script>
       /* global AFRAME */
-      AFRAME.registerComponent('menu', {
+      /*AFRAME.registerComponent('menu', {
         init: function() {
           var el = this.el;
           var menuBackGroundEl = document.createElement('a-entity');
@@ -938,7 +938,7 @@
           menuBackGroundEl.setAttribute('position', '0 0 -0.025');
           el.appendChild(menuBackGroundEl);
         }
-      });
+      });*/
 
     </script>
 
@@ -1054,7 +1054,7 @@
 
       <!-- Mirror glTF-->
       <!--<a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.70 -1.68" mesh-shadows visible="false"></a-gltf-model>-->
-      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="0 1 0" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="0 1 0" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>
 
       <!-- Compactor glTF-->
       <!--<a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="-0.75 0.68 -1.68" mesh-shadows></a-gltf-model>-->
