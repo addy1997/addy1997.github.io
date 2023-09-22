@@ -646,6 +646,12 @@
 
         dependencies: ['pinchable'],
 
+        schema: {
+          width: {
+            default: 0.5
+          }
+        },
+
         init: function() {
           var sceneEl = document.querySelector('a-scene');
           var trackedEl = sceneEl.querySelector('#rightHand');
@@ -671,14 +677,19 @@
           localPosition.copy(evt.detail.position);
           targetEl.object3D.updateMatrixWorld();
           targetEl.object3D.worldToLocal(localPosition);
-          targetEl.object3D.position.z = localPosition.z;
+
+          if (localPosition.x < this.data.width/2 || localPosition.x > this.data.width/2) { return; }
+          /*targetEl.object3D.position.z = localPosition.z;
           targetEl.object3D.position.y = localPosition.y;
-          targetEl.object3D.position.x = localPosition.x;
-          targetEl.setAttribute('position', {
+          targetEl.object3D.position.x = localPosition.x;*/
+          targetEl.object3D.position.z = evt.detail.position.z;
+          targetEl.object3D.position.y = evt.detail.position.y;
+          targetEl.object3D.position.x = evt.detail.position.x;
+          /*targetEl.setAttribute('position', {
             x: localPosition.x,
             y: localPosition.y,
             z: localPosition.z
-          });
+          });*/
           evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
           targetEl.emit('positionchanged', evtDetail);
           trackedEl.emit('pinchmoved');
@@ -1117,7 +1128,7 @@
         </a-entity>
 
         <!-- Right hand controller -->
-        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false">
+        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" pinch-to-move-sickle>
         </a-entity>
 
       </a-entity>
