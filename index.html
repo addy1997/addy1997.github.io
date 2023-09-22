@@ -671,11 +671,16 @@
           var targetEl = document.querySelector("#mirror");
           var trackedEl = document.querySelector('#rightHand');
           var localPosition = this.localPosition;
+          var localOrientation = this.localOrientation;
           var evtDetail = this.evtDetail;
           var localPosition = new THREE.Vector3();
+          var localOrientation = new THREE.Vector3();
+          localOrientation.copy(evt.detail.rotation);
           localPosition.copy(evt.detail.position);
+          localOrientation.copy(evt.detail.rotation);
           targetEl.object3D.updateMatrixWorld();
           targetEl.object3D.worldToLocal(localPosition);
+          targetEl.object3D.worldToLocal(localOrientation);
 
           //if (localPosition.x < this.data.width/2 || localPosition.x > this.data.width/2) { return; }
           /*targetEl.object3D.position.z = localPosition.z;
@@ -970,7 +975,7 @@
             this.textEl.object3D.visible = false;
           }
         }
-      })*/
+      });*/
 
     </script>
 
