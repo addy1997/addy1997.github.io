@@ -757,7 +757,7 @@
 
     <!-- pressable component -->
     <script>
-      /*AFRAME.registerComponent('pressable', {
+      AFRAME.registerComponent('pressable', {
         schema: {
           pressDistance: {
             default: 0.06
@@ -801,12 +801,12 @@
 
           return worldPosition.distanceTo(fingerPosition);
         }
-      });*/
+      });
 
     </script>
 
     <script>
-      /*AFRAME.registerComponent('button', {
+      AFRAME.registerComponent('button', {
         schema: {
           label: {
             default: 'label'
@@ -894,13 +894,13 @@
             color: this.color
           });
         }
-      });*/
+      });
 
     </script>
 
     <script>
       /* global AFRAME */
-      /*AFRAME.registerComponent("event-manager", {
+      AFRAME.registerComponent("event-manager", {
 
         init: function() {
           this.bindMethods();
@@ -973,13 +973,13 @@
             this.buttonToTools[targetEl.id].object3D.visible = true;
           }
         },
-      });*/
+      });
 
     </script>
 
     <script>
       /* global AFRAME */
-      /*AFRAME.registerComponent('menu', {
+      AFRAME.registerComponent('menu', {
         init: function() {
           var el = this.el;
           var menuBackGroundEl = document.createElement('a-entity');
@@ -995,7 +995,7 @@
           menuBackGroundEl.setAttribute('position', '0 0 -0.025');
           el.appendChild(menuBackGroundEl);
         }
-      });*/
+      });
 
     </script>
 
@@ -1025,6 +1025,66 @@
           }
         }
       });*/
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('x-cw', {
+        schema: {
+          x_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          var targetButton = document.querySelector('#XButton_cw');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var rotationalOffset = parseInt(this.data.x_val);
+            targetEl.rotateX(rotationalOffset);
+          });
+        }
+      })
+
+    </script>
+    
+    <script>
+      AFRAME.registerComponent('y-cw', {
+        schema: {
+          y_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          var targetButton = document.querySelector('#YButton_cw');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var rotationalOffset = parseInt(this.data.y_val);
+            targetEl.rotateY(rotationalOffset);
+          });
+        }
+      })
+
+    </script>
+    
+    <script>
+      AFRAME.registerComponent('z-cw', {
+        schema: {
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          var targetButton = document.querySelector('#ZButton_cw');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var rotationalOffset = parseInt(this.data.z_val);
+            targetEl.rotateZ(rotationalOffset);
+          });
+        }
+      })
 
     </script>
 
@@ -1095,7 +1155,7 @@
 
       <!-- Sickle Pro glTF -->
       <!--<a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="-0.98 0.71 -1.68" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>-->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="0.5 1 0" mesh-shadows pinchable="pinchDistance: 0.05" visible="true"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="0 1 0" mesh-shadows pinchable="pinchDistance: 0.05" visible="false"></a-gltf-model>
 
       <!-- Denture glTF -->
       <!--<a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.89 0.67 -1.65" mesh-shadows pinchable="pinchDistance: 0.05" ></a-gltf-model>-->
@@ -1172,7 +1232,7 @@
       <!--<a-text id="textArea3" position="1.5 1.75 2" value="The sickle object is being moved" align="center" visible="true" animation__pinchmoved="property: visible; dur: 6; to: true; startEvents: pinchmoved" color="black" scale="0.15 0.15 0.15"></a-text>-->
 
       <!-- Text area for displaying event information -->
-      <a-text id="textArea4" position="0 1.25 0" value="Syringe button is clicked" align="center" color="blue" scale="0.15 0.15 0.15"></a-text>
+      <!--<a-text id="textArea4" position="0 1.25 0" value="Syringe button is clicked" align="center" color="blue" scale="0.15 0.15 0.15"></a-text>-->
 
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
@@ -1197,6 +1257,12 @@
         <a-entity id="syringeButton" button="label: Syringe; width: 0.3" position="-0.18 0.1 0" click-syringebutton></a-entity>
         <a-entity id="scalpelsButton" button="label: Scalpels; width: 0.3" position="0 0 0"></a-entity>
         <a-entity id="dentureButton" button="label: Denture; width: 0.3" position="0 -0.10 0"></a-entity>
+        <a-entity id="XButton_cw" button="label: X+; width: 0.1" position="0.40 0.1 0" x-cw="x_val:3"></a-entity>
+        <a-entity id="YButton_cw" button="label: Y+; width: 0.1" position="0.40 0 0" y-cw="y_val:3"></a-entity>
+        <a-entity id="ZButton_cw" button="label: Z+; width: 0.1" position="0.40 -0.1 0" z-cw="z_val:3"></a-entity>
+        <a-entity id="XButton_ccw" button="label: X-; width: 0.1" position="-0.40 0.1 0"></a-entity>
+        <a-entity id="YButton_ccw" button="label: Y-; width: 0.1" position="-0.40 0 0"></a-entity>
+        <a-entity id="ZButton_ccw" button="label: Z-; width: 0.1" position="-0.40 -0.1 0"></a-entity>
       </a-entity>
 
       <!-- Lighting -->
