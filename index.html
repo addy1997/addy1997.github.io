@@ -671,16 +671,11 @@
           var targetEl = document.querySelector("#mirror");
           var trackedEl = document.querySelector('#rightHand');
           var localPosition = this.localPosition;
-          var localOrientation = this.localOrientation;
           var evtDetail = this.evtDetail;
           var localPosition = new THREE.Vector3();
-          var localOrientation = new THREE.Vector3();
-          localOrientation.copy(evt.detail.rotation);
           localPosition.copy(evt.detail.position);
-          localOrientation.copy(evt.detail.rotation);
           targetEl.object3D.updateMatrixWorld();
           targetEl.object3D.worldToLocal(localPosition);
-          targetEl.object3D.worldToLocal(localOrientation);
 
           //if (localPosition.x < this.data.width/2 || localPosition.x > this.data.width/2) { return; }
           /*targetEl.object3D.position.z = localPosition.z;
@@ -694,10 +689,7 @@
             y: localPosition.y,
             z: localPosition.z
           });*/
-          targetEl.object3D.rotation.z = evt.detail.rotation.z;
-          targetEl.object3D.rotation.y = evt.detail.rotation.y;
-          targetEl.object3D.rotation.x = evt.detail.rotation.x;
-          
+
           evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
           targetEl.emit('positionchanged', evtDetail);
           trackedEl.emit('pinchmoved');
