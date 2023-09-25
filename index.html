@@ -1037,7 +1037,7 @@
           }
         },
         init: function() {
-          var targetButton = document.querySelector('#XButton_cw');
+          var targetButton = document.querySelector('#xButton_cw');
           targetButton.addEventListener('click', (e) => {
             var targetEl = document.querySelector('#mirror').getObject3D('mesh');
             var rotationalOffset = parseInt(this.data.x_val);
@@ -1057,7 +1057,7 @@
           }
         },
         init: function() {
-          var targetButton = document.querySelector('#YButton_cw');
+          var targetButton = document.querySelector('#yButton_cw');
           targetButton.addEventListener('click', (e) => {
             var targetEl = document.querySelector('#mirror').getObject3D('mesh');
             var rotationalOffset = parseInt(this.data.y_val);
@@ -1077,7 +1077,7 @@
           }
         },
         init: function() {
-          var targetButton = document.querySelector('#ZButton_cw');
+          var targetButton = document.querySelector('#zButton_cw');
           targetButton.addEventListener('click', (e) => {
             var targetEl = document.querySelector('#mirror').getObject3D('mesh');
             var rotationalOffset = parseInt(this.data.z_val);
@@ -1087,7 +1087,67 @@
       })
 
     </script>
+    
+    <script>
+      AFRAME.registerComponent('x-ccw', {
+        schema: {
+          x_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          var targetButton = document.querySelector('#xButton_ccw');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var rotationalOffset = parseInt(this.data.x_val);
+            targetEl.rotateX(-rotationalOffset);
+          });
+        }
+      })
 
+    </script>
+    
+    <script>
+      AFRAME.registerComponent('y-ccw', {
+        schema: {
+          y_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          var targetButton = document.querySelector('#yButton_ccw');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var rotationalOffset = parseInt(this.data.y_val);
+            targetEl.rotateY(-rotationalOffset);
+          });
+        }
+      })
+
+    </script>
+    
+    <script>
+      AFRAME.registerComponent('z-ccw', {
+        schema: {
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          var targetButton = document.querySelector('#zButton_ccw');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var rotationalOffset = parseInt(this.data.z_val);
+            targetEl.rotateZ(-rotationalOffset);
+          });
+        }
+      })
+
+    </script>
+    
   </head>
 
   <body>
@@ -1257,12 +1317,12 @@
         <a-entity id="syringeButton" button="label: Syringe; width: 0.3" position="-0.18 0.1 0" click-syringebutton></a-entity>
         <a-entity id="scalpelsButton" button="label: Scalpels; width: 0.3" position="0 0 0"></a-entity>
         <a-entity id="dentureButton" button="label: Denture; width: 0.3" position="0 -0.10 0"></a-entity>
-        <a-entity id="XButton_cw" button="label: X+; width: 0.1" position="0.40 0.1 0" x-cw="x_val:3"></a-entity>
-        <a-entity id="YButton_cw" button="label: Y+; width: 0.1" position="0.40 0 0" y-cw="y_val:3"></a-entity>
-        <a-entity id="ZButton_cw" button="label: Z+; width: 0.1" position="0.40 -0.1 0" z-cw="z_val:3"></a-entity>
-        <a-entity id="XButton_ccw" button="label: X-; width: 0.1" position="-0.40 0.1 0"></a-entity>
-        <a-entity id="YButton_ccw" button="label: Y-; width: 0.1" position="-0.40 0 0"></a-entity>
-        <a-entity id="ZButton_ccw" button="label: Z-; width: 0.1" position="-0.40 -0.1 0"></a-entity>
+        <a-entity id="xButton_cw" button="label: X+; width: 0.1" position="0.40 0.1 0" x-cw="x_val:3"></a-entity>
+        <a-entity id="yButton_cw" button="label: Y+; width: 0.1" position="0.40 0 0" y-cw="y_val:3"></a-entity>
+        <a-entity id="zButton_cw" button="label: Z+; width: 0.1" position="0.40 -0.1 0" z-cw="z_val:3"></a-entity>
+        <a-entity id="xButton_ccw" button="label: X-; width: 0.1" position="-0.40 0.1 0" x-ccw="x_val:3"></a-entity>
+        <a-entity id="yButton_ccw" button="label: Y-; width: 0.1" position="-0.40 0 0" y-ccw="y_val:3"></a-entity>
+        <a-entity id="zButton_ccw" button="label: Z-; width: 0.1" position="-0.40 -0.1 0" z-ccw="z_val:3"></a-entity>
       </a-entity>
 
       <!-- Lighting -->
