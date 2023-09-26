@@ -1148,6 +1148,84 @@
 
     </script>
 
+    <script>
+      AFRAME.registerComponent('toggle-text-visibility', {
+
+        init: function() {
+          this.bindMethods();
+
+          this.text4El = document.querySelector('#textArea4'); //syringe
+          this.text5El = document.querySelector('#textArea5'); //mirror
+          this.text6El = document.querySelector('#textArea6'); //scalpels
+          this.text7El = document.querySelector('#textArea7'); //sickle
+          this.text8El = document.querySelector('#textArea8'); //compactor
+          this.text9El = document.querySelector('#textArea9'); //denture
+
+          this.sickleButtonEl = document.querySelector("#sickleButton");
+          this.mirrorButtonEl = document.querySelector("#mirrorButton");
+          this.dentureButtonEl = document.querySelector("#dentureButton");
+          this.scalpelsButtonEl = document.querySelector('#scalpelsButton');
+          this.syringeButtonEl = document.querySelector('#syringeButton');
+          this.compactorButtonEl = document.querySelector('#compactorButton');
+
+          this.buttonToText = {
+            sickleButton: this.text7El,
+            mirrorButton: this.text5El,
+            dentureButton: this.text9El,
+            compactorButton: this.text8El,
+            scalpelsButton: this.text6El,
+            syringeButton: this.text4El
+          };
+
+          this.sickleButtonEl.addEventListener("click", this.onClick);
+          this.mirrorButtonEl.addEventListener("click", this.onClick);
+          this.dentureButtonEl.addEventListener("click", this.onClick);
+          this.compactorButtonEl.addEventListener("click", this.onClick);
+          this.syringeButtonEl.addEventListener("click", this.onClick);
+          this.scalpelsButtonEl.addEventListener("click", this.onClick);
+
+          this.sickleButtonEl.addState("pressed");
+          this.mirrorButtonEl.addState("pressed");
+          this.dentureButtonEl.addState("pressed");
+          this.compactorButtonEl.addState("pressed");
+          this.scalpelsButtonEl.addState("pressed");
+          this.syringeButtonEl.addState("pressed");
+        },
+
+        bindMethods: function() {
+          this.onClick = this.onClick.bind(this);
+        },
+
+        onClick: function(evt) {
+          var targetEl = evt.target;
+          if (
+            targetEl === this.sickleButtonEl ||
+            targetEl === this.mirrorButtonEl ||
+            targetEl === this.compactorButtonEl ||
+            targetEl === this.syringeButtonEl ||
+            targetEl === this.dentureButtonEl ||
+            targetEl === this.scalpelsButtonEl
+          ) {
+            this.sickleButtonEl.removeState("pressed");
+            this.mirrorButtonEl.removeState("pressed");
+            this.scalpelsButtonEl.removeState("pressed");
+            this.syringeButtonEl.removeState("pressed");
+            this.compactorButtonEl.removeState("pressed");
+            this.syringeButtonEl.removeState("pressed");
+
+            this.text4El.object3D.visible = false;
+            this.text5El.object3D.visible = false;
+            this.text6El.object3D.visible = false;
+            this.text7El.object3D.visible = false;
+            this.text8El.object3D.visible = false;
+            this.text9El.object3D.visible = false;
+            this.buttonToText[targetEl.id].object3D.visible = true;
+          }
+        },
+      });
+
+    </script>
+
   </head>
 
   <body>
@@ -1292,7 +1370,22 @@
       <!--<a-text id="textArea3" position="1.5 1.75 2" value="The sickle object is being moved" align="center" visible="true" animation__pinchmoved="property: visible; dur: 6; to: true; startEvents: pinchmoved" color="black" scale="0.15 0.15 0.15"></a-text>-->
 
       <!-- Text area for displaying event information -->
-      <!--<a-text id="textArea4" position="0 1.25 0" value="Syringe button is clicked" align="center" color="blue" scale="0.15 0.15 0.15"></a-text>-->
+      <a-text id="textArea4" position="0 1.25 -1.25" value="Syringe button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="true"></a-text>
+
+      <!-- Text area for displaying event information -->
+      <a-text id="textArea5" position="0 1.25 -1.25" value="Mirror button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
+
+      <!-- Text area for displaying event information -->
+      <a-text id="textArea6" position="0 1.25 -1.25" value="Scalpels button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
+
+      <!-- Text area for displaying event information -->
+      <a-text id="textArea7" position="0 1.25 -1.25" value="Sickle button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
+
+      <!-- Text area for displaying event information -->
+      <a-text id="textArea8" position="0 1.25 -1.25" value="Compactor button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
+
+      <!-- Text area for displaying event information -->
+      <a-text id="textArea9" position="0 1.25 -1.25" value="Denure button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
 
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
@@ -1310,7 +1403,7 @@
 
       </a-entity>
 
-      <a-entity id="menu" menu position="0 0.65 -0.85" rotation="-45 0 0" event-manager>
+      <a-entity id="menu" menu position="0 0.65 -0.85" rotation="-45 0 0" event-manager toggle-text-visibility>
         <a-entity id="sickleButton" button="label: Sickle" position="-0.25 0 0"></a-entity>
         <a-entity id="mirrorButton" button="label: Mirror" position="0.25 0 0"></a-entity>
         <a-entity id="compactorButton" button="label: Compactor; width: 0.3" position="0.18 0.1 0"></a-entity>
