@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
-    <!--<script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>
 
     <!-- Custom component for camera logging -->
     <script>
@@ -41,7 +41,6 @@
       });
 
     </script>
-    
     <!-- component to animate the meshes -->
     <script>
       AFRAME.registerComponent('animate', {
@@ -63,7 +62,6 @@
       })
 
     </script>
-    
     <!-- component for mesh shadows -->
     <script>
       AFRAME.registerComponent('mesh-shadows', {
@@ -291,7 +289,6 @@
       });
 
     </script>
-    
     <!-- component to rotate the hands of the patient -->
     <script>
       AFRAME.registerComponent('rotate-patient-hands', {
@@ -344,7 +341,6 @@
       });
 
     </script>
-    
     <!-- component to rotate the neck and spine of the patient -->
     <script>
       AFRAME.registerComponent('rotate-spine', {
@@ -385,7 +381,6 @@
       });
 
     </script>
-    
     <!-- component for frustum culling of the patient entity -->
     <script>
       AFRAME.registerComponent('rotate-neck', {
@@ -995,7 +990,7 @@
             depth: 0.01
           });
           menuBackGroundEl.setAttribute('material', {
-            color: 'white'
+            color: 'gray'
           });
           menuBackGroundEl.setAttribute('position', '0 0 -0.025');
           el.appendChild(menuBackGroundEl);
@@ -1010,12 +1005,12 @@
         init: function() {
           this.bindMethods();
 
-          this.text4El = document.querySelector('#textArea4'); //syringe
-          this.text5El = document.querySelector('#textArea5'); //mirror
-          this.text6El = document.querySelector('#textArea6'); //scalpels
-          this.text7El = document.querySelector('#textArea7'); //sickle
-          this.text8El = document.querySelector('#textArea8'); //compactor
-          this.text9El = document.querySelector('#textArea9'); //denture
+          this.text4El = document.querySelector('#textArea4');//syringe
+          this.text5El = document.querySelector('#textArea5');//mirror
+          this.text6El = document.querySelector('#textArea6');//scalpels
+          this.text7El = document.querySelector('#textArea7');//sickle
+          this.text8El = document.querySelector('#textArea8');//compactor
+          this.text9El = document.querySelector('#textArea9');//denture
 
           this.sickleButtonEl = document.querySelector("#sickleButton");
           this.mirrorButtonEl = document.querySelector("#mirrorButton");
@@ -1325,7 +1320,7 @@
       <a-gltf-model id="dentist" gltf-model="#Dentist" rotation="0 30 0" scale="0.375 0.375 0.375" position="-0.15 1.25 -2.55" animate mesh-shadows frustum-culling-disabled></a-gltf-model>
 
       <!-- Floor glTF -->
-      <a-gltf-model id="floor" class="collidable" gltf-model="#Floor" rotation="0 90 0" scale="0.065 0.065 0.065" position="-0.85 0.1 -3"></a-gltf-model>
+      <a-gltf-model id="floor" gltf-model="#Floor" rotation="0 90 0" scale="0.065 0.065 0.065" position="-0.85 0.1 -3"></a-gltf-model>
 
       <!-- Dentist Chair glTF -->
       <a-gltf-model id="chair" gltf-model="#Dentist-Chair" rotation="0 -90 0" scale="0.75 0.75 0.75" position="-1.85 0.15 -3.25" mesh-shadows></a-gltf-model>
@@ -1349,25 +1344,28 @@
       <a-gltf-model id="trolley" gltf-model="#Trolley" rotation="0 180 0" scale="0.0075 0.0075 0.0075" position="-0.85 0.125 -1.70" mesh-shadows></a-gltf-model>
 
       <!-- Cabinet glTF-->
-      <a-gltf-model id="cabinet" class="collidable" gltf-model="#Cabinet" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.12 -4" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="cabinet" gltf-model="#Cabinet" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.12 -4" mesh-shadows></a-gltf-model>
 
       <!-- Fire extinguisher glTF-->
-      <a-gltf-model id="fire-extinguisher" class="collidable" gltf-model="#Fire-extinguisher" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.9 -3.81" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="fire-extinguisher" gltf-model="#Fire-extinguisher" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.9 -3.81" mesh-shadows></a-gltf-model>
 
       <!-- Dustbin glTF-->
-      <a-gltf-model id="dustbin" class="collidable" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.089 -1.15" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.089 -1.15" mesh-shadows></a-gltf-model>
 
       <!-- Partition glTF-->
-      <a-gltf-model id="partition" class="collidable" gltf-model="#Partition" rotation="0 -45 0" scale="0.825 0.825 0.825" position="5.5 0.30 1.75" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="partition" gltf-model="#Partition" rotation="0 -45 0" scale="0.825 0.825 0.825" position="5.5 0.30 1.75" mesh-shadows></a-gltf-model>
 
       <!-- Partition 2 glTF-->
-      <a-gltf-model id="partition2" class="collidable" gltf-model="#Partition" rotation="0 -135 0" scale="0.825 0.825 0.825" position="-5.5 0.30 7.5" mesh-shadows visible="false"></a-gltf-model>
+      <a-gltf-model id="partition2" gltf-model="#Partition" rotation="0 -135 0" scale="0.825 0.825 0.825" position="-5.5 0.30 7.5" mesh-shadows visible="false"></a-gltf-model>
 
       <!-- Text area for displaying event information -->
       <a-text id="textArea" position="0.15 1.5 2" value="A Pinching gesture detected on the Left Hand" align="center" visible="true" animation__pinchstarted="property: visible; dur: 6; to: true; startEvents: pinchstarted" color="red" scale="0.15 0.15 0.15"></a-text>
 
       <!-- Text area for displaying event information -->
       <a-text id="textArea2" position="1.5 1.5 2" value="A Pinching gesture detected on the Right Hand" align="center" visible="true" animation__pinchstarted="property: visible; dur: 6; to: true; startEvents: pinchstarted" color="blue" scale="0.15 0.15 0.15"></a-text>
+
+      <!-- Text area for displaying event information -->
+      <!--<a-text id="textArea3" position="1.5 1.75 2" value="The sickle object is being moved" align="center" visible="true" animation__pinchmoved="property: visible; dur: 6; to: true; startEvents: pinchmoved" color="black" scale="0.15 0.15 0.15"></a-text>-->
 
       <!-- Text area for displaying event information -->
       <a-text id="textArea4" position="0 1.25 -1.25" value="Syringe button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="true"></a-text>
@@ -1403,7 +1401,6 @@
 
       </a-entity>
 
-      <!-- Menu with buttons for dental tools -->
       <a-entity id="menu" menu position="0 0.65 -1.25" rotation="-45 0 0" event-manager toggle-text-visibility>
         <a-entity id="sickleButton" button="label: Sickle" position="-0.25 0 0"></a-entity>
         <a-entity id="mirrorButton" button="label: Mirror" position="0.25 0 0"></a-entity>
@@ -1425,7 +1422,6 @@
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="1.45 1.68 -2"></a-entity>
       <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.6;" position="-8 10 -18"></a-entity>
 
-      <!-- Sky entity -->
       <a-sky color="#6EBAA7"></a-sky>
     </a-scene>
   </body>
