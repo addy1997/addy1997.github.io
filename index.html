@@ -1000,106 +1000,31 @@
     </script>
 
     <script>
-      AFRAME.registerComponent('toggle-text-visibility', {
-
-        init: function() {
-          this.bindMethods();
-
-          this.text4El = document.querySelector('#textArea4');//syringe
-          this.text5El = document.querySelector('#textArea5');//mirror
-          this.text6El = document.querySelector('#textArea6');//scalpels
-          this.text7El = document.querySelector('#textArea7');//sickle
-          this.text8El = document.querySelector('#textArea8');//compactor
-          this.text9El = document.querySelector('#textArea9');//denture
-
-          this.sickleButtonEl = document.querySelector("#sickleButton");
-          this.mirrorButtonEl = document.querySelector("#mirrorButton");
-          this.dentureButtonEl = document.querySelector("#dentureButton");
-          this.scalpelsButtonEl = document.querySelector('#scalpelsButton');
-          this.syringeButtonEl = document.querySelector('#syringeButton');
-          this.compactorButtonEl = document.querySelector('#compactorButton');
-
-          this.buttonToText = {
-            sickleButton: this.text7El,
-            mirrorButton: this.text5El,
-            dentureButton: this.text9El,
-            compactorButton: this.text8El,
-            scalpelsButton: this.text6El,
-            syringeButton: this.text4El
-          };
-
-          this.sickleButtonEl.addEventListener("click", this.onClick);
-          this.mirrorButtonEl.addEventListener("click", this.onClick);
-          this.dentureButtonEl.addEventListener("click", this.onClick);
-          this.compactorButtonEl.addEventListener("click", this.onClick);
-          this.syringeButtonEl.addEventListener("click", this.onClick);
-          this.scalpelsButtonEl.addEventListener("click", this.onClick);
-
-          this.sickleButtonEl.addState("pressed");
-          this.mirrorButtonEl.addState("pressed");
-          this.dentureButtonEl.addState("pressed");
-          this.compactorButtonEl.addState("pressed");
-          this.scalpelsButtonEl.addState("pressed");
-          this.syringeButtonEl.addState("pressed");
-        },
-
-        bindMethods: function() {
-          this.onClick = this.onClick.bind(this);
-        },
-
-        onClick: function(evt) {
-          var targetEl = evt.target;
-          if (
-            targetEl === this.sickleButtonEl ||
-            targetEl === this.mirrorButtonEl ||
-            targetEl === this.compactorButtonEl ||
-            targetEl === this.syringeButtonEl ||
-            targetEl === this.dentureButtonEl ||
-            targetEl === this.scalpelsButtonEl
-          ) {
-            this.sickleButtonEl.removeState("pressed");
-            this.mirrorButtonEl.removeState("pressed");
-            this.scalpelsButtonEl.removeState("pressed");
-            this.syringeButtonEl.removeState("pressed");
-            this.compactorButtonEl.removeState("pressed");
-            this.syringeButtonEl.removeState("pressed");
-
-            this.text4El.object3D.visible = false;
-            this.text5El.object3D.visible = false;
-            this.text6El.object3D.visible = false;
-            this.text7El.object3D.visible = false;
-            this.text8El.object3D.visible = false;
-            this.text9El.object3D.visible = false;
-            this.buttonToText[targetEl.id].object3D.visible = true;
-          }
-        },
-      });
-
-    </script>
-
-    <script>
-      AFRAME.registerComponent('click-button', {
+      /*AFRAME.registerComponent('click-syringebutton', {
         init: function() {
           this.bindMethods();
           var buttonEl = this.buttonEl = document.querySelector('#syringeButton');
           var textEl = this.textEl = document.querySelector('#textArea4');
-
+          this.buttonToText = {
+            this.buttonEl: this.textEl
+          };
+          
           buttonEl.addEventListener('click', this.onClick);
           buttonEl.addState('pressed');
         },
-
+        
         bindMethods: function() {
           this.onClick = this.onClick.bind(this);
         },
-
+        
         onClick: function(evt) {
           var targetEl = evt.target;
           if (targetEl === this.buttonEl) {
             this.buttonEl.removeState('pressed');
-            this.textEl.object3D.visible = true;
+            this.textEl.object3D.visible = false;
           }
-        },
-      });
+        }
+      });*/
 
     </script>
 
@@ -1174,7 +1099,6 @@
         init: function() {
           var targetButton = document.querySelector('#xButton_ccw');
           targetButton.addEventListener('click', (e) => {
-            var el = this.el;
             var targetEl = document.querySelector('#mirror').getObject3D('mesh');
             var rotationalOffset = parseInt(this.data.x_val);
             targetEl.rotateX(-rotationalOffset);
@@ -1291,27 +1215,27 @@
 
       <!-- Sickle Pro glTF -->
       <!--<a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="-0.98 0.71 -1.68" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>-->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="0 1 -1.25" mesh-shadows pinchable="pinchDistance: 0.05" visible="false"></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="0 1 -0.85" mesh-shadows pinchable="pinchDistance: 0.05" visible="false"></a-gltf-model>
 
       <!-- Denture glTF -->
       <!--<a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.89 0.67 -1.65" mesh-shadows pinchable="pinchDistance: 0.05" ></a-gltf-model>-->
-      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="0 1 -1.25" mesh-shadows pinchable="pinchDistance: 0.05" visible="false"></a-gltf-model>
+      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="0 1 -0.85" mesh-shadows pinchable="pinchDistance: 0.05" visible="false"></a-gltf-model>
 
       <!-- Scalpel glTF -->
       <!--<a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="-0.95 0.70 -1.68" mesh-shadows visible="false"></a-gltf-model>-->
-      <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="0 1 -1.25" mesh-shadows visible="false"></a-gltf-model>
+      <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="0 1 -0.85" mesh-shadows visible="false"></a-gltf-model>
 
       <!-- Syringe glTF-->
       <!--<a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="-0.82 0.70 -1.60" mesh-shadows visible="false"></a-gltf-model>-->
-      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="0 1 -1.25" mesh-shadows visible="false"></a-gltf-model>
+      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="0 1 -0.85" mesh-shadows visible="false"></a-gltf-model>
 
       <!-- Mirror glTF-->
       <!--<a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.70 -1.68" mesh-shadows visible="false"></a-gltf-model>-->
-      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="0 1 -1.25" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>
+      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="0 1 -0.85" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>
 
       <!-- Compactor glTF-->
       <!--<a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="-0.75 0.68 -1.68" mesh-shadows></a-gltf-model>-->
-      <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="0 1 -1.25" mesh-shadows visible="false"></a-gltf-model>
+      <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="0 1 -0.85" mesh-shadows visible="false"></a-gltf-model>
 
       <!-- Room glTF -->
       <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5"></a-gltf-model>
@@ -1368,22 +1292,7 @@
       <!--<a-text id="textArea3" position="1.5 1.75 2" value="The sickle object is being moved" align="center" visible="true" animation__pinchmoved="property: visible; dur: 6; to: true; startEvents: pinchmoved" color="black" scale="0.15 0.15 0.15"></a-text>-->
 
       <!-- Text area for displaying event information -->
-      <a-text id="textArea4" position="0 1.25 0" value="Syringe button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="true"></a-text>
-
-      <!-- Text area for displaying event information -->
-      <a-text id="textArea5" position="0 1.25 0" value="Mirror button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
-
-      <!-- Text area for displaying event information -->
-      <a-text id="textArea6" position="0 1.25 0" value="Scalpels button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
-
-      <!-- Text area for displaying event information -->
-      <a-text id="textArea7" position="0 1.25 0" value="Sickle button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
-
-      <!-- Text area for displaying event information -->
-      <a-text id="textArea8" position="0 1.25 0" value="Compactor button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
-
-      <!-- Text area for displaying event information -->
-      <a-text id="textArea9" position="0 1.25 0" value="Denure button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
+      <!--<a-text id="textArea4" position="0 1.25 0" value="Syringe button is clicked" align="center" color="blue" scale="0.15 0.15 0.15"></a-text>-->
 
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
@@ -1401,11 +1310,11 @@
 
       </a-entity>
 
-      <a-entity id="menu" menu position="0 0.65 -1.25" rotation="-45 0 0" event-manager toggle-text-visibility>
+      <a-entity id="menu" menu position="0 0.65 -0.85" rotation="-45 0 0" event-manager>
         <a-entity id="sickleButton" button="label: Sickle" position="-0.25 0 0"></a-entity>
         <a-entity id="mirrorButton" button="label: Mirror" position="0.25 0 0"></a-entity>
         <a-entity id="compactorButton" button="label: Compactor; width: 0.3" position="0.18 0.1 0"></a-entity>
-        <a-entity id="syringeButton" button="label: Syringe; width: 0.3" position="-0.18 0.1 0" click-button></a-entity>
+        <a-entity id="syringeButton" button="label: Syringe; width: 0.3" position="-0.18 0.1 0" click-syringebutton></a-entity>
         <a-entity id="scalpelsButton" button="label: Scalpels; width: 0.3" position="0 0 0"></a-entity>
         <a-entity id="dentureButton" button="label: Denture; width: 0.3" position="0 -0.10 0"></a-entity>
         <a-entity id="xButton_cw" button="label: X+; width: 0.1" position="0.40 0.1 0" x-cw="x_val:3"></a-entity>
