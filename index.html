@@ -41,6 +41,7 @@
       });
 
     </script>
+    
     <!-- component to animate the meshes -->
     <script>
       AFRAME.registerComponent('animate', {
@@ -62,6 +63,7 @@
       })
 
     </script>
+    
     <!-- component for mesh shadows -->
     <script>
       AFRAME.registerComponent('mesh-shadows', {
@@ -289,6 +291,7 @@
       });
 
     </script>
+    
     <!-- component to rotate the hands of the patient -->
     <script>
       AFRAME.registerComponent('rotate-patient-hands', {
@@ -341,6 +344,7 @@
       });
 
     </script>
+    
     <!-- component to rotate the neck and spine of the patient -->
     <script>
       AFRAME.registerComponent('rotate-spine', {
@@ -381,6 +385,7 @@
       });
 
     </script>
+    
     <!-- component for frustum culling of the patient entity -->
     <script>
       AFRAME.registerComponent('rotate-neck', {
@@ -990,7 +995,7 @@
             depth: 0.01
           });
           menuBackGroundEl.setAttribute('material', {
-            color: 'gray'
+            color: 'white'
           });
           menuBackGroundEl.setAttribute('position', '0 0 -0.025');
           el.appendChild(menuBackGroundEl);
@@ -1005,12 +1010,12 @@
         init: function() {
           this.bindMethods();
 
-          this.text4El = document.querySelector('#textArea4');//syringe
-          this.text5El = document.querySelector('#textArea5');//mirror
-          this.text6El = document.querySelector('#textArea6');//scalpels
-          this.text7El = document.querySelector('#textArea7');//sickle
-          this.text8El = document.querySelector('#textArea8');//compactor
-          this.text9El = document.querySelector('#textArea9');//denture
+          this.text4El = document.querySelector('#textArea4'); //syringe
+          this.text5El = document.querySelector('#textArea5'); //mirror
+          this.text6El = document.querySelector('#textArea6'); //scalpels
+          this.text7El = document.querySelector('#textArea7'); //sickle
+          this.text8El = document.querySelector('#textArea8'); //compactor
+          this.text9El = document.querySelector('#textArea9'); //denture
 
           this.sickleButtonEl = document.querySelector("#sickleButton");
           this.mirrorButtonEl = document.querySelector("#mirrorButton");
@@ -1365,9 +1370,6 @@
       <a-text id="textArea2" position="1.5 1.5 2" value="A Pinching gesture detected on the Right Hand" align="center" visible="true" animation__pinchstarted="property: visible; dur: 6; to: true; startEvents: pinchstarted" color="blue" scale="0.15 0.15 0.15"></a-text>
 
       <!-- Text area for displaying event information -->
-      <!--<a-text id="textArea3" position="1.5 1.75 2" value="The sickle object is being moved" align="center" visible="true" animation__pinchmoved="property: visible; dur: 6; to: true; startEvents: pinchmoved" color="black" scale="0.15 0.15 0.15"></a-text>-->
-
-      <!-- Text area for displaying event information -->
       <a-text id="textArea4" position="0 1.25 -1.25" value="Syringe button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="true"></a-text>
 
       <!-- Text area for displaying event information -->
@@ -1401,6 +1403,7 @@
 
       </a-entity>
 
+      <!-- Menu with buttons for dental tools -->
       <a-entity id="menu" menu position="0 0.65 -1.25" rotation="-45 0 0" event-manager toggle-text-visibility>
         <a-entity id="sickleButton" button="label: Sickle" position="-0.25 0 0"></a-entity>
         <a-entity id="mirrorButton" button="label: Mirror" position="0.25 0 0"></a-entity>
@@ -1422,6 +1425,7 @@
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="1.45 1.68 -2"></a-entity>
       <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.6;" position="-8 10 -18"></a-entity>
 
+      <!-- Sky entity -->
       <a-sky color="#6EBAA7"></a-sky>
     </a-scene>
   </body>
