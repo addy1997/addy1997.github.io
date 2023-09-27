@@ -1231,8 +1231,10 @@
         init: function() {
           var targetButton = document.querySelector('#infoButton');
           targetButton.addEventListener('click', (e) => {
-            var targetEl = document.querySelector('#infoPlane').getObject3D('mesh');
-            targetEl.visible = true;
+            var targetEl = document.querySelector('#infoPlane');
+            var text = "Welcome to the Navident VR scene!"
+            targetEl.object3D.visible = true;
+            targetEl.setAttribute('text', 'value', text);
           });
         }
       });
@@ -1403,7 +1405,7 @@
       <!-- Text area for displaying event information -->
       <a-text id="textArea10" position="0 1.55 -1.25" value="The mirror object is being moved" align="center" visible="true" animation__pinchmoved="property: visible; dur: 6; to: true; startEvents: pinchmoved" color="black" scale="0.15 0.15 0.15"></a-text>
 
-      <a-plane id="infoPlane" position="0 1.85 -0.85" color="#CCC" height="0.5" width="0.5" visible="false"></a-plane>
+      <a-entity id="infoPlane" geometry="primitive: plane; width: 1; height: 1;" text="anchor: center; baseline: center; wrapCount: 40; transparent: true; opacity: 0.90; color: #FFFFFF; value: 1 \n 2 \n 3 \n 4" position="0 1.85 -0.85" visible="false"></a-entity>
 
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
