@@ -1039,7 +1039,7 @@
         init: function() {
           var targetButton = document.querySelector('#xButton_cw');
           targetButton.addEventListener('click', (e) => {
-            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var targetEl = document.querySelector('#compactor').getObject3D('mesh');
             var rotationalOffset = parseInt(this.data.x_val);
             targetEl.rotateX(rotationalOffset);
           });
@@ -1059,7 +1059,7 @@
         init: function() {
           var targetButton = document.querySelector('#yButton_cw');
           targetButton.addEventListener('click', (e) => {
-            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var targetEl = document.querySelector('#compactor').getObject3D('mesh');
             var rotationalOffset = parseInt(this.data.y_val);
             targetEl.rotateY(rotationalOffset);
           });
@@ -1079,7 +1079,7 @@
         init: function() {
           var targetButton = document.querySelector('#zButton_cw');
           targetButton.addEventListener('click', (e) => {
-            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var targetEl = document.querySelector('#compactor').getObject3D('mesh');
             var rotationalOffset = parseInt(this.data.z_val);
             targetEl.rotateZ(rotationalOffset);
           });
@@ -1099,7 +1099,7 @@
         init: function() {
           var targetButton = document.querySelector('#xButton_ccw');
           targetButton.addEventListener('click', (e) => {
-            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var targetEl = document.querySelector('#compactor').getObject3D('mesh');
             var rotationalOffset = parseInt(this.data.x_val);
             targetEl.rotateX(-rotationalOffset);
           });
@@ -1119,7 +1119,7 @@
         init: function() {
           var targetButton = document.querySelector('#yButton_ccw');
           targetButton.addEventListener('click', (e) => {
-            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var targetEl = document.querySelector('#compactor').getObject3D('mesh');
             var rotationalOffset = parseInt(this.data.y_val);
             targetEl.rotateY(-rotationalOffset);
           });
@@ -1139,7 +1139,7 @@
         init: function() {
           var targetButton = document.querySelector('#zButton_ccw');
           targetButton.addEventListener('click', (e) => {
-            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var targetEl = document.querySelector('#compactor').getObject3D('mesh');
             var rotationalOffset = parseInt(this.data.z_val);
             targetEl.rotateZ(-rotationalOffset);
           });
@@ -1419,6 +1419,8 @@
         <a-entity id="xButton_ccw" button="label: X-; width: 0.1" position="-0.40 0.1 0" x-ccw="x_val:3"></a-entity>
         <a-entity id="yButton_ccw" button="label: Y-; width: 0.1" position="-0.40 0 0" y-ccw="y_val:3"></a-entity>
         <a-entity id="zButton_ccw" button="label: Z-; width: 0.1" position="-0.40 -0.1 0" z-ccw="z_val:3"></a-entity>
+        <a-entity id="helpButton" button="label: Help!; width: 0.1" position="-0.27 -0.1 0"></a-entity>
+        <a-entity id="infoButton" button="label: Info; width: 0.1" position="0.27 -0.1 0"></a-entity>
       </a-entity>
 
       <!-- Lighting -->
