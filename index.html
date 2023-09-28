@@ -527,44 +527,6 @@
     </script>
 
     <script>
-      /*AFRAME.registerComponent('lwrist-movement-tracking', {
-        schema: {
-          minDist: {default: 0.25}
-        },
-
-        init: function() {
-          this.sceneEl = document.querySelector('a-scene');
-          this.leftHandEl = this.sceneEl.querySelector('#leftHand');
-          this.worldPosition = new THREE.Vector3();
-          this.sceneEl.addEventListener('pinchmoved', this.onWristMovement);
-          this.onWristMovement = this.onWristMovement.bind(this);
-        },
-        
-        onWristMovement: function(evt) {
-          var leftHand = this.leftHandEl;
-          var lwristPosition = leftHand.components['hand-tracking-controls'].wristworldPosition;
-          var distance = lwristPosition.distanceTo(evt.detail.position);
-          if (distance > this.data.minDist) {
-            return;
-          }
-          leftHand.emit('pinchmoved');
-        },    
-        
-        calculateWristDistance: function(wristWorldPosition) {
-          var leftHand = this.leftHandEl;
-          var worldPosition = this.worldPosition;
-          var wristDistance;
-          worldPosition.copy(leftHand.object3D.position);
-          leftHand.object3D.updateMatrixWorld();
-          leftHand.object3D.localToWorld(worldPosition);
-          wristDistance = worldPosition.distanceTo(wristWorldPosition);
-          return wristDistance;
-        } 
-      });*/
-
-    </script>
-
-    <script>
       AFRAME.registerComponent('text-display-for-lefthand', {
         init: function() {
           var sceneEl = document.querySelector('a-scene');
@@ -985,8 +947,8 @@
           var menuBackGroundEl = document.createElement('a-entity');
           menuBackGroundEl.setAttribute('geometry', {
             primitive: 'box',
-            width: 1,
-            height: 0.40,
+            width: 2,
+            height: 0.50,
             depth: 0.01
           });
           menuBackGroundEl.setAttribute('material', {
@@ -996,35 +958,6 @@
           el.appendChild(menuBackGroundEl);
         }
       });
-
-    </script>
-
-    <script>
-      /*AFRAME.registerComponent('click-syringebutton', {
-        init: function() {
-          this.bindMethods();
-          var buttonEl = this.buttonEl = document.querySelector('#syringeButton');
-          var textEl = this.textEl = document.querySelector('#textArea4');
-          this.buttonToText = {
-            this.buttonEl: this.textEl
-          };
-          
-          buttonEl.addEventListener('click', this.onClick);
-          buttonEl.addState('pressed');
-        },
-        
-        bindMethods: function() {
-          this.onClick = this.onClick.bind(this);
-        },
-        
-        onClick: function(evt) {
-          var targetEl = evt.target;
-          if (targetEl === this.buttonEl) {
-            this.buttonEl.removeState('pressed');
-            this.textEl.object3D.visible = false;
-          }
-        }
-      });*/
 
     </script>
 
@@ -1227,19 +1160,51 @@
     </script>
 
     <script>
-      AFRAME.registerComponent('click-infobutton', {
+      /*AFRAME.registerComponent('click-infobutton', {
         init: function() {
           var targetButton = document.querySelector('#infoButton');
           targetButton.addEventListener('click', (e) => {
-            var targetEl  = document.querySelector('#infoPlane');
+            var targetEl = document.querySelector('#infoPlane');
             var text = " Welcome to the dentistry simulator \n " +
-                       " Please click any button on the menu \n " + 
-                       " to interact with the dental tools. "
-            
+              " Please click any button on the menu \n " +
+              " to interact with the dental tools. "
+
             targetEl.object3D.visible = true;
             targetEl.setAttribute('text', 'value', text);
           });
         }
+      });*/
+
+      AFRAME.registerComponent('click-infobutton', {
+        init: function() {
+
+          this.bindMethods();
+          this.targetButtonEl = document.querySelector('#infoButton');
+          this.targetPlaneEl = document.querySelector('#infoPlane');
+
+          this.buttonToEntity = {
+            targetButtonEl: this.targetPlaneEl
+          };
+
+          this.targetButtonEl.addEventListener('click', this.onClickStarted);
+          this.targetButtonEl.addState('pressed');
+        },
+
+        bindMethods: function() {
+          this.onClickStarted = this.onClickStarted.bind(this);
+        },
+
+        onClickStarted: function(evt) {
+          var targetEl = evt.target;
+          var text = " Welcome to the dentistry simulator \n " +
+                      " Please click any button on the menu \n " +
+                      " to interact with the dental tools. "
+          if (targetEl === this.targetButtonEl) {
+            this.targetButtonEl.removeState('pressed');
+            this.targetPlaneEl.setAttribute('visible', !this.targetPlaneEl.getAttribute('visible'));
+            this.targetPlaneEl.setAttribute('text', 'value', text);
+          }
+        },
       });
 
     </script>
@@ -1433,12 +1398,13 @@
         <a-entity id="syringeButton" button="label: Syringe; width: 0.3" position="-0.18 0.1 0"></a-entity>
         <a-entity id="scalpelsButton" button="label: Scalpels; width: 0.3" position="0 0 0"></a-entity>
         <a-entity id="dentureButton" button="label: Denture; width: 0.3" position="0 -0.10 0"></a-entity>
-        <a-entity id="xButton_cw" button="label: X+; width: 0.1" position="0.40 0.1 0" x-cw="x_val:3"></a-entity>
-        <a-entity id="yButton_cw" button="label: Y+; width: 0.1" position="0.40 0 0" y-cw="y_val:3"></a-entity>
-        <a-entity id="zButton_cw" button="label: Z+; width: 0.1" position="0.40 -0.1 0" z-cw="z_val:3"></a-entity>
-        <a-entity id="xButton_ccw" button="label: X-; width: 0.1" position="-0.40 0.1 0" x-ccw="x_val:3"></a-entity>
-        <a-entity id="yButton_ccw" button="label: Y-; width: 0.1" position="-0.40 0 0" y-ccw="y_val:3"></a-entity>
-        <a-entity id="zButton_ccw" button="label: Z-; width: 0.1" position="-0.40 -0.1 0" z-ccw="z_val:3"></a-entity>
+        
+        <a-entity id="xButton_cw" button="label: Rotate clockwise X-axis; width: 0.55" position="0.65 0.1 0" x-cw="x_val:3"></a-entity>
+        <a-entity id="yButton_cw" button="label: Rotate clockwise Y-axis; width: 0.55" position="0.65 0 0" y-cw="y_val:3"></a-entity>
+        <a-entity id="zButton_cw" button="label: Rotate clockwise Z-axis; width: 0.55" position="0.65 -0.1 0" z-cw="z_val:3"></a-entity>
+        <a-entity id="xButton_ccw" button="label: Rotate anti-clockwise X-axis; width: 0.55" position="-0.65 0.1 0" x-ccw="x_val:3"></a-entity>
+        <a-entity id="yButton_ccw" button="label: Rotate anti-clockwise Y-axis; width: 0.55" position="-0.65 0 0" y-ccw="y_val:3"></a-entity>
+        <a-entity id="zButton_ccw" button="label: Rotate anti-clockwise Z-axis; width: 0.55" position="-0.65 -0.1 0" z-ccw="z_val:3"></a-entity>
         <a-entity id="infoButton" button="label: Info; width:0.1" position="0.27 -0.1 0" click-infobutton></a-entity>
       </a-entity>
 
