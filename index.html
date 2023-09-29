@@ -958,7 +958,26 @@
           el.appendChild(menuBackGroundEl);
         }
       });
-
+      
+      /* global AFRAME */
+      AFRAME.registerComponent('application-menu', {
+        init: function() {
+          var el = this.el;
+          var menuBackGroundEl = document.createElement('a-entity');
+          menuBackGroundEl.setAttribute('geometry', {
+            primitive: 'box',
+            width: 1,
+            height: 0.50,
+            depth: 0.01
+          });
+          menuBackGroundEl.setAttribute('material', {
+            color: 'gray'
+          });
+          menuBackGroundEl.setAttribute('position', '0 0 -0.025');
+          el.appendChild(menuBackGroundEl);
+        }
+      });
+      
     </script>
 
     <script>
@@ -1075,6 +1094,20 @@
             var targetEl = document.querySelector('#mirror').getObject3D('mesh');
             var rotationalOffset = parseInt(this.data.z_val);
             targetEl.rotateZ(-rotationalOffset);
+          });
+        }
+      })
+
+    </script>
+    
+    <script>
+      AFRAME.registerComponent('click-servicesbutton', {
+        
+        init: function() {
+          var targetButton = document.querySelector('#serviceButton');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#applicationMenu')
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
           });
         }
       })
@@ -1289,7 +1322,7 @@
       <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="0 1 -0.65" visible="false" mesh-shadows></a-gltf-model>
 
       <!-- Room glTF -->
-      <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.0095" position="-0.45 0 -1.5"></a-gltf-model>
+      <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.015" position="-0.45 0 -1.5"></a-gltf-model>
 
       <!-- Dentist glTF -->
       <a-gltf-model id="dentist" gltf-model="#Dentist" rotation="0 30 0" scale="0.375 0.375 0.375" position="-0.15 1.25 -2.55" animate mesh-shadows frustum-culling-disabled></a-gltf-model>
@@ -1376,7 +1409,7 @@
         <a-entity id="compactorButton" button="label: Compactor; width: 0.3" position="0.18 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="syringeButton" button="label: Syringe; width: 0.3" position="-0.18 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="scalpelsButton" button="label: Scalpels; width: 0.3" position="0 0 0" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="dentureButton" button="label: Denture; width: 0.3" position="0 -0.10 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="dentureButton" button="label: Denture; width: 0.3" position="0.05 -0.10 0" sound="src: #Click-Sound; on: click"></a-entity>
 
         <a-entity id="xButton_cw" button="label: Rotate clockwise about X-axis; width: 0.55" position="0.65 0.1 0" x-cw="x_val:3" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="yButton_cw" button="label: Rotate clockwise about Y-axis; width: 0.55" position="0.65 0 0" y-cw="y_val:3" sound="src: #Click-Sound; on: click"></a-entity>
@@ -1385,6 +1418,17 @@
         <a-entity id="yButton_ccw" button="label: Rotate anti-clockwise about Y-axis; width: 0.55" position="-0.65 0 0" y-ccw="y_val:3" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="zButton_ccw" button="label: Rotate anti-clockwise about Z-axis; width: 0.55" position="-0.65 -0.1 0" z-ccw="z_val:3" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="infoButton" button="label: Info; width:0.1" position="0.27 -0.1 0" sound="src: #Click-Sound; on: click" click-infobutton></a-entity>
+        <a-entity id="serviceButton" button="label: Services; width:0.2" position="-0.25 -0.1 0" sound="src: #Click-Sound; on: click" click-infobutton></a-entity>
+      </a-entity>
+      
+      <!-- Application menu -->
+      <a-entity id="applicationMenu" application-menu position="0.75 1.15 -0.65" rotation="30 -30 0" visible="false" click-servicesbutton>
+        <a-entity id="button1" button="label: General examination; width: 0.45" position="-0.25 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="button2" button="label: Local anaesthesia; width: 0.45" position="-0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="button3" button="label: Implant placement; width: 0.45" position="-0.25 0.2 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="button4" button="label: Root canal treatment; width: 0.45" position="0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="button5" button="label: Teeth whitening; width: 0.45" position="0.25 -0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="button6" button="label: Scale and polish; width: 0.45" position="0.25 -0.2 0" sound="src: #Click-Sound; on: click"></a-entity>
       </a-entity>
 
       <!-- Lighting -->
