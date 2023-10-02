@@ -1244,6 +1244,19 @@
       });
 
     </script>
+    
+    <script>
+    AFRAME.registerComponent('play-video',{
+      init: function() {
+        var targetButton = document.querySelector('#button3');
+        targetButton.addEventListener('click',(e)=> {
+          var targetEl = document.querySelector('Implant-Placement');
+          targetEl.object3D.visible = true;
+          targetEl.components.material.material.map.image.play();
+        })
+      }
+    })
+    </script>
 
   </head>
 
@@ -1444,7 +1457,7 @@
       <a-entity id="applicationMenu" application-menu position="0.75 1.15 -0.65" rotation="30 -25 0" visible="false" click-servicesbutton>
         <a-entity id="button1" button="label: General examination; width: 0.45" position="-0.25 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="button2" button="label: Local anaesthesia; width: 0.45" position="-0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="button3" button="label: Implant placement; width: 0.45" position="-0.25 0.2 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="button3" button="label: Implant placement; width: 0.45" position="-0.25 0.2 0" sound="src: #Click-Sound; on: click" play-video></a-entity>
         <a-entity id="button4" button="label: Root canal treatment; width: 0.45" position="0.25 0.2 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="button5" button="label: Teeth whitening; width: 0.45" position="0.25 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="button6" button="label: Scale and polish; width: 0.45" position="0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
@@ -1453,7 +1466,7 @@
 
       <!-- SPATIAL Window -->
       <a-entity id="displayWindow" spatial-window="width: 0.95; height: 0.5" position="-0.35 1.15 -0.65" visible="false">
-        <a-video src="#Implant-Placement" width="0.85" height="0.45" position="0 0 0"></a-video>
+        <a-videosphere src="#Implant-Placement" width="0.85" height="0.45" position="0 0 0" visible="false"></a-videosphere>
       </a-entity>
 
       <!-- Lighting -->
