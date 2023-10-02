@@ -1251,7 +1251,7 @@
         var targetButton = document.querySelector('#button3');
         targetButton.addEventListener('click',(e)=> {
           var targetEl = document.querySelector('Implant-Placement');
-          targetEl.object3D.visible = true;
+          targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
           targetEl.components.material.material.map.image.play();
         })
       }
