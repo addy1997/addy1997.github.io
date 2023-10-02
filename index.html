@@ -11,10 +11,11 @@
 
     <!-- SPATIAL -->
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/examples/showcase/spatial-ui/spatial-utils.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/examples/showcase/spatial-ui/spatial-window.js">
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/examples/showcase/spatial-ui/spatial-window.js"></script>
     
-   <!-- Custom component for camera logging -->
-     
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <!-- Custom component for camera logging -->
     <script>
       AFRAME.registerComponent('camera-logger', {
         schema: {
@@ -1253,11 +1254,13 @@
         targetButton.addEventListener('click',(e)=> {
           var targetEl = document.querySelector('#video1');
           targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
-          targetEl.components.material.material.map.image.play();
+          targetEl.components.material.material.map.image.play(); 
         })
       }
     })
     </script>
+    
+    
 
   </head>
 
@@ -1326,7 +1329,7 @@
         <audio id="Click-Sound" crossorigin="anonymous" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sounds/593237__ilip33__pressing-the-enter-button.wav" preload="auto"></audio>
         
         <!-- Video for the display window -->
-        <video id="Implant-Placement" crossorigin="anonymous" repeat="false" autoplay="false" loop="true" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Videos/implant_placement.mp4"></video>
+        <video id="Video1" crossorigin="anonymous" repeat="false" autoplay="false" loop="true" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Videos/implant_placement.mp4"></video>
 
       </a-assets>
 
@@ -1467,8 +1470,10 @@
 
       <!-- SPATIAL Window -->
       <a-entity id="displayWindow" spatial-window="width: 0.95; height: 0.5" position="-0.35 1.15 -0.65" visible="false">
+      
+      <a-video id="video1" src="#Video1" width="0.95" height="0.5" position="0 0 0" visible="false"></a-video>
+      
       </a-entity>
-      <a-video id="video1" src="#Implant-Placement" width="0.85" height="0.45" position="-0.35 1.15 -0.65" visible="false"></a-video>
 
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="8 10 18"></a-entity>
