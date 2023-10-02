@@ -1250,7 +1250,7 @@
       init: function() {
         var targetButton = document.querySelector('#button3');
         targetButton.addEventListener('click',(e)=> {
-          var targetEl = document.querySelector('Implant-Placement');
+          var targetEl = document.querySelector('#video1');
           targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
           targetEl.components.material.material.map.image.play();
         })
@@ -1466,7 +1466,7 @@
 
       <!-- SPATIAL Window -->
       <a-entity id="displayWindow" spatial-window="width: 0.95; height: 0.5" position="-0.35 1.15 -0.65" visible="false">
-        <a-videosphere src="#Implant-Placement" width="0.85" height="0.45" position="0 0 0" visible="false"></a-videosphere>
+        <a-videosphere id="video1" src="#Implant-Placement" width="0.85" height="0.45" position="0 0 0" visible="false"></a-videosphere>
       </a-entity>
 
       <!-- Lighting -->
