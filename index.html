@@ -12,8 +12,9 @@
     <!-- SPATIAL -->
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/examples/showcase/spatial-ui/spatial-utils.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/examples/showcase/spatial-ui/spatial-window.js">
-      <!-- Custom component for camera logging 
-      -->
+    
+   <!-- Custom component for camera logging -->
+     
     <script>
       AFRAME.registerComponent('camera-logger', {
         schema: {
@@ -1466,8 +1467,8 @@
 
       <!-- SPATIAL Window -->
       <a-entity id="displayWindow" spatial-window="width: 0.95; height: 0.5" position="-0.35 1.15 -0.65" visible="false">
-        <a-video id="video1" src="#Implant-Placement" width="0.85" height="0.45" position="0 0 0" visible="false"></a-video>
       </a-entity>
+      <a-video id="video1" src="#Implant-Placement" width="0.85" height="0.45" position="-0.35 1.15 -0.65" visible="false"></a-video>
 
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="8 10 18"></a-entity>
