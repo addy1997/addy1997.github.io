@@ -9,7 +9,11 @@
     <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
     <!--<script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>-->
 
-    <!-- Custom component for camera logging -->
+    <!-- SPATIAL -->
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/examples/showcase/spatial-ui/spatial-utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/examples/showcase/spatial-ui/spatial-window.js">
+      <!-- Custom component for camera logging 
+      -->
     <script>
       AFRAME.registerComponent('camera-logger', {
         schema: {
@@ -958,7 +962,7 @@
           el.appendChild(menuBackGroundEl);
         }
       });
-      
+
       /* global AFRAME */
       AFRAME.registerComponent('application-menu', {
         init: function() {
@@ -977,7 +981,7 @@
           el.appendChild(menuBackGroundEl);
         }
       });
-      
+
     </script>
 
     <script>
@@ -1099,10 +1103,10 @@
       })
 
     </script>
-    
+
     <script>
       AFRAME.registerComponent('click-servicesbutton', {
-        
+
         init: function() {
           var targetButton = document.querySelector('#serviceButton');
           targetButton.addEventListener('click', (e) => {
@@ -1228,6 +1232,18 @@
 
     </script>
 
+    <script>
+      AFRAME.registerComponent('click-displaybutton', {
+        init: function() {
+          var targetButton = document.querySelector('#displayButton');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#displayWindow')
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+          });
+        }
+      });
+
+    </script>
 
   </head>
 
@@ -1293,7 +1309,10 @@
         <a-asset-item id="Dustbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dustbin/dustbin.glb"></a-asset-item>
 
         <!-- Sounds for menu buttons -->
-        <a-audio id="Click-Sound" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sounds/593237__ilip33__pressing-the-enter-button.wav" preload="auto"></a-audio>
+        <audio id="Click-Sound" crossorigin="anonymous" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sounds/593237__ilip33__pressing-the-enter-button.wav" preload="auto"></audio>
+        
+        <!-- Video for the display window -->
+        <video id="Implant-Placement" crossorigin="anonymous" repeat="false" autoplay="false" loop="true" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Videos/implant_placement.mp4"></video>
 
       </a-assets>
 
@@ -1385,7 +1404,7 @@
       <a-text id="textArea9" position="0 1.25 -0.85" value="Denture button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
 
 
-      <a-entity id="infoPlane" geometry="primitive: plane; width: 1; height: 1;" text="anchor: center; baseline: center; wrapCount: 40; transparent: true; opacity: 0.90; color: #FFFFFF; value: 1 \n 2 \n 3 \n 4; align: center" position="0 1.85 -0.85" visible="false"></a-entity>
+      <a-entity id="infoPlane" geometry="primitive: plane; width: 1; height: 1;" text="anchor: center; baseline: center; wrapCount: 40; transparent: true; opacity: 0.90; color: #FFFFFF; value: 1 \n 2 \n 3 \n 4; align: center" position="0 2 -0.85" visible="false"></a-entity>
 
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
@@ -1418,17 +1437,23 @@
         <a-entity id="yButton_ccw" button="label: Rotate anti-clockwise about Y-axis; width: 0.55" position="-0.65 0 0" y-ccw="y_val:3" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="zButton_ccw" button="label: Rotate anti-clockwise about Z-axis; width: 0.55" position="-0.65 -0.1 0" z-ccw="z_val:3" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="infoButton" button="label: Info; width:0.1" position="0.27 -0.1 0" sound="src: #Click-Sound; on: click" click-infobutton></a-entity>
-        <a-entity id="serviceButton" button="label: Services; width:0.2" position="-0.25 -0.1 0" sound="src: #Click-Sound; on: click" services-infobutton></a-entity>
+        <a-entity id="serviceButton" button="label: Services; width:0.2" position="-0.25 -0.1 0" sound="src: #Click-Sound; on: click" click-servicesbutton></a-entity>
       </a-entity>
-      
+
       <!-- Application menu -->
-      <a-entity id="applicationMenu" application-menu position="0.75 1.15 -0.65" rotation="30 -30 0" visible="false" click-servicesbutton>
+      <a-entity id="applicationMenu" application-menu position="0.75 1.15 -0.65" rotation="30 -25 0" visible="true" click-servicesbutton>
         <a-entity id="button1" button="label: General examination; width: 0.45" position="-0.25 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="button2" button="label: Local anaesthesia; width: 0.45" position="-0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="button3" button="label: Implant placement; width: 0.45" position="-0.25 0.2 0" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="button4" button="label: Root canal treatment; width: 0.45" position="0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="button5" button="label: Teeth whitening; width: 0.45" position="0.25 -0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="button6" button="label: Scale and polish; width: 0.45" position="0.25 -0.2 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="button4" button="label: Root canal treatment; width: 0.45" position="0.25 0.2 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="button5" button="label: Teeth whitening; width: 0.45" position="0.25 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="button6" button="label: Scale and polish; width: 0.45" position="0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="displayButton" button="label: Display; width: 0.25" position="0 -0.1 0" sound="src: #Click-Sound; on: click" click-displaybutton></a-entity>
+      </a-entity>
+
+      <!-- SPATIAL Window -->
+      <a-entity id="displayWindow" spatial-window="width: 0.95; height: 0.5" position="-0.35 1.15 -0.65" visible="false">
+        <a-video src="#Implant-Placement" width="0.85" height="0.45" position="0 0 0"></a-video>
       </a-entity>
 
       <!-- Lighting -->
