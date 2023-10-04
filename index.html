@@ -9,12 +9,6 @@
     <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
     <!--<script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>-->
 
-    <!-- SPATIAL -->
-    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/examples/showcase/spatial-ui/spatial-utils.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/examples/showcase/spatial-ui/spatial-window.js"></script>
-    
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <!-- Custom component for camera logging -->
     <script>
       AFRAME.registerComponent('camera-logger', {
@@ -1239,7 +1233,20 @@
         init: function() {
           var targetButton = document.querySelector('#displayButton');
           targetButton.addEventListener('click', (e) => {
-            var targetEl = document.querySelector('#displayWindow')
+            var targetEl = document.querySelector('#infoPlane2')
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+          });
+        }
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('click-displaybutton2', {
+        init: function() {
+          var targetButton = document.querySelector('#displayButton2');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#infoPlane3')
             targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
           });
         }
@@ -1248,19 +1255,30 @@
     </script>
     
     <script>
-    AFRAME.registerComponent('play-video',{
-      init: function() {
-        var targetButton = document.querySelector('#button3');
-        targetButton.addEventListener('click',(e)=> {
-          var targetEl = document.querySelector('#video1');
-          targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
-          targetEl.components.material.material.map.image.play(); 
-        })
-      }
-    })
+      AFRAME.registerComponent('click-to-play-video1', {
+        init: function() {
+          var targetButton = document.querySelector('#button3')
+          targetButton.addEventListener('click', (e)=> {
+            var targetEl = document.querySelector('#video1').getAttribute('material').src;
+            targetEl.play();
+          })
+        }
+      });
+      
+      AFRAME.registerComponent('click-to-play-video2', {
+        init: function() {
+          var targetButton = document.querySelector('#button5')
+          targetButton.addEventListener('click', (e)=> {
+            var targetEl = document.querySelector('#video2').getAttribute('material').src;
+            var targetEl_ = document.querySelector('#video1').getAttribute('material').src;
+            targetEl.play();
+            targetEl_.pause();
+          })
+        }
+      });
+      
+
     </script>
-    
-    
 
   </head>
 
@@ -1327,34 +1345,29 @@
 
         <!-- Sounds for menu buttons -->
         <audio id="Click-Sound" crossorigin="anonymous" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sounds/593237__ilip33__pressing-the-enter-button.wav" preload="auto"></audio>
-        
-        <!-- Video for the display window -->
-        <video id="Video1" crossorigin="anonymous" repeat="false" autoplay="false" loop="true" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Videos/implant_placement.mp4"></video>
 
+        <!-- videos for displays -->
+        <video id="Video1" preload="auto" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Videos/implant_placement.mp4" width="160" height="90" autoplay loop="true" crossOrigin="anonymous" muted></video>
+        
+        <video id="Video2" preload="auto" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Videos/teeth_whitening.mp4" width="160" height="90" autoplay loop="true" crossOrigin="anonymous" muted></video>
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <!--<a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="-0.98 0.71 -1.68" mesh-shadows pinchable="pinchDistance: 0.05"></a-gltf-model>-->
       <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="0 1 -0.65" pinchable="pinchDistance: 0.05" visible="false" mesh-shadows></a-gltf-model>
 
       <!-- Denture glTF -->
-      <!--<a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="-0.89 0.67 -1.65" mesh-shadows pinchable="pinchDistance: 0.05" ></a-gltf-model>-->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="0 1 -0.65" pinchable="pinchDistance: 0.05" visible="false" mesh-shadows></a-gltf-model>
 
       <!-- Scalpel glTF -->
-      <!--<a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="-0.95 0.70 -1.68" mesh-shadows visible="false"></a-gltf-model>-->
       <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="0 1 -0.65" mesh-shadows visible="false"></a-gltf-model>
 
       <!-- Syringe glTF-->
-      <!--<a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="-0.82 0.70 -1.60" mesh-shadows visible="false"></a-gltf-model>-->
       <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="0 1 -0.65" visible="false" mesh-shadows></a-gltf-model>
 
       <!-- Mirror glTF-->
-      <!--<a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="-0.78 0.70 -1.68" mesh-shadows visible="false"></a-gltf-model>-->
       <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="0 1 -0.65" pinchable="pinchDistance: 0.05" mesh-shadows></a-gltf-model>
 
       <!-- Compactor glTF-->
-      <!--<a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="-0.75 0.68 -1.68" mesh-shadows></a-gltf-model>-->
       <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="0 1 -0.65" visible="false" mesh-shadows></a-gltf-model>
 
       <!-- Room glTF -->
@@ -1420,8 +1433,22 @@
       <!-- Text area for displaying event information -->
       <a-text id="textArea9" position="0 1.25 -0.85" value="Denture button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
 
+      <!-- Text area for info button -->
+      <a-entity id="infoPlane" geometry="primitive: plane; width: 1; height: 1;" material="color:#B2D8D8" text="anchor: center; baseline: center; wrapCount: 40; transparent: true; opacity: 0.90; color: #FFFFFF; value: 1 \n 2 \n 3 \n 4; align: center" position="0 2 -0.85" visible="false"></a-entity>
 
-      <a-entity id="infoPlane" geometry="primitive: plane; width: 1; height: 1;" text="anchor: center; baseline: center; wrapCount: 40; transparent: true; opacity: 0.90; color: #FFFFFF; value: 1 \n 2 \n 3 \n 4; align: center" position="0 2 -0.85" visible="false"></a-entity>
+      <!-- Text area for services -->
+      <a-entity id="infoPlane2" geometry="primitive: plane; width: 1; height: 1;" material="color:#66B2B2;" position="-0.975 2 -0.7" rotation="0 20 0" visible="false">
+
+        <a-video id="video1" src="#Video1" width="1" height="1"></a-video>
+
+      </a-entity>
+
+      <!-- Text area for services -->
+      <a-entity id="infoPlane3" geometry="primitive: plane; width: 1; height: 1;" material="color:#66B2B2;" position="0.975 2 -0.7" rotation="0 -20 0" visible="false">
+
+        <a-video id="video2" src="#Video2" width="1" height="1"></a-video>
+
+      </a-entity>
 
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
@@ -1461,18 +1488,12 @@
       <a-entity id="applicationMenu" application-menu position="0.75 1.15 -0.65" rotation="30 -25 0" visible="false">
         <a-entity id="button1" button="label: General examination; width: 0.45" position="-0.25 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="button2" button="label: Local anaesthesia; width: 0.45" position="-0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="button3" button="label: Implant placement; width: 0.45" position="-0.25 0.2 0" sound="src: #Click-Sound; on: click" play-video></a-entity>
+        <a-entity id="button3" button="label: Implant placement; width: 0.45" position="-0.25 0.2 0" sound="src: #Click-Sound; on: click" click-to-play-video1></a-entity>
         <a-entity id="button4" button="label: Root canal treatment; width: 0.45" position="0.25 0.2 0" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="button5" button="label: Teeth whitening; width: 0.45" position="0.25 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="button5" button="label: Teeth whitening; width: 0.45" position="0.25 0.1 0" sound="src: #Click-Sound; on: click" click-to-play-video2></a-entity>
         <a-entity id="button6" button="label: Scale and polish; width: 0.45" position="0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="displayButton" button="label: Display; width: 0.25" position="0 -0.1 0" sound="src: #Click-Sound; on: click" click-displaybutton></a-entity>
-      </a-entity>
-
-      <!-- SPATIAL Window -->
-      <a-entity id="displayWindow" spatial-window="width: 0.95; height: 0.5" position="-0.35 1.15 -0.65" visible="false">
-      
-      <a-video id="video1" src="#Video1" width="0.95" height="0.5" position="0 0 0" visible="false"></a-video>
-      
+        <a-entity id="displayButton" button="label: LDisplay; width: 0.25" position="-0.25 -0.1 0" sound="src: #Click-Sound; on: click" click-displaybutton></a-entity>
+        <a-entity id="displayButton2" button="label: RDisplay; width: 0.25" position="0.25 -0.1 0" sound="src: #Click-Sound; on: click" click-displaybutton2></a-entity>
       </a-entity>
 
       <!-- Lighting -->
