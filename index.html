@@ -947,8 +947,8 @@
           var menuBackGroundEl = document.createElement('a-entity');
           menuBackGroundEl.setAttribute('geometry', {
             primitive: 'box',
-            width: 2,
-            height: 0.50,
+            width: 1.15,
+            height: 0.325,
             depth: 0.01
           });
           menuBackGroundEl.setAttribute('material', {
@@ -966,7 +966,7 @@
           var menuBackGroundEl = document.createElement('a-entity');
           menuBackGroundEl.setAttribute('geometry', {
             primitive: 'box',
-            width: 1,
+            width: 0.65,
             height: 0.50,
             depth: 0.01
           });
@@ -1106,7 +1106,21 @@
         init: function() {
           var targetButton = document.querySelector('#serviceButton');
           targetButton.addEventListener('click', (e) => {
-            var targetEl = document.querySelector('#applicationMenu')
+            var targetEl = document.querySelector('#applicationMenu');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+          });
+        }
+      })
+
+    </script>
+    
+    <script>
+      AFRAME.registerComponent('click-displaybutton', {
+
+        init: function() {
+          var targetButton = document.querySelector('#displayButton');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#infoPlane2');
             targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
           });
         }
@@ -1192,6 +1206,82 @@
       });
 
     </script>
+    
+    <script>
+    AFRAME.registerComponent('play-video1',{
+      init: function() {
+        var targetButton = document.querySelector('#button3');
+        targetButton.addEventListener('click',(e)=> {
+          var targetEl = document.querySelector('#video1');
+          var target1El = document.querySelector('#video2');
+          var target2El = document.querySelector('#video3');
+          var target3El = document.querySelector('#video4');
+          targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+          targetEl.components.material.material.map.image.play();
+          target1El.components.material.material.map.image.pause();
+          target2El.components.material.material.map.image.pause();
+          target3El.components.material.material.map.image.pause();
+        })
+      }
+    })
+    </script>
+    
+    <script>
+    AFRAME.registerComponent('play-video2',{
+      init: function() {
+        var targetButton = document.querySelector('#button4');
+        targetButton.addEventListener('click',(e)=> {
+          var targetEl = document.querySelector('#video3');
+          var target1El = document.querySelector('#video1');
+          var target2El = document.querySelector('#video2');
+          var target3El = document.querySelector('#video4');
+          targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+          targetEl.components.material.material.map.image.play(); 
+          target1El.components.material.material.map.image.pause();
+          target2El.components.material.material.map.image.pause();
+          target3El.components.material.material.map.image.pause();
+        })
+      }
+    })
+    </script>
+    
+    <script>
+    AFRAME.registerComponent('play-video3',{
+      init: function() {
+        var targetButton = document.querySelector('#button5');
+        targetButton.addEventListener('click',(e)=> {
+          var targetEl = document.querySelector('#video2');
+          var target1El = document.querySelector('#video1');
+          var target2El = document.querySelector('#video3');
+          var target3El = document.querySelector('#video4');
+          targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+          targetEl.components.material.material.map.image.play();
+          target1El.components.material.material.map.image.pause();
+          target2El.components.material.material.map.image.pause();
+          target3El.components.material.material.map.image.pause();
+        })
+      }
+    })
+    </script>
+    
+    <script>
+    AFRAME.registerComponent('play-video4',{
+      init: function() {
+        var targetButton = document.querySelector('#button6');
+        targetButton.addEventListener('click',(e)=> {
+          var targetEl = document.querySelector('#video4');
+          var target1El = document.querySelector('#video1');
+          var target2El = document.querySelector('#video2');
+          var target3El = document.querySelector('#video3');
+          targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+          targetEl.components.material.material.map.image.play();
+          target1El.components.material.material.map.image.pause();
+          target2El.components.material.material.map.image.pause();
+          target3El.components.material.material.map.image.pause();
+        })
+      }
+    })
+    </script>
 
     <script>
       AFRAME.registerComponent('click-infobutton', {
@@ -1225,58 +1315,6 @@
           }
         },
       });
-
-    </script>
-
-    <script>
-      AFRAME.registerComponent('click-displaybutton', {
-        init: function() {
-          var targetButton = document.querySelector('#displayButton');
-          targetButton.addEventListener('click', (e) => {
-            var targetEl = document.querySelector('#infoPlane2')
-            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
-          });
-        }
-      });
-
-    </script>
-
-    <script>
-      AFRAME.registerComponent('click-displaybutton2', {
-        init: function() {
-          var targetButton = document.querySelector('#displayButton2');
-          targetButton.addEventListener('click', (e) => {
-            var targetEl = document.querySelector('#infoPlane3')
-            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
-          });
-        }
-      });
-
-    </script>
-    
-    <script>
-      AFRAME.registerComponent('click-to-play-video1', {
-        init: function() {
-          var targetButton = document.querySelector('#button3')
-          targetButton.addEventListener('click', (e)=> {
-            var targetEl = document.querySelector('#video1').getAttribute('material').src;
-            targetEl.play();
-          })
-        }
-      });
-      
-      AFRAME.registerComponent('click-to-play-video2', {
-        init: function() {
-          var targetButton = document.querySelector('#button5')
-          targetButton.addEventListener('click', (e)=> {
-            var targetEl = document.querySelector('#video2').getAttribute('material').src;
-            var targetEl_ = document.querySelector('#video1').getAttribute('material').src;
-            targetEl.play();
-            targetEl_.pause();
-          })
-        }
-      });
-      
 
     </script>
 
@@ -1344,12 +1382,16 @@
         <a-asset-item id="Dustbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dustbin/dustbin.glb"></a-asset-item>
 
         <!-- Sounds for menu buttons -->
-        <audio id="Click-Sound" crossorigin="anonymous" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sounds/593237__ilip33__pressing-the-enter-button.wav" preload="auto"></audio>
+        <!--<audio id="Click-Sound" crossorigin="anonymous" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sounds/593237__ilip33__pressing-the-enter-button.wav" preload="auto"></audio>-->
 
         <!-- videos for displays -->
         <video id="Video1" preload="auto" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Videos/implant_placement.mp4" width="160" height="90" autoplay loop="true" crossOrigin="anonymous" muted></video>
-        
+
         <video id="Video2" preload="auto" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Videos/teeth_whitening.mp4" width="160" height="90" autoplay loop="true" crossOrigin="anonymous" muted></video>
+
+        <video id="Video3" preload="auto" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Videos/crown-treatment.mp4" width="160" height="90" autoplay loop="true" crossOrigin="anonymous" muted></video>
+
+        <video id="Video4" preload="auto" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Videos/scaling-teeth.mp4" width="160" height="90" autoplay loop="true" crossOrigin="anonymous" muted></video>
       </a-assets>
 
       <!-- Sickle Pro glTF -->
@@ -1416,37 +1458,36 @@
       <a-gltf-model id="partition2" gltf-model="#Partition" rotation="0 -135 0" scale="0.825 0.825 0.825" position="-5.5 0.30 7.5" visible="false" mesh-shadows></a-gltf-model>
 
       <!-- Text area for displaying event information -->
-      <a-text id="textArea4" position="0 1.25 -0.85" value="Syringe button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="true"></a-text>
+      <!--<a-text id="textArea4" position="0 1.25 -0.85" value="Syringe button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="true"></a-text>-->
 
       <!-- Text area for displaying event information -->
-      <a-text id="textArea5" position="0 1.25 -0.85" value="Mirror button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
+      <!--<a-text id="textArea5" position="0 1.25 -0.85" value="Mirror button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>-->
 
       <!-- Text area for displaying event information -->
-      <a-text id="textArea6" position="0 1.25 -0.85" value="Scalpels button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
+      <!--<a-text id="textArea6" position="0 1.25 -0.85" value="Scalpels button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>-->
 
       <!-- Text area for displaying event information -->
-      <a-text id="textArea7" position="0 1.25 -0.85" value="Sickle button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
+      <!--<a-text id="textArea7" position="0 1.25 -0.85" value="Sickle button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>-->
 
       <!-- Text area for displaying event information -->
-      <a-text id="textArea8" position="0 1.25 -0.85" value="Compactor button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
+      <!--<a-text id="textArea8" position="0 1.25 -0.85" value="Compactor button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>-->
 
       <!-- Text area for displaying event information -->
-      <a-text id="textArea9" position="0 1.25 -0.85" value="Denture button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>
+      <!--<a-text id="textArea9" position="0 1.25 -0.85" value="Denture button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>-->
 
       <!-- Text area for info button -->
       <a-entity id="infoPlane" geometry="primitive: plane; width: 1; height: 1;" material="color:#B2D8D8" text="anchor: center; baseline: center; wrapCount: 40; transparent: true; opacity: 0.90; color: #FFFFFF; value: 1 \n 2 \n 3 \n 4; align: center" position="0 2 -0.85" visible="false"></a-entity>
 
       <!-- Text area for services -->
-      <a-entity id="infoPlane2" geometry="primitive: plane; width: 1; height: 1;" material="color:#66B2B2;" position="-0.975 2 -0.7" rotation="0 20 0" visible="false">
+      <a-entity id="infoPlane2" geometry="primitive: plane; width: 1; height: 0.5;" material="color:#66B2B2;" position="-0.35 1.15 -0.85" rotation="0 0 0" visible="false">
 
-        <a-video id="video1" src="#Video1" width="1" height="1"></a-video>
+        <a-video id="video1" src="#Video1" width="1" height="0.5" visible="false"></a-video>
 
-      </a-entity>
+        <a-video id="video2" src="#Video2" width="1" height="0.5" visible="false"></a-video>
 
-      <!-- Text area for services -->
-      <a-entity id="infoPlane3" geometry="primitive: plane; width: 1; height: 1;" material="color:#66B2B2;" position="0.975 2 -0.7" rotation="0 -20 0" visible="false">
+        <a-video id="video3" src="#Video3" width="1" height="0.5" visible="false"></a-video>
 
-        <a-video id="video2" src="#Video2" width="1" height="1"></a-video>
+        <a-video id="video4" src="#Video4" width="1" height="0.5" visible="false"></a-video>
 
       </a-entity>
 
@@ -1471,29 +1512,26 @@
         <a-entity id="mirrorButton" button="label: Mirror" position="0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="compactorButton" button="label: Compactor; width: 0.3" position="0.18 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="syringeButton" button="label: Syringe; width: 0.3" position="-0.18 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="scalpelsButton" button="label: Scalpels; width: 0.3" position="0 0 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="scalpelsButton" button="label:Scalpels; width: 0.3" position="0 0 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="dentureButton" button="label: Denture; width: 0.3" position="0.05 -0.10 0" sound="src: #Click-Sound; on: click"></a-entity>
 
-        <a-entity id="xButton_cw" button="label: Rotate clockwise about X-axis; width: 0.55" position="0.65 0.1 0" x-cw="x_val:3" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="yButton_cw" button="label: Rotate clockwise about Y-axis; width: 0.55" position="0.65 0 0" y-cw="y_val:3" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="zButton_cw" button="label: Rotate clockwise about Z-axis; width: 0.55" position="0.65 -0.1 0" z-cw="z_val:3" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="xButton_ccw" button="label: Rotate anti-clockwise about X-axis; width: 0.55" position="-0.65 0.1 0" x-ccw="x_val:3" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="yButton_ccw" button="label: Rotate anti-clockwise about Y-axis; width: 0.55" position="-0.65 0 0" y-ccw="y_val:3" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="zButton_ccw" button="label: Rotate anti-clockwise about Z-axis; width: 0.55" position="-0.65 -0.1 0" z-ccw="z_val:3" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="xButton_cw" button="label: x(+); width: 0.15" position="0.45 0.1 0" x-cw="x_val:3" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="yButton_cw" button="label: y(+); width: 0.15" position="0.45 0 0" y-cw="y_val:3" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="zButton_cw" button="label: z(+); width: 0.15" position="0.45 -0.1 0" z-cw="z_val:3" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="xButton_ccw" button="label: x(-); width: 0.15" position="-0.45 0.1 0" x-ccw="x_val:3" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="yButton_ccw" button="label: y(-); width: 0.15" position="-0.45 0 0" y-ccw="y_val:3" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="zButton_ccw" button="label: z(-); width: 0.15" position="-0.45 -0.1 0" z-ccw="z_val:3" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="infoButton" button="label: Info; width:0.1" position="0.27 -0.1 0" sound="src: #Click-Sound; on: click" click-infobutton></a-entity>
         <a-entity id="serviceButton" button="label: Services; width:0.2" position="-0.25 -0.1 0" sound="src: #Click-Sound; on: click" click-servicesbutton></a-entity>
       </a-entity>
 
       <!-- Application menu -->
-      <a-entity id="applicationMenu" application-menu position="0.75 1.15 -0.65" rotation="30 -25 0" visible="false">
-        <a-entity id="button1" button="label: General examination; width: 0.45" position="-0.25 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="button2" button="label: Local anaesthesia; width: 0.45" position="-0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="button3" button="label: Implant placement; width: 0.45" position="-0.25 0.2 0" sound="src: #Click-Sound; on: click" click-to-play-video1></a-entity>
-        <a-entity id="button4" button="label: Root canal treatment; width: 0.45" position="0.25 0.2 0" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="button5" button="label: Teeth whitening; width: 0.45" position="0.25 0.1 0" sound="src: #Click-Sound; on: click" click-to-play-video2></a-entity>
-        <a-entity id="button6" button="label: Scale and polish; width: 0.45" position="0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
-        <a-entity id="displayButton" button="label: LDisplay; width: 0.25" position="-0.25 -0.1 0" sound="src: #Click-Sound; on: click" click-displaybutton></a-entity>
-        <a-entity id="displayButton2" button="label: RDisplay; width: 0.25" position="0.25 -0.1 0" sound="src: #Click-Sound; on: click" click-displaybutton2></a-entity>
+      <a-entity id="applicationMenu" application-menu position="0.5 1.15 -0.85" rotation="0 0 0" visible="false" toggle-video-visibility>
+      <a-entity id="displayButton" button="label: Display; width: 0.45" position="0 0.2 0" sound="src: #Click-Sound; on: click" click-displaybutton></a-entity>
+        <a-entity id="button3" button="label: Implant placement; width: 0.45" position="0 0.1 0" sound="src: #Click-Sound; on: click" play-video1></a-entity>
+        <a-entity id="button4" button="label: Dental crown treatment; width: 0.45" position="0 0 0" sound="src: #Click-Sound; on: click" play-video2></a-entity>
+        <a-entity id="button5" button="label: Teeth whitening; width: 0.45" position="0 -0.1 0" sound="src: #Click-Sound; on: click" play-video3></a-entity>
+        <a-entity id="button6" button="label: Scale and polish; width: 0.45" position="0 -0.2 0" sound="src: #Click-Sound; on: click" play-video4></a-entity>
       </a-entity>
 
       <!-- Lighting -->
