@@ -461,7 +461,7 @@
 
     <!-- Component to pinch objects from a 'min pinchDistance'-->
     <script>
-      AFRAME.registerComponent('pinchable', {
+      /*AFRAME.registerComponent('pinchable', {
         schema: {
           pinchDistance: {
             default: 0.1
@@ -522,14 +522,15 @@
             this.el.emit('pinchended');
           }
         }
-      });
+      });*/
 
     </script>
-    
+
     <script>
-      AFRAME.registerComponent('grippable', {
+      /* global AFRAME, THREE */
+      AFRAME.registerComponent("pinchable", {
         schema: {
-          gripDistance: {
+          pinchDistance: {
             default: 0.1
           },
         },
@@ -538,60 +539,97 @@
           var sceneEl = this.el.sceneEl;
           this.worldPosition = new THREE.Vector3();
           this.bindMethods();
-          this.isGripped = false;
-          sceneEl.addEventListener('grippedstarted', this.onGripStarted);
-          sceneEl.addEventListener('grippedended', this.onGripEnded);
-          sceneEl.addEventListener('grippedmoved', this.onGripMoved);
+          this.pinched = false;
+          this.isGrabbed = false;
+          sceneEl.addEventListener("pinchstarted", this.onPinchStarted);
+          sceneEl.addEventListener("pinchended", this.onPinchEnded);
+          sceneEl.addEventListener("pinchmoved", this.onPinchMoved);
+          // check for gesture grip recognition
+          sceneEl.addEventListener("gesturestarted", this.onGestureStarted);
+          sceneEl.addEventListener("gestureended", this.onGestureEnded);
+          sceneEl.addEventListener("gesturemoved", this.onGestureMoved);
         },
 
         bindMethods: function() {
-          this.onGripStarted = this.onGripStarted.bind(this);
-          this.onGripEnded = this.onGripEnded.bind(this);
-          this.onGripMoved = this.onGripMoved.bind(this);
+          this.onPinchStarted = this.onPinchStarted.bind(this);
+          this.onPinchEnded = this.onPinchEnded.bind(this);
+          this.onPinchMoved = this.onPinchMoved.bind(this);
+          // register gesture events
+          this.onGestureStarted = this.onGestureStarted.bind(this);
+          this.onGestureEnded = this.onGestureEnded.bind(this);
+          this.onGestureMoved = this.onGestureMoved.bind(this);
         },
 
-        onGripStarted: function(evt) {
-          var gripDistance = this.calculatePinchDistance(evt.detail.position);
-          if (gripDistance < this.data.gripDistance) {
-            this.el.emit("grippedstarted");
-            this.isGripped = true;
+        onPinchStarted: function(evt) {
+          var pinchDistance = this.calculatePinchDistance(evt.detail.position);
+          if (pinchDistance < this.data.pinchDistance) {
+            this.el.emit("pinchedstarted");
+            this.pinched = true;
           }
         },
 
-        onGripEnded: function(evt) {
-          if (this.isGripped && evt.detail.gestureName == "Grip") {
-            this.isGripped = false;
-            this.el.emit("grippedended");
-          }
-        },
-
-        onGripMoved: function(evt) {
-          var el = this.el;
-          if (!this.isGripped) {
-            return;
-          }
-          if (evt.detail.gestureName == "Grip") {
-            el.emit("grippedmoved", evt.detail);
-          } else {
-            this.isGripped = false;
-            el.emit("grippedended")
+        onGestureStarted: function(evt) {
+          var pinchDistance = this.calculatePinchDistance(evt.detail.position);
+          if (pinchDistance < this.data.pinchDistance && evt.detail.gestureName == "Grip") {
+            this.el.emit("grabbedstarted");
+            this.isGrabbed = true;
           }
         },
 
         calculatePinchDistance: function(pinchWorldPosition) {
           var el = this.el;
           var worldPosition = this.worldPosition;
-          var gripDistance;
+          var pinchDistance;
 
           worldPosition.copy(el.object3D.position);
           el.object3D.parent.updateMatrixWorld();
           el.object3D.parent.localToWorld(worldPosition);
 
-          gripDistance = worldPosition.distanceTo(pinchWorldPosition);
+          pinchDistance = worldPosition.distanceTo(pinchWorldPosition);
 
-          return gripDistance;
+          return pinchDistance;
         },
 
+        onPinchEnded: function(evt) {
+          if (this.pinched) {
+            this.pinched = false;
+            this.el.emit("pinchedended");
+          }
+        },
+
+        onGestureEnded: function(evt) {
+          if (this.isGrabbed && evt.detail.gestureName == "Grip") {
+            this.isGrabbed = false;
+            this.el.emit("grabbedended");
+          }
+        },
+
+        onPinchMoved: function(evt) {
+          var el = this.el;
+          var pinchDistance = this.calculatePinchDistance(evt.detail.position);
+          if (!this.pinched) {
+            return;
+          }
+          if (pinchDistance < this.data.pinchDistance) {
+            el.emit("pinchedmoved", evt.detail);
+          } else {
+            this.pinched = false;
+            el.emit("pinchedended");
+          }
+        },
+
+        onGestureMoved: function(evt) {
+          var el = this.el;
+          if (!this.isGrabbed) {
+            return;
+          }
+          if (evt.detail.gestureName == "Grip") {
+            el.emit("grabbedmoved", evt.detail);
+          } else {
+            this.isGrabbed = false;
+            el.emit("grabbedended");
+          }
+        },
       });
 
     </script>
@@ -786,11 +824,11 @@
       });
 
     </script>
-    
+
     <script>
       AFRAME.registerComponent('grip-to-move-sickle', {
 
-        dependencies: ['grippable'],
+        dependencies: ['pinchable'],
 
         schema: {
           width: {
@@ -803,10 +841,10 @@
           var trackedEl = sceneEl.querySelector('#leftHand');
           this.el.trackedEl = trackedEl;
           var targetEl = sceneEl.querySelector("#sickle");
-          targetEl.setAttribute('grippable', {
+          targetEl.setAttribute('pinchable', {
             pinchDistance: 0.05
           })
-          trackedEl.addEventListener('grippedmoved', this.onPinchMoved);
+          trackedEl.addEventListener('grabbedmoved', this.onPinchMoved);
           this.onPinchMoved = this.onPinchMoved.bind(this);
           //var event = new Event("pinchmoved") 
           //trackedEl.dispatchEvent(event)
@@ -838,7 +876,7 @@
 
           evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
           targetEl.emit('positionchanged', evtDetail);
-          trackedEl.emit('grippedmoved');
+          trackedEl.emit('grabbedmoved');
         }
       });
 
