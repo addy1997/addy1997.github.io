@@ -712,7 +712,64 @@
     </script>
 
     <script>
-      AFRAME.registerComponent('grip-to-move-sickle', {
+      AFRAME.registerComponent('pinch-to-move-mirror', {
+
+        dependencies: ['pinchable'],
+
+        schema: {
+          width: {
+            default: 0.5
+          }
+        },
+
+        init: function() {
+          var sceneEl = document.querySelector('a-scene');
+          var trackedEl = sceneEl.querySelector('#rightHand');
+          this.el.trackedEl = trackedEl;
+          var targetEl = sceneEl.querySelector("#mirror");
+          targetEl.setAttribute('pinchable', {
+            pinchDistance: 0.05
+          })
+          trackedEl.addEventListener('pinchmoved', this.onPinchMoved);
+          this.onPinchMoved = this.onPinchMoved.bind(this);
+          //var event = new Event("pinchmoved") 
+          //trackedEl.dispatchEvent(event)
+          this.el.targetEl = targetEl;
+        },
+
+        onPinchMoved: function(evt) {
+          var targetEl = document.querySelector("#mirror");
+          var trackedEl = document.querySelector('#rightHand');
+          var localPosition = this.localPosition;
+          var evtDetail = this.evtDetail;
+          var localPosition = new THREE.Vector3();
+          localPosition.copy(evt.detail.position);
+          targetEl.object3D.updateMatrixWorld();
+          targetEl.object3D.worldToLocal(localPosition);
+
+          //if (localPosition.x < this.data.width/2 || localPosition.x > this.data.width/2) { return; }
+          /*targetEl.object3D.position.z = localPosition.z;
+          targetEl.object3D.position.y = localPosition.y;
+          targetEl.object3D.position.x = localPosition.x;*/
+          targetEl.object3D.position.z = evt.detail.position.z;
+          targetEl.object3D.position.y = evt.detail.position.y;
+          targetEl.object3D.position.x = evt.detail.position.x;
+          /*targetEl.setAttribute('position', {
+            x: localPosition.x,
+            y: localPosition.y,
+            z: localPosition.z
+          });*/
+
+          evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
+          targetEl.emit('positionchanged', evtDetail);
+          trackedEl.emit('pinchmoved');
+        }
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('pinch-to-move-sickle', {
 
         dependencies: ['pinchable'],
 
@@ -730,7 +787,7 @@
           targetEl.setAttribute('pinchable', {
             pinchDistance: 0.05
           })
-          trackedEl.addEventListener('grabbedmoved', this.onPinchMoved);
+          trackedEl.addEventListener('pinchmoved', this.onPinchMoved);
           this.onPinchMoved = this.onPinchMoved.bind(this);
           //var event = new Event("pinchmoved") 
           //trackedEl.dispatchEvent(event)
@@ -762,7 +819,64 @@
 
           evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
           targetEl.emit('positionchanged', evtDetail);
-          trackedEl.emit('grabbedmoved');
+          trackedEl.emit('pinchmoved');
+        }
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('grip-to-move-sickle', {
+
+        dependencies: ['pinchable'],
+
+        schema: {
+          width: {
+            default: 0.5
+          }
+        },
+
+        init: function() {
+          var sceneEl = document.querySelector('a-scene');
+          var trackedEl = sceneEl.querySelector('#leftHand');
+          this.el.trackedEl = trackedEl;
+          var targetEl = sceneEl.querySelector("#sickle");
+          targetEl.setAttribute('pinchable', {
+            pinchDistance: 0.05
+          })
+          trackedEl.addEventListener('gesturemoved', this.onPinchMoved);
+          this.onPinchMoved = this.onPinchMoved.bind(this);
+          //var event = new Event("pinchmoved") 
+          //trackedEl.dispatchEvent(event)
+          this.el.targetEl = targetEl;
+        },
+
+        onPinchMoved: function(evt) {
+          var targetEl = document.querySelector("#sickle");
+          var trackedEl = document.querySelector('#leftHand');
+          var localPosition = this.localPosition;
+          var evtDetail = this.evtDetail;
+          var localPosition = new THREE.Vector3();
+          localPosition.copy(evt.detail.position);
+          targetEl.object3D.updateMatrixWorld();
+          targetEl.object3D.worldToLocal(localPosition);
+
+          //if (localPosition.x < this.data.width/2 || localPosition.x > this.data.width/2) { return; }
+          /*targetEl.object3D.position.z = localPosition.z;
+          targetEl.object3D.position.y = localPosition.y;
+          targetEl.object3D.position.x = localPosition.x;*/
+          targetEl.object3D.position.z = evt.detail.position.z;
+          targetEl.object3D.position.y = evt.detail.position.y;
+          targetEl.object3D.position.x = evt.detail.position.x;
+          /*targetEl.setAttribute('position', {
+            x: localPosition.x,
+            y: localPosition.y,
+            z: localPosition.z
+          });*/
+
+          evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
+          targetEl.emit('positionchanged', evtDetail);
+          trackedEl.emit('gesturemoved');
         }
       });
 
