@@ -768,6 +768,63 @@
 
     </script>
 
+    <script>
+      AFRAME.registerComponent('grip-to-move-mirror', {
+
+        dependencies: ['pinchable'],
+
+        schema: {
+          width: {
+            default: 0.5
+          }
+        },
+
+        init: function() {
+          var sceneEl = document.querySelector('a-scene');
+          var trackedEl = sceneEl.querySelector('#rightHand');
+          this.el.trackedEl = trackedEl;
+          var targetEl = sceneEl.querySelector("#mirror");
+          targetEl.setAttribute('pinchable', {
+            pinchDistance: 0.05
+          })
+          trackedEl.addEventListener('gesturemoved', this.onPinchMoved);
+          this.onPinchMoved = this.onPinchMoved.bind(this);
+          //var event = new Event("pinchmoved") 
+          //trackedEl.dispatchEvent(event)
+          this.el.targetEl = targetEl;
+        },
+
+        onPinchMoved: function(evt) {
+          var targetEl = document.querySelector("#mirror");
+          var trackedEl = document.querySelector('#rightHand');
+          var localPosition = this.localPosition;
+          var evtDetail = this.evtDetail;
+          var localPosition = new THREE.Vector3();
+          localPosition.copy(evt.detail.position);
+          targetEl.object3D.updateMatrixWorld();
+          targetEl.object3D.worldToLocal(localPosition);
+
+          //if (localPosition.x < this.data.width/2 || localPosition.x > this.data.width/2) { return; }
+          /*targetEl.object3D.position.z = localPosition.z;
+          targetEl.object3D.position.y = localPosition.y;
+          targetEl.object3D.position.x = localPosition.x;*/
+          targetEl.object3D.position.z = evt.detail.position.z;
+          targetEl.object3D.position.y = evt.detail.position.y;
+          targetEl.object3D.position.x = evt.detail.position.x;
+          /*targetEl.setAttribute('position', {
+            x: localPosition.x,
+            y: localPosition.y,
+            z: localPosition.z
+          });*/
+
+          evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
+          targetEl.emit('positionchanged', evtDetail);
+          trackedEl.emit('gesturemoved');
+        }
+      });
+
+    </script>
+
     <!-- pressable component -->
     <script>
       AFRAME.registerComponent('pressable', {
@@ -1569,7 +1626,7 @@
         <a-entity id="camera-head" camera position="0 1 0.5" look-controls="pointerLockEnabled:true;"></a-entity>
 
         <!-- Left hand controller -->
-        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" event-set__textshow="_event: pinchmoved; _target: #textArea3; visible: true" event-set__texthide="_event: pinchended; _target: #textArea3; visible: false" pinch-to-move-sickle grip-to-move-sickle>
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" event-set__textshow="_event: pinchmoved; _target: #textArea3; visible: true" event-set__texthide="_event: pinchended; _target: #textArea3; visible: false" grip-to-move-sickle>
 
           <!-- Put an exit button on the wrist for handtracking -->
           <a-gltf-model src="#watch-gltf" position="0 0 0">
@@ -1579,7 +1636,7 @@
         </a-entity>
 
         <!-- Right hand controller -->
-        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" pinch-to-move-mirror>
+        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" grip-to-move-mirror>
         </a-entity>
 
       </a-entity>
