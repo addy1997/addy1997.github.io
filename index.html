@@ -1091,8 +1091,8 @@
           var menuBackGroundEl = document.createElement('a-entity');
           menuBackGroundEl.setAttribute('geometry', {
             primitive: 'box',
-            width: 0.1,
-            height: 0.1,
+            width: 0.05,
+            height: 0.05,
             depth: 0.01
           });
           menuBackGroundEl.setAttribute('material', {
@@ -1645,7 +1645,7 @@
         
         <!-- Put an exit button on the wrist for handtracking -->
         <a-entity id="wrist-menu" wrist-menu position="0 0.5 0">
-          <a-entity id="startButton" button="label: Start" position="0 0 0" sound="src: #Click-Sound; on: click"></a-entity> 
+          <a-entity id="startButton" button="label: S; widht: 0.01" position="0 0 0" sound="src: #Click-Sound; on: click"></a-entity> 
         </a-entity>
 
         <!-- Right hand controller -->
