@@ -1067,7 +1067,6 @@
         }
       });
 
-      /* global AFRAME */
       AFRAME.registerComponent('application-menu', {
         init: function() {
           var el = this.el;
@@ -1076,6 +1075,24 @@
             primitive: 'box',
             width: 0.65,
             height: 0.50,
+            depth: 0.01
+          });
+          menuBackGroundEl.setAttribute('material', {
+            color: 'gray'
+          });
+          menuBackGroundEl.setAttribute('position', '0 0 -0.025');
+          el.appendChild(menuBackGroundEl);
+        }
+      });
+      
+      AFRAME.registerComponent('wrist-menu', {
+        init: function() {
+          var el = this.el;
+          var menuBackGroundEl = document.createElement('a-entity');
+          menuBackGroundEl.setAttribute('geometry', {
+            primitive: 'box',
+            width: 0.1,
+            height: 0.1,
             depth: 0.01
           });
           menuBackGroundEl.setAttribute('material', {
@@ -1506,9 +1523,6 @@
         <!-- Dustbin asset -->
         <a-asset-item id="Dustbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dustbin/dustbin.glb"></a-asset-item>
 
-        <a-asset-item id="watch-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/watch.glb?v=1645016979219"></a-asset-item>
-
-
         <!-- Sounds for menu buttons -->
         <!--<audio id="Click-Sound" crossorigin="anonymous" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sounds/593237__ilip33__pressing-the-enter-button.wav" preload="auto"></audio>-->
 
@@ -1523,7 +1537,7 @@
       </a-assets>
 
       <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="0 1 -0.65" pinchable="pinchDistance: 0.05" grippable="gripDistance: 0.05" visible="false" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="0 1 -0.65" pinchable="pinchDistance: 0.05" visible="false" mesh-shadows></a-gltf-model>
 
       <!-- Denture glTF -->
       <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="0 1 -0.65" pinchable="pinchDistance: 0.05" visible="false" mesh-shadows></a-gltf-model>
@@ -1535,7 +1549,7 @@
       <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="0 1 -0.65" visible="false" mesh-shadows></a-gltf-model>
 
       <!-- Mirror glTF-->
-      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="0 1 -0.65" pinchable="pinchDistance: 0.05" grippable="gripDistance: 0.05" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="0 1 -0.65" pinchable="pinchDistance: 0.05" mesh-shadows></a-gltf-model>
 
       <!-- Compactor glTF-->
       <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="0 1 -0.65" visible="false" mesh-shadows></a-gltf-model>
@@ -1629,10 +1643,8 @@
         <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" event-set__textshow="_event: pinchmoved; _target: #textArea3; visible: true" event-set__texthide="_event: pinchended; _target: #textArea3; visible: false" grip-to-move-sickle>
 
           <!-- Put an exit button on the wrist for handtracking -->
-          <a-gltf-model src="#watch-gltf" position="0 0 0">
-            <a-sphere radius="0.02" position="0 0.02 0" sphere-collider="radius:0.02;objects:[data-right$=-tip];" exit-on="hitend" visible="false"></a-sphere>
-          </a-gltf-model>
-
+          <a-entity id="wrist-menu" wrist-menu position="0 0 0"></a-entity>
+          
         </a-entity>
 
         <!-- Right hand controller -->
