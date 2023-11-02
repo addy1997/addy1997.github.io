@@ -9,7 +9,12 @@
     <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
     <!--<script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>-->
 
-    <!-- Custom component for camera logging -->
+    <!-- SPATIAL -->
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@f7efe9161ebb1c9d78a05ed42adc603740ed25bb/examples/js/spatial-ui/spatial-utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@f7efe9161ebb1c9d78a05ed42adc603740ed25bb/examples/js/spatial-ui/spatial-window.js"></script>
+    
+      <!-- Custom component for camera logging 
+      -->
     <script>
       AFRAME.registerComponent('camera-logger', {
         schema: {
@@ -861,6 +866,120 @@
     </script>
 
     <script>
+      AFRAME.registerComponent('spatial-button', {
+        schema: {
+          color: {
+            type: 'color',
+            default: '#60ff7e'
+          },
+          width: {
+            default: 0.35,
+            min: 0
+          },
+          height: {
+            default: 0.08,
+            min: 0
+          },
+          focused: {
+            default: true
+          },
+          text: {
+            default: 'start'
+          },
+          togglable: {
+            default: false
+          },
+        },
+
+        init: function() {
+          var data = this.data;
+          var geometry = this.geometry = window.SPATIAL.utils.generatePlaneGeometryIndexed(data.width, data.height, 0.035, 22);
+          var material = this.material = new THREE.MeshPhysicalMaterial({
+            roughness: 0.6,
+            transmission: 1,
+            color: new THREE.Color(data.color)
+          });
+
+          var textEl = this.textEl = document.createElement('a-entity');
+          textEl.setAttribute('text', {
+            value: this.data.text,
+            width: 0.75,
+            align: 'center',
+            font: 'kelsonsans'
+          });
+
+          textEl.setAttribute('position', '0 0 0.005');
+
+          this.el.appendChild(textEl);
+          this.plane = new THREE.Mesh(geometry, material);
+
+          this.el.setObject3D('mesh', this.plane);
+
+          this.el.addEventListener('mouseenter', function() {
+            material.roughness = 0.9;
+          });
+
+          this.el.addEventListener('mouseleave', function() {
+            material.roughness = 0.9;
+          });
+
+          this.el.setAttribute('pressable', '');
+
+          this.bindMethods();
+          this.el.addEventListener('stateadded', this.stateChanged);
+          this.el.addEventListener('stateremoved', this.stateChanged);
+          this.el.addEventListener('pressedstarted', this.onPressedStarted);
+          this.el.addEventListener('pressedended', this.onPressedEnded);
+        },
+
+        bindMethods: function() {
+          this.stateChanged = this.stateChanged.bind(this);
+          this.onPressedStarted = this.onPressedStarted.bind(this);
+          this.onPressedEnded = this.onPressedEnded.bind(this);
+        },
+
+        update: function(oldData) {
+          if (oldData.label !== this.data.label) {
+            this.labelEl.setAttribute('text', 'value', this.data.label);
+          }
+        },
+
+        stateChanged: function() {
+          var color = this.el.is('pressed') ? 'green' : this.color;
+          this.el.setAttribute('material', {
+            color: color
+          });
+        },
+
+        onPressedStarted: function() {
+          var el = this.el;
+          el.setAttribute('material', {
+            color: 'green'
+          });
+          el.emit('click');
+          if (this.data.togglable) {
+            if (el.is('pressed')) {
+              el.removeState('pressed');
+            } else {
+              el.addState('pressed');
+            }
+          }
+        },
+
+        onPressedEnded: function() {
+          if (this.el.is('pressed')) {
+            return;
+          }
+          this.el.setAttribute('material', {
+            color: this.color
+          });
+        }
+
+      });
+
+    </script>
+
+    <script>
       /* global AFRAME */
       AFRAME.registerComponent("event-manager", {
 
@@ -1113,7 +1232,7 @@
       })
 
     </script>
-    
+
     <script>
       AFRAME.registerComponent('click-displaybutton', {
 
@@ -1206,98 +1325,97 @@
       });
 
     </script>
-    
+
     <script>
-    AFRAME.registerComponent('play-video1',{
-      init: function() {
-        var targetButton = document.querySelector('#button3');
-        targetButton.addEventListener('click',(e)=> {
-          var targetEl = document.querySelector('#video1');
-          var target1El = document.querySelector('#video2');
-          var target2El = document.querySelector('#video3');
-          var target3El = document.querySelector('#video4');
-          targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
-          targetEl.components.material.material.map.image.play();
-          
-          <!--- for options -->
-          target1El.components.material.material.map.image.pause();
-          target1El.setAttribute('visible', 'false');
-          target2El.components.material.material.map.image.pause();
-          target2El.setAttribute('visible', 'false');
-          target3El.components.material.material.map.image.pause();
-          target3El.setAttribute('visible', 'false');
-        })
-      }
-    })
+      AFRAME.registerComponent('play-video1', {
+        init: function() {
+          var targetButton = document.querySelector('#button3');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#video1');
+            var target1El = document.querySelector('#video2');
+            var target2El = document.querySelector('#video3');
+            var target3El = document.querySelector('#video4');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetEl.components.material.material.map.image.play();
+            target1El.components.material.material.map.image.pause();
+            target1El.setAttribute('visible', 'false');
+            target2El.components.material.material.map.image.pause();
+            target2El.setAttribute('visible', 'false');
+            target3El.components.material.material.map.image.pause();
+            target3El.setAttribute('visible', 'false');
+          })
+        }
+      })
+
     </script>
-    
+
     <script>
-    AFRAME.registerComponent('play-video2',{
-      init: function() {
-        var targetButton = document.querySelector('#button4');
-        targetButton.addEventListener('click',(e)=> {
-          var targetEl = document.querySelector('#video3');
-          var target1El = document.querySelector('#video1');
-          var target2El = document.querySelector('#video2');
-          var target3El = document.querySelector('#video4');
-          targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
-          targetEl.components.material.material.map.image.play(); 
-          <!--- for options -->
-          target1El.components.material.material.map.image.pause();
-          target1El.setAttribute('visible', 'false');
-          target2El.components.material.material.map.image.pause();
-          target2El.setAttribute('visible', 'false');
-          target3El.components.material.material.map.image.pause();
-          target3El.setAttribute('visible', 'false');
-        })
-      }
-    })
+      AFRAME.registerComponent('play-video2', {
+        init: function() {
+          var targetButton = document.querySelector('#button4');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#video3');
+            var target1El = document.querySelector('#video1');
+            var target2El = document.querySelector('#video2');
+            var target3El = document.querySelector('#video4');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetEl.components.material.material.map.image.play();
+            target1El.components.material.material.map.image.pause();
+            target1El.setAttribute('visible', 'false');
+            target2El.components.material.material.map.image.pause();
+            target2El.setAttribute('visible', 'false');
+            target3El.components.material.material.map.image.pause();
+            target3El.setAttribute('visible', 'false');
+          })
+        }
+      })
+
     </script>
-    
+
     <script>
-    AFRAME.registerComponent('play-video3',{
-      init: function() {
-        var targetButton = document.querySelector('#button5');
-        targetButton.addEventListener('click',(e)=> {
-          var targetEl = document.querySelector('#video2');
-          var target1El = document.querySelector('#video1');
-          var target2El = document.querySelector('#video3');
-          var target3El = document.querySelector('#video4');
-          targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
-          targetEl.components.material.material.map.image.play();
-          <!--- for options -->
-          target1El.components.material.material.map.image.pause();
-          target1El.setAttribute('visible', 'false');
-          target2El.components.material.material.map.image.pause();
-          target2El.setAttribute('visible', 'false');
-          target3El.components.material.material.map.image.pause();
-          target3El.setAttribute('visible', 'false');
-        })
-      }
-    })
+      AFRAME.registerComponent('play-video3', {
+        init: function() {
+          var targetButton = document.querySelector('#button5');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#video2');
+            var target1El = document.querySelector('#video1');
+            var target2El = document.querySelector('#video3');
+            var target3El = document.querySelector('#video4');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetEl.components.material.material.map.image.play();
+            target1El.components.material.material.map.image.pause();
+            target1El.setAttribute('visible', 'false');
+            target2El.components.material.material.map.image.pause();
+            target2El.setAttribute('visible', 'false');
+            target3El.components.material.material.map.image.pause();
+            target3El.setAttribute('visible', 'false');
+          })
+        }
+      })
+
     </script>
-    
+
     <script>
-    AFRAME.registerComponent('play-video4',{
-      init: function() {
-        var targetButton = document.querySelector('#button6');
-        targetButton.addEventListener('click',(e)=> {
-          var targetEl = document.querySelector('#video4');
-          var target1El = document.querySelector('#video1');
-          var target2El = document.querySelector('#video2');
-          var target3El = document.querySelector('#video3');
-          targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
-          targetEl.components.material.material.map.image.play();
-          <!--- for options -->
-          target1El.components.material.material.map.image.pause();
-          target1El.setAttribute('visible', 'false');
-          target2El.components.material.material.map.image.pause();
-          target2El.setAttribute('visible', 'false');
-          target3El.components.material.material.map.image.pause();
-          target3El.setAttribute('visible', 'false');
-        })
-      }
-    })
+      AFRAME.registerComponent('play-video4', {
+        init: function() {
+          var targetButton = document.querySelector('#button6');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#video4');
+            var target1El = document.querySelector('#video1');
+            var target2El = document.querySelector('#video2');
+            var target3El = document.querySelector('#video3');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetEl.components.material.material.map.image.play();
+            target1El.components.material.material.map.image.pause();
+            target1El.setAttribute('visible', 'false');
+            target2El.components.material.material.map.image.pause();
+            target2El.setAttribute('visible', 'false');
+            target3El.components.material.material.map.image.pause();
+            target3El.setAttribute('visible', 'false');
+          })
+        }
+      })
+
     </script>
 
     <script>
@@ -1333,6 +1451,20 @@
         },
       });
 
+    </script>
+    
+    <script>
+    
+    AFRAME.registerComponent('toggle-spatial-button',{
+      init: function() {
+          var targetButton = document.querySelector('#spatialButton1');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#displayWindow2');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+          });
+      },
+    })
+    
     </script>
 
   </head>
@@ -1397,6 +1529,9 @@
 
         <!-- Dustbin asset -->
         <a-asset-item id="Dustbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dustbin/dustbin.glb"></a-asset-item>
+
+        <a-asset-item id="watch-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/watch.glb?v=1645016979219"></a-asset-item>
+
 
         <!-- Sounds for menu buttons -->
         <!--<audio id="Click-Sound" crossorigin="anonymous" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sounds/593237__ilip33__pressing-the-enter-button.wav" preload="auto"></audio>-->
@@ -1544,7 +1679,7 @@
 
       <!-- Application menu -->
       <a-entity id="applicationMenu" application-menu position="0.5 1.15 -0.85" rotation="0 0 0" visible="false" toggle-video-visibility>
-      <a-entity id="displayButton" button="label: Display; width: 0.45" position="0 0.2 0" sound="src: #Click-Sound; on: click" click-displaybutton></a-entity>
+        <a-entity id="displayButton" button="label: Display; width: 0.45" position="0 0.2 0" sound="src: #Click-Sound; on: click" click-displaybutton></a-entity>
         <a-entity id="button3" button="label: Implant placement; width: 0.45" position="0 0.1 0" sound="src: #Click-Sound; on: click" play-video1></a-entity>
         <a-entity id="button4" button="label: Dental crown treatment; width: 0.45" position="0 0 0" sound="src: #Click-Sound; on: click" play-video2></a-entity>
         <a-entity id="button5" button="label: Teeth whitening; width: 0.45" position="0 -0.1 0" sound="src: #Click-Sound; on: click" play-video3></a-entity>
@@ -1556,6 +1691,14 @@
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="-0.45 1.1 -1.5"></a-entity>
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="1.45 1.68 -2"></a-entity>
       <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.6;" position="-8 10 -18"></a-entity>
+
+      <!-- SPATIAL Window -->
+      <a-entity id="displayWindow" spatial-window="width: 0.95; height: 0.5" position="-0.35 1.15 -0.65" visible="true">
+        <a-entity id="spatialButton1" spatial-button="text: Menu; width: 0.2; height: 0.05; togglable:true; focused: true" position="0 0 0"></a-entity>
+      </a-entity>
+      
+      <a-entity id="displayWindow2" spatial-window="width: 0.25; height: 0.25" position="-0.65 1.15 -0.65" visible="true">
+      </a-entity>
 
       <a-sky color="#6EBAA7"></a-sky>
     </a-scene>
