@@ -1,168 +1,1530 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-    <meta charset="utf-8" />
-    <title>Xmas</title>
-    <meta name="description" content="Spring is coming!" />
-    <!-- A-Frame JavaScript library -->
-    <script src="https://aframe.io/releases/1.1.0/aframe.min.js"></script>
-    <!-- A-Frame physics system -->
-    <script src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
-    <!-- A-Frame extras -->
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.0/dist/aframe-extras.min.js"></script>
-</head>
+  <head>
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@67d1130/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>-->
 
-<body>
-    <a-scene physics="gravity: -1" renderer="antialias: true">
-        <a-assets>
-            <img id="hardwood" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/hardwood-floor.jpg">
-            <img id="wallpaper" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/stripe-wallpaper.jpeg">
-            <img id="angry" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/angry.jpg">
-            <img id="rude" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/rude.png">
-            <img id="check" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/check.png">
-            <img id="busy" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/images/macbook.png">
-            <a-asset-item id="tree" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/models/tree/scene.gltf"></a-asset-item>
-            <a-asset-item id="fireplace" src="https://raw.githubusercontent.com/oliviernocent/xmas-oculus/main/models/fireplace/scene.gltf"></a-asset-item>
-        </a-assets>
+    <!-- SPATIAL -->
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@f7efe9161ebb1c9d78a05ed42adc603740ed25bb/examples/js/spatial-ui/spatial-utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@f7efe9161ebb1c9d78a05ed42adc603740ed25bb/examples/js/spatial-ui/spatial-window.js"></script>
+    
+      <!-- Custom component for camera logging 
+      -->
+    <script>
+      AFRAME.registerComponent('camera-logger', {
+        schema: {
+          timestamp: {
+            type: 'int'
+          },
+          seconds: {
+            type: 'int'
+          }
+        },
+        init: function() {
+          var cameraEl = this.el.sceneEl.camera.el;
+          var rotation = cameraEl.getAttribute('rotation');
+          var worldPos = new THREE.Vector3();
+          worldPos.setFromMatrixPosition(cameraEl.object3D.matrixWorld);
+          console.log("Time: " + this.data.seconds + "; Camera Position: (" + worldPos.x.toFixed(2) + ", " + worldPos.y.toFixed(2) + ", " + worldPos.z.toFixed(2) + "); Camera Rotation: (" + rotation.x.toFixed(2) + ", " + rotation.y.toFixed(2) + ", " + rotation.z.toFixed(2) + ")");
+        },
+        play: function() {
+          this.data.timestamp = Date.now();
+          this.init();
+        },
+        tick: function() {
+          if (Date.now() - this.data.timestamp > 1000) {
+            this.data.timestamp += 1000;
+            this.data.seconds += 1;
+            this.init();
+          }
+        },
+      });
 
-        <!-- Left hand -->
-        <!--
-        <a-entity
-            id="leftController" hand-controls="hand: left; handModelStyle: highPoly; color: #ffffff"
-            static-body="shape: sphere; sphereRadius: 0.02;" sphere-collider="objects: .throwable" grab>
-        </a-entity>
-        -->
-        <a-entity id="leftController" static-body="shape: sphere; sphereRadius: 0.02;"
-            oculus-touch-controls="hand: left" sphere-collider="objects: .throwable" grab>
-        </a-entity>
-        
-        <!-- Right hand -->
-        <!--
-        <a-entity
-            id="rightController" hand-controls="hand: right; handModelStyle: highPoly; color: #ffffff"
-            static-body="shape: sphere; sphereRadius: 0.02;" sphere-collider="objects: .throwable" grab>
-        </a-entity>
-        -->
-        <a-entity id="rightController" static-body="shape: sphere; sphereRadius: 0.02;"
-            oculus-touch-controls="hand: right" sphere-collider="objects: .throwable" grab>
-        </a-entity>
+    </script>
+    <!-- component to animate the meshes -->
+    <script>
+      AFRAME.registerComponent('animate', {
+        init: function() {
+          // wait until the model is loaded
+          this.el.addEventListener("model-loaded", evt => {
+            const mixer = new THREE.AnimationMixer(this.el.components['gltf-model'].model);
+            const clips = this.el.components['gltf-model'].model.animations[0];
+            mixer.clipAction(clips).play();
+            // "expose" the animation mixer
+            this.mixer = mixer;
+          })
+        },
+        // on each render loop (actually before each render loop)
+        tick: function(t, dt) {
+          if (!this.mixer) return; // if the mixer exists
+          this.mixer.update(dt / 1000) // update it with the delta time
+        }
+      })
 
-        <a-sphere id="sphere1" class="throwable" dynamic-body position="-0.5 0.11 -0.5" radius="0.10" color="#4CC3D9">
-        </a-sphere>
-        <a-sphere id="sphere2" class="throwable" dynamic-body position="0.5 0.11 -0.5" radius="0.10" color="#FFC65D">
-        </a-sphere>
+    </script>
+    <!-- component for mesh shadows -->
+    <script>
+      AFRAME.registerComponent('mesh-shadows', {
+        init: function() {
+          this.el.addEventListener('model-loaded', () => {
+            const el = this.el;
+            const obj = el.getObject3D('mesh');
+            obj.traverse(function(node) {
+              if (node.isMesh) {
+                node.castShadow = true;
+                node.receiveShadow = true;
+                node.material.shadowSide = 1;
+                node.material.roughness = 0.60;
+                if (node.material.map) {
+                  node.material.map.encoding = THREE.LinearEncoding;
+                }
+              }
+            });
+          });
+        },
+      });
 
-        <a-box id="box1" static-body position="0.8 0 1" height="0.3" color="#4CC3D9"></a-box>
-        <a-box id="box2" static-body position="-0.8 0 1" height="0.3" color="#FFC65D"></a-box>
+    </script>
 
-        <!-- Ground -->
-        <a-plane static-body rotation="-90 0 0" width="8" height="8" src="#hardwood" repeat="4 4" roughness="0.7"
-            metalness="0.3">
-        </a-plane>
+    <!-- component to grab the glTF -->
+    <script>
+      AFRAME.registerComponent('grab-gltf', {
+        init: function() {
+          var sceneEl = document.querySelector('a-scene');
+          var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
+          // Sickle prob glTF entity
+          //var sickleGLTF = glTFModels[0];
+          //console.log(sickleGLTF);
+          //var sickleComponents = glTFModels[0].components;
+          //var glTFModels = sceneEl.querySelector('a-gltf-model');
+          //console.log(glTFModels[0]);
+          //console.log(sickleComponents['grabbable'].initialized);
+          // Denture glTF entity
+          /*var dentureGLTF = glTFModels[1];
+          console.log(dentureGLTF);  
+          var dentureComponents = glTFModels[1].components;
+          console.log(dentureComponents['grabbable'].initialized);
+          
+          // Scalpels glTF entity
+          var scalpelsGLTF = glTFModels[8];
+          console.log(scalpelsGLTF);
+          var scalpelsComponents = glTFModels[8].components;
+          console.log(scalpelsComponents['grabbable'].initialized);
+          
+          // Laptop glTF entity
+          var laptopGLTF = glTFModels[10];
+          console.log(laptopGLTF);
+          var laptopComponents = glTFModels[10].components;
+          console.log(laptopComponents['grabbable'].initialized);
+          
+          // Scalpels glTF entity
+          var mmips1p1GLTF = glTFModels[11];
+          console.log(mmips1p1GLTF);
+          var mmips1p1Components = glTFModels[11].components;
+          console.log(mmips1p1Components['grabbable'].initialized);*/
+        }
+      });
 
-        <!-- Walls -->
-        <a-plane static-body position="0 1.5 -4" width="8" height="3" src="#wallpaper" repeat="8 3" roughness="1"
-            metalness="0">
-        </a-plane>
-        <a-box position="0 0.06 -4" width="8" height="0.12" depth="0.02" color="white" roughness="1" metalness="0">
-        </a-box>
+    </script>
 
-        <a-plane static-body position="0 1.5 4" rotation="0 180 0" width="8" height="3" src="#wallpaper" repeat="8 3"
-            roughness="1" metalness="0">
-        </a-plane>
-        <a-box position="0 0.06 4" width="8" height="0.12" depth="0.02" color="white" roughness="1" metalness="0">
-        </a-box>
+    <!-- component to rotate sickle probe -->
+    <!--<script>
+      AFRAME.registerComponent('rotate-sickle', {
+        schema: {
+          x_val: {
+            type: 'number',
+            default: 0
+          },
+          y_val: {
+            type: 'number',
+            default: 0
+          },
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
 
-        <a-plane static-body position="-4 1.5 0" rotation="0 90 0" width="8" height="3" src="#wallpaper" repeat="8 3"
-            roughness="1" metalness="0">
-        </a-plane>
-        <a-box position="-4 0.06 0" width="0.02" height="0.12" depth="8" color="white" roughness="1" metalness="0">
-        </a-box>
+        init: function() {
 
-        <a-plane static-body position="4 1.5 0" rotation="0 -90 0" width="8" height="3" src="#wallpaper" repeat="8 3"
-            roughness="1" metalness="0">
-        </a-plane>
-        <a-box position="4 0.06 0" width="0.02" height="0.12" depth="8" color="white" roughness="1" metalness="0">
-        </a-box>
+          var entitySickle = document.getElementById('sickle');
+          var rotation = entitySickle.getAttribute('rotation');
+          console.log('Current rotation of the sickle is: ', rotation);
 
-        <!-- Ceiling -->
-        <a-plane static-body position="0 3 0" rotation="90 0 0" width="8" height="8" color="white" roughness="1"
-            metalness="0"></a-plane>
+          var Pitch = parseInt(this.data.x_val);
+          var Yaw = parseInt(this.data.y_val);
+          var Roll = parseInt(this.data.z_val);
 
-        <!-- Christmas tree -->
-        <a-gltf-model static-body="shape: box" src="#tree" position="-2.644 0 -2.777" rotation="0 -152 0"
-            scale="0.8 0.8 0.8"></a-gltf-model>
-        <a-gltf-model static-body="shape: box" src="#fireplace" position="2.638 0 -3.382" rotation="0 -9.512 0"
-            scale="0.03 0.03 0.03">
-        </a-gltf-model>
+          var sickleObjectRot = entitySickle.object3D.rotation.set(THREE.MathUtils.degToRad(Pitch), THREE.MathUtils.degToRad(Yaw), THREE.MathUtils.degToRad(Roll));
 
-        <a-circle src="#rude" radius="0.5" position="1.82715 1.89076 3.98" rotation="0 180 0"></a-circle>
-        <a-ring radius-inner="0.48" radius-outer="0.52" position="1.82715 1.89076 3.97" rotation="0 180 0"
-            color="#ebc356" metalness="0.75" roughness="0.5"></a-ring>
-        <a-circle src="#check" radius="0.5" position="0.72226 1.52811 3.98" rotation="0 180 0"></a-circle>
-        <a-ring radius-inner="0.48" radius-outer="0.52" position="0.72226 1.52811 3.97" rotation="0 180 0"
-            color="#ebc356" metalness="0.75" roughness="0.5"></a-ring>
-        <a-circle src="#angry" radius="0.5" position="-0.41231 1.98922 3.98" rotation="0 180 0"></a-circle>
-        <a-ring radius-inner="0.48" radius-outer="0.52" position="-0.41231 1.98922 3.97" rotation="0 180 0"
-            color="#ebc356" metalness="0.75" roughness="0.5"></a-ring>
-        <a-circle src="#busy" radius="0.5" position="-1.44021 1.42999 3.98" rotation="0 180 0"></a-circle>
-        <a-ring radius-inner="0.48" radius-outer="0.52" position="-1.44021 1.42999 3.97" rotation="0 180 0"
-            color="#ebc356" metalness="0.75" roughness="0.5"></a-ring>
+          console.log("Curent rotation of the sickle entity is: ", sickleObjectRot);
 
-        <!-- Lights -->
-        <a-entity light="type: ambient; color: white; intensity: 0.5"></a-entity>
-        <a-entity light="type: point; color: white; intensity: 0.3" position="0 1.5 0"></a-entity>
-        <a-entity light="type: point; color: yellow; intensity: 1; distance: 1.5" position="-2.644 0.5 -2.777">
-        </a-entity>
-        <a-entity light="type: point; color: pink; intensity: 1; distance: 1.5" position="-2.644 1.7 -2.777"></a-entity>
+        },
+      });
 
-        <a-camera position="0 1.7 0">
-        </a-camera>
-    </a-scene>
+    </script>-->
+    <!-- component to rotate scalpels -->
+    <!--<script>
+      AFRAME.registerComponent('rotate-scalpels', {
+        scehema: {
+          x_val: {
+            type: 'number',
+            default: 0
+          },
+          y_val: {
+            type: 'number',
+            default: 0
+          },
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+
+        init: function() {
+
+          var entityScalpel = document.getElementById('scalpels');
+          var rotation = entityScalpel.getAttribute('rotation');
+          console.log('Current rotation of the scalpels is: ', rotation);
+
+          var Pitch = parseInt(this.data.x_val);
+          var Yaw = parseInt(this.data.y_val);
+          var Roll = parseInt(this.data.z_val);
+
+          var scalpelObjectRot = entityScalpel.object3D.rotation.set(THREE.MathUtils.degToRad(Pitch), THREE.MathUtils.degToRad(Yaw), THREE.MathUtils.degToRad(Roll));
+
+          console.log("Curent rotation of the scalpel entity is: ", scalpelObjectRot);
+
+        },
+      });
+
+    </script>-->
+    <!-- component to rotate denture -->
+    <!--<script>
+      AFRAME.registerComponent('rotate-denture', {
+        scehema: {
+          x_val: {
+            type: 'number',
+            default: 0
+          },
+          y_val: {
+            type: 'number',
+            default: 0
+          },
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+
+        init: function() {
+
+          var entityDenture = document.getElementById('denture');
+          var rotation = entityDenture.getAttribute('rotation');
+          console.log('Current rotation of the denture is: ', rotation);
+
+          var Pitch = parseInt(this.data.x_val);
+          var Yaw = parseInt(this.data.y_val);
+          var Roll = parseInt(this.data.z_val);
+
+          var dentureObjectRot = entityDenture.object3D.rotation.set(THREE.MathUtils.degToRad(Pitch), THREE.MathUtils.degToRad(Yaw), THREE.MathUtils.degToRad(Roll));
+
+          console.log("Curent rotation of the denture entity is: ", dentureObjectRot);
+
+        },
+      });
+
+    </script>-->
+    <!-- component to rotate the legs of the patient -->
+    <script>
+      AFRAME.registerComponent('rotate-patient-legs', {
+        schema: {
+          /*x_val: {
+            type: 'number',
+            default: 0
+          },
+          y_val: {
+            type: 'number',
+            default: 0
+          },*/
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          const el = this.el;
+          el.addEventListener('model-loaded', () => {
+            var sceneEl = document.querySelector('a-scene');
+            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
+            var entityPatient = glTFModels[10]
+            var patientObj = entityPatient.getObject3D('mesh');
+            patientObj.frustumCulled = false;
+            patientObj.getObjectByProperty("type", "SkinnedMesh").frustumCulled = false;
+            const entityPatientLeftLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperleg_l');
+            const entityPatientRightLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperleg_r');
+            const leftLegRotation = entityPatientLeftLeg.rotation;
+            const rightLegRotation = entityPatientRightLeg.rotation;
+            const entityPatientLeftLowerLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_lowerleg_l');
+            const entityPatientRightLowerLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_lowerleg_r');
+            const entityPatientLeftUpperLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperleg_l');
+            const entityPatientRightUpperLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperleg_r');
+            //var Pitch = parseInt(this.data.x_val);
+            //var Yaw = parseInt(this.data.y_val);
+            var Roll = parseInt(this.data.z_val);
+            entityPatientLeftLeg.rotateZ(Roll + 0.261799);
+            entityPatientRightLeg.rotateZ(Roll + 0.261799);
+            //Default setting
+            //entityPatientLeftUpperLeg.rotateZ(Roll + 0.174533);
+            //entityPatientRightUpperLeg.rotateZ(Roll + 0.174533);
+            //entityPatientLeftLowerLeg.rotateZ(Roll - 0.174533);
+            //entityPatientRightLowerLeg.rotateZ(Roll - 0.174533);
+            //Updated setting
+            entityPatientLeftLowerLeg.rotateZ(Roll - 0.01658063);
+            entityPatientRightLowerLeg.rotateZ(Roll - 0.01658063);
+            entityPatientLeftUpperLeg.rotateZ(Roll + 0.20944);
+            entityPatientRightUpperLeg.rotateZ(Roll + 0.20944);
+          });
+        }
+      });
+
+    </script>
+    <!-- component to rotate the hands of the patient -->
+    <script>
+      AFRAME.registerComponent('rotate-patient-hands', {
+        schema: {
+          x_val: {
+            type: 'number',
+            default: 0
+          },
+          y_val: {
+            type: 'number',
+            default: 0
+          },
+          /*z_val: {
+            type: 'number',
+            default: 0
+          }*/
+        },
+        init: function() {
+          const el = this.el;
+          el.addEventListener('model-loaded', () => {
+            var sceneEl = document.querySelector('a-scene');
+            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
+            var entityPatient = glTFModels[10]
+            var patientObj = entityPatient.getObject3D('mesh');
+            const entityPatientLeftHand = patientObj.getObjectByName('rp_nathan_animated_003_walking_hand_l');
+            const entityPatientRightHand = patientObj.getObjectByName('rp_nathan_animated_003_walking_hand_r');
+            const entityPatientLeftShoulder = patientObj.getObjectByName('rp_nathan_animated_003_walking_shoulder_l');
+            const entityPatientRightShoulder = patientObj.getObjectByName('rp_nathan_animated_003_walking_shoulder_r');
+            const entityPatientLeftUpperArm = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperarm_l');
+            const entityPatientRightUpperArm = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperarm_r');
+            const entityPatientLeftLowerArm = patientObj.getObjectByName('rp_nathan_animated_003_walking_lowerarm_l');
+            const entityPatientRightLowerArm = patientObj.getObjectByName('rp_nathan_animated_003_walking_lowerarm_r');
+            const entityPatientLeftUpperArmTwist = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperarm_twist_l');
+            const entityPatientRightUpperArmTwist = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperarm_twist_r');
+            const entityPatientLeftLowerArmTwist = patientObj.getObjectByName('rp_nathan_animated_003_walking_lowerarm_twist_l');
+            const entityPatientRightLowerArmTwist = patientObj.getObjectByName('rp_nathan_animated_003_walking_lowerarm_twist_r');
+            var Pitch = parseInt(this.data.x_val);
+            var Yaw = parseInt(this.data.y_val);
+            //var Roll = parseInt(this.data.z_val);
+            //Default setting
+            //entityPatientLeftUpperArm.rotateY(Yaw - 0.436332);
+            //entityPatientRightUpperArm.rotateY(Yaw - 0.436332);
+            //Updated setting
+            entityPatientLeftUpperArm.rotateY(Yaw - 0.523599);
+            entityPatientRightUpperArm.rotateY(Yaw - 0.523599);
+            entityPatientLeftUpperArm.rotateZ(Pitch - 0.261799);
+            entityPatientRightUpperArm.rotateZ(Pitch - 0.261799);
+          });
+        }
+      });
+
+    </script>
+    <!-- component to rotate the neck and spine of the patient -->
+    <script>
+      AFRAME.registerComponent('rotate-spine', {
+        schema: {
+          /*x_val: {
+            type: 'number',
+            default: 0
+          },
+          y_val: {
+            type: 'number',
+            default: 0
+          },*/
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          const el = this.el;
+          el.addEventListener('model-loaded', () => {
+            var sceneEl = document.querySelector('a-scene');
+            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
+            var entityPatient = glTFModels[10]
+            var patientObj = entityPatient.getObject3D('mesh');
+            const entityPatientSpine_01 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_01');
+            const entityPatientSpine_02 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_02');
+            const entityPatientSpine_03 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_03');
+            var Roll = parseInt(this.data.z_val);
+            //Default setting
+            //entityPatientSpine_01.rotateZ(Roll - 0.436332);
+            //entityPatientSpine_02.rotateZ(Roll + 0.174533);
+            //entityPatientSpine_03.rotateZ(Roll - 0.349066);
+            //Updated setting
+            entityPatientSpine_01.rotateZ(Roll - 0.820305);
+            entityPatientSpine_02.rotateZ(Roll + 0.0872665);
+          });
+        }
+      });
+
+    </script>
+    <!-- component for frustum culling of the patient entity -->
+    <script>
+      AFRAME.registerComponent('rotate-neck', {
+        schema: {
+          /*x_val: {
+            type: 'number',
+            default: 0
+          },
+          y_val: {
+            type: 'number',
+            default: 0
+          },*/
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          const el = this.el;
+          el.addEventListener('model-loaded', () => {
+            var sceneEl = document.querySelector('a-scene');
+            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
+            var entityPatient = glTFModels[10]
+            var patientObj = entityPatient.getObject3D('mesh');
+            const entityPatientNeck = patientObj.getObjectByName('rp_nathan_animated_003_walking_neck');
+            const entityPatientHead = patientObj.getObjectByName('rp_nathan_animated_003_walking_head');
+            const entityPatientHeadEnd = patientObj.getObjectByName('rp_nathan_animated_003_walking_head_end');
+            var Roll = parseInt(this.data.z_val);
+            //Default setting
+            //entityPatientNeck.rotateZ(Roll + 0.139626);
+            //entityPatientHead.rotateZ(Roll + 0.349066);
+            //Updated setting
+            entityPatientNeck.rotateZ(Roll + 0.226893);
+            entityPatientHead.rotateZ(Roll + 0.436332);
+          });
+        }
+      });
+
+    </script>
+
+    <!-- component for frustum culling of the dentist entity -->
+    <script>
+      AFRAME.registerComponent('frustum-culling-disabled', {
+        init: function() {
+          var el = this.el;
+          el.addEventListener('model-loaded', () => {
+            var sceneEl = document.querySelector('a-scene');
+            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
+            var entityDentist = glTFModels[7];
+            var dentistObj = entityDentist.getObject3D('mesh');
+            dentistObj.frustumCulled = false;
+            dentistObj.getObjectByProperty("type", "SkinnedMesh").frustumCulled = false;
+            //Bip001 L Hand_09
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
+            //Bip001 L Finger0_010
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
+            //Bip001 L Finger01_011
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
+            //Bip001 L Finger1_012
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[1].frustumCulled = false;
+            //Bip001_L_Finger11_00
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[1].children[0].frustumCulled = false;
+            //Bip001 R Hand_017
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].frustumCulled = false;
+            //Bip001 R Finger0_018
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].frustumCulled = false
+            //Bip001 R Finger01_019
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
+            //Bip001 R Finger1_020
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[1].frustumCulled = false;
+            //Bip001 R Finger11_021
+            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[1].children[0].frustumCulled = false;
+          });
+        }
+      });
+
+    </script>
+
+    <!-- Component to pinch objects from a 'min pinchDistance'-->
+    <script>
+      AFRAME.registerComponent('pinchable', {
+        schema: {
+          pinchDistance: {
+            default: 0.1
+          }
+        },
+        init: function() {
+          var sceneEl = this.el.sceneEl;
+          this.worldPosition = new THREE.Vector3();
+          this.bindMethods();
+          this.pinched = false;
+          sceneEl.addEventListener('pinchstarted', this.onPinchStarted);
+          sceneEl.addEventListener('pinchended', this.onPinchEnded);
+          sceneEl.addEventListener('pinchmoved', this.onPinchMoved);
+        },
+
+        bindMethods: function() {
+          this.onPinchStarted = this.onPinchStarted.bind(this);
+          this.onPinchEnded = this.onPinchEnded.bind(this);
+          this.onPinchMoved = this.onPinchMoved.bind(this);
+        },
+
+        onPinchStarted: function(evt) {
+          var pinchDistance = this.calculatePinchDistance(evt.detail.position);
+          if (pinchDistance < this.data.pinchDistance) {
+            this.el.emit('pinchstarted');
+            this.pinched = true;
+          }
+        },
+
+        calculatePinchDistance: function(pinchWorldPosition) {
+          var el = this.el;
+          var worldPosition = this.worldPosition;
+          var pinchDistance;
+          worldPosition.copy(el.object3D.position);
+          el.object3D.parent.updateMatrixWorld();
+          el.object3D.parent.localToWorld(worldPosition);
+          pinchDistance = worldPosition.distanceTo(pinchWorldPosition);
+          return pinchDistance;
+        },
+
+        onPinchEnded: function(evt) {
+          if (this.pinched) {
+            this.pinched = false;
+            this.el.emit('pinchended');
+          }
+        },
+
+        onPinchMoved: function(evt) {
+          var el = this.el;
+          var pinchDistance = this.calculatePinchDistance(evt.detail.position);
+          if (!this.pinched) {
+            return;
+          }
+          if (pinchDistance < this.data.pinchDistance) {
+            this.el.emit('pinchmoved', evt.detail);
+          } else {
+            this.pinched = false;
+            this.el.emit('pinchended');
+          }
+        }
+      });
+
+    </script>
 
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            let scene = document.querySelector('a-scene');
-            let score = 0;
+      AFRAME.registerComponent('text-display-for-lefthand', {
+        init: function() {
+          var sceneEl = document.querySelector('a-scene');
+          var leftHandEl = sceneEl.querySelectorAll('a-entity')[2];
+          sceneEl.addEventListener('pinchstarted', this.onPinchStarted);
+          sceneEl.addEventListener('pinchended', this.onPinchEnded);
+        },
 
-            let giftCount = 0;
-            function giftAvalanche() {
-                let gift = document.createElement('a-box');
+        onPinchStarted: function() {
+          this.leftHandEl.emit('pinchstarted');
+        },
+        onPinchEnded: function() {
+          this.leftHandEl.emit('pinchended');
+        },
+      });
 
-                let size = Math.random() * 0.40 + 0.1;
-                gift.setAttribute('width', size);
-                gift.setAttribute('height', size);
-                gift.setAttribute('depth', size);
-                gift.setAttribute('color', 'hsl(' + Math.random() * 360 + ', 90%, 70%)');
-                gift.setAttribute('position', (Math.random() * 2 - 1) + ' 2.6 ' + (Math.random() * 2 - 1));
-                gift.setAttribute('dynamic-body', 'shape: box; mass: 0.1;');
-                gift.classList.add('throwable');
+      AFRAME.registerComponent('text-display-for-righthand', {
+        init: function() {
+          var sceneEl = document.querySelector('a-scene');
+          var rightHandEl = sceneEl.querySelectorAll('a-entity')[4];
+          sceneEl.addEventListener('pinchstarted', this.onPinchStarted);
+          sceneEl.addEventListener('pinchended', this.onPinchEnded);
+        },
 
-                scene.appendChild(gift);
+        onPinchStarted: function() {
+          this.rightHandEl.emit('pinchstarted');
+        },
+        onPinchEnded: function() {
+          this.rightHandEl.emit('pinchended');
+        },
+      });
 
-                if (++giftCount < 50) window.setTimeout(giftAvalanche, 150);
-            }
-
-            document.querySelector('#box1').addEventListener('collide', (e) => {
-                if (e.detail.body.el.id === 'sphere1') {
-                    e.detail.target.el.setAttribute('visible', 'false');
-                    e.detail.body.el.setAttribute('visible', 'false');
-
-                    if (++score === 2) giftAvalanche();
-                }
-            });
-
-            document.querySelector('#box2').addEventListener('collide', (e) => {
-                if (e.detail.body.el.id === 'sphere2') {
-                    e.detail.target.el.setAttribute('visible', 'false');
-                    e.detail.body.el.setAttribute('visible', 'false');
-
-                    if (++score === 2) giftAvalanche();
-                }
-            });
-        });
     </script>
-</body>
+
+    <!-- Use this component for High-definition rendering only -->
+    <script>
+      AFRAME.registerComponent("envmap", {
+        init: function() {
+          let mesh = this.el.getObject3D("mesh");
+          if (mesh) {
+            this.loadEnvMap(scene.renderer, this.el);
+          } else {
+            this.el.addEventListener("model-loaded", () => {
+              this.loadEnvMap(this.el.sceneEl.renderer, this.el);
+            });
+          }
+        },
+
+        loadEnvMap: function(renderer, entity) {
+          let targetCube = new THREE.WebGLCubeRenderTarget(1048, {
+            generateMipmaps: true,
+            minFilter: THREE.LinearMipmapNearestFilter,
+            magFilter: THREE.NearestFilter
+          });
+          renderer.tonemapping = THREE.ACESFilmicToneMapping;
+          renderer.toneMappingExposure = 1;
+          renderer.outputEncoding = THREE.sRGBEncoding;
+          renderer.shadowMap.enabled = true;
+          renderer.shadowMap.autoUpdate = true;
+
+          let mesh = entity.getObject3D("mesh");
+          let texture = new THREE.TextureLoader().load("https://i.imgur.com/fO0KaHy.jpeg", function() {
+            let cubeTex = targetCube.fromEquirectangularTexture(renderer, texture);
+            mesh.traverse(function(el) {
+              if (el.material) {
+                el.material.envMap = cubeTex.texture;
+                el.material.envMap.intensity = 0.5;
+                el.material.needsUpdate = true;
+              }
+            })
+          })
+        },
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('pinch-to-move-mirror', {
+
+        dependencies: ['pinchable'],
+
+        schema: {
+          width: {
+            default: 0.5
+          }
+        },
+
+        init: function() {
+          var sceneEl = document.querySelector('a-scene');
+          var trackedEl = sceneEl.querySelector('#rightHand');
+          this.el.trackedEl = trackedEl;
+          var targetEl = sceneEl.querySelector("#mirror");
+          targetEl.setAttribute('pinchable', {
+            pinchDistance: 0.05
+          })
+          trackedEl.addEventListener('pinchmoved', this.onPinchMoved);
+          this.onPinchMoved = this.onPinchMoved.bind(this);
+          //var event = new Event("pinchmoved") 
+          //trackedEl.dispatchEvent(event)
+          this.el.targetEl = targetEl;
+        },
+
+        onPinchMoved: function(evt) {
+          var targetEl = document.querySelector("#mirror");
+          var trackedEl = document.querySelector('#rightHand');
+          var localPosition = this.localPosition;
+          var evtDetail = this.evtDetail;
+          var localPosition = new THREE.Vector3();
+          localPosition.copy(evt.detail.position);
+          targetEl.object3D.updateMatrixWorld();
+          targetEl.object3D.worldToLocal(localPosition);
+
+          //if (localPosition.x < this.data.width/2 || localPosition.x > this.data.width/2) { return; }
+          /*targetEl.object3D.position.z = localPosition.z;
+          targetEl.object3D.position.y = localPosition.y;
+          targetEl.object3D.position.x = localPosition.x;*/
+          targetEl.object3D.position.z = evt.detail.position.z;
+          targetEl.object3D.position.y = evt.detail.position.y;
+          targetEl.object3D.position.x = evt.detail.position.x;
+          /*targetEl.setAttribute('position', {
+            x: localPosition.x,
+            y: localPosition.y,
+            z: localPosition.z
+          });*/
+
+          evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
+          targetEl.emit('positionchanged', evtDetail);
+          trackedEl.emit('pinchmoved');
+        }
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('pinch-to-move-sickle', {
+
+        dependencies: ['pinchable'],
+
+        schema: {
+          width: {
+            default: 0.5
+          }
+        },
+
+        init: function() {
+          var sceneEl = document.querySelector('a-scene');
+          var trackedEl = sceneEl.querySelector('#leftHand');
+          this.el.trackedEl = trackedEl;
+          var targetEl = sceneEl.querySelector("#sickle");
+          targetEl.setAttribute('pinchable', {
+            pinchDistance: 0.05
+          })
+          trackedEl.addEventListener('pinchmoved', this.onPinchMoved);
+          this.onPinchMoved = this.onPinchMoved.bind(this);
+          //var event = new Event("pinchmoved") 
+          //trackedEl.dispatchEvent(event)
+          this.el.targetEl = targetEl;
+        },
+
+        onPinchMoved: function(evt) {
+          var targetEl = document.querySelector("#sickle");
+          var trackedEl = document.querySelector('#leftHand');
+          var localPosition = this.localPosition;
+          var evtDetail = this.evtDetail;
+          var localPosition = new THREE.Vector3();
+          localPosition.copy(evt.detail.position);
+          targetEl.object3D.updateMatrixWorld();
+          targetEl.object3D.worldToLocal(localPosition);
+
+          //if (localPosition.x < this.data.width/2 || localPosition.x > this.data.width/2) { return; }
+          /*targetEl.object3D.position.z = localPosition.z;
+          targetEl.object3D.position.y = localPosition.y;
+          targetEl.object3D.position.x = localPosition.x;*/
+          targetEl.object3D.position.z = evt.detail.position.z;
+          targetEl.object3D.position.y = evt.detail.position.y;
+          targetEl.object3D.position.x = evt.detail.position.x;
+          /*targetEl.setAttribute('position', {
+            x: localPosition.x,
+            y: localPosition.y,
+            z: localPosition.z
+          });*/
+
+          evtDetail.value = (targetEl.object3D.position.x, targetEl.object3D.position.y, targetEl.object3D.position.z);
+          targetEl.emit('positionchanged', evtDetail);
+          trackedEl.emit('pinchmoved');
+        }
+      });
+
+    </script>
+
+    <!-- pressable component -->
+    <script>
+      AFRAME.registerComponent('pressable', {
+        schema: {
+          pressDistance: {
+            default: 0.06
+          }
+        },
+
+        init: function() {
+          this.worldPosition = new THREE.Vector3();
+          this.handEls = document.querySelectorAll('[hand-tracking-controls]');
+          this.pressed = false;
+        },
+
+        tick: function() {
+          var handEls = this.handEls;
+          var handEl;
+          var distance;
+          for (var i = 0; i < handEls.length; i++) {
+            handEl = handEls[i];
+            distance = this.calculateFingerDistance(handEl.components['hand-tracking-controls'].indexTipPosition);
+            if (distance < this.data.pressDistance) {
+              if (!this.pressed) {
+                this.el.emit('pressedstarted');
+              }
+              this.pressed = true;
+              return;
+            }
+          }
+          if (this.pressed) {
+            this.el.emit('pressedended');
+          }
+          this.pressed = false;
+        },
+
+        calculateFingerDistance: function(fingerPosition) {
+          var el = this.el;
+          var worldPosition = this.worldPosition;
+
+          worldPosition.copy(el.object3D.position);
+          el.object3D.parent.updateMatrixWorld();
+          el.object3D.parent.localToWorld(worldPosition);
+
+          return worldPosition.distanceTo(fingerPosition);
+        }
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('button', {
+        schema: {
+          label: {
+            default: 'label'
+          },
+          width: {
+            default: 0.11
+          },
+          togglable: {
+            default: false
+          }
+        },
+        init: function() {
+          var el = this.el;
+          var labelEl = this.labelEl = document.createElement('a-entity');
+
+          this.color = '#3a50c5';
+          el.setAttribute('geometry', {
+            primitive: 'box',
+            width: this.data.width,
+            height: 0.05,
+            depth: 0.04
+          });
+
+          el.setAttribute('material', {
+            color: this.color
+          });
+          el.setAttribute('pressable', '');
+
+          labelEl.setAttribute('position', '0 0 0.02');
+          labelEl.setAttribute('text', {
+            value: this.data.label,
+            color: 'white',
+            align: 'center'
+          });
+
+          labelEl.setAttribute('scale', '0.75 0.75 0.75');
+          this.el.appendChild(labelEl);
+
+          this.bindMethods();
+          this.el.addEventListener('stateadded', this.stateChanged);
+          this.el.addEventListener('stateremoved', this.stateChanged);
+          this.el.addEventListener('pressedstarted', this.onPressedStarted);
+          this.el.addEventListener('pressedended', this.onPressedEnded);
+        },
+
+        bindMethods: function() {
+          this.stateChanged = this.stateChanged.bind(this);
+          this.onPressedStarted = this.onPressedStarted.bind(this);
+          this.onPressedEnded = this.onPressedEnded.bind(this);
+        },
+
+        update: function(oldData) {
+          if (oldData.label !== this.data.label) {
+            this.labelEl.setAttribute('text', 'value', this.data.label);
+          }
+        },
+
+        stateChanged: function() {
+          var color = this.el.is('pressed') ? 'green' : this.color;
+          this.el.setAttribute('material', {
+            color: color
+          });
+        },
+
+        onPressedStarted: function() {
+          var el = this.el;
+          el.setAttribute('material', {
+            color: 'green'
+          });
+          el.emit('click');
+          if (this.data.togabble) {
+            if (el.is('pressed')) {
+              el.removeState('pressed');
+            } else {
+              el.addState('pressed');
+            }
+          }
+        },
+
+        onPressedEnded: function() {
+          if (this.el.is('pressed')) {
+            return;
+          }
+          this.el.setAttribute('material', {
+            color: this.color
+          });
+        }
+      });
+
+    </script>
+
+    <script>
+      /* global AFRAME */
+      AFRAME.registerComponent("event-manager", {
+
+        init: function() {
+          this.bindMethods();
+
+          this.sickleEl = document.querySelector("#sickle");
+          this.mirrorEl = document.querySelector("#mirror");
+          this.scalpelsEl = document.querySelector("#scalpels");
+          this.compactorEl = document.querySelector("#compactor");
+          this.dentureEl = document.querySelector("#denture");
+          this.syringeEl = document.querySelector("#syringe");
+
+          this.sickleButtonEl = document.querySelector("#sickleButton");
+          this.mirrorButtonEl = document.querySelector("#mirrorButton");
+          this.dentureButtonEl = document.querySelector("#dentureButton");
+          this.scalpelsButtonEl = document.querySelector('#scalpelsButton');
+          this.syringeButtonEl = document.querySelector('#syringeButton');
+          this.compactorButtonEl = document.querySelector('#compactorButton');
+
+          this.buttonToTools = {
+            sickleButton: this.sickleEl,
+            mirrorButton: this.mirrorEl,
+            dentureButton: this.dentureEl,
+            compactorButton: this.compactorEl,
+            scalpelsButton: this.scalpelsEl,
+            syringeButton: this.syringeEl
+          };
+
+          this.sickleButtonEl.addEventListener("click", this.onClick);
+          this.mirrorButtonEl.addEventListener("click", this.onClick);
+          this.dentureButtonEl.addEventListener("click", this.onClick);
+          this.compactorButtonEl.addEventListener("click", this.onClick);
+          this.syringeButtonEl.addEventListener("click", this.onClick);
+          this.scalpelsButtonEl.addEventListener("click", this.onClick);
+
+          this.sickleButtonEl.addState("pressed");
+          this.mirrorButtonEl.addState("pressed");
+          this.dentureButtonEl.addState("pressed");
+          this.compactorButtonEl.addState("pressed");
+          this.scalpelsButtonEl.addState("pressed");
+          this.syringeButtonEl.addState("pressed");
+        },
+
+        bindMethods: function() {
+          this.onClick = this.onClick.bind(this);
+        },
+
+        onClick: function(evt) {
+          var targetEl = evt.target;
+          if (
+            targetEl === this.sickleButtonEl ||
+            targetEl === this.mirrorButtonEl ||
+            targetEl === this.compactorButtonEl ||
+            targetEl === this.syringeButtonEl ||
+            targetEl === this.dentureButtonEl ||
+            targetEl === this.scalpelsButtonEl
+          ) {
+            this.sickleButtonEl.removeState("pressed");
+            this.mirrorButtonEl.removeState("pressed");
+            this.scalpelsButtonEl.removeState("pressed");
+            this.syringeButtonEl.removeState("pressed");
+            this.compactorButtonEl.removeState("pressed");
+            this.syringeButtonEl.removeState("pressed");
+
+            this.sickleEl.object3D.visible = false;
+            this.mirrorEl.object3D.visible = false;
+            this.syringeEl.object3D.visible = false;
+            this.compactorEl.object3D.visible = false;
+            this.scalpelsEl.object3D.visible = false;
+            this.dentureEl.object3D.visible = false;
+            this.buttonToTools[targetEl.id].object3D.visible = true;
+          }
+        },
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('x-cw', {
+        schema: {
+          x_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          var targetButton = document.querySelector('#xButton_cw');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var rotationalOffset = parseInt(this.data.x_val);
+            targetEl.rotateX(rotationalOffset);
+          });
+        }
+      })
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('y-cw', {
+        schema: {
+          y_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          var targetButton = document.querySelector('#yButton_cw');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var rotationalOffset = parseInt(this.data.y_val);
+            targetEl.rotateY(rotationalOffset);
+          });
+        }
+      })
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('z-cw', {
+        schema: {
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          var targetButton = document.querySelector('#zButton_cw');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var rotationalOffset = parseInt(this.data.z_val);
+            targetEl.rotateZ(rotationalOffset);
+          });
+        }
+      })
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('x-ccw', {
+        schema: {
+          x_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          var targetButton = document.querySelector('#xButton_ccw');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var rotationalOffset = parseInt(this.data.x_val);
+            targetEl.rotateX(-rotationalOffset);
+          });
+        }
+      })
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('y-ccw', {
+        schema: {
+          y_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          var targetButton = document.querySelector('#yButton_ccw');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var rotationalOffset = parseInt(this.data.y_val);
+            targetEl.rotateY(-rotationalOffset);
+          });
+        }
+      })
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('z-ccw', {
+        schema: {
+          z_val: {
+            type: 'number',
+            default: 0
+          }
+        },
+        init: function() {
+          var targetButton = document.querySelector('#zButton_ccw');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#mirror').getObject3D('mesh');
+            var rotationalOffset = parseInt(this.data.z_val);
+            targetEl.rotateZ(-rotationalOffset);
+          });
+        }
+      })
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('click-servicesbutton', {
+
+        init: function() {
+          var targetButton = document.querySelector('#serviceButton');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#spatialApplicationMenu');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+          });
+        }
+      })
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('click-displaybutton', {
+
+        init: function() {
+          var targetButton = document.querySelector('#displayButton');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#infoPlane2');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+          });
+        }
+      })
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('toggle-text-visibility', {
+
+        init: function() {
+          this.bindMethods();
+
+          this.text4El = document.querySelector('#textArea4'); //syringe
+          this.text5El = document.querySelector('#textArea5'); //mirror
+          this.text6El = document.querySelector('#textArea6'); //scalpels
+          this.text7El = document.querySelector('#textArea7'); //sickle
+          this.text8El = document.querySelector('#textArea8'); //compactor
+          this.text9El = document.querySelector('#textArea9'); //denture
+
+          this.sickleButtonEl = document.querySelector("#sickleButton");
+          this.mirrorButtonEl = document.querySelector("#mirrorButton");
+          this.dentureButtonEl = document.querySelector("#dentureButton");
+          this.scalpelsButtonEl = document.querySelector('#scalpelsButton');
+          this.syringeButtonEl = document.querySelector('#syringeButton');
+          this.compactorButtonEl = document.querySelector('#compactorButton');
+
+          this.buttonToText = {
+            sickleButton: this.text7El,
+            mirrorButton: this.text5El,
+            dentureButton: this.text9El,
+            compactorButton: this.text8El,
+            scalpelsButton: this.text6El,
+            syringeButton: this.text4El
+          };
+
+          this.sickleButtonEl.addEventListener("click", this.onClick);
+          this.mirrorButtonEl.addEventListener("click", this.onClick);
+          this.dentureButtonEl.addEventListener("click", this.onClick);
+          this.compactorButtonEl.addEventListener("click", this.onClick);
+          this.syringeButtonEl.addEventListener("click", this.onClick);
+          this.scalpelsButtonEl.addEventListener("click", this.onClick);
+
+          this.sickleButtonEl.addState("pressed");
+          this.mirrorButtonEl.addState("pressed");
+          this.dentureButtonEl.addState("pressed");
+          this.compactorButtonEl.addState("pressed");
+          this.scalpelsButtonEl.addState("pressed");
+          this.syringeButtonEl.addState("pressed");
+        },
+
+        bindMethods: function() {
+          this.onClick = this.onClick.bind(this);
+        },
+
+        onClick: function(evt) {
+          var targetEl = evt.target;
+          if (
+            targetEl === this.sickleButtonEl ||
+            targetEl === this.mirrorButtonEl ||
+            targetEl === this.compactorButtonEl ||
+            targetEl === this.syringeButtonEl ||
+            targetEl === this.dentureButtonEl ||
+            targetEl === this.scalpelsButtonEl
+          ) {
+            this.sickleButtonEl.removeState("pressed");
+            this.mirrorButtonEl.removeState("pressed");
+            this.scalpelsButtonEl.removeState("pressed");
+            this.syringeButtonEl.removeState("pressed");
+            this.compactorButtonEl.removeState("pressed");
+            this.syringeButtonEl.removeState("pressed");
+
+            this.text4El.object3D.visible = false;
+            this.text5El.object3D.visible = false;
+            this.text6El.object3D.visible = false;
+            this.text7El.object3D.visible = false;
+            this.text8El.object3D.visible = false;
+            this.text9El.object3D.visible = false;
+
+            this.buttonToText[targetEl.id].object3D.visible = true;
+          }
+        },
+      });
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('play-video1', {
+        init: function() {
+          var targetButton = document.querySelector('#button3');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#video1');
+            var target1El = document.querySelector('#video2');
+            var target2El = document.querySelector('#video3');
+            var target3El = document.querySelector('#video4');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetEl.components.material.material.map.image.play();
+            target1El.components.material.material.map.image.pause();
+            target1El.setAttribute('visible', 'false');
+            target2El.components.material.material.map.image.pause();
+            target2El.setAttribute('visible', 'false');
+            target3El.components.material.material.map.image.pause();
+            target3El.setAttribute('visible', 'false');
+          })
+        }
+      })
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('play-video2', {
+        init: function() {
+          var targetButton = document.querySelector('#button4');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#video3');
+            var target1El = document.querySelector('#video1');
+            var target2El = document.querySelector('#video2');
+            var target3El = document.querySelector('#video4');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetEl.components.material.material.map.image.play();
+            target1El.components.material.material.map.image.pause();
+            target1El.setAttribute('visible', 'false');
+            target2El.components.material.material.map.image.pause();
+            target2El.setAttribute('visible', 'false');
+            target3El.components.material.material.map.image.pause();
+            target3El.setAttribute('visible', 'false');
+          })
+        }
+      })
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('play-video3', {
+        init: function() {
+          var targetButton = document.querySelector('#button5');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#video2');
+            var target1El = document.querySelector('#video1');
+            var target2El = document.querySelector('#video3');
+            var target3El = document.querySelector('#video4');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetEl.components.material.material.map.image.play();
+            target1El.components.material.material.map.image.pause();
+            target1El.setAttribute('visible', 'false');
+            target2El.components.material.material.map.image.pause();
+            target2El.setAttribute('visible', 'false');
+            target3El.components.material.material.map.image.pause();
+            target3El.setAttribute('visible', 'false');
+          })
+        }
+      })
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('play-video4', {
+        init: function() {
+          var targetButton = document.querySelector('#button6');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#video4');
+            var target1El = document.querySelector('#video1');
+            var target2El = document.querySelector('#video2');
+            var target3El = document.querySelector('#video3');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetEl.components.material.material.map.image.play();
+            target1El.components.material.material.map.image.pause();
+            target1El.setAttribute('visible', 'false');
+            target2El.components.material.material.map.image.pause();
+            target2El.setAttribute('visible', 'false');
+            target3El.components.material.material.map.image.pause();
+            target3El.setAttribute('visible', 'false');
+          })
+        }
+      })
+
+    </script>
+
+    <script>
+      AFRAME.registerComponent('click-infobutton', {
+        init: function() {
+
+          this.bindMethods();
+          this.targetButtonEl = document.querySelector('#infoButton');
+          this.targetPlaneEl = document.querySelector('#infoPlane');
+
+          this.buttonToEntity = {
+            targetButtonEl: this.targetPlaneEl
+          };
+
+          this.targetButtonEl.addEventListener('click', this.onClickStarted);
+          this.targetButtonEl.addState('pressed');
+        },
+
+        bindMethods: function() {
+          this.onClickStarted = this.onClickStarted.bind(this);
+        },
+
+        onClickStarted: function(evt) {
+          var targetEl = evt.target;
+          var text = " Welcome to the Dentistry simulation \n " +
+            " Please click any button on the menu \n " +
+            " to interact with the dental tools. "
+          if (targetEl === this.targetButtonEl) {
+            this.targetButtonEl.removeState('pressed');
+            this.targetPlaneEl.setAttribute('visible', !this.targetPlaneEl.getAttribute('visible'));
+            this.targetPlaneEl.setAttribute('text', 'value', text);
+          }
+        },
+      });
+
+    </script>
+
+  </head>
+
+  <body>
+    <a-scene physics="debug: true" cursor="rayOrigin: mouse">
+      <a-assets>
+
+        <!-- Room asset -->
+        <a-asset-item id="Room" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Room/basic_room_shell.glb"></a-asset-item>
+
+        <!-- Floor asset -->
+        <a-asset-item id="Floor" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Floor/factory_concrete_floor.glb"></a-asset-item>
+
+        <!-- Office Chair asset -->
+        <a-asset-item id="Dentist-Chair" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dentist chair/model/dentist_chair.glb"></a-asset-item>
+
+        <!-- Table asset -->
+        <a-asset-item id="Table" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Table/table_derived.glb"></a-asset-item>
+
+        <!-- Dentist asset -->
+        <a-asset-item id="Dentist" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dentist/model/Dentist.glb"></a-asset-item>
+
+        <!-- Patient asset -->
+        <a-asset-item id="Patient" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/patient/Nathan.glb"></a-asset-item>
+
+        <!-- Office Chair asset -->
+        <a-asset-item id="Office-Chair" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/office_chair.glb"></a-asset-item>
+
+        <!-- Laptop asset -->
+        <a-asset-item id="Laptop" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/laptop.glb"></a-asset-item>
+
+        <!-- Scalpel asset -->
+        <a-asset-item id="Scalpels" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/scalpels/models/pair_of_scalpels.glb"></a-asset-item>
+
+        <!-- Denture asset -->
+        <a-asset-item id="Denture" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Teeth/3d_denture.glb"></a-asset-item>
+
+        <!-- Sickle Pro asset -->
+        <a-asset-item id="Sickle" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sickle/sickle_prob.glb"></a-asset-item>
+
+        <!-- Syringe asset -->
+        <a-asset-item id="Syringe" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/syringe/dental_syringe.glb"></a-asset-item>
+
+        <!-- Dental Mirror asset -->
+        <a-asset-item id="Mirror" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental-mirror/dental_mirror.glb"></a-asset-item>
+
+        <!-- Compactor asset -->
+        <a-asset-item id="Compactor" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/compactor/compactor.glb"></a-asset-item>
+
+        <!-- Trolley asset -->
+        <a-asset-item id="Trolley" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/medical%20cart/medical_cart.glb"></a-asset-item>
+
+        <!-- Cabinet asset -->
+        <a-asset-item id="Cabinet" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_cabinet/cabinet.glb"></a-asset-item>
+
+        <!-- Partition asset -->
+        <a-asset-item id="Partition" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/partitions/blue_partition.glb"></a-asset-item>
+
+        <!-- Fire extinguisher asset -->
+        <a-asset-item id="Fire-extinguisher" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/fire_extinguisher/fire_extinguisher.glb"></a-asset-item>
+
+        <!-- Dustbin asset -->
+        <a-asset-item id="Dustbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dustbin/dustbin.glb"></a-asset-item>
+
+        <a-asset-item id="watch-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/watch.glb?v=1645016979219"></a-asset-item>
+
+
+        <!-- Sounds for menu buttons -->
+        <!--<audio id="Click-Sound" crossorigin="anonymous" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sounds/593237__ilip33__pressing-the-enter-button.wav" preload="auto"></audio>-->
+
+        <!-- videos for displays -->
+        <video id="Video1" preload="auto" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Videos/implant_placement.mp4" width="160" height="90" autoplay loop="true" crossOrigin="anonymous" muted></video>
+
+        <video id="Video2" preload="auto" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Videos/teeth_whitening.mp4" width="160" height="90" autoplay loop="true" crossOrigin="anonymous" muted></video>
+
+        <video id="Video3" preload="auto" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Videos/crown-treatment.mp4" width="160" height="90" autoplay loop="true" crossOrigin="anonymous" muted></video>
+
+        <video id="Video4" preload="auto" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Videos/scaling-teeth.mp4" width="160" height="90" autoplay loop="true" crossOrigin="anonymous" muted></video>
+      </a-assets>
+
+      <!-- Sickle Pro glTF -->
+      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="0 1 -0.65" pinchable="pinchDistance: 0.05" visible="false" mesh-shadows></a-gltf-model>
+
+      <!-- Denture glTF -->
+      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="0 1 -0.65" pinchable="pinchDistance: 0.05" visible="false" mesh-shadows></a-gltf-model>
+
+      <!-- Scalpel glTF -->
+      <a-gltf-model id="scalpels" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="0 1 -0.65" mesh-shadows visible="false"></a-gltf-model>
+
+      <!-- Syringe glTF-->
+      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="0 1 -0.65" visible="false" mesh-shadows></a-gltf-model>
+
+      <!-- Mirror glTF-->
+      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="0 1 -0.65" pinchable="pinchDistance: 0.05" mesh-shadows></a-gltf-model>
+
+      <!-- Compactor glTF-->
+      <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="0 1 -0.65" visible="false" mesh-shadows></a-gltf-model>
+
+      <!-- Room glTF -->
+      <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.015" position="-0.45 0 -1.5"></a-gltf-model>
+
+      <!-- Dentist glTF -->
+      <a-gltf-model id="dentist" gltf-model="#Dentist" rotation="0 30 0" scale="0.375 0.375 0.375" position="-0.15 1.25 -2.55" animate mesh-shadows frustum-culling-disabled></a-gltf-model>
+
+      <!-- Floor glTF -->
+      <a-gltf-model id="floor" gltf-model="#Floor" rotation="0 90 0" scale="0.065 0.065 0.065" position="-0.85 0.1 -3"></a-gltf-model>
+
+      <!-- Dentist Chair glTF -->
+      <a-gltf-model id="chair" gltf-model="#Dentist-Chair" rotation="0 -90 0" scale="0.75 0.75 0.75" position="-1.85 0.15 -3.25" mesh-shadows></a-gltf-model>
+
+      <!-- Patient glTF -->
+      <a-gltf-model id="patient" gltf-model="#Patient" rotation="-60.5 90 0" scale="0.75 0.75 0.75" position="-1.1 0.35 -3" rotate-patient-legs="z_val: 0.785398" rotate-patient-hands="x_val: 0; y_val: 2.00713" rotate-spine="z_val:0.785398" rotate-neck="z_val:0.785398" mesh-shadows></a-gltf-model>
+
+      <!-- Table glTF -->
+      <a-gltf-model id="table" gltf-model="#Table" rotation="0 90 0" scale="0.235 0.235 0.235" position="1.35 0 -1.45" mesh-shadows></a-gltf-model>
+
+      <!-- Office Chair glTF-->
+      <a-gltf-model id="office-chair" gltf-model="#Office-Chair" rotation="0 -90 0" scale="0.055 0.055 0.055" position="1.7 0.15 -1.45" mesh-shadows></a-gltf-model>
+
+      <!-- Office Chair2 glTF-->
+      <a-gltf-model id="office-chair2" gltf-model="#Office-Chair" rotation="0 90 0" scale="0.055 0.055 0.055" position="0.25 0.15 -1.65" mesh-shadows></a-gltf-model>
+
+      <!-- Laptop glTF-->
+      <a-gltf-model id="laptop" gltf-model="#Laptop" position="1.35 0.81 -1.65" rotation="0 -90 0" scale="0.4 0.4 0.4" mesh-shadows></a-gltf-model>
+
+      <!-- Trolley glTF-->
+      <a-gltf-model id="trolley" gltf-model="#Trolley" rotation="0 180 0" scale="0.0075 0.0075 0.0075" position="-0.85 0.125 -1.70" mesh-shadows></a-gltf-model>
+
+      <!-- Cabinet glTF-->
+      <a-gltf-model id="cabinet" gltf-model="#Cabinet" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.12 -4" mesh-shadows></a-gltf-model>
+
+      <!-- Fire extinguisher glTF-->
+      <a-gltf-model id="fire-extinguisher" gltf-model="#Fire-extinguisher" rotation="0 -90 0" scale="0.95 0.95 0.95" position="-0.05 0.9 -3.81" mesh-shadows></a-gltf-model>
+
+      <!-- Dustbin glTF-->
+      <a-gltf-model id="dustbin" gltf-model="#Dustbin" rotation="0 -90 0" scale="0.2 0.175 0.2" position="1.7 0.089 -1.15" mesh-shadows></a-gltf-model>
+
+      <!-- Partition glTF-->
+      <a-gltf-model id="partition" gltf-model="#Partition" rotation="0 -45 0" scale="0.825 0.825 0.825" position="5.5 0.30 1.75" mesh-shadows></a-gltf-model>
+
+      <!-- Partition 2 glTF-->
+      <a-gltf-model id="partition2" gltf-model="#Partition" rotation="0 -135 0" scale="0.825 0.825 0.825" position="-5.5 0.30 7.5" visible="false" mesh-shadows></a-gltf-model>
+
+      <!-- Text area for displaying event information -->
+      <!--<a-text id="textArea4" position="0 1.25 -0.85" value="Syringe button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="true"></a-text>-->
+
+      <!-- Text area for displaying event information -->
+      <!--<a-text id="textArea5" position="0 1.25 -0.85" value="Mirror button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>-->
+
+      <!-- Text area for displaying event information -->
+      <!--<a-text id="textArea6" position="0 1.25 -0.85" value="Scalpels button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>-->
+
+      <!-- Text area for displaying event information -->
+      <!--<a-text id="textArea7" position="0 1.25 -0.85" value="Sickle button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>-->
+
+      <!-- Text area for displaying event information -->
+      <!--<a-text id="textArea8" position="0 1.25 -0.85" value="Compactor button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>-->
+
+      <!-- Text area for displaying event information -->
+      <!--<a-text id="textArea9" position="0 1.25 -0.85" value="Denture button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="false"></a-text>-->
+
+      <!-- Text area for info button -->
+      <a-entity id="infoPlane" geometry="primitive: plane; width: 1; height: 1;" material="color:#B2D8D8" text="anchor: center; baseline: center; wrapCount: 40; transparent: true; opacity: 0.90; color: #FFFFFF; value: 1 \n 2 \n 3 \n 4; align: center" position="0 2 -0.85" visible="false"></a-entity>
+
+      <!-- Text area for services -->
+      <a-entity id="infoPlane2" geometry="primitive: plane; width: 1; height: 0.5;" material="color:#66B2B2;" position="-0.35 1.15 -0.85" rotation="0 0 0" visible="false">
+
+        <a-video id="video1" src="#Video1" width="1" height="0.5" visible="false"></a-video>
+
+        <a-video id="video2" src="#Video2" width="1" height="0.5" visible="false"></a-video>
+
+        <a-video id="video3" src="#Video3" width="1" height="0.5" visible="false"></a-video>
+
+        <a-video id="video4" src="#Video4" width="1" height="0.5" visible="false"></a-video>
+
+      </a-entity>
+
+      <!-- Camera system -->
+      <a-entity id="camera-control" movement-controls="speed:0.2;">
+
+        <!-- Camera head -->
+        <a-entity id="camera-head" camera position="0 1 0.5" look-controls="pointerLockEnabled:true;"></a-entity>
+
+        <!-- Left hand controller -->
+        <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" event-set__textshow="_event: pinchmoved; _target: #textArea3; visible: true" event-set__texthide="_event: pinchended; _target: #textArea3; visible: false" pinch-to-move-sickle>
+        </a-entity>
+
+        <!-- Right hand controller -->
+        <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" pinch-to-move-mirror>
+        </a-entity>
+
+      </a-entity>
+      
+      <a-entity id="spatialMenu" spatial-window="width: 1.25; height: 0.5" position="0 0.70 -0.65" visible="true" rotation="-45 0 0" event-manager>
+        <a-entity id="sickleButton" button="label: Sickle" position="-0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="mirrorButton" button="label: Mirror" position="0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="compactorButton" button="label: Compactor; width: 0.3" position="0.18 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="syringeButton" button="label: Syringe; width: 0.3" position="-0.18 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="scalpelsButton" button="label:Scalpels; width: 0.3" position="0 0 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="dentureButton" button="label: Denture; width: 0.3" position="0.05 -0.10 0" sound="src: #Click-Sound; on: click"></a-entity>
+
+        <a-entity id="xButton_cw" button="label: x(+); width: 0.15" position="0.45 0.1 0" x-cw="x_val:3" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="yButton_cw" button="label: y(+); width: 0.15" position="0.45 0 0" y-cw="y_val:3" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="zButton_cw" button="label: z(+); width: 0.15" position="0.45 -0.1 0" z-cw="z_val:3" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="xButton_ccw" button="label: x(-); width: 0.15" position="-0.45 0.1 0" x-ccw="x_val:3" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="yButton_ccw" button="label: y(-); width: 0.15" position="-0.45 0 0" y-ccw="y_val:3" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="zButton_ccw" button="label: z(-); width: 0.15" position="-0.45 -0.1 0" z-ccw="z_val:3" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="infoButton" button="label: Info; width:0.1" position="0.27 -0.1 0" sound="src: #Click-Sound; on: click" click-infobutton></a-entity>
+        <a-entity id="serviceButton" button="label: Services; width:0.2" position="-0.25 -0.1 0" sound="src: #Click-Sound; on: click" click-servicesbutton></a-entity>
+      </a-entity>
+
+      <!-- Application menu -->
+      <a-entity id="spatialApplicationMenu" spatial-window="width: 0.5; height: 0.5" visible="false" position="0.5 1.15 -0.85" rotation="0 0 0" toggle-video-visibility>
+        <a-entity id="displayButton" button="label: Display; width: 0.45" position="0 0.2 0" sound="src: #Click-Sound; on: click" click-displaybutton></a-entity>
+        <a-entity id="button3" button="label: Implant placement; width: 0.45" position="0 0.1 0" sound="src: #Click-Sound; on: click" play-video1></a-entity>
+        <a-entity id="button4" button="label: Dental crown treatment; width: 0.45" position="0 0 0" sound="src: #Click-Sound; on: click" play-video2></a-entity>
+        <a-entity id="button5" button="label: Teeth whitening; width: 0.45" position="0 -0.1 0" sound="src: #Click-Sound; on: click" play-video3></a-entity>
+        <a-entity id="button6" button="label: Scale and polish; width: 0.45" position="0 -0.2 0" sound="src: #Click-Sound; on: click" play-video4></a-entity>
+      </a-entity>
+
+      <!-- Lighting -->
+      <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="8 10 18"></a-entity>
+      <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="-0.45 1.1 -1.5"></a-entity>
+      <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="1.45 1.68 -2"></a-entity>
+      <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.6;" position="-8 10 -18"></a-entity>
+      
+      <a-sky color="#6EBAA7"></a-sky>
+    </a-scene>
+  </body>
 
 </html>
