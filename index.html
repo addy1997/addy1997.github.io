@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+​<!DOCTYPE html>
 <html>
 
   <head>
@@ -892,7 +892,7 @@
             dentureButton: this.dentureEl,
             compactorButton: this.compactorEl,
             scalpelsButton: this.scalpelsEl,
-            syringeButton: this.syringeEl
+            syringeButton: this.syringeEl,
           };
 
           this.sickleButtonEl.addEventListener("click", this.onClick);
@@ -922,7 +922,8 @@
             targetEl === this.compactorButtonEl ||
             targetEl === this.syringeButtonEl ||
             targetEl === this.dentureButtonEl ||
-            targetEl === this.scalpelsButtonEl
+            targetEl === this.scalpelsButtonEl ||
+            
           ) {
             this.sickleButtonEl.removeState("pressed");
             this.mirrorButtonEl.removeState("pressed");
@@ -937,6 +938,7 @@
             this.compactorEl.object3D.visible = false;
             this.scalpelsEl.object3D.visible = false;
             this.dentureEl.object3D.visible = false;
+
             this.buttonToTools[targetEl.id].object3D.visible = true;
           }
         },
@@ -1088,7 +1090,63 @@
             targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
           });
         }
-      })
+      });
+
+    </script>
+    
+    <script>
+      AFRAME.registerComponent('click-spoonbutton', {
+
+        init: function() {
+          var targetButton = document.querySelector('#spoonButton');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#spoon');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+          });
+        }
+      });
+
+    </script>
+    
+    <script>
+      AFRAME.registerComponent('click-scraperbutton', {
+
+        init: function() {
+          var targetButton = document.querySelector('#scraperButton');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#scraper');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+          });
+        }
+      });
+
+    </script>
+    
+    <script>
+      AFRAME.registerComponent('click-probebutton', {
+
+        init: function() {
+          var targetButton = document.querySelector('#probeButton');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#probe03');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+          });
+        }
+      });
+
+    </script>
+    
+    <script>
+      AFRAME.registerComponent('click-excavatorbutton', {
+
+        init: function() {
+          var targetButton = document.querySelector('#excavatorButton');
+          targetButton.addEventListener('click', (e) => {
+            var targetEl = document.querySelector('#excavator');
+            targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+          });
+        }
+      });
 
     </script>
 
@@ -1361,7 +1419,17 @@
         <!-- Dustbin asset -->
         <a-asset-item id="Dustbin" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dustbin/dustbin.glb"></a-asset-item>
 
-        <a-asset-item id="watch-gltf" src="https://cdn.glitch.global/d29f98b4-ddd1-4589-8b66-e2446690e697/watch.glb?v=1645016979219"></a-asset-item>
+        <!-- Spoon asset -->
+        <a-asset-item id="Spoon" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_spoon.glb"></a-asset-item>
+        
+        <!-- Probe asset -->
+        <a-asset-item id="Probe03" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_probe_03.glb"></a-asset-item>
+        
+        <!-- Excavator asset -->
+        <a-asset-item id="Excavator" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_excavator.glb"></a-asset-item>
+        
+        <!-- Scraper asset -->
+        <a-asset-item id="Scraper" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_scraper.glb"></a-asset-item>
 
 
         <!-- Sounds for menu buttons -->
@@ -1439,7 +1507,19 @@
 
       <!-- Partition 2 glTF-->
       <a-gltf-model id="partition2" gltf-model="#Partition" rotation="0 -135 0" scale="0.825 0.825 0.825" position="-5.5 0.30 7.5" visible="false" mesh-shadows></a-gltf-model>
-
+      
+      <!-- Spoon -->
+      <a-gltf-model id="spoon" gltf-model="#Spoon" rotation="0 -135 0" scale="0.8 0.8 0.8" position="0 1 -0.85" visible="false" mesh-shadows></a-gltf-model>
+      
+      <!-- Scraper -->
+      <a-gltf-model id="scraper" gltf-model="#Scraper" rotation="0 -135 0" scale="0.8 0.8 0.8" position="0 1 -0.85" visible="false" mesh-shadows></a-gltf-model>
+      
+            <!-- Excavator -->
+      <a-gltf-model id="excavator" gltf-model="#Excavator" rotation="0 -135 0" scale="0.8 0.8 0.8" position="0 1 -0.85" visible="false" mesh-shadows></a-gltf-model>
+      
+            <!-- Probe03 -->
+      <a-gltf-model id="probe03" gltf-model="#Probe03" rotation="0 -135 0" scale="0.8 0.8 0.8" position="0 1 -0.85" visible="false" mesh-shadows></a-gltf-model>
+      
       <!-- Text area for displaying event information -->
       <!--<a-text id="textArea4" position="0 1.25 -0.85" value="Syringe button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="true"></a-text>-->
 
@@ -1497,6 +1577,10 @@
         <a-entity id="syringeButton" button="label: Syringe; width: 0.3" position="-0.18 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="scalpelsButton" button="label:Scalpels; width: 0.3" position="0 0 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="dentureButton" button="label: Denture; width: 0.3" position="0.05 -0.10 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity id="spoonButton" button="label: Spoon; width: 0.15" position="-0.45 -0.185 0" sound="src: #Click-Sound; on: click" click-spoonbutton></a-entity>
+        <a-entity id="excavatorButton" button="label: Excavator; width: 0.25" position="-0.15 -0.185 0" sound="src: #Click-Sound; on: click" click-excavatorbutton></a-entity>
+        <a-entity id="probeButton" button="label: Probe; width: 0.15" position="0.1 -0.185 0" sound="src: #Click-Sound; on: click" click-probebutton></a-entity>
+        <a-entity id="scraperButton" button="label: Scraper; width: 0.25" position="0.4 -0.185 0" sound="src: #Click-Sound; on: click" click-scraperbutton></a-entity>
 
         <a-entity id="xButton_cw" button="label: x(+); width: 0.15" position="0.45 0.1 0" x-cw="x_val:3" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="yButton_cw" button="label: y(+); width: 0.15" position="0.45 0 0" y-cw="y_val:3" sound="src: #Click-Sound; on: click"></a-entity>
