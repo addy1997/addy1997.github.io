@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <title>Spatial UI</title>
     <meta name="description" content="Spatial UI • A-Frame">
-    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/dist/aframe-master.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@e63859e4ce1087a1c350958469dda59cdfc79f43/dist/aframe-master.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/examples/showcase/spatial-ui/ui-controller.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@f7efe9161ebb1c9d78a05ed42adc603740ed25bb/examples/js/spatial-ui/spatial-utils.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@f7efe9161ebb1c9d78a05ed42adc603740ed25bb/examples/js/spatial-ui/spatial-window.js"></script>
@@ -67,8 +67,8 @@
       <a-entity position="0 1.6 0" look-controls camera>
         <a-entity class="camera-cursor" raycaster="objects: .tile, .start-button, .close-button" cursor geometry="primitive: circle; radius: 0.005" material="color: #283644; shader: flat" position="0 0 -0.75"></a-entity>
       </a-entity>
-      <a-entity hand-tracking-controls="hand: left"></a-entity>
-      <a-entity hand-tracking-controls="hand: right"></a-entity>
+      <a-entity hand-tracking-grab-controls="hand: left"></a-entity>
+      <a-entity hand-tracking-grab-controls="hand: right"></a-entity>
     </a-scene>
   </body>
 
