@@ -1,4 +1,4 @@
-​<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 
   <head>
@@ -12,8 +12,9 @@
     <!-- SPATIAL -->
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@f7efe9161ebb1c9d78a05ed42adc603740ed25bb/examples/js/spatial-ui/spatial-utils.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@f7efe9161ebb1c9d78a05ed42adc603740ed25bb/examples/js/spatial-ui/spatial-window.js"></script>
-    
-      <!-- Custom component for camera logging 
+    <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@master/examples/showcase/spatial-ui/tile.js"></script>
+
+    <!-- Custom component for camera logging 
       -->
     <script>
       AFRAME.registerComponent('camera-logger', {
@@ -923,7 +924,7 @@
             targetEl === this.syringeButtonEl ||
             targetEl === this.dentureButtonEl ||
             targetEl === this.scalpelsButtonEl
-            
+
           ) {
             this.sickleButtonEl.removeState("pressed");
             this.mirrorButtonEl.removeState("pressed");
@@ -1093,7 +1094,7 @@
       });
 
     </script>
-    
+
     <script>
       AFRAME.registerComponent('click-spoonbutton', {
 
@@ -1107,7 +1108,7 @@
       });
 
     </script>
-    
+
     <script>
       AFRAME.registerComponent('click-scraperbutton', {
 
@@ -1121,7 +1122,7 @@
       });
 
     </script>
-    
+
     <script>
       AFRAME.registerComponent('click-probebutton', {
 
@@ -1135,7 +1136,7 @@
       });
 
     </script>
-    
+
     <script>
       AFRAME.registerComponent('click-excavatorbutton', {
 
@@ -1421,13 +1422,13 @@
 
         <!-- Spoon asset -->
         <a-asset-item id="Spoon" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_spoon.glb"></a-asset-item>
-        
+
         <!-- Probe asset -->
         <a-asset-item id="Probe03" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_probe_03.glb"></a-asset-item>
-        
+
         <!-- Excavator asset -->
         <a-asset-item id="Excavator" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_excavator.glb"></a-asset-item>
-        
+
         <!-- Scraper asset -->
         <a-asset-item id="Scraper" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_scraper.glb"></a-asset-item>
 
@@ -1458,7 +1459,7 @@
       <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="0 1 -0.65" visible="false" mesh-shadows></a-gltf-model>
 
       <!-- Mirror glTF-->
-      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="0 1 -0.65" pinchable="pinchDistance: 0.05" mesh-shadows></a-gltf-model>
+      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="0 1 -0.65" visible="false" pinchable="pinchDistance: 0.05" mesh-shadows></a-gltf-model>
 
       <!-- Compactor glTF-->
       <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="0 1 -0.65" visible="false" mesh-shadows></a-gltf-model>
@@ -1507,19 +1508,19 @@
 
       <!-- Partition 2 glTF-->
       <a-gltf-model id="partition2" gltf-model="#Partition" rotation="0 -135 0" scale="0.825 0.825 0.825" position="-5.5 0.30 7.5" visible="false" mesh-shadows></a-gltf-model>
-      
+
       <!-- Spoon -->
       <a-gltf-model id="spoon" gltf-model="#Spoon" rotation="0 -135 0" scale="0.8 0.8 0.8" position="0 1 -0.85" visible="false" mesh-shadows></a-gltf-model>
-      
+
       <!-- Scraper -->
       <a-gltf-model id="scraper" gltf-model="#Scraper" rotation="0 -135 0" scale="0.8 0.8 0.8" position="0 1 -0.85" visible="false" mesh-shadows></a-gltf-model>
-      
-            <!-- Excavator -->
+
+      <!-- Excavator -->
       <a-gltf-model id="excavator" gltf-model="#Excavator" rotation="0 -135 0" scale="0.8 0.8 0.8" position="0 1 -0.85" visible="false" mesh-shadows></a-gltf-model>
-      
-            <!-- Probe03 -->
+
+      <!-- Probe03 -->
       <a-gltf-model id="probe03" gltf-model="#Probe03" rotation="0 -135 0" scale="0.8 0.8 0.8" position="0 1 -0.85" visible="false" mesh-shadows></a-gltf-model>
-      
+
       <!-- Text area for displaying event information -->
       <!--<a-text id="textArea4" position="0 1.25 -0.85" value="Syringe button is clicked" align="center" color="blue" scale="0.15 0.15 0.15" visible="true"></a-text>-->
 
@@ -1569,9 +1570,18 @@
         </a-entity>
 
       </a-entity>
-      
+
       <a-entity id="spatialMenu" spatial-window="width: 1.25; height: 0.5" position="0 0.70 -0.65" visible="true" rotation="-45 0 0" event-manager>
-        <a-entity id="sickleButton" button="label: Sickle" position="-0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
+        <a-entity mixin="Mirror" title="" tile="src:https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_mirror.jpg ; width: 0.17; height: 0.17" position="-0.425 0.1 0"></a-entity>
+        <a-entity mixin="Syringe" title="" tile="src:https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_syringe.jpg ; width: 0.17; height: 0.17" position="-0.125 0.1 0"></a-entity>
+        <a-entity mixin="Sickle" title="" tile="src:https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_sickle_probe.jpg ; width: 0.17; height: 0.17" position="0.125 0.1 0"></a-entity>
+        <a-entity mixin="Compactor" title="" tile="src:https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_compactor.jpg ; width: 0.17; height: 0.17" position="0.425 0.1 0"></a-entity>
+        
+        <a-entity mixin="Scraper" title="" tile="src:https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_scraper.jpg ; width: 0.17; height: 0.17" position="-0.425 -0.1 0"></a-entity>
+        <a-entity mixin="Spoon" title="" tile="src:https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_spoon.jpg ; width: 0.17; height: 0.17" position="-0.125 -0.1 0"></a-entity>
+        <a-entity mixin="Scalpel" title="" tile="src:https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_scalpels.jpg ; width: 0.17; height: 0.17" position="0.125 -0.1 0"></a-entity>
+        <a-entity mixin="Excavator" title="" tile="src:https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_excavator.jpg ; width: 0.17; height: 0.17" position="0.425 -0.1 0"></a-entity>
+        <!--<a-entity id="sickleButton" button="label: Sickle" position="-0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="mirrorButton" button="label: Mirror" position="0.25 0 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="compactorButton" button="label: Compactor; width: 0.3" position="0.18 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="syringeButton" button="label: Syringe; width: 0.3" position="-0.18 0.1 0" sound="src: #Click-Sound; on: click"></a-entity>
@@ -1589,24 +1599,25 @@
         <a-entity id="yButton_ccw" button="label: y(-); width: 0.15" position="-0.45 0 0" y-ccw="y_val:3" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="zButton_ccw" button="label: z(-); width: 0.15" position="-0.45 -0.1 0" z-ccw="z_val:3" sound="src: #Click-Sound; on: click"></a-entity>
         <a-entity id="infoButton" button="label: Info; width:0.1" position="0.27 -0.1 0" sound="src: #Click-Sound; on: click" click-infobutton></a-entity>
-        <a-entity id="serviceButton" button="label: Services; width:0.2" position="-0.25 -0.1 0" sound="src: #Click-Sound; on: click" click-servicesbutton></a-entity>
+        <a-entity id="serviceButton" button="label: Services; width:0.2" position="-0.25 -0.1 0" sound="src: #Click-Sound; on: click" click-servicesbutton></a-entity>-->
+
       </a-entity>
 
       <!-- Application menu -->
-      <a-entity id="spatialApplicationMenu" spatial-window="width: 0.5; height: 0.5" visible="false" position="0.5 1.15 -0.85" rotation="0 0 0" toggle-video-visibility>
+      <!--<a-entity id="spatialApplicationMenu" spatial-window="width: 0.5; height: 0.5" visible="false" position="0.5 1.15 -0.85" rotation="0 0 0" toggle-video-visibility>
         <a-entity id="displayButton" button="label: Display; width: 0.45" position="0 0.2 0" sound="src: #Click-Sound; on: click" click-displaybutton></a-entity>
         <a-entity id="button3" button="label: Implant placement; width: 0.45" position="0 0.1 0" sound="src: #Click-Sound; on: click" play-video1></a-entity>
         <a-entity id="button4" button="label: Dental crown treatment; width: 0.45" position="0 0 0" sound="src: #Click-Sound; on: click" play-video2></a-entity>
         <a-entity id="button5" button="label: Teeth whitening; width: 0.45" position="0 -0.1 0" sound="src: #Click-Sound; on: click" play-video3></a-entity>
         <a-entity id="button6" button="label: Scale and polish; width: 0.45" position="0 -0.2 0" sound="src: #Click-Sound; on: click" play-video4></a-entity>
-      </a-entity>
+      </a-entity>-->
 
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="8 10 18"></a-entity>
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="-0.45 1.1 -1.5"></a-entity>
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="1.45 1.68 -2"></a-entity>
       <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.6;" position="-8 10 -18"></a-entity>
-      
+
       <a-sky color="#6EBAA7"></a-sky>
     </a-scene>
   </body>
