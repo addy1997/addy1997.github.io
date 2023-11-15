@@ -771,7 +771,7 @@
       });
 
     </script>
-    
+
     <script>
       AFRAME.registerComponent('click-servicesbutton', {
 
@@ -780,6 +780,7 @@
           targetButton.addEventListener('click', (e) => {
             var targetEl = document.querySelector('#spatialApplicationMenu');
             targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetButton.setAttribute('material', 'opacity', '0.35');
           });
         }
       })
@@ -794,6 +795,7 @@
           targetButton.addEventListener('click', (e) => {
             var targetEl = document.querySelector('#infoPlane2');
             targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetButton.setAttribute('material', 'opacity', '0.35');
           });
         }
       });
@@ -808,12 +810,13 @@
           targetButton.addEventListener('click', (e) => {
             var targetEl = document.querySelector('#spoon');
             targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetButton.setAttribute('material', 'opacity', '0.35');
           });
         }
       });
 
     </script>
-    
+
     <script>
       AFRAME.registerComponent('click-mirrorbutton', {
 
@@ -822,6 +825,7 @@
           targetButton.addEventListener('click', (e) => {
             var targetEl = document.querySelector('#mirror');
             targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetButton.setAttribute('material', 'opacity', '0.35');
           });
         }
       });
@@ -836,6 +840,7 @@
           targetButton.addEventListener('click', (e) => {
             var targetEl = document.querySelector('#scraper');
             targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetButton.setAttribute('material', 'opacity', '0.35');
           });
         }
       });
@@ -850,12 +855,13 @@
           targetButton.addEventListener('click', (e) => {
             var targetEl = document.querySelector('#sickle');
             targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetButton.setAttribute('material', 'opacity', '0.35');
           });
         }
       });
 
     </script>
-    
+
     <script>
       AFRAME.registerComponent('click-scalpelbutton', {
 
@@ -864,12 +870,13 @@
           targetButton.addEventListener('click', (e) => {
             var targetEl = document.querySelector('#scalpel');
             targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetButton.setAttribute('material', 'opacity', '0.35');
           });
         }
       });
 
     </script>
-    
+
     <script>
       AFRAME.registerComponent('click-syringebutton', {
 
@@ -878,12 +885,13 @@
           targetButton.addEventListener('click', (e) => {
             var targetEl = document.querySelector('#syringe');
             targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetButton.setAttribute('material', 'opacity', '0.35');
           });
         }
       });
 
     </script>
-    
+
     <script>
       AFRAME.registerComponent('click-compactorbutton', {
 
@@ -892,6 +900,7 @@
           targetButton.addEventListener('click', (e) => {
             var targetEl = document.querySelector('#compactor');
             targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetButton.setAttribute('material', 'opacity', '0.35');
           });
         }
       });
@@ -906,6 +915,7 @@
           targetButton.addEventListener('click', (e) => {
             var targetEl = document.querySelector('#excavator');
             targetEl.setAttribute('visible', !targetEl.getAttribute('visible'));
+            targetButton.setAttribute('material', 'opacity', '0.35');
           });
         }
       });
@@ -1038,7 +1048,7 @@
       });
 
     </script>
-    
+
     <script>
       AFRAME.registerComponent('button-label', {
         schema: {
@@ -1161,7 +1171,7 @@
             primitive: 'box',
             width: this.data.width,
             height: this.data.height,
-            depth: 0.04,
+            depth: 0.025,
           });
 
           el.setAttribute('material', {
@@ -1417,6 +1427,8 @@
 
         <!-- Left hand controller -->
         <a-entity id="leftHand" hand-tracking-controls="hand: left; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-rotate="rig: #camera-control" event-set__show="_event: pinchstarted; _target: #textArea; visible: true" event-set__hide="_event: pinchended; _target: #textArea; visible: false" event-set__textshow="_event: pinchmoved; _target: #textArea3; visible: true" event-set__texthide="_event: pinchended; _target: #textArea3; visible: false" pinch-to-move-sickle>
+
+          <a-entity id="mirrorButton2" button="height: 0.11; width: 0.15" position="0 0 0" sound="src: #Click-Sound; on: click" click-mirrorbutton></a-entity>
         </a-entity>
 
         <!-- Right hand controller -->
@@ -1426,32 +1438,31 @@
       </a-entity>
 
       <a-entity id="spatialMenu" spatial-window="width: 1.25; height: 0.5" position="0 0.70 -0.65" visible="true" rotation="-45 0 0">
-      
-        <a-entity id="mirrorButton" button="height: 0.11; width: 0.15" position="-0.425 0.15 0" sound="src: #Click-Sound; on: click" click-mirrorbutton></a-entity>
-        
-        <a-entity id="sickleButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_sickle_probe.jpg)" position="-0.15 0.15 0" sound="src: #Click-Sound; on: click" click-sicklebutton></a-entity>
-        
-        <a-entity id="syringeButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_syringe.jpg)" position="0.15 0.15 0" sound="src: #Click-Sound; on: click" click-syringebutton></a-entity>
-        
-        <a-entity id="compactorButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_compactor.jpg)" position="0.425 0.15 0" sound="src: #Click-Sound; on: click" click-compacterbutton></a-entity>
-        
-        <a-entity id="scalpelButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_scalpels.jpg)" position="-0.425 0 0" sound="src: #Click-Sound; on: click" click-scalpelbutton></a-entity>
-        
-        <a-entity id="spoonButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_spoon.jpg)" position="-0.15 0 0" sound="src: #Click-Sound; on: click" click-spoonbutton></a-entity>
-        
-        
-        <a-entity id="excavatorButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_excavator.jpg)" position="0.15 0 0" sound="src: #Click-Sound; on: click" click-excavatorbutton></a-entity>
-        
-        <a-entity id="scraperButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_scraper.jpg)" position="0.425 0 0" sound="src: #Click-Sound; on: click" click-scraperbutton></a-entity>
 
-        <a-entity id="infoButton"  button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/info.jpg)" position="0.2 -0.15 0" sound="src: #Click-Sound; on: click" click-infobutton></a-entity>
-        
-        <a-entity id="serviceButton"  button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/services.jpg)" position="-0.2 -0.15 0" sound="src: #Click-Sound; on: click" click-servicesbutton></a-entity>
+        <a-entity id="mirrorButton" button="height: 0.11; width: 0.15" position="-0.425 0.15 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-mirrorbutton></a-entity>
+
+        <a-entity id="sickleButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_sickle_probe.jpg)" position="-0.15 0.15 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-sicklebutton></a-entity>
+
+        <a-entity id="syringeButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_syringe.jpg)" position="0.15 0.15 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-syringebutton></a-entity>
+
+        <a-entity id="compactorButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_compactor.jpg)" position="0.425 0.15 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-compacterbutton></a-entity>
+
+        <a-entity id="scalpelButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_scalpels.jpg)" position="-0.425 0 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-scalpelbutton></a-entity>
+
+        <a-entity id="spoonButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_spoon.jpg)" position="-0.15 0 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-spoonbutton></a-entity>
+
+        <a-entity id="excavatorButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_excavator.jpg)" position="0.15 0 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-excavatorbutton></a-entity>
+
+        <a-entity id="scraperButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_scraper.jpg)" position="0.425 0 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-scraperbutton></a-entity>
+
+        <a-entity id="infoButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/info.jpg)" position="0.2 -0.15 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-infobutton></a-entity>
+
+        <a-entity id="serviceButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/services.jpg)" position="-0.2 -0.15 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-servicesbutton></a-entity>
 
       </a-entity>
 
       <!-- Application menu -->
-      <a-entity id="spatialApplicationMenu" spatial-window="width: 0.5; height: 0.5" visible="false" position="0.5 1.15 -0.85" rotation="0 0 0" toggle-video-visibility>
+      <a-entity id="spatialApplicationMenu" spatial-window="width: 0.5; height: 0.5" visible="false" position="0.5 1.15 -0.85" rotation="0 0 0">
         <a-entity id="displayButton" button-label="label: Display; width: 0.45" position="0 0.2 0" sound="src: #Click-Sound; on: click" click-displaybutton></a-entity>
         <a-entity id="button3" button-label="label: Implant placement; width: 0.45" position="0 0.1 0" sound="src: #Click-Sound; on: click" play-video1></a-entity>
         <a-entity id="button4" button-label="label: Dental crown treatment; width: 0.45" position="0 0 0" sound="src: #Click-Sound; on: click" play-video2></a-entity>
