@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
-    <!--<script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>
 
     <!-- SPATIAL -->
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@f7efe9161ebb1c9d78a05ed42adc603740ed25bb/examples/js/spatial-ui/spatial-utils.js"></script>
@@ -46,6 +46,7 @@
       });
 
     </script>
+
     <!-- component to animate the meshes -->
     <script>
       AFRAME.registerComponent('animate', {
@@ -91,155 +92,6 @@
 
     </script>
 
-    <!-- component to grab the glTF -->
-    <script>
-      AFRAME.registerComponent('grab-gltf', {
-        init: function() {
-          var sceneEl = document.querySelector('a-scene');
-          var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-          // Sickle prob glTF entity
-          //var sickleGLTF = glTFModels[0];
-          //console.log(sickleGLTF);
-          //var sickleComponents = glTFModels[0].components;
-          //var glTFModels = sceneEl.querySelector('a-gltf-model');
-          //console.log(glTFModels[0]);
-          //console.log(sickleComponents['grabbable'].initialized);
-          // Denture glTF entity
-          /*var dentureGLTF = glTFModels[1];
-          console.log(dentureGLTF);  
-          var dentureComponents = glTFModels[1].components;
-          console.log(dentureComponents['grabbable'].initialized);
-          
-          // Scalpels glTF entity
-          var scalpelsGLTF = glTFModels[8];
-          console.log(scalpelsGLTF);
-          var scalpelsComponents = glTFModels[8].components;
-          console.log(scalpelsComponents['grabbable'].initialized);
-          
-          // Laptop glTF entity
-          var laptopGLTF = glTFModels[10];
-          console.log(laptopGLTF);
-          var laptopComponents = glTFModels[10].components;
-          console.log(laptopComponents['grabbable'].initialized);
-          
-          // Scalpels glTF entity
-          var mmips1p1GLTF = glTFModels[11];
-          console.log(mmips1p1GLTF);
-          var mmips1p1Components = glTFModels[11].components;
-          console.log(mmips1p1Components['grabbable'].initialized);*/
-        }
-      });
-
-    </script>
-
-    <!-- component to rotate sickle probe -->
-    <!--<script>
-      AFRAME.registerComponent('rotate-sickle', {
-        schema: {
-          x_val: {
-            type: 'number',
-            default: 0
-          },
-          y_val: {
-            type: 'number',
-            default: 0
-          },
-          z_val: {
-            type: 'number',
-            default: 0
-          }
-        },
-
-        init: function() {
-
-          var entitySickle = document.getElementById('sickle');
-          var rotation = entitySickle.getAttribute('rotation');
-          console.log('Current rotation of the sickle is: ', rotation);
-
-          var Pitch = parseInt(this.data.x_val);
-          var Yaw = parseInt(this.data.y_val);
-          var Roll = parseInt(this.data.z_val);
-
-          var sickleObjectRot = entitySickle.object3D.rotation.set(THREE.MathUtils.degToRad(Pitch), THREE.MathUtils.degToRad(Yaw), THREE.MathUtils.degToRad(Roll));
-
-          console.log("Curent rotation of the sickle entity is: ", sickleObjectRot);
-
-        },
-      });
-
-    </script>-->
-    <!-- component to rotate scalpels -->
-    <!--<script>
-      AFRAME.registerComponent('rotate-scalpels', {
-        scehema: {
-          x_val: {
-            type: 'number',
-            default: 0
-          },
-          y_val: {
-            type: 'number',
-            default: 0
-          },
-          z_val: {
-            type: 'number',
-            default: 0
-          }
-        },
-
-        init: function() {
-
-          var entityScalpel = document.getElementById('scalpels');
-          var rotation = entityScalpel.getAttribute('rotation');
-          console.log('Current rotation of the scalpels is: ', rotation);
-
-          var Pitch = parseInt(this.data.x_val);
-          var Yaw = parseInt(this.data.y_val);
-          var Roll = parseInt(this.data.z_val);
-
-          var scalpelObjectRot = entityScalpel.object3D.rotation.set(THREE.MathUtils.degToRad(Pitch), THREE.MathUtils.degToRad(Yaw), THREE.MathUtils.degToRad(Roll));
-
-          console.log("Curent rotation of the scalpel entity is: ", scalpelObjectRot);
-
-        },
-      });
-
-    </script>-->
-    <!-- component to rotate denture -->
-    <!--<script>
-      AFRAME.registerComponent('rotate-denture', {
-        scehema: {
-          x_val: {
-            type: 'number',
-            default: 0
-          },
-          y_val: {
-            type: 'number',
-            default: 0
-          },
-          z_val: {
-            type: 'number',
-            default: 0
-          }
-        },
-
-        init: function() {
-
-          var entityDenture = document.getElementById('denture');
-          var rotation = entityDenture.getAttribute('rotation');
-          console.log('Current rotation of the denture is: ', rotation);
-
-          var Pitch = parseInt(this.data.x_val);
-          var Yaw = parseInt(this.data.y_val);
-          var Roll = parseInt(this.data.z_val);
-
-          var dentureObjectRot = entityDenture.object3D.rotation.set(THREE.MathUtils.degToRad(Pitch), THREE.MathUtils.degToRad(Yaw), THREE.MathUtils.degToRad(Roll));
-
-          console.log("Curent rotation of the denture entity is: ", dentureObjectRot);
-
-        },
-      });
-
-    </script>-->
     <!-- component to rotate the legs of the patient -->
     <script>
       AFRAME.registerComponent('rotate-patient-legs', {
@@ -258,12 +110,9 @@
           }
         },
         init: function() {
-          const el = this.el;
-          el.addEventListener('model-loaded', () => {
-            var sceneEl = document.querySelector('a-scene');
-            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-            var entityPatient = glTFModels[10]
-            var patientObj = entityPatient.getObject3D('mesh');
+          this.el.addEventListener('model-loaded', () => {
+            const el = this.el;
+            var patientObj = el.getObject3D('mesh');
             patientObj.frustumCulled = false;
             patientObj.getObjectByProperty("type", "SkinnedMesh").frustumCulled = false;
             const entityPatientLeftLeg = patientObj.getObjectByName('rp_nathan_animated_003_walking_upperleg_l');
@@ -312,12 +161,9 @@
           }*/
         },
         init: function() {
-          const el = this.el;
-          el.addEventListener('model-loaded', () => {
-            var sceneEl = document.querySelector('a-scene');
-            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-            var entityPatient = glTFModels[10]
-            var patientObj = entityPatient.getObject3D('mesh');
+          this.el.addEventListener('model-loaded', () => {
+            const el = this.el;
+            var patientObj = el.getObject3D('mesh');
             const entityPatientLeftHand = patientObj.getObjectByName('rp_nathan_animated_003_walking_hand_l');
             const entityPatientRightHand = patientObj.getObjectByName('rp_nathan_animated_003_walking_hand_r');
             const entityPatientLeftShoulder = patientObj.getObjectByName('rp_nathan_animated_003_walking_shoulder_l');
@@ -364,12 +210,9 @@
           }
         },
         init: function() {
-          const el = this.el;
-          el.addEventListener('model-loaded', () => {
-            var sceneEl = document.querySelector('a-scene');
-            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-            var entityPatient = glTFModels[10]
-            var patientObj = entityPatient.getObject3D('mesh');
+          this.el.addEventListener('model-loaded', () => {
+            const el = this.el;
+            var patientObj = el.getObject3D('mesh');
             const entityPatientSpine_01 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_01');
             const entityPatientSpine_02 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_02');
             const entityPatientSpine_03 = patientObj.getObjectByName('rp_nathan_animated_003_walking_spine_03');
@@ -404,12 +247,10 @@
           }
         },
         init: function() {
-          const el = this.el;
-          el.addEventListener('model-loaded', () => {
-            var sceneEl = document.querySelector('a-scene');
-            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-            var entityPatient = glTFModels[10]
-            var patientObj = entityPatient.getObject3D('mesh');
+          this.el.addEventListener('model-loaded', () => {
+            const el = this.el;
+
+            var patientObj = el.getObject3D('mesh');
             const entityPatientNeck = patientObj.getObjectByName('rp_nathan_animated_003_walking_neck');
             const entityPatientHead = patientObj.getObjectByName('rp_nathan_animated_003_walking_head');
             const entityPatientHeadEnd = patientObj.getObjectByName('rp_nathan_animated_003_walking_head_end');
@@ -430,12 +271,10 @@
     <script>
       AFRAME.registerComponent('frustum-culling-disabled', {
         init: function() {
-          var el = this.el;
-          el.addEventListener('model-loaded', () => {
-            var sceneEl = document.querySelector('a-scene');
-            var glTFModels = sceneEl.querySelectorAll('a-gltf-model');
-            var entityDentist = glTFModels[7];
-            var dentistObj = entityDentist.getObject3D('mesh');
+          this.el.addEventListener('model-loaded', () => {
+            const el = this.el;
+
+            var dentistObj = el.getObject3D('mesh');
             dentistObj.frustumCulled = false;
             dentistObj.getObjectByProperty("type", "SkinnedMesh").frustumCulled = false;
             //Bip001 L Hand_09
@@ -941,6 +780,8 @@
             target2El.setAttribute('visible', 'false');
             target3El.components.material.material.map.image.pause();
             target3El.setAttribute('visible', 'false');
+                        targetButton.setAttribute('material', 'opacity', '0.35');
+
           })
         }
       })
@@ -964,6 +805,8 @@
             target2El.setAttribute('visible', 'false');
             target3El.components.material.material.map.image.pause();
             target3El.setAttribute('visible', 'false');
+                        targetButton.setAttribute('material', 'opacity', '0.35');
+
           })
         }
       })
@@ -987,6 +830,8 @@
             target2El.setAttribute('visible', 'false');
             target3El.components.material.material.map.image.pause();
             target3El.setAttribute('visible', 'false');
+                        targetButton.setAttribute('material', 'opacity', '0.35');
+
           })
         }
       })
@@ -1010,6 +855,8 @@
             target2El.setAttribute('visible', 'false');
             target3El.components.material.material.map.image.pause();
             target3El.setAttribute('visible', 'false');
+                        targetButton.setAttribute('material', 'opacity', '0.35');
+
           })
         }
       })
@@ -1307,9 +1154,6 @@
         <!-- Spoon asset -->
         <a-asset-item id="Spoon" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_spoon.glb"></a-asset-item>
 
-        <!-- Probe asset -->
-        <a-asset-item id="Probe03" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_probe_03.glb"></a-asset-item>
-
         <!-- Excavator asset -->
         <a-asset-item id="Excavator" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_excavator.glb"></a-asset-item>
 
@@ -1317,7 +1161,7 @@
         <a-asset-item id="Scraper" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_scraper.glb"></a-asset-item>
 
         <!-- Sounds for menu buttons -->
-        <!--<audio id="Click-Sound" crossorigin="anonymous" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sounds/593237__ilip33__pressing-the-enter-button.wav" preload="auto"></audio>-->
+        <audio id="Click-Sound" crossorigin="anonymous" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Sounds/593237__ilip33__pressing-the-enter-button.wav" preload="auto"></audio>
 
         <!-- videos for displays -->
         <video id="Video1" preload="auto" src="https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/Videos/implant_placement.mp4" width="160" height="90" autoplay loop="true" crossOrigin="anonymous" muted></video>
@@ -1329,24 +1173,6 @@
         <video id="Video4" preload="auto" src="https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/Videos/scaling-teeth.mp4" width="160" height="90" autoplay loop="true" crossOrigin="anonymous" muted></video>
 
       </a-assets>
-
-      <!-- Sickle Pro glTF -->
-      <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="0 1 -0.65" pinchable="pinchDistance: 0.05" visible="false" mesh-shadows></a-gltf-model>
-
-      <!-- Denture glTF -->
-      <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="0 1 -0.65" pinchable="pinchDistance: 0.05" visible="false" mesh-shadows></a-gltf-model>
-
-      <!-- Scalpel glTF -->
-      <a-gltf-model id="scalpel" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="0 1 -0.65" mesh-shadows visible="false"></a-gltf-model>
-
-      <!-- Syringe glTF-->
-      <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="0 1 -0.65" visible="false" mesh-shadows></a-gltf-model>
-
-      <!-- Mirror glTF-->
-      <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="0 1 -0.65" pinchable="pinchDistance: 0.05" visible="false" mesh-shadows></a-gltf-model>
-
-      <!-- Compactor glTF-->
-      <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="0 1 -0.65" visible="false" mesh-shadows></a-gltf-model>
 
       <!-- Room glTF -->
       <a-gltf-model id="room" gltf-model="#Room" rotation="0 0 0" scale="0.0095 0.0095 0.015" position="-0.45 0 -1.5"></a-gltf-model>
@@ -1393,34 +1219,6 @@
       <!-- Partition 2 glTF-->
       <a-gltf-model id="partition2" gltf-model="#Partition" rotation="0 -135 0" scale="0.825 0.825 0.825" position="-5.5 0.30 7.5" visible="false" mesh-shadows></a-gltf-model>
 
-      <!-- Spoon -->
-      <a-gltf-model id="spoon" gltf-model="#Spoon" rotation="0 -135 0" scale="0.8 0.8 0.8" position="0 1 -0.85" visible="false" mesh-shadows></a-gltf-model>
-
-      <!-- Scraper -->
-      <a-gltf-model id="scraper" gltf-model="#Scraper" rotation="0 -135 0" scale="0.8 0.8 0.8" position="0 1 -0.85" visible="false" mesh-shadows></a-gltf-model>
-
-      <!-- Excavator -->
-      <a-gltf-model id="excavator" gltf-model="#Excavator" rotation="0 -135 0" scale="0.8 0.8 0.8" position="0 1 -0.85" visible="false" mesh-shadows></a-gltf-model>
-
-      <!-- Probe03 -->
-      <a-gltf-model id="probe03" gltf-model="#Probe03" rotation="0 -135 0" scale="0.8 0.8 0.8" position="0 1 -0.85" visible="false" mesh-shadows></a-gltf-model>
-
-      <!-- Text area for info button -->
-      <a-entity id="infoPlane" geometry="primitive: plane; width: 1; height: 1;" material="color:#B2D8D8" text="anchor: center; baseline: center; wrapCount: 40; transparent: true; opacity: 0.90; color: #FFFFFF; value: 1 \n 2 \n 3 \n 4; align: center" position="0 1.75 -0.85" visible="false"></a-entity>
-
-      <!-- Text area for services -->
-      <a-entity id="infoPlane2" geometry="primitive: plane; width: 1; height: 0.5;" material="color:#66B2B2;" position="-0.35 1.15 -0.85" rotation="0 0 0" visible="false">
-
-        <a-video id="video1" src="#Video1" width="1" height="0.5" visible="false"></a-video>
-
-        <a-video id="video2" src="#Video2" width="1" height="0.5" visible="false"></a-video>
-
-        <a-video id="video3" src="#Video3" width="1" height="0.5" visible="false"></a-video>
-
-        <a-video id="video4" src="#Video4" width="1" height="0.5" visible="false"></a-video>
-
-      </a-entity>
-
       <!-- Camera system -->
       <a-entity id="camera-control" movement-controls="speed:0.2;">
 
@@ -1433,6 +1231,49 @@
         <!-- Right hand controller -->
         <a-entity id="rightHand" hand-tracking-controls="hand: right; modelColor: #ADD8E6; modelStyle: mesh" hand-tracking-extras drag-move="rig: #camera-control; speed: 5" event-set__show="_event: pinchstarted; _target: #textArea2; visible: true" event-set__hide="_event: pinchended; _target: #textArea2; visible: false" pinch-to-move-mirror>
         </a-entity>
+
+        <!-- Sickle Pro glTF -->
+        <a-gltf-model id="sickle" gltf-model="#Sickle" rotation="90 0 0" scale="1 1 1" position="0 1 -0.65" pinchable="pinchDistance: 0.05" visible="false" mesh-shadows></a-gltf-model>
+
+        <!-- Denture glTF -->
+        <a-gltf-model id="denture" gltf-model="#Denture" rotation="0 0 0" scale="0.0065 0.0065 0.0065" position="0 1 -0.65" pinchable="pinchDistance: 0.05" visible="false" mesh-shadows></a-gltf-model>
+
+        <!-- Scalpel glTF -->
+        <a-gltf-model id="scalpel" gltf-model="#Scalpels" rotation="0 0 0" scale="0.35 0.35 0.35" position="0 1 -0.65" mesh-shadows visible="false"></a-gltf-model>
+
+        <!-- Syringe glTF-->
+        <a-gltf-model id="syringe" gltf-model="#Syringe" rotation="0 180 0" scale="0.00125 0.00125 0.00125" position="0 1 -0.65" visible="false" mesh-shadows></a-gltf-model>
+
+        <!-- Mirror glTF-->
+        <a-gltf-model id="mirror" gltf-model="#Mirror" rotation="0 0 0" scale="1 1 1" position="0 1 -0.65" pinchable="pinchDistance: 0.05" visible="false" mesh-shadows></a-gltf-model>
+
+        <!-- Compactor glTF-->
+        <a-gltf-model id="compactor" gltf-model="#Compactor" rotation="0 180 0" scale="0.35 0.35 0.35" position="0 1 -0.65" visible="false" mesh-shadows></a-gltf-model>
+
+        <!-- Spoon -->
+        <a-gltf-model id="spoon" gltf-model="#Spoon" rotation="0 -135 0" scale="0.8 0.8 0.8" position="0 1 -0.85" visible="false" mesh-shadows></a-gltf-model>
+
+        <!-- Scraper -->
+        <a-gltf-model id="scraper" gltf-model="#Scraper" rotation="0 -135 0" scale="0.8 0.8 0.8" position="0 1 -0.85" visible="false" mesh-shadows></a-gltf-model>
+
+        <!-- Excavator -->
+        <a-gltf-model id="excavator" gltf-model="#Excavator" rotation="0 -135 0" scale="0.8 0.8 0.8" position="0 1 -0.85" visible="false" mesh-shadows></a-gltf-model>
+
+        <!-- Text area for services -->
+        <a-entity id="infoPlane2" geometry="primitive: plane; width: 1; height: 0.5;" material="color:#66B2B2;" position="-0.35 1.15 -0.85" rotation="0 0 0" visible="false">
+
+          <a-video id="video1" src="#Video1" width="1" height="0.5" visible="false"></a-video>
+
+          <a-video id="video2" src="#Video2" width="1" height="0.5" visible="false"></a-video>
+
+          <a-video id="video3" src="#Video3" width="1" height="0.5" visible="false"></a-video>
+
+          <a-video id="video4" src="#Video4" width="1" height="0.5" visible="false"></a-video>
+
+        </a-entity>
+
+        <!-- Text area for info button -->
+        <a-entity id="infoPlane" geometry="primitive: plane; width: 1; height: 1;" material="color:#B2D8D8" text="anchor: center; baseline: center; wrapCount: 40; transparent: true; opacity: 0.90; color: #FFFFFF; value: 1 \n 2 \n 3 \n 4; align: center" position="0 2 -0.85" visible="false"></a-entity>
 
         <a-entity id="spatialMenu" spatial-window="width: 0.7; height: 0.435; depth:0.5" position="-0.015 0.70 -0.65" visible="true" rotation="-45 0 0">
 
@@ -1461,46 +1302,13 @@
         <!-- Application menu -->
         <a-entity id="spatialApplicationMenu" spatial-window="width: 0.5; height: 0.5" visible="false" position="0.5 1.15 -0.85" rotation="0 0 0">
           <a-entity id="displayButton" button-label="label: Display; width: 0.45" position="0 0.2 0" sound="src: #Click-Sound; on: click" click-displaybutton></a-entity>
-          <a-entity id="button3" button-label="label: Implant placement; width: 0.45" position="0 0.1 0" sound="src: #Click-Sound; on: click" play-video1></a-entity>
-          <a-entity id="button4" button-label="label: Dental crown treatment; width: 0.45" position="0 0 0" sound="src: #Click-Sound; on: click" play-video2></a-entity>
-          <a-entity id="button5" button-label="label: Teeth whitening; width: 0.45" position="0 -0.1 0" sound="src: #Click-Sound; on: click" play-video3></a-entity>
-          <a-entity id="button6" button-label="label: Scale and polish; width: 0.45" position="0 -0.2 0" sound="src: #Click-Sound; on: click" play-video4></a-entity>
+          <a-entity id="button3" button-label="label: Implant placement; width: 0.45" position="0 0.1 0" sound="src: #Click-Sound; on: click" play-video1 material="opacity: 2.0; transparent: true"></a-entity>
+          <a-entity id="button4" button-label="label: Dental crown treatment; width: 0.45" position="0 0 0" sound="src: #Click-Sound; on: click" play-video2 material="opacity: 2.0; transparent: true"></a-entity>
+          <a-entity id="button5" button-label="label: Teeth whitening; width: 0.45" position="0 -0.1 0" sound="src: #Click-Sound; on: click" play-video3 material="opacity: 2.0; transparent: true"></a-entity>
+          <a-entity id="button6" button-label="label: Scale and polish; width: 0.45" position="0 -0.2 0" sound="src: #Click-Sound; on: click" play-video4 material="opacity: 2.0; transparent: true"></a-entity>
         </a-entity>
 
       </a-entity>
-
-      <!--<a-entity id="spatialMenu" spatial-window="width: 0.7; height: 0.435; depth:0.5" position="-0.015 0.70 -0.65" visible="true" rotation="-45 0 0">
-
-        <a-entity id="mirrorButton" button="height: 0.11; width: 0.15" position="-0.27 0.1 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-mirrorbutton></a-entity>
-
-        <a-entity id="sickleButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_sickle_probe.jpg)" position="-0.085 0.1 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-sicklebutton></a-entity>
-
-        <a-entity id="syringeButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_syringe.jpg)" position="0.085 0.1 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-syringebutton></a-entity>
-
-        <a-entity id="compactorButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_compactor.jpg)" position="0.265 0.1 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-compacterbutton></a-entity>
-
-        <a-entity id="scalpelButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_scalpels.jpg)" position="-0.27 -0.025 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-scalpelbutton></a-entity>
-
-        <a-entity id="spoonButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_spoon.jpg)" position="-0.085 -0.025 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-spoonbutton></a-entity>
-
-        <a-entity id="excavatorButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_excavator.jpg)" position="0.085 -0.025 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-excavatorbutton></a-entity>
-
-        <a-entity id="scraperButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_scraper.jpg)" position="0.265 -0.025 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-scraperbutton></a-entity>
-
-        <a-entity id="infoButton" button="height: 0.11; width: 0.15; src:url(https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/info.jpg)" position="-0.085 -0.155 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-infobutton></a-entity>
-
-        <a-entity id="serviceButton" button="height: 0.11; width: 0.15; src:url(https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/services.jpg)" position="0.085 -0.155 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-servicesbutton></a-entity>
-
-      </a-entity>-->
-
-      <!-- Application menu -->
-      <!--<a-entity id="spatialApplicationMenu" spatial-window="width: 0.5; height: 0.5" visible="false" position="0.5 1.15 -0.85" rotation="0 0 0">
-        <a-entity id="displayButton" button-label="label: Display; width: 0.45" position="0 0.2 0" sound="src: #Click-Sound; on: click" click-displaybutton></a-entity>
-        <a-entity id="button3" button-label="label: Implant placement; width: 0.45" position="0 0.1 0" sound="src: #Click-Sound; on: click" play-video1></a-entity>
-        <a-entity id="button4" button-label="label: Dental crown treatment; width: 0.45" position="0 0 0" sound="src: #Click-Sound; on: click" play-video2></a-entity>
-        <a-entity id="button5" button-label="label: Teeth whitening; width: 0.45" position="0 -0.1 0" sound="src: #Click-Sound; on: click" play-video3></a-entity>
-        <a-entity id="button6" button-label="label: Scale and polish; width: 0.45" position="0 -0.2 0" sound="src: #Click-Sound; on: click" play-video4></a-entity>
-      </a-entity>-->
 
       <!-- Lighting -->
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="8 10 18"></a-entity>
