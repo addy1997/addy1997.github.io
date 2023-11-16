@@ -2,12 +2,12 @@
 <html>
 
   <head>
-    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@67d1130/dist/aframe-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@master/dist/aframe-physics-system.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
-    <!--<script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/gh/addy1997/aframe-hand-tracking-controls-extras@master-1/dist/hand-extras.js"></script>
 
     <!-- SPATIAL -->
     <script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@f7efe9161ebb1c9d78a05ed42adc603740ed25bb/examples/js/spatial-ui/spatial-utils.js"></script>
@@ -275,28 +275,39 @@
             const el = this.el;
 
             var dentistObj = el.getObject3D('mesh');
+            
             dentistObj.frustumCulled = false;
             dentistObj.getObjectByProperty("type", "SkinnedMesh").frustumCulled = false;
+            dentistObj.getObjectByName('Bip001_L_Hand_09').frustumCulled = false;
+            dentistObj.getObjectByName('Bip001_L_Finger0_010').frustumCulled = false;
+            dentistObj.getObjectByName('Bip001_L_Finger01_011').frustumCulled = false;
+            dentistObj.getObjectByName('Bip001_L_Finger1_012').frustumCulled = false;
+            dentistObj.getObjectByName('Bip001_L_Finger11_00').frustumCulled = false;
+            dentistObj.getObjectByName('Bip001_R_Hand_017').frustumCulled = false;
+            dentistObj.getObjectByName('Bip001_R_Finger0_018').frustumCulled = false;
+            dentistObj.getObjectByName('Bip001_R_Finger01_019').frustumCulled = false;
+            dentistObj.getObjectByName('Bip001_R_Finger1_020').frustumCulled = false;
+            dentistObj.getObjectByName('Bip001_R_Finger11_021').frustumCulled = false;
             //Bip001 L Hand_09
-            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
+            //dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
             //Bip001 L Finger0_010
-            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
+            //dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
             //Bip001 L Finger01_011
-            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
+            //dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
             //Bip001 L Finger1_012
-            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[1].frustumCulled = false;
+            //dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[1].frustumCulled = false;
             //Bip001_L_Finger11_00
-            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[1].children[0].frustumCulled = false;
+            //dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[0].children[1].children[0].frustumCulled = false;
             //Bip001 R Hand_017
-            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].frustumCulled = false;
+            //dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].frustumCulled = false;
             //Bip001 R Finger0_018
-            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].frustumCulled = false
+            //dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].frustumCulled = false
             //Bip001 R Finger01_019
-            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
+            //dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[0].children[0].frustumCulled = false;
             //Bip001 R Finger1_020
-            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[1].frustumCulled = false;
+            //dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[1].frustumCulled = false;
             //Bip001 R Finger11_021
-            dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[1].children[0].frustumCulled = false;
+            //dentistObj.children[0].children[0].children[0].children[0].children[0].children[4].children[0].children[0].children[0].children[0].children[0].children[1].children[0].children[0].children[0].children[1].children[0].frustumCulled = false;
           });
         }
       });
@@ -780,7 +791,7 @@
             target2El.setAttribute('visible', 'false');
             target3El.components.material.material.map.image.pause();
             target3El.setAttribute('visible', 'false');
-                        targetButton.setAttribute('material', 'opacity', '0.35');
+            targetButton.setAttribute('material', 'opacity', '0.35');
 
           })
         }
@@ -805,7 +816,7 @@
             target2El.setAttribute('visible', 'false');
             target3El.components.material.material.map.image.pause();
             target3El.setAttribute('visible', 'false');
-                        targetButton.setAttribute('material', 'opacity', '0.35');
+            targetButton.setAttribute('material', 'opacity', '0.35');
 
           })
         }
@@ -830,7 +841,7 @@
             target2El.setAttribute('visible', 'false');
             target3El.components.material.material.map.image.pause();
             target3El.setAttribute('visible', 'false');
-                        targetButton.setAttribute('material', 'opacity', '0.35');
+            targetButton.setAttribute('material', 'opacity', '0.35');
 
           })
         }
@@ -855,7 +866,7 @@
             target2El.setAttribute('visible', 'false');
             target3El.components.material.material.map.image.pause();
             target3El.setAttribute('visible', 'false');
-                        targetButton.setAttribute('material', 'opacity', '0.35');
+            targetButton.setAttribute('material', 'opacity', '0.35');
 
           })
         }
@@ -1275,11 +1286,11 @@
         <!-- Text area for info button -->
         <a-entity id="infoPlane" geometry="primitive: plane; width: 1; height: 1;" material="color:#B2D8D8" text="anchor: center; baseline: center; wrapCount: 40; transparent: true; opacity: 0.90; color: #FFFFFF; value: 1 \n 2 \n 3 \n 4; align: center" position="0 2 -0.85" visible="false"></a-entity>
 
-        <a-entity id="spatialMenu" spatial-window="width: 0.7; height: 0.435; depth:0.5" position="-0.015 0.70 -0.65" visible="true" rotation="-45 0 0">
+        <a-entity id="spatialMenu" spatial-window="width: 0.7; height: 0.435;" position="-0.015 0.70 -0.65" visible="true" rotation="-45 0 0">
 
           <a-entity id="mirrorButton" button="height: 0.11; width: 0.15" position="-0.27 0.1 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-mirrorbutton></a-entity>
 
-          <a-entity id="sickleButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_sickle_probe.jpg)" position="-0.085 0.1 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-sicklebutton></a-entity>
+          <a-entity id="sickleButton" button="height: 0.11; width: 0.15; src:url(https://raw.githubusercontent.com/addy1997/3D-models/main/Dental%20Models/dental_sickle_probe.jpg)" position="-0.085 0.1 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-sicklebutton></a-entity>
 
           <a-entity id="syringeButton" button="height: 0.11; width: 0.15; src:url(https://cdn.jsdelivr.net/gh/addy1997/3D-models@main/Dental%20Models/dental_syringe.jpg)" position="0.085 0.1 0" sound="src: #Click-Sound; on: click" material="opacity: 2.0; transparent: true" click-syringebutton></a-entity>
 
@@ -1314,7 +1325,7 @@
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2" position="8 10 18"></a-entity>
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="-0.45 1.1 -1.5"></a-entity>
       <a-entity light="type: point; color: #f4f4f4; intensity: 0.2; distance: 0" position="1.45 1.68 -2"></a-entity>
-      <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.6;" position="-8 10 -18"></a-entity>
+      <a-entity light="type: ambient; color: #f4f4f4; intensity: 0.4;" position="-8 10 -18"></a-entity>
 
       <a-sky color="#6EBAA7"></a-sky>
     </a-scene>
