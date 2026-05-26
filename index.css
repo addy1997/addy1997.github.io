@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+/* ── Design tokens (light mode) ───────────────────────── */
+:root {
+  --c-bg:         #EDF2FF;   /* soft blue-white page background */
+  --c-surface:    #E2EAFC;   /* card / section surface — gentle blue */
+  --c-nav-bg:     rgba(226, 234, 252, 0.92);
+  --c-text:       #111827;
+  --c-muted:      #6B7280;
+  --c-subtle:     #C7D5EE;   /* blue-tinted border */
+  --c-accent:     #2563EB;
+  --c-accent-dim: #1D4ED8;
+}
+
+/* ── Dark mode overrides ──────────────────────────────── */
+html.dark {
+  --c-bg:         #0C0E16;   /* deep blue-black page */
+  --c-surface:    #131620;   /* card surface — cool blue-dark */
+  --c-nav-bg:     rgba(12, 14, 22, 0.92);
+  --c-text:       #F0F0EE;
+  --c-muted:      #9CA3AF;
+  --c-subtle:     #1E2336;   /* blue-tinted dark border */
+  --c-accent:     #3B82F6;
+  --c-accent-dim: #2563EB;
+}
+
+@theme {
+  --font-sans:    'Inter', sans-serif;
+  --font-display: 'Space Grotesk', sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--c-bg);
+  color: var(--c-text);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+#root {
+  min-height: 100vh;
+}
