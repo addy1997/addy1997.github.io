@@ -14,6 +14,7 @@ import ScrollProgressBar from './components/ScrollProgressBar';
 import CursorGlow from './components/CursorGlow';
 import LegalModal, { type LegalType } from './components/LegalModal';
 import CookieBanner from './components/CookieBanner';
+import Dash from './components/Dash';
 
 const FOOTER_LINKS: { label: string; type: LegalType }[] = [
   { label: 'Privacy Policy', type: 'privacy' },
@@ -100,6 +101,9 @@ export default function App() {
 
       {/* Cookie consent banner */}
       <CookieBanner onOpenPolicy={(type) => setLegalOpen(type)} />
+
+      {/* Dash — AI assistant */}
+      <Dash />
 
       {/* Vercel Analytics + Speed Insights — no-op locally, activates on Vercel */}
       <Analytics />
