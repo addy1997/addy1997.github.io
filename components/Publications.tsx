@@ -15,21 +15,21 @@ const PUBLICATIONS: Publication[] = [
     title: 'HMM-based Phoneme Speech Recognition System for Control of Industrial Robots',
     date: 'Jan 2021',
     type: 'journal',
-    link: '#',
+    link: 'https://arxiv.org/abs/2001.01222',
     description: 'Journal article on speech recognition systems applied to industrial robotic control using Hidden Markov Models.',
   },
   {
     title: 'Super-immersive Remote Working via Virtual Reality Controlled Robotics',
     date: 'Mar 2023',
     type: 'conference',
-    link: '#',
+    link: 'https://dl.acm.org/doi/abs/10.1145/3582700.3583700',
     description: 'Conference paper presenting an immersive VR-based teleoperation system for remote robotic manipulation and collaboration.',
   },
   {
     title: 'Novel View Synthesis from Blurry Images',
     date: 'Aug 2022',
     type: 'thesis',
-    link: '#',
+    link: 'https://drive.google.com/file/d/12YVnVeI8mQuxdWsqWG5GHkssTZksuf0P/view?usp=drive_link',
     description: 'Master\'s thesis on generating novel viewpoints from blurry images using advanced computer vision techniques.',
   },
 ];
@@ -62,7 +62,10 @@ function PublicationCard({ pub, index }: { pub: Publication; index: number }) {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <motion.div
+    <motion.a
+      href={pub.link}
+      target="_blank"
+      rel="noopener noreferrer"
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 16 }}
@@ -82,6 +85,7 @@ function PublicationCard({ pub, index }: { pub: Publication; index: number }) {
         boxShadow: hovered
           ? '0 12px 36px rgba(37,99,235,0.10), 0 2px 8px rgba(0,0,0,0.06)'
           : '0 1px 4px rgba(0,0,0,0.04)',
+        textDecoration: 'none',
       }}
     >
       {/* ── Header: Type badge + Date ── */}
@@ -167,7 +171,7 @@ function PublicationCard({ pub, index }: { pub: Publication; index: number }) {
           <ExternalLink size={13} />
         </motion.span>
       </div>
-    </motion.div>
+    </motion.a>
   );
 }
 
