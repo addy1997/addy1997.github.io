@@ -21,8 +21,8 @@ const ACHIEVEMENTS: Achievement[] = [
     category: 'conference',
     description: 'AR application developed and exhibited at Mobile World Congress 2024 in Barcelona, Spain. A global showcase of cutting-edge mobile and AR technologies.',
     link: '#',
-    image: '/public/assets/ar-showcase.jpg',
-    videoThumbnail: '/public/assets/ar-showcase.jpg',
+    image: '/assets/ar-showcase.jpg',
+    videoThumbnail: '/assets/ar-showcase.jpg',
   },
   {
     title: 'KTP Knowledge Transfer Partnership Documentary',
@@ -37,11 +37,11 @@ const ACHIEVEMENTS: Achievement[] = [
     date: '2023',
     category: 'presentation',
     description: 'Demo presentation of the VR-controlled super-immersive robotic teleoperation system at ACM Augmented Humans Conference. Showcasing real-time remote manipulation capabilities.',
-    link: '/public/assets/20230313_094651.mp4',
-    image: '/public/assets/1748383801520.jpg',
-    videoLink: '/public/assets/20230313_094651.mp4',
-    photoLink: '/public/assets/1748383801520.jpg',
-    videoThumbnail: '/public/assets/1748383801520.jpg',
+    link: '/assets/20230313_094651.mp4',
+    image: '/assets/1748383801520.jpg',
+    videoLink: '/assets/20230313_094651.mp4',
+    photoLink: '/assets/1748383801520.jpg',
+    videoThumbnail: '/assets/1748383801520.jpg',
   },
   {
     title: 'Post Graduate Scholarship - University of Glasgow',
@@ -49,7 +49,7 @@ const ACHIEVEMENTS: Achievement[] = [
     category: 'award',
     description: 'Recipient of a prestigious Post Graduate Scholarship (~10,000 GBP) to pursue M.Sc. in Robotics and Artificial Intelligence at the University of Glasgow, Scotland. Highly competitive award recognizing academic excellence.',
     link: '',
-    image: '/public/assets/ar-showcase.jpg',
+    image: '/assets/ar-showcase.jpg',
   },
 ];
 
