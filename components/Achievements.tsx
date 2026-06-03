@@ -20,8 +20,9 @@ const ACHIEVEMENTS: Achievement[] = [
     date: 'Feb 2024',
     category: 'conference',
     description: 'AR application developed and exhibited at Mobile World Congress 2024 in Barcelona, Spain. A global showcase of cutting-edge mobile and AR technologies.',
-    link: 'https://drive.google.com/file/d/12YVnVeI8mQuxdWsqWG5GHkssTZksuf0P/view?usp=drive_link',
+    link: '#',
     image: '/public/assets/ar-showcase.jpg',
+    videoThumbnail: '/public/assets/ar-showcase.jpg',
   },
   {
     title: 'KTP Knowledge Transfer Partnership Documentary',
@@ -40,13 +41,14 @@ const ACHIEVEMENTS: Achievement[] = [
     image: '/public/assets/1748383801520.jpg',
     videoLink: '/public/assets/20230313_094651.mp4',
     photoLink: '/public/assets/1748383801520.jpg',
+    videoThumbnail: '/public/assets/1748383801520.jpg',
   },
   {
     title: 'Post Graduate Scholarship - University of Glasgow',
     date: '2021',
     category: 'award',
     description: 'Recipient of a prestigious Post Graduate Scholarship (~10,000 GBP) to pursue M.Sc. in Robotics and Artificial Intelligence at the University of Glasgow, Scotland. Highly competitive award recognizing academic excellence.',
-    link: '#',
+    link: '',
     image: '/public/assets/ar-showcase.jpg',
   },
 ];
@@ -80,12 +82,13 @@ function AchievementCard({ achievement, index }: { achievement: Achievement; ind
 
   const thumbnail = achievement.videoThumbnail || achievement.image;
   const isVideo = !!achievement.videoThumbnail;
+  const isClickable = achievement.link && achievement.link !== '#' && achievement.link !== '';
+
+  const CardWrapper = isClickable ? motion.a : motion.div;
 
   return (
-    <motion.a
-      href={achievement.link}
-      target="_blank"
-      rel="noopener noreferrer"
+    <CardWrapper
+      {...(isClickable && { href: achievement.link, target: '_blank', rel: 'noopener noreferrer' })}
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 16 }}
@@ -232,57 +235,59 @@ function AchievementCard({ achievement, index }: { achievement: Achievement; ind
           {achievement.description}
         </p>
 
-        <div style={{ display: 'flex', gap: '0.6rem', marginTop: '0.4rem', flexWrap: 'wrap' }}>
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.28rem',
-              color: 'var(--c-accent)',
-              fontFamily: "'Inter', sans-serif",
-              fontSize: '0.78rem',
-              fontWeight: 600,
-            }}
-          >
-            View {isVideo ? 'video' : 'details'}
-            <motion.span
-              animate={{ x: hovered ? 3 : 0 }}
-              transition={{ duration: 0.18 }}
-              style={{ display: 'flex', alignItems: 'center' }}
-            >
-              <ExternalLink size={13} />
-            </motion.span>
-          </div>
-          {achievement.photoLink && achievement.videoLink && achievement.photoLink !== achievement.videoLink && (
-            <motion.a
-              href={achievement.photoLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
-              whileHover={{ scale: 1.05 }}
+        {isClickable && (
+          <div style={{ display: 'flex', gap: '0.6rem', marginTop: '0.4rem', flexWrap: 'wrap' }}>
+            <div
               style={{
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.28rem',
-                color: 'var(--c-muted)',
+                color: 'var(--c-accent)',
                 fontFamily: "'Inter', sans-serif",
                 fontSize: '0.78rem',
                 fontWeight: 600,
-                paddingLeft: '0.6rem',
-                borderLeft: '1px solid var(--c-subtle)',
-                textDecoration: 'none',
-                transition: 'color 0.18s ease',
               }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = 'var(--c-accent)')}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = 'var(--c-muted)')}
             >
-              View photo
-              <ExternalLink size={13} />
-            </motion.a>
-          )}
-        </div>
+              View {isVideo ? 'video' : 'details'}
+              <motion.span
+                animate={{ x: hovered ? 3 : 0 }}
+                transition={{ duration: 0.18 }}
+                style={{ display: 'flex', alignItems: 'center' }}
+              >
+                <ExternalLink size={13} />
+              </motion.span>
+            </div>
+            {achievement.photoLink && achievement.videoLink && achievement.photoLink !== achievement.videoLink && (
+              <motion.a
+                href={achievement.photoLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                whileHover={{ scale: 1.05 }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.28rem',
+                  color: 'var(--c-muted)',
+                  fontFamily: "'Inter', sans-serif",
+                  fontSize: '0.78rem',
+                  fontWeight: 600,
+                  paddingLeft: '0.6rem',
+                  borderLeft: '1px solid var(--c-subtle)',
+                  textDecoration: 'none',
+                  transition: 'color 0.18s ease',
+                }}
+                onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = 'var(--c-accent)')}
+                onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = 'var(--c-muted)')}
+              >
+                View photo
+                <ExternalLink size={13} />
+              </motion.a>
+            )}
+          </div>
+        )}
       </div>
-    </motion.a>
+    </CardWrapper>
   );
 }
 
