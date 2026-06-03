@@ -8,6 +8,7 @@ import About from './components/About';
 import Experience from './components/Experience';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
+import Publications from './components/Publications';
 import Blogs from './components/Blogs';
 import Contact from './components/Contact';
 import ScrollProgressBar from './components/ScrollProgressBar';
@@ -42,6 +43,7 @@ export default function App() {
           <Experience />
           <Skills />
           <Projects />
+          <Publications />
           <Blogs />
           <Contact />
         </main>
