@@ -37,6 +37,14 @@ const ACHIEVEMENTS: Achievement[] = [
     link: 'https://photos.app.goo.gl/77YFwENqCz1X28vg7',
     image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=500&h=300&fit=crop',
   },
+  {
+    title: 'Postgraduate Scholarship - Robotics & AI',
+    date: '2021',
+    category: 'award',
+    description: 'Recipient of a prestigious postgraduate scholarship to pursue M.Sc. in Robotics and Artificial Intelligence at the University of Glasgow, Scotland.',
+    link: '#',
+    image: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=500&h=300&fit=crop',
+  },
 ];
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
