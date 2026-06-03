@@ -21,7 +21,7 @@ const ACHIEVEMENTS: Achievement[] = [
     category: 'conference',
     description: 'AR application developed and exhibited at Mobile World Congress 2024 in Barcelona, Spain. A global showcase of cutting-edge mobile and AR technologies.',
     link: 'https://drive.google.com/file/d/12YVnVeI8mQuxdWsqWG5GHkssTZksuf0P/view?usp=drive_link',
-    image: 'https://images.unsplash.com/photo-1626925230633-0b8335d76b1f?w=800&h=450&fit=crop&q=80',
+    image: '/public/assets/1709027871566 (1).jpg',
   },
   {
     title: 'KTP Knowledge Transfer Partnership Documentary',
@@ -47,7 +47,7 @@ const ACHIEVEMENTS: Achievement[] = [
     category: 'award',
     description: 'Recipient of a prestigious Post Graduate Scholarship (~10,000 GBP) to pursue M.Sc. in Robotics and Artificial Intelligence at the University of Glasgow, Scotland. Highly competitive award recognizing academic excellence.',
     link: '#',
-    image: 'https://images.unsplash.com/photo-1570303994762-602a555ce4cf?w=800&h=450&fit=crop&q=80',
+    image: '/public/assets/1709027871566 (1).jpg',
   },
 ];
 
