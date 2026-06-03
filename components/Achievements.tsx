@@ -10,6 +10,8 @@ interface Achievement {
   link: string;
   image?: string;
   videoThumbnail?: string;
+  videoLink?: string;
+  photoLink?: string;
 }
 
 const ACHIEVEMENTS: Achievement[] = [
@@ -34,8 +36,10 @@ const ACHIEVEMENTS: Achievement[] = [
     date: '2023',
     category: 'presentation',
     description: 'Demo presentation of the VR-controlled super-immersive robotic teleoperation system at ACM Augmented Humans Conference. Showcasing real-time remote manipulation capabilities.',
-    link: 'https://photos.app.goo.gl/77YFwENqCz1X28vg7',
+    link: '/assets/20230313_094651.mp4',
     image: '/assets/1748383801520.jpg',
+    videoLink: '/assets/20230313_094651.mp4',
+    photoLink: '/assets/1748383801520.jpg',
   },
   {
     title: 'Bertelsmann Technology Scholarship',
@@ -228,26 +232,54 @@ function AchievementCard({ achievement, index }: { achievement: Achievement; ind
           {achievement.description}
         </p>
 
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.28rem',
-            marginTop: '0.4rem',
-            color: 'var(--c-accent)',
-            fontFamily: "'Inter', sans-serif",
-            fontSize: '0.78rem',
-            fontWeight: 600,
-          }}
-        >
-          View {isVideo ? 'video' : 'details'}
-          <motion.span
-            animate={{ x: hovered ? 3 : 0 }}
-            transition={{ duration: 0.18 }}
-            style={{ display: 'flex', alignItems: 'center' }}
+        <div style={{ display: 'flex', gap: '0.6rem', marginTop: '0.4rem', flexWrap: 'wrap' }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.28rem',
+              color: 'var(--c-accent)',
+              fontFamily: "'Inter', sans-serif",
+              fontSize: '0.78rem',
+              fontWeight: 600,
+            }}
           >
-            <ExternalLink size={13} />
-          </motion.span>
+            View {isVideo ? 'video' : 'details'}
+            <motion.span
+              animate={{ x: hovered ? 3 : 0 }}
+              transition={{ duration: 0.18 }}
+              style={{ display: 'flex', alignItems: 'center' }}
+            >
+              <ExternalLink size={13} />
+            </motion.span>
+          </div>
+          {achievement.photoLink && achievement.videoLink && achievement.photoLink !== achievement.videoLink && (
+            <motion.a
+              href={achievement.photoLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              whileHover={{ scale: 1.05 }}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.28rem',
+                color: 'var(--c-muted)',
+                fontFamily: "'Inter', sans-serif",
+                fontSize: '0.78rem',
+                fontWeight: 600,
+                paddingLeft: '0.6rem',
+                borderLeft: '1px solid var(--c-subtle)',
+                textDecoration: 'none',
+                transition: 'color 0.18s ease',
+              }}
+              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = 'var(--c-accent)')}
+              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = 'var(--c-muted)')}
+            >
+              View photo
+              <ExternalLink size={13} />
+            </motion.a>
+          )}
         </div>
       </div>
     </motion.a>
