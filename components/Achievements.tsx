@@ -49,7 +49,7 @@ const ACHIEVEMENTS: Achievement[] = [
     category: 'award',
     description: 'Recipient of a prestigious Post Graduate Scholarship (~10,000 GBP) to pursue M.Sc. in Robotics and Artificial Intelligence at the University of Glasgow, Scotland. Highly competitive award recognizing academic excellence.',
     link: '',
-    image: '/assets/ar-showcase.jpg',
+    image: '/assets/university-of-glasgow.jpg',
   },
 ];
 
