@@ -21,7 +21,7 @@ const ACHIEVEMENTS: Achievement[] = [
     category: 'conference',
     description: 'AR application developed and exhibited at Mobile World Congress 2024 in Barcelona, Spain. A global showcase of cutting-edge mobile and AR technologies.',
     link: 'https://drive.google.com/file/d/12YVnVeI8mQuxdWsqWG5GHkssTZksuf0P/view?usp=drive_link',
-    image: 'https://images.unsplash.com/photo-1633356122544-f134ef2944f7?w=500&h=300&fit=crop',
+    image: 'https://images.unsplash.com/photo-1626925230633-0b8335d76b1f?w=800&h=450&fit=crop&q=80',
   },
   {
     title: 'KTP Knowledge Transfer Partnership Documentary',
@@ -42,12 +42,12 @@ const ACHIEVEMENTS: Achievement[] = [
     photoLink: '/assets/1748383801520.jpg',
   },
   {
-    title: 'Bertelsmann Technology Scholarship',
+    title: 'Post Graduate Scholarship - University of Glasgow',
     date: '2021',
     category: 'award',
-    description: 'Recipient of the prestigious Bertelsmann Technology Scholarship by Udacity to pursue M.Sc. in Robotics and Artificial Intelligence at the University of Glasgow, Scotland. Competitive scholarship awarded to exceptional candidates.',
+    description: 'Recipient of a prestigious Post Graduate Scholarship (~10,000 GBP) to pursue M.Sc. in Robotics and Artificial Intelligence at the University of Glasgow, Scotland. Highly competitive award recognizing academic excellence.',
     link: '#',
-    image: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=500&h=300&fit=crop',
+    image: 'https://images.unsplash.com/photo-1570303994762-602a555ce4cf?w=800&h=450&fit=crop&q=80',
   },
 ];
 
